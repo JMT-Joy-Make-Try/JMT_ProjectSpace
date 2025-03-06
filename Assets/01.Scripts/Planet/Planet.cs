@@ -14,26 +14,15 @@ namespace JMT.Planets
 
         protected virtual void GeneratePlanet(TilesSO tilesSO, float radius)
         {
-            foreach (var tileData in tilesSO.tiles)
+            for (int i = 0; i < tileLists.Count; i++)
             {
-                foreach (var tileList in tileLists)
+                if (i < tilesSO.tiles[i].Count)
                 {
-                    int cnt = 0;
-                    foreach (var tile in tileList.Tiles)
-                    {
-                        if (cnt >= tileData.Count)
-                        {
-                            tile.TileType = TileType.Dead;
-                            tile.Renderer.material.color = Color.black;
-                        }
-                        else
-                        {
-                            tile.TileType = tileData.TileType;
-                            tile.Renderer.material.color = tileData.Color;
-                        }
-
-                        cnt++;
-                    }
+                    tileLists[i].SetTile(tilesSO.tiles[i].TileType, tilesSO.tiles[i].Color);
+                }
+                else
+                {
+                    tileLists[i].SetTile(TileType.Dead, Color.black);
                 }
             }
         }

@@ -5,29 +5,34 @@ using UnityEngine.EventSystems;
 
 namespace JMT.Planets.Tile
 {
-    public abstract class PlanetTile : MonoBehaviour, IPointerClickHandler
+    public class PlanetTile : MonoBehaviour, IPointerClickHandler
     {
         [field:SerializeField] public TileType TileType { get; set; }
         [field:SerializeField] public MeshRenderer Renderer { get; private set; }
-        [SerializeField] protected float _tileHeight;
+        [SerializeField] private float _tileHeight;
         
-        protected BuildingBase _currentBuilding;
+        private BuildingBase _currentBuilding;
 
         public event Action OnBuild;
         public event Action<PlanetTile> OnClick;
         public event Action<BuildingBase> OnBuildingValueChanged;
 
-        protected virtual void Awake()
+        private void Awake()
         {
             Renderer = GetComponent<MeshRenderer>();
         }
 
-        public virtual bool CanBuild()
+        public bool CanBuild()
         {
-            return false;
+            return _currentBuilding == null;
         }
 
-        public virtual void Build(BuildingBase building)
+        private void SetHeight(float height)
+        {
+            transform.localPosition = new Vector3(transform.position.x, transform.position.y + height, _tileHeight);
+        }
+
+        public void Build(BuildingBase building)
         {
             if (CanBuild())
             {
@@ -42,7 +47,7 @@ namespace JMT.Planets.Tile
             }
         }
         
-        public virtual void DestroyBuilding()
+        public void DestroyBuilding()
         {
             if (_currentBuilding != null)
             {
@@ -52,7 +57,7 @@ namespace JMT.Planets.Tile
             }
         }
 
-        public virtual void OnPointerClick(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
             OnClick?.Invoke(this);
         }

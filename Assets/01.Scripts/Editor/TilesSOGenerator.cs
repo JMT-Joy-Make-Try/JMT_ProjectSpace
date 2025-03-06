@@ -141,7 +141,6 @@ namespace JMT.Editor
             GUILayout.EndHorizontal();
         }
 
-        // 새로운 SO 삭제 함수 추가
         private void DeleteSO()
         {
             string path = "Assets/07.SO/Tiles/TilesSO.asset";
@@ -161,7 +160,6 @@ namespace JMT.Editor
         }
 
 
-        // TilesSO 에셋을 생성하고 저장하는 함수
         private void GenerateTilesSO()
         {
             // TilesSO 에셋을 생성
