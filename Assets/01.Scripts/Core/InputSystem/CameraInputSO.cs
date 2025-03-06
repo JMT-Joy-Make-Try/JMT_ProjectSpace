@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,14 +32,6 @@ namespace JMT.InputSystem
         public Vector2 GetPrimaryPosition() => controls.ScreenTouch.PrimaryTouch.ReadValue<Vector2>();
         public Vector2 GetSecondaryPosition() => controls.ScreenTouch.SecondaryTouch.ReadValue<Vector2>();
 
-        public void OnPrimaryTouch(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnSecondaryTouch(InputAction.CallbackContext context)
-        {
-        }
-
         public void OnSecondaryTouchContact(InputAction.CallbackContext context)
         {
             switch(context.phase)
@@ -66,6 +57,14 @@ namespace JMT.InputSystem
                     OnRotateEndEvent?.Invoke();
                     break;
             }
+        }
+
+        public void OnPrimaryTouch(InputAction.CallbackContext context)
+        {
+        }
+
+        public void OnSecondaryTouch(InputAction.CallbackContext context)
+        {
         }
     }
 }
