@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JMT.Building;
+using JMT.Planets.Tile;
 using UnityEngine;
 using Event = JMT.Planets.Events.Event;
 
@@ -9,12 +10,33 @@ namespace JMT.Planets
     {
         [SerializeField] private List<BuildingBase> buildings = new List<BuildingBase>();
         [SerializeField] private List<Event> events = new List<Event>();
+        [SerializeField] private List<TileList> tileLists = new List<TileList>();
 
-        protected virtual void GeneratePlanet()
+        protected virtual void GeneratePlanet(TilesSO tilesSO, float radius)
         {
-            
+            foreach (var tileData in tilesSO.tiles)
+            {
+                foreach (var tileList in tileLists)
+                {
+                    int cnt = 0;
+                    foreach (var tile in tileList.Tiles)
+                    {
+                        if (cnt >= tileData.Count)
+                        {
+                            tile.TileType = TileType.Dead;
+                            tile.Renderer.material.color = Color.black;
+                        }
+                        else
+                        {
+                            tile.TileType = tileData.TileType;
+                            tile.Renderer.material.color = tileData.Color;
+                        }
+
+                        cnt++;
+                    }
+                }
+            }
         }
-        protected abstract void Rotate();
 
         protected virtual void StartEvent()
         {
@@ -27,6 +49,5 @@ namespace JMT.Planets
                 }
             }
         }
-        
     }
 }
