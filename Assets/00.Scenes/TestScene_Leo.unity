@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0, g: 0.6877341, b: 1, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0, g: 0, b: 0, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 30
@@ -7163,23 +7163,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -0.832
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.129
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7187,19 +7187,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.37848404
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.000000089406946
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.9256078
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7211,8 +7211,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 224.48
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 836043252cd21664fa7a76effc08323d, type: 2}
     - target: {fileID: 919132149155446097, guid: 4943bc89ab94e394b8396aa7a32d5ded, type: 3}
       propertyPath: m_Name
       value: Space_Station
@@ -9705,6 +9709,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1672897811}
+  - component: {fileID: 1672897812}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -9737,6 +9742,33 @@ Transform:
   - {fileID: 1386911786}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1672897812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672897807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbe5c8bc72044c4bfa00631a3387569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildings: []
+  events: []
+  tileLists:
+  - {fileID: 392546262}
+  - {fileID: 421724160}
+  - {fileID: 1404553717}
+  - {fileID: 1915637202}
+  - {fileID: 1611690268}
+  - {fileID: 1405297562}
+  - {fileID: 1429111494}
+  - {fileID: 1666071638}
+  - {fileID: 648194116}
+  - {fileID: 1386911787}
+  _tile: {fileID: 11400000, guid: 701a478a8e1bd354fb250474ee4fbc0b, type: 2}
+  _radius: 0
 --- !u!1001 &1684211485
 PrefabInstance:
   m_ObjectHideFlags: 0
