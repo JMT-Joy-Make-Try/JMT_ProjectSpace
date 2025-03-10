@@ -9,7 +9,7 @@ namespace JMT.Gravity
 
         private void Start()
         {
-            transform.GetComponent<Collider>().isTrigger = true;
+            //transform.GetComponent<Collider>().isTrigger = true;
         }
 
         public abstract Vector3 GetGravityDirection(GravityBody obj);

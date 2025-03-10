@@ -1,5 +1,4 @@
 using JMT.InputSystem;
-using System;
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
@@ -67,20 +66,28 @@ namespace JMT.CameraSystem
         private IEnumerator RotateCoroutine()
         {
             float prevX = inputSO.GetPrimaryPosition().x;
-            Vector3 currentRotation = camParentTrm.rotation.eulerAngles;
+            float prevY = inputSO.GetPrimaryPosition().y;
+            Vector3 currentRotation = camParentTrm.eulerAngles;
 
             while (true)
             {
                 float currentX = inputSO.GetPrimaryPosition().x;
                 float xValue = prevX - currentX;
+                float currentY = inputSO.GetPrimaryPosition().y;
+                float yValue = prevY - currentY;
 
                 currentRotation.y -= xValue * Time.deltaTime * rotateSpeed;
+                currentRotation.x -= yValue * Time.deltaTime * rotateSpeed;
 
-                camParentTrm.DORotate(currentRotation, 0.5f).SetEase(Ease.OutQuad);
+                if (currentRotation.x > 180f) currentRotation.x -= 360f;
+                currentRotation.x = Mathf.Clamp(currentRotation.x, -60f, 60f);
+
+                camParentTrm.rotation = Quaternion.Euler(currentRotation);
+
                 prevX = currentX;
+                prevY = currentY;
                 yield return null;
             }
         }
-
     }
 }
