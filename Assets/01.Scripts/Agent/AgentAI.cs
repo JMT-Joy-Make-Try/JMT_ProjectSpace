@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace JMT.Agent
 {
-    public class AgentAI : MonoBehaviour
+    public class AgentAI<T> : MonoBehaviour where T : Enum
     {
-        [SerializeField] private StateMachine stateMachine;
-
+        [SerializeField] public StateMachine<T> stateMachine;
+        [SerializeField] public Animator animator;
         protected virtual void Awake()
         {
             stateMachine.InitState(this);
