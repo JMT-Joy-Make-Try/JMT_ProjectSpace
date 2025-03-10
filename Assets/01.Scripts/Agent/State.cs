@@ -2,15 +2,18 @@
 
 namespace JMT.Agent.State
 {
-    public abstract class State : MonoBehaviour
+    public abstract class State<T> : MonoBehaviour where T : System.Enum
     {
-        protected AgentAI _agent;
-        
+        protected AgentAI<T> _agent;
+
         /// <summary>
         /// Init state
         /// </summary>
         /// <param name="agent"></param>
-        public virtual void Initialize(AgentAI agent) { }
+        public virtual void Initialize(AgentAI<T> agent)
+        {
+            _agent = agent;
+        }
         
         /// <summary>
         /// EnterState (State 진입)
