@@ -7,7 +7,7 @@ namespace JMT.Agent
     public class AgentAI<T> : MonoBehaviour where T : Enum
     {
         [SerializeField] public StateMachine<T> stateMachine;
-
+        [SerializeField] public Animator animator;
         protected virtual void Awake()
         {
             stateMachine.InitState(this);

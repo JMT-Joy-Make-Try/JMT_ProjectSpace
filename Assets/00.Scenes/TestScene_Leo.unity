@@ -5468,6 +5468,7 @@ GameObject:
   - component: {fileID: 1077658500}
   - component: {fileID: 1077658499}
   - component: {fileID: 1077658498}
+  - component: {fileID: 1077658501}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -5506,6 +5507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 1077658498}
+  animator: {fileID: 1077658501}
 --- !u!4 &1077658500
 Transform:
   m_ObjectHideFlags: 0
@@ -5523,6 +5525,28 @@ Transform:
   - {fileID: 1947033863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1077658501
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077658497}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1077776767
 PrefabInstance:
   m_ObjectHideFlags: 0

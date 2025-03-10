@@ -5,10 +5,6 @@ namespace JMT.Agent.State
 {
     public class IdleState : State<NPCState>
     {
-        public override void Initialize(AgentAI<NPCState> agent)
-        {
-            base.Initialize(agent);
-        }
         
         public override void EnterState()
         {

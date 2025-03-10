@@ -25,6 +25,7 @@ namespace JMT.Agent
             }
             _currentState = states[state];
             _currentState.EnterState();
+            Debug.Log(state.ToString());
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace JMT.Agent
         {
             foreach (var state in states)
             {
-                state.Value.Initialize(agent);
+                state.Value.Initialize(agent, state.Key.ToString());
             }
         }
         
