@@ -16,7 +16,6 @@ namespace JMT.UISystem
         private void Awake()
         {
             cells = content.GetComponentsInChildren<ItemCellUI>().ToList();
-            OpenUI();
         }
         public override void OpenUI()
         {
@@ -35,7 +34,6 @@ namespace JMT.UISystem
 
             }
 
-            
             base.OpenUI();
         }
 
