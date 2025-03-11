@@ -1,14 +1,22 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
     public class ItemUI : PanelUI
     {
-        private void HandleMineButton(ClickEvent evt)
+        private Button itemButton;
+
+        private void Awake()
         {
-            Debug.Log("Click Upgrade Button");
-            // °Ç¹° ¾÷±×·¹ÀÌµå
+            itemButton = PanelTrm.Find("ItemBtn").GetComponent<Button>();
+            itemButton.onClick.AddListener(HandleMineButton);
+        }
+
+        private void HandleMineButton()
+        {
+            Debug.Log("Click Mine Button");
+            // ê±´ë¬¼ ì—…ê·¸ë ˆì´ë“œ
         }
     }
 }

@@ -8,6 +8,7 @@ namespace JMT.Planets.Tile
     public class InventoryManager : MonoSingleton<InventoryManager>
     {
         [SerializeField] private SerializedDictionary<ItemType, int> itemDictionary = new();
+        public SerializedDictionary<ItemType, int> GetDictionary() => itemDictionary;
 
         public void AddItem(ItemType type, int increaseCount)
         {
@@ -15,6 +16,7 @@ namespace JMT.Planets.Tile
                 itemDictionary.Add(type, increaseCount);
             else itemDictionary[type] += increaseCount;
         }
+        
         
         public void RemoveItem(ItemType type, int decreaseCount)
         {

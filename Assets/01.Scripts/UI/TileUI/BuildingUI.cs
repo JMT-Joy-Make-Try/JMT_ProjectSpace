@@ -1,18 +1,29 @@
-using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
     public class BuildingUI : PanelUI
     {
-        private void HandleUpgradeButton(ClickEvent evt)
+        private Button upgradeButton, setPeopleButton;
+
+        private void Awake()
         {
-            Debug.Log("Click Upgrade Button");
-            // ∞«π∞ æ˜±◊∑π¿ÃµÂ
+            Transform buttonContainer = PanelTrm.Find("ButtonContainer");
+            upgradeButton = buttonContainer.Find("UpgradeBtn").GetComponent<Button>();
+            setPeopleButton = buttonContainer.Find("SetPeopleBtn").GetComponent<Button>();
+
+            upgradeButton.onClick.AddListener(HandleUpgradeButton);
+            setPeopleButton.onClick.AddListener(HandleSetPeopleButton);
         }
 
-        private void HandleSetPeopleButton(ClickEvent evt)
+        private void HandleUpgradeButton()
+        {
+            Debug.Log("Click Upgrade Button");
+            // Í±¥Î¨º ÏóÖÍ∑∏Î†àÏù¥Îìú
+        }
+
+        private void HandleSetPeopleButton()
         {
             Debug.Log("Click Set People Button");
         }
