@@ -5,24 +5,22 @@ namespace JMT.UISystem
 {
     public class PanelUI : MonoBehaviour
     {
+        [SerializeField] private CanvasGroup panelRectTrm;
         [SerializeField] private bool isFirstOn = false;
-        protected VisualElement root;
 
-        public void SetRoot(VisualElement root)
+        protected virtual void Awake()
         {
-            this.root = root;
-            if (isFirstOn) OpenUI();
+            if(isFirstOn) OpenUI();
             else CloseUI();
+            // けいしぞ
         }
-
+        
         public void OpenUI()
         {
-            root.style.opacity = 1f;
         }
 
         public void CloseUI()
         {
-            root.style.opacity = 0f;
         }
     }
 }

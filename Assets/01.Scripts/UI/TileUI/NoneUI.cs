@@ -7,11 +7,9 @@ namespace JMT.UISystem
     {
         private void OnEnable()
         {
-            Button buildButton = root.Q<Button>("BuildBtn");
-            buildButton.RegisterCallback<ClickEvent>(HandleBuildButton);
         }
 
-        private void HandleBuildButton(ClickEvent evt)
+        private void HandleBuildButton()
         {
             Debug.Log("Click Build Button");
             // °Ç¹° Áþ±â

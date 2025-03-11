@@ -1,9 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/09.UIToolkit/USS/ButtonUSS.uss?fileID=7433441132597879392&amp;guid=bc098fbf4b6a84c4ab16b80f59c09377&amp;type=3#ButtonUSS" />
-    <engine:VisualElement name="NoneUI" style="bottom: 0; position: absolute; width: 30%; height: 10%; transform-origin: bottom; align-self: center; justify-content: center; align-items: center; flex-direction: row;">
-        <engine:Button text="Button" class="interaction-btn" />
-        <engine:Button text="Button" class="interaction-btn" />
+    <engine:VisualElement name="NoneUI" style="flex-grow: 1; position: absolute; bottom: 0; align-self: center; width: 25%; height: 10%; flex-direction: row; justify-content: center; align-items: center;">
+        <engine:Button text="건물 짓기" class="interaction-btn" style="font-size: 8%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </engine:VisualElement>
-    <engine:VisualElement name="ItemUI" style="flex-grow: 1;" />
-    <engine:VisualElement name="BuildingUI" style="flex-grow: 1;" />
 </engine:UXML>
