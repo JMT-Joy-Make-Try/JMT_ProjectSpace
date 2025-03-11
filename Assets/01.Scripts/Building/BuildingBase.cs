@@ -32,5 +32,9 @@ namespace JMT.Building
         {
             _currentNpcCount += cnt;
         }
+        
+        public virtual void Upgrade()
+        {
+        }
     }
 }
