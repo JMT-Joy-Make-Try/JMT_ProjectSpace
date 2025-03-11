@@ -16,7 +16,7 @@ namespace JMT.Agent.State
         private IEnumerator MoveCoroutine()
         {
             yield return new WaitForSeconds(5f);
-            _agent.stateMachine.ChangeState(NPCState.Move);
+            _agent.StateMachineCompo.ChangeState(NPCState.Move);
         }
 
         public override void UpdateState()

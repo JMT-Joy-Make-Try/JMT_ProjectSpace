@@ -22,7 +22,7 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void EnterState()
         {
-            _agent.animator.SetBool(_stateName, true);
+            _agent.AnimatorCompo.SetBool(_stateName, true);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void ExitState()
         {
-            _agent.animator.SetBool(_stateName, false);
+            _agent.AnimatorCompo.SetBool(_stateName, false);
         }
     }
 }
