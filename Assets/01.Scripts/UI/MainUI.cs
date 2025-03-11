@@ -8,6 +8,7 @@ namespace JMT.UISystem
         public NoneUI NoneUI {  get; private set; }
         public ItemUI ItemUI {  get; private set; }
         public BuildingUI BuildingUI {  get; private set; }
+        public InventoryUI InventoryUI {  get; private set; }
 
         private bool isPanelOpen;
 
@@ -16,6 +17,7 @@ namespace JMT.UISystem
             NoneUI = GetComponent<NoneUI>();
             ItemUI = GetComponent<ItemUI>();
             BuildingUI = GetComponent<BuildingUI>();
+            InventoryUI = GetComponent<InventoryUI>();
         }
     }
 }
