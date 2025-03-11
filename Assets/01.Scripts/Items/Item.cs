@@ -14,23 +14,23 @@ namespace JMT.Planets.Tile.Items
 
     public enum ItemType
     {
-        LiquidFuel, // ¾×Ã¼¿¬·á
-        OrganicMatter, // À¯±â¹°
-        SpaceDust, // ¿ìÁÖ¸ÕÁö
-        FlameIron, // ÇÃ·¹ÀÓ ¾ÆÀÌ¾ğ
-        IceIron, // ¾ÆÀÌ½º ¾ÆÀÌ¾ğ
-        Techron, // Å×Å©·Ğ
-        DustBundle, // ¸ÕÁö ¹¶Ä¡
-        DustBoard, // ¸ÕÁö ÆÇÀÚ
-        DustSteelPlate, // ¸ÕÁö °­ÆÇ
-        FuelConcentrate, // ¿¬·á¿ø¾×
-        ImpureWater, // ºÒ¼øÇÑ ¹°
-        PureWater, // Á¤¼öÇÑ ¹°
-        SpaceBrick, // ¿ìÁÖ º®µ¹
-        Cloth, // Ãµ
-        CulturePaper, // ¹è¾çÁö
-        Seed, // ¾¾¾Ñ
-        Fuel, // ¿¬·á
-        Ice, // ¾óÀ½
+        LiquidFuel, // ì•¡ì²´ ì—°ë£Œ
+        OrganicMatter, // ìœ ê¸°ë¬¼
+        SpaceDust, // ìš°ì£¼ ë¨¼ì§€
+        FlameIron, // í”Œë ˆì„ì•„ì´ì–¸
+        IceIron, // ì•„ì´ìŠ¤ì•„ì´ì–¸
+        Techron, // í…Œí¬ë¡ 
+        DustBundle, // ë¨¼ì§€ ë­‰ì¹˜
+        DustBoard, // ë¨¼ì§€ íŒì
+        DustSteelPlate, // ë¨¼ì§€ ê°•íŒ
+        FuelConcentrate, // ì—°ë£Œì›ì•¡
+        ImpureWater, // ë¶ˆìˆœí•œ ë¬¼
+        PureWater, // ì •ìˆ˜í•œ ë¬¼
+        SpaceBrick, // ìš°ì£¼ ë²½ëŒ
+        Cloth, // ì²œ
+        CulturePaper, // ë°°ì–‘ì§€
+        Seed, // ì”¨ì•—
+        Fuel, // ì—°ë£Œ
+        Ice, // ì—´ìŒ
     }
 }

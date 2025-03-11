@@ -1,3 +1,4 @@
+using JMT.UISystem;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
@@ -6,7 +7,7 @@ namespace JMT.Planets.Tile
     {
         public override void Interaction(PlanetTile tile)
         {
-            throw new System.NotImplementedException();
+            MainUI.Instance.NoneUI.OpenUI();
         }
     }
 }
