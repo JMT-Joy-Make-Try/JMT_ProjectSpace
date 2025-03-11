@@ -25,7 +25,6 @@ namespace JMT.Agent
             }
             _currentState = states[state];
             _currentState.EnterState();
-            Debug.Log(state.ToString());
         }
 
         /// <summary>

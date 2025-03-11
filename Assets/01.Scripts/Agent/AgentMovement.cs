@@ -1,4 +1,5 @@
 ﻿using System;
+using JMT.Core.Tool;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,13 +12,7 @@ namespace JMT.Agent
         private void Awake()
         {
             if (NavMeshAgentCompo == null)
-            {
-                NavMeshAgentCompo = GetComponent<NavMeshAgent>();
-                if (NavMeshAgentCompo == null)
-                {
-                    NavMeshAgentCompo = GetComponentInParent<NavMeshAgent>();
-                }
-            }
+                NavMeshAgentCompo = gameObject.GetComponentOrAdd<NavMeshAgent>();
         }
         
         public void Move(Vector3 destination, float speed)

@@ -5469,7 +5469,6 @@ GameObject:
   - component: {fileID: 1077658499}
   - component: {fileID: 1077658498}
   - component: {fileID: 1077658501}
-  - component: {fileID: 1077658503}
   - component: {fileID: 1077658502}
   m_Layer: 0
   m_Name: NPC
@@ -5508,7 +5507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0f8dc1effb0b24b8555c64d85bff16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StateMachineCompo>k__BackingField: {fileID: 0}
+  <StateMachineCompo>k__BackingField: {fileID: 1077658498}
   <AnimatorCompo>k__BackingField: {fileID: 1077658501}
   <MovementCompo>k__BackingField: {fileID: 0}
 --- !u!4 &1077658500
@@ -5526,6 +5525,7 @@ Transform:
   m_Children:
   - {fileID: 8837502113125623194}
   - {fileID: 1947033863}
+  - {fileID: 1405681307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1077658501
@@ -5538,7 +5538,7 @@ Animator:
   m_GameObject: {fileID: 1077658497}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d1b51e57405aff34a8205117dd85160b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5572,19 +5572,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1077658503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077658497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa31dca72d8a4402a1b63b0678c94af7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <NavMeshAgentCompo>k__BackingField: {fileID: 1077658502}
 --- !u!1001 &1077776767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7578,6 +7565,38 @@ MonoBehaviour:
   - {fileID: 1514028686}
   - {fileID: 1546784676}
   - {fileID: 815681486}
+--- !u!1 &1405681306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1405681307}
+  m_Layer: 0
+  m_Name: Component
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1405681307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405681306}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1936436077}
+  m_Father: {fileID: 1077658500}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429111492
 GameObject:
   m_ObjectHideFlags: 0
@@ -12001,6 +12020,51 @@ MonoBehaviour:
   <Renderer>k__BackingField: {fileID: 943163811}
   <Filter>k__BackingField: {fileID: 943163812}
   _tileHeight: 0
+--- !u!1 &1936436076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1936436077}
+  - component: {fileID: 1936436078}
+  m_Layer: 0
+  m_Name: Movement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1936436077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936436076}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1405681307}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1936436078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936436076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa31dca72d8a4402a1b63b0678c94af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <NavMeshAgentCompo>k__BackingField: {fileID: 1077658502}
 --- !u!1 &1947033862
 GameObject:
   m_ObjectHideFlags: 0
