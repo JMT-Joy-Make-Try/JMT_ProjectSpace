@@ -17,7 +17,6 @@ namespace JMT.Planets.Tile
 
         public event Action OnBuild;
         public event Action<PlanetTile> OnClick;
-        public event Action<BuildingBase> OnBuildingValueChanged;
 
         private void Awake()
         {
@@ -47,8 +46,9 @@ namespace JMT.Planets.Tile
             {
                 Debug.Log("Build");
                 OnBuild?.Invoke();
-                OnBuildingValueChanged?.Invoke(building);
-                _currentBuilding = building;
+                _currentBuilding = Instantiate(building, transform);
+                _currentBuilding.Build(transform.position);
+                
             }
             else
             {
@@ -62,7 +62,6 @@ namespace JMT.Planets.Tile
             {
                 Destroy(_currentBuilding.gameObject);
                 _currentBuilding = null;
-                OnBuildingValueChanged?.Invoke(null);
             }
         }
 

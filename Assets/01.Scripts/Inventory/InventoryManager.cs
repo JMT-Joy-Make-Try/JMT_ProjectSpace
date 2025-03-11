@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
-    public class InventoryManager : MonoBehaviour
+    public class InventoryManager : MonoSingleton<InventoryManager>
     {
         [SerializeField] private SerializedDictionary<ItemType, int> itemDictionary = new();
 
