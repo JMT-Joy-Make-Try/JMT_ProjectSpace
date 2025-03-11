@@ -14,5 +14,7 @@ namespace JMT.Planets.Tile
                 itemDictionary.Add(type, increaseCount);
             else itemDictionary[type] += increaseCount;
         }
+
+        public SerializedDictionary<ItemType, int> GetDictionary() => itemDictionary;
     }
 }

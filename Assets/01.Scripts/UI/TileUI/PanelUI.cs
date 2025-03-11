@@ -10,14 +10,14 @@ namespace JMT.UISystem
         public Transform PanelTrm => panelGroup.transform;
         public Transform PanelRectTrm => PanelTrm as RectTransform;
 
-        public void OpenUI()
+        public virtual void OpenUI()
         {
             panelGroup.DOFade(1f, 0.3f);
             panelGroup.interactable = true;
             panelGroup.blocksRaycasts = true;
         }
 
-        public void CloseUI()
+        public virtual void CloseUI()
         {
             panelGroup.DOFade(0f, 0.3f);
             panelGroup.interactable = false;
