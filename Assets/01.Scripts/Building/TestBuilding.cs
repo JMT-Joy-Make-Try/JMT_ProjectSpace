@@ -11,14 +11,7 @@ namespace JMT.Building
 
         protected override void Work()
         {
-            if (_currentNpcCount < NpcCount)
-            {
-                Debug.Log("Not enough NPC");
-            }
-            else
-            {
-                Debug.Log("Work");
-            }
+            
         }
     }
 }

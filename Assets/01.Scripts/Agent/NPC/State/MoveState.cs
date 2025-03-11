@@ -18,5 +18,15 @@ namespace JMT.Agent.State
             yield return new WaitForSeconds(5f);
             _agent.StateMachineCompo.ChangeState(NPCState.Idle);
         }
+        
+        public override void UpdateState()
+        {
+            base.UpdateState();
+        }
+        
+        public override void ExitState()
+        {
+            base.ExitState();
+        }
     }
 }
