@@ -46,7 +46,7 @@ namespace JMT.Planets.Tile
             {
                 Debug.Log("Build");
                 OnBuild?.Invoke();
-                _currentBuilding = Instantiate(building);
+                _currentBuilding = Instantiate(building, transform);
                 _currentBuilding.Build(transform.position);
                 
             }

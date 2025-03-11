@@ -11,8 +11,8 @@ namespace JMT.Planets.Tile
         
         public override void Interaction(PlanetTile tile)
         {
-            MainUI.Instance.BuildingUI.OpenUI();
-            //tile.Build(building);
+            //MainUI.Instance.BuildingUI.OpenUI();
+            tile.Build(building);
         }
     }
 }
