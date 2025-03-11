@@ -30,15 +30,15 @@ namespace JMT.Planets.Tile
             {
                 case InteractionTileType.NoneTile:
                     Debug.Log("けいしぉ");
-                    MainUI.Instance.NoneUI.OpenUI();
+                    UIManager.Instance.NoneUI.OpenUI();
                     break;
                 case InteractionTileType.ItemTile:
                     Debug.Log("けいしぉ");
-                    MainUI.Instance.ItemUI.OpenUI();
+                    UIManager.Instance.ItemUI.OpenUI();
                     break;
                 case InteractionTileType.BuildingTile:
                     Debug.Log("けいしぉ");
-                    MainUI.Instance.BuildingUI.OpenUI();
+                    UIManager.Instance.BuildingUI.OpenUI();
                     break;
             }
             //RemoveObject();
