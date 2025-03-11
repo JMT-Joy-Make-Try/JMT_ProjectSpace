@@ -11,7 +11,6 @@ namespace JMT.UISystem
         {
             nameText = transform.Find("NameTxt").GetComponent<TextMeshProUGUI>();
             countText = transform.Find("CountTxt").GetComponent<TextMeshProUGUI>();
-            SetItemCell(string.Empty, 0);
         }
 
         public void SetItemCell(string name, int count)

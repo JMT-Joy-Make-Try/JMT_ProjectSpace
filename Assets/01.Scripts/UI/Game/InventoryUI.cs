@@ -22,14 +22,20 @@ namespace JMT.UISystem
         {
             SerializedDictionary<ItemType, int> dic = InventoryManager.Instance.GetDictionary();
 
-            int index = 0;
-            foreach (var pair in dic)
+            for(int i = 0; i < cells.Count; i++)
             {
-                if (index < cells.Count)
-                    cells[index].SetItemCell(GetName(pair.Key), pair.Value);
-                index++;
+                if(i < dic.Count)
+                {
+                    var pairs = dic.ToList();
+                    KeyValuePair<ItemType, int> pair = pairs[i];
+                    cells[i].SetItemCell(GetName(pair.Key), pair.Value);
+                }
+                else
+                    cells[i].SetItemCell(string.Empty, 0);
+
             }
 
+            
             base.OpenUI();
         }
 
