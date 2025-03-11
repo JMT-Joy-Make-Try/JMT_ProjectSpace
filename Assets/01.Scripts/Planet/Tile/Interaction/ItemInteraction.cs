@@ -10,7 +10,7 @@ namespace JMT.Planets.Tile
 
         public override void Interaction(PlanetTile tile)
         {
-            MainUI.Instance.ItemUI.OpenUI();
+            UIManager.Instance.ItemUI.OpenUI();
         }
     }
 }

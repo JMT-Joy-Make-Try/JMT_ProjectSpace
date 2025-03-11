@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using JMT.Building;
 using JMT.Planets.Tile;
+using Unity.AI.Navigation;
 using UnityEngine;
 using Event = JMT.Planets.Events.Event;
 
@@ -11,6 +12,7 @@ namespace JMT.Planets
         [SerializeField] private List<BuildingBase> buildings = new List<BuildingBase>();
         [SerializeField] private List<Event> events = new List<Event>();
         [SerializeField] private List<TileList> tileLists = new List<TileList>();
+        [SerializeField] private NavMeshSurface navMeshSurface;
 
         protected virtual void GeneratePlanet(TilesSO tilesSO, float radius)
         {
@@ -25,6 +27,8 @@ namespace JMT.Planets
                     tileLists[i].SetTile(TileType.Dead, Color.black);
                 }
             }
+            
+            BakeNavMesh();
         }
 
         protected virtual void StartEvent()
@@ -39,7 +43,9 @@ namespace JMT.Planets
             }
         }
         
-        
-
+        protected virtual void BakeNavMesh()
+        {
+            navMeshSurface.BuildNavMesh();
+        }
     }
 }

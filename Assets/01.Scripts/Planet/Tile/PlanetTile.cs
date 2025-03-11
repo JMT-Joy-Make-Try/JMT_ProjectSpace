@@ -22,12 +22,12 @@ namespace JMT.Planets.Tile
         {
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
-            _tileHeight = UnityEngine.Random.Range(0f, 4f);
+            _tileHeight = UnityEngine.Random.Range(0f, 10f);
         }
 
         private void Start()
         {
-            //SetHeight(_tileHeight);
+            SetHeight(_tileHeight);
         }
 
         public bool CanBuild()
