@@ -41,13 +41,13 @@ namespace JMT.CameraSystem
             {
                 float distance = Vector2.Distance(inputSO.GetPrimaryPosition(), inputSO.GetSecondaryPosition());
                 float deltaDistance = distance - prevDistance;
+                Debug.Log(deltaDistance);
 
                 Vector3 targetPos = camTransform.localPosition;
-                targetPos.z -= deltaDistance * camSpeed;
-                targetPos.z = Mathf.Clamp(targetPos.z, 0.3f, 3f);
+                targetPos.y -= deltaDistance * camSpeed;
+                targetPos.y = Mathf.Clamp(targetPos.z, 110f, 400f);
 
-                camTransform.localPosition = new Vector3(camTransform.localPosition.x, camTransform.localPosition.y,
-                                            Mathf.Lerp(camTransform.localPosition.z, targetPos.z, Time.deltaTime * camSpeed));
+                camParentTrm.localPosition = new Vector3(camParentTrm.localPosition.x, Mathf.Lerp(camParentTrm.localPosition.y, targetPos.y, Time.deltaTime * camSpeed));
 
                 prevDistance = distance;
                 yield return null;
@@ -55,7 +55,7 @@ namespace JMT.CameraSystem
         }
         private void HandleRotateStartEvent()
         {
-            rotateCoroutine = StartCoroutine(RotateCoroutine());
+            rotateCoroutine = StartCoroutine(MoveCoroutine());
         }
 
         private void HandleRotateEndEvent()
@@ -63,31 +63,24 @@ namespace JMT.CameraSystem
             StopCoroutine(rotateCoroutine);
         }
 
-        private IEnumerator RotateCoroutine()
+        private IEnumerator MoveCoroutine()
         {
             float prevX = inputSO.GetPrimaryPosition().x;
             float prevY = inputSO.GetPrimaryPosition().y;
-            Vector3 currentRotation = camParentTrm.eulerAngles;
+            Vector3 curPos = camTransform.localPosition;
 
             while (true)
             {
-                float currentX = inputSO.GetPrimaryPosition().x;
-                float xValue = prevX - currentX;
-                float currentY = inputSO.GetPrimaryPosition().y;
-                float yValue = prevY - currentY;
+                float deltaX = inputSO.GetPrimaryPosition().x - prevX;
+                float deltaY = inputSO.GetPrimaryPosition().y - prevY;
 
-                currentRotation.y -= xValue * Time.deltaTime * rotateSpeed;
-                currentRotation.x -= yValue * Time.deltaTime * rotateSpeed;
+                camTransform.localPosition += new Vector3(-(deltaX * rotateSpeed), 0, -(deltaY * rotateSpeed));
 
-                if (currentRotation.x > 180f) currentRotation.x -= 360f;
-                currentRotation.x = Mathf.Clamp(currentRotation.x, -60f, 60f);
-
-                camParentTrm.rotation = Quaternion.Euler(currentRotation);
-
-                prevX = currentX;
-                prevY = currentY;
+                prevX = inputSO.GetPrimaryPosition().x;
+                prevY = inputSO.GetPrimaryPosition().y;
                 yield return null;
             }
+            
         }
     }
 }
