@@ -9,7 +9,6 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            Debug.Log("Enter Idle State");
             StartCoroutine(MoveCoroutine());
         }
 
@@ -17,18 +16,6 @@ namespace JMT.Agent.State
         {
             yield return new WaitForSeconds(5f);
             _agent.StateMachineCompo.ChangeState(NPCState.Move);
-        }
-
-        public override void UpdateState()
-        {
-            base.UpdateState();
-            Debug.Log("Update Idle State");
-        }
-        
-        public override void ExitState()
-        {
-            base.ExitState();
-            Debug.Log("Exit Idle State");
         }
     }
 }

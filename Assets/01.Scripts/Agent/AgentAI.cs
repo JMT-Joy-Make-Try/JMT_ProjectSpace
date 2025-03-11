@@ -19,7 +19,6 @@ namespace JMT.Agent
             MovementCompo = gameObject.GetComponentOrAdd<AgentMovement>();
             
             StateMachineCompo.InitAllState(this);
-            //stateMachine.ChangeState(기본 State 넣기);
         }
 
         protected virtual void Update()
