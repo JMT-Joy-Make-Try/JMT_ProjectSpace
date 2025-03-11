@@ -19,6 +19,7 @@ namespace JMT.UISystem
         {
             Debug.Log("Click Build Button");
             UIManager.Instance.BuildPanelUI.OpenUI();
+            UIManager.Instance.NoneUI.CloseUI();
         }
     }
 }

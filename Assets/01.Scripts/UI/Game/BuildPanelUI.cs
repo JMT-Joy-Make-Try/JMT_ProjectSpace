@@ -47,8 +47,6 @@ namespace JMT.UISystem
                     cells[i].SetItemCell(string.Empty);
                 }
             }
-
-            base.OpenUI();
         }
 
         private void HandleSetInfo(BuildingDataSO data)

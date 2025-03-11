@@ -1,3 +1,4 @@
+using JMT.Planets.Tile;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,10 @@ namespace JMT.UISystem
         private void HandleMineButton()
         {
             Debug.Log("Click Mine Button");
-            // 건물 업그레이드
+            TileManager.Instance._currentTile.RemoveInteractionObject();
+            TileManager.Instance._currentTile.ChangeInteraction<NoneInteraction>();
+            UIManager.Instance.ItemUI.CloseUI();
+            // 자원 캐기
         }
     }
 }

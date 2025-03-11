@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using JMT.Building;
 using JMT.Planets.Tile.Items;
 using UnityEngine;
@@ -14,6 +14,7 @@ namespace JMT.Planets.Tile
         [SerializeField] private float _tileHeight;
         
         private BuildingBase _currentBuilding;
+        private GameObject TileInteraction;
 
         public event Action OnBuild;
         public event Action<PlanetTile> OnClick;
@@ -22,6 +23,7 @@ namespace JMT.Planets.Tile
         {
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
+            TileInteraction = transform.Find("TileInteraction").gameObject;
             _tileHeight = UnityEngine.Random.Range(0f, 10f);
         }
 
@@ -63,6 +65,17 @@ namespace JMT.Planets.Tile
                 Destroy(_currentBuilding.gameObject);
                 _currentBuilding = null;
             }
+        }
+
+        public void ChangeInteraction<T>() where T : TileInteraction
+        {
+            Destroy(TileInteraction.GetComponent<TileInteraction>());
+            TileInteraction.AddComponent<T>();
+        }
+
+        public void RemoveInteractionObject()
+        {
+            Destroy(TileInteraction.transform.GetChild(0).gameObject);
         }
 
         public void OnPointerClick(PointerEventData eventData)
