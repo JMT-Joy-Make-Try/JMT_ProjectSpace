@@ -1,18 +1,21 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
     public class NoneUI : PanelUI
     {
-        private void OnEnable()
-        {
-        }
+        private Button buildButton;
 
+        private void Awake()
+        {
+            buildButton = PanelTrm.Find("BuildBtn").GetComponent<Button>();
+            buildButton.onClick.AddListener(HandleBuildButton);
+        }
         private void HandleBuildButton()
         {
             Debug.Log("Click Build Button");
-            // °Ç¹° Áþ±â
+            // ê±´ë¬¼ ì§“ê¸°
         }
     }
 }

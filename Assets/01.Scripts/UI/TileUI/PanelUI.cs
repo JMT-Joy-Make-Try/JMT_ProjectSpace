@@ -1,26 +1,27 @@
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace JMT.UISystem
 {
     public class PanelUI : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup panelRectTrm;
-        [SerializeField] private bool isFirstOn = false;
+        [SerializeField] protected CanvasGroup panelGroup;
 
-        protected virtual void Awake()
-        {
-            if(isFirstOn) OpenUI();
-            else CloseUI();
-            // けいしぞ
-        }
-        
+        public Transform PanelTrm => panelGroup.transform;
+        public Transform PanelRectTrm => PanelTrm as RectTransform;
+
         public void OpenUI()
         {
+            panelGroup.DOFade(1f, 0.3f);
+            panelGroup.interactable = true;
+            panelGroup.blocksRaycasts = true;
         }
 
         public void CloseUI()
         {
+            panelGroup.DOFade(0f, 0.3f);
+            panelGroup.interactable = false;
+            panelGroup.blocksRaycasts = false;
         }
     }
 }
