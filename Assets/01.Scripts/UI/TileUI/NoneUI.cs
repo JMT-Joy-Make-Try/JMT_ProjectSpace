@@ -1,3 +1,6 @@
+using JMT.Building;
+using JMT.Core.Manager;
+using JMT.Planets.Tile;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +18,8 @@ namespace JMT.UISystem
         private void HandleBuildButton()
         {
             Debug.Log("Click Build Button");
-            // 건물 짓기
+            BuildingBase b = BuildingManager.Instance.CurrentBuilding;
+            TileManager.Instance._currentTile.Build(b);
         }
     }
 }
