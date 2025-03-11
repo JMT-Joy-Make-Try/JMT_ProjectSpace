@@ -7,5 +7,10 @@ namespace JMT.Planets.Tile
     {
         /*InventoryManager.Instance.AddItem(itemType, itemCount);
             base.Interaction(tile);*/
+
+        public override void Interaction(PlanetTile tile)
+        {
+            MainUI.Instance.ItemUI.OpenUI();
+        }
     }
 }
