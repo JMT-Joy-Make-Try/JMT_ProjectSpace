@@ -46,6 +46,7 @@ namespace JMT.Planets
         protected virtual void BakeNavMesh()
         {
             navMeshSurface.BuildNavMesh();
+            
         }
     }
 }

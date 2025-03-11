@@ -27,7 +27,7 @@ namespace JMT.Planets.Tile
 
         private void Start()
         {
-            SetHeight(_tileHeight);
+            //SetHeight(_tileHeight);
         }
 
         public bool CanBuild()
