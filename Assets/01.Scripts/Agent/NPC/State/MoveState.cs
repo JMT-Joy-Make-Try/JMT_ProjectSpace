@@ -16,15 +16,16 @@ namespace JMT.Agent.State
 
         private IEnumerator MoveCoroutine()
         {
+            _agent.MovementCompo.Move(new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f)), 5);
             yield return new WaitForSeconds(5f);
-            _agent.stateMachine.ChangeState(NPCState.Idle);
+            _agent.StateMachineCompo.ChangeState(NPCState.Idle);
         }
         
         public override void UpdateState()
         {
             base.UpdateState();
             Debug.Log("Update Move State");
-            _agent.transform.position += _agent.transform.forward * Time.deltaTime;
+            
         }
         
         public override void ExitState()

@@ -32,12 +32,17 @@ namespace JMT.Agent
         /// State 초기화
         /// </summary>
         /// <param name="agent">State Machine을 돌릴 Agent</param>
-        public void InitState(AgentAI<T> agent)
+        public void InitAllState(AgentAI<T> agent)
         {
             foreach (var state in states)
             {
                 state.Value.Initialize(agent, state.Key.ToString());
             }
+        }
+        
+        public void InitState(AgentAI<T> agent, T state)
+        {
+            states[state].Initialize(agent, state.ToString());
         }
         
         /// <summary>
