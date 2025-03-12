@@ -9,7 +9,7 @@ namespace JMT.Building
             transform.position = position;
         }
 
-        protected override void Work()
+        public override void Work()
         {
             
         }

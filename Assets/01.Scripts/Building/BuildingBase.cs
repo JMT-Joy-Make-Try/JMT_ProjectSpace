@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Planets.Tile.Items;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,21 +17,30 @@ namespace JMT.Building
         [SerializeField] protected SerializedDictionary<ItemType, int> increaseItems;
         
         protected int _currentNpcCount;
+        
+        protected event Action OnStartWorking;
         public abstract void Build(Vector3 position);
 
-        protected virtual void Work()
+        protected virtual void Start()
         {
-            if (!IsWalkable()) return;
+            OnStartWorking += Work;
         }
 
-        protected bool IsWalkable()
+        protected virtual void OnDestroy()
         {
-            return _currentNpcCount >= NpcCount;
+            OnStartWorking -= Work;
         }
+
+        public abstract void Work();
 
         public virtual void AddNpc(int cnt)
         {
             _currentNpcCount += cnt;
+            if (_currentNpcCount > NpcCount)
+            {
+                _currentNpcCount = NpcCount;
+                OnStartWorking?.Invoke();
+            }
         }
         
         public virtual void Upgrade()

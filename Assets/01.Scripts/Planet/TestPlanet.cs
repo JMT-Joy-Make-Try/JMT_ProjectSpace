@@ -12,7 +12,7 @@ namespace JMT.Planets
 
         private void Start()
         {
-            GeneratePlanet(_tile, _radius);
+            GeneratePlanet(_tile);
         }
     }
 }
