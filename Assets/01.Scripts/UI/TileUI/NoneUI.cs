@@ -18,8 +18,8 @@ namespace JMT.UISystem
         private void HandleBuildButton()
         {
             Debug.Log("Click Build Button");
-            BuildingBase b = BuildingManager.Instance.CurrentBuilding;
-            TileManager.Instance._currentTile.Build(b);
+            UIManager.Instance.BuildPanelUI.OpenUI();
+            UIManager.Instance.NoneUI.CloseUI();
         }
     }
 }

@@ -16,7 +16,6 @@ namespace JMT.UISystem
         private void Awake()
         {
             cells = content.GetComponentsInChildren<ItemCellUI>().ToList();
-            OpenUI();
         }
         public override void OpenUI()
         {
@@ -32,11 +31,7 @@ namespace JMT.UISystem
                 }
                 else
                     cells[i].SetItemCell(string.Empty, 0);
-
             }
-
-            
-            base.OpenUI();
         }
 
         private string GetName(ItemType key)
