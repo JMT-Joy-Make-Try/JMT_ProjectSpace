@@ -27,7 +27,6 @@ namespace JMT.UISystem
             needItemText = panelRight.Find("Build").Find("NeedItem").GetComponentInChildren<TextMeshProUGUI>();
             buildButton = panelRight.Find("Build").GetComponentInChildren<Button>();
             buildButton.onClick.AddListener(HandleBuildButton);
-            OpenUI();
         }
 
         public override void OpenUI()
@@ -47,6 +46,7 @@ namespace JMT.UISystem
                     cells[i].SetItemCell(string.Empty);
                 }
             }
+            base.OpenUI();
         }
 
         private void HandleSetInfo(BuildingDataSO data)
