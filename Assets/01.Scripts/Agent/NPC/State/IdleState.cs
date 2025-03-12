@@ -1,21 +1,13 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace JMT.Agent.State
+﻿namespace JMT.Agent.State
 {
     public class IdleState : State<NPCState>
     {
-        
-        public override void EnterState()
+        public override void UpdateState()
         {
-            base.EnterState();
-            StartCoroutine(MoveCoroutine());
-        }
-
-        private IEnumerator MoveCoroutine()
-        {
-            yield return new WaitForSeconds(5f);
-            _agent.StateMachineCompo.ChangeState(NPCState.Move);
+            if ((_agent as NPCAgent).IsActive)
+            {
+                _agent.StateMachineCompo.ChangeState(NPCState.Move);
+            }
         }
     }
 }

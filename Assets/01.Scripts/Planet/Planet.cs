@@ -14,7 +14,7 @@ namespace JMT.Planets
         [SerializeField] private List<TileList> tileLists = new List<TileList>();
         [SerializeField] private NavMeshSurface navMeshSurface;
 
-        protected virtual void GeneratePlanet(TilesSO tilesSO, float radius)
+        protected virtual void GeneratePlanet(TilesSO tilesSO)
         {
             for (int i = 0; i < tileLists.Count; i++)
             {

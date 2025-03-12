@@ -14,9 +14,8 @@ namespace JMT.Building
             }
         }
 
-        protected override void Work()
+        public override void Work()
         {
-            if (!IsWalkable()) return;
             foreach (var item in increaseItems)
             {
                 InventoryManager.Instance.AddItem(item.Key, item.Value);

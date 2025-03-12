@@ -4,5 +4,7 @@
     {
         Idle,
         Move,
+        Work,
+        Fight
     }
 }
