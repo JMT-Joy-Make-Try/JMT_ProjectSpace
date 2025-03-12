@@ -23,7 +23,7 @@ namespace JMT.Planets.Tile
         {
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
-            TileInteraction = transform.Find("TileInteraction").gameObject;
+            TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
             _tileHeight = UnityEngine.Random.Range(0f, 10f);
         }
 
