@@ -32,6 +32,7 @@ namespace JMT.UISystem
                 else
                     cells[i].SetItemCell(string.Empty, 0);
             }
+            base.OpenUI();
         }
 
         private string GetName(ItemType key)
