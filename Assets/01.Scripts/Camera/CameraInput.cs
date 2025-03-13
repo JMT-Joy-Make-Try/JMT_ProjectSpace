@@ -1,7 +1,6 @@
 using JMT.InputSystem;
 using System.Collections;
 using UnityEngine;
-using DG.Tweening;
 
 namespace JMT.CameraSystem
 {
@@ -39,7 +38,7 @@ namespace JMT.CameraSystem
                 float deltaDistance = distance - prevDistance;
 
 
-                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - deltaDistance * camSpeed, 50f, 1000f);
+                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - deltaDistance * camSpeed, 50f, 950f);
 
                 prevDistance = distance;
                 yield return null;
@@ -57,21 +56,24 @@ namespace JMT.CameraSystem
 
         private IEnumerator MoveCoroutine()
         {
-             float prevX = inputSO.GetPrimaryPosition().x;
-             float prevY = inputSO.GetPrimaryPosition().y;
-             Vector3 curPos = Camera.main.transform.localPosition;
+            float prevX = inputSO.GetPrimaryPosition().x;
+            float prevY = inputSO.GetPrimaryPosition().y;
+            Vector3 curPos = Camera.main.transform.localPosition;
 
-             while (true)
-             {
-                 float deltaX = inputSO.GetPrimaryPosition().x - prevX;
-                 float deltaY = inputSO.GetPrimaryPosition().y - prevY;
+            while (true)
+            {
+                float deltaX = inputSO.GetPrimaryPosition().x - prevX;
+                float deltaY = inputSO.GetPrimaryPosition().y - prevY;
 
-                 Camera.main.transform.localPosition += new Vector3(-(deltaX * moveSpeed), -(deltaY * moveSpeed));
+                float value = Camera.main.orthographicSize / 950;
+                if (value <= 0) value = 1;
 
-                 prevX = inputSO.GetPrimaryPosition().x;
-                 prevY = inputSO.GetPrimaryPosition().y;
-                 yield return null;
-             }
+                Camera.main.transform.localPosition += new Vector3(-deltaX, -deltaY) * (moveSpeed * value);
+
+                prevX = inputSO.GetPrimaryPosition().x;
+                prevY = inputSO.GetPrimaryPosition().y;
+                yield return null;
+            }
         }
     }
 }
