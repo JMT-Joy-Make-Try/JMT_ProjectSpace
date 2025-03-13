@@ -13,7 +13,7 @@ namespace JMT.Agent.State
         private IEnumerator WorkCoroutine()
         {
             var agent = _agent as NPCAgent;
-            while (agent.IsWalking)
+            while (agent.IsWorking)
             {
                 yield return new WaitForSeconds(1f);
                 agent.CurrentWorkingBuilding.AddNpc(1);

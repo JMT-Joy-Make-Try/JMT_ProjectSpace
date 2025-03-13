@@ -25,5 +25,10 @@ namespace JMT.Core.Tool
             
             return component;
         }
+
+        public static GameObject GetRootGameObject(this GameObject gameObject)
+        {
+            return gameObject.transform.root.gameObject;
+        }
     }
 }
