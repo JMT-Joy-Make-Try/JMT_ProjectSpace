@@ -848,7 +848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00008183584}
+  m_AnchoredPosition: {x: 0, y: -0.0000653826}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3710225210893589709
@@ -3441,7 +3441,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00008183584}
+  m_AnchoredPosition: {x: 0, y: -0.0000653826}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8391991016007713595
@@ -3482,6 +3482,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!1 &3461982491917786005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7408250305528592466}
+  - component: {fileID: 1702413272276837259}
+  m_Layer: 0
+  m_Name: ResourceUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7408250305528592466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3461982491917786005}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6988019974605677925}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1702413272276837259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3461982491917786005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787adb87432fb5343928740019838523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelText: {fileID: 1146923768485061506}
+  oxygenText: {fileID: 8274478218599284691}
 --- !u!1 &3462576021431467751
 GameObject:
   m_ObjectHideFlags: 0
@@ -5462,8 +5508,6 @@ GameObject:
   - component: {fileID: 8338393806311772808}
   - component: {fileID: 3471713103363386668}
   - component: {fileID: 5106553336348380938}
-  - component: {fileID: 2220502589046947902}
-  - component: {fileID: 1346121339690958967}
   m_Layer: 0
   m_Name: UISystem
   m_TagString: Untagged
@@ -5483,7 +5527,10 @@ Transform:
   m_LocalPosition: {x: -1214.0709, y: -21.884005, z: -4.889972}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7408250305528592466}
+  - {fileID: 3091063181460026298}
+  - {fileID: 5112955326794943301}
   m_Father: {fileID: 3981126300852989355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1657169700608792815
@@ -5578,48 +5625,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelGroup: {fileID: 6746197901155088606}
   content: {fileID: 195895416158605927}
---- !u!114 &2220502589046947902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5398187940124220074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb1fc48df39713c46ad39c3a17c89b24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dayText: {fileID: 5632062117343548462}
-  timeText: {fileID: 1010648978405128945}
-  repeatDayTime:
-    minute: 1
-    second: 0
-  repeatNightTime:
-    minute: 0
-    second: 30
-  icon: {fileID: 5357639846927636119}
-  back: {fileID: 1964628528467732311}
-  daytextColor: {r: 0.33333334, g: 0.4156863, b: 0.6039216, a: 1}
-  daybackColor: {r: 1, g: 1, b: 1, a: 1}
-  nighttextColor: {r: 1, g: 0.8981027, b: 0.6084906, a: 1}
-  nightbackColor: {r: 0.14711642, g: 0.2213818, b: 0.3584906, a: 1}
-  sun: {fileID: 21300000, guid: 830cef3b357c68342893337440ee47b3, type: 3}
-  moon: {fileID: 21300000, guid: bbabeb927978ef748a64cc5824afb4fa, type: 3}
---- !u!114 &1346121339690958967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5398187940124220074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787adb87432fb5343928740019838523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fuelText: {fileID: 1146923768485061506}
-  oxygenText: {fileID: 8274478218599284691}
 --- !u!1 &5654272919859549442
 GameObject:
   m_ObjectHideFlags: 0
@@ -8709,6 +8714,51 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7916750397826283496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5112955326794943301}
+  - component: {fileID: 3802787047732881067}
+  m_Layer: 0
+  m_Name: GameSpeedUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5112955326794943301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7916750397826283496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6988019974605677925}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3802787047732881067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7916750397826283496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ecabf9dccc5b4743ba532af009e99c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedButton: {fileID: 8359088358026872288}
 --- !u!1 &7949480432751463938
 GameObject:
   m_ObjectHideFlags: 0
@@ -9034,6 +9084,66 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &8036961496429598509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3091063181460026298}
+  - component: {fileID: 4230889748689014603}
+  m_Layer: 0
+  m_Name: TimeUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3091063181460026298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8036961496429598509}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6988019974605677925}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4230889748689014603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8036961496429598509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1fc48df39713c46ad39c3a17c89b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayText: {fileID: 5632062117343548462}
+  timeText: {fileID: 1010648978405128945}
+  repeatDayTime:
+    minute: 1
+    second: 0
+  repeatNightTime:
+    minute: 0
+    second: 30
+  icon: {fileID: 5357639846927636119}
+  back: {fileID: 1964628528467732311}
+  daytextColor: {r: 0.33333334, g: 0.4156863, b: 0.6039216, a: 1}
+  daybackColor: {r: 1, g: 1, b: 1, a: 1}
+  nighttextColor: {r: 1, g: 0.8981027, b: 0.6084906, a: 1}
+  nightbackColor: {r: 0.14711642, g: 0.2213818, b: 0.3584906, a: 1}
+  sun: {fileID: 21300000, guid: 830cef3b357c68342893337440ee47b3, type: 3}
+  moon: {fileID: 21300000, guid: bbabeb927978ef748a64cc5824afb4fa, type: 3}
 --- !u!1 &8238273733076058991
 GameObject:
   m_ObjectHideFlags: 0

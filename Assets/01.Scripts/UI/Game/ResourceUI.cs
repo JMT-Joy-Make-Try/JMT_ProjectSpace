@@ -9,11 +9,11 @@ namespace JMT.UISystem
 
         private void SetFuelText(int current, int max)
         {
-
+            fuelText.text = current + "/" + max;
         }
         private void SetOxygenText(int current, int max)
         {
-
+            oxygenText.text = current + "/" + max;
         }
     }
 }

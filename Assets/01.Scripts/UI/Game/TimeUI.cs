@@ -13,7 +13,7 @@ namespace JMT.UISystem
         Night,
     }
     [Serializable]
-    public struct Time
+    public struct TimeData
     {
         public int minute;
         public int second;
@@ -21,7 +21,7 @@ namespace JMT.UISystem
     public class TimeUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI dayText, timeText;
-        [SerializeField] private Time repeatDayTime, repeatNightTime;
+        [SerializeField] private TimeData repeatDayTime, repeatNightTime;
         [SerializeField] private Image icon, back;
 
         [Header("Daytime")]
@@ -31,7 +31,7 @@ namespace JMT.UISystem
         [SerializeField] private Sprite sun, moon;
 
         private Coroutine timeRoutine;
-        private Time saveTime;
+        private TimeData saveTime;
         private int day;
         private bool isNight;
 
@@ -57,7 +57,7 @@ namespace JMT.UISystem
             timeRoutine = StartCoroutine(TimeCoroutine(saveTime));
         }
 
-        private IEnumerator TimeCoroutine(Time time)
+        private IEnumerator TimeCoroutine(TimeData time)
         {
             var waitTime = new WaitForSeconds(1);
             saveTime.minute = time.minute;
