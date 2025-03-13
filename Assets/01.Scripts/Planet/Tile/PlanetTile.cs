@@ -1,12 +1,13 @@
 using System;
 using JMT.Building;
+using JMT.Object;
 using JMT.Planets.Tile.Items;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace JMT.Planets.Tile
 {
-    public class PlanetTile : MonoBehaviour, IPointerClickHandler
+    public class PlanetTile : TouchableObject
     {
         [field:SerializeField] public TileType TileType { get; set; }
         [field:SerializeField] public MeshRenderer Renderer { get; private set; }
@@ -17,15 +18,18 @@ namespace JMT.Planets.Tile
         private GameObject TileInteraction;
 
         public event Action OnBuild;
-        public event Action<PlanetTile> OnClick;
+        public new event Action<PlanetTile> OnClick;
 
         private void Awake()
         {
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
             TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
-            _tileHeight = UnityEngine.Random.Range(0f, 10f);
+            //_tileHeight = UnityEngine.Random.Range(0f, 10f);
+
+            base.OnClick += OnPointerClickHandler;
         }
+
 
         private void Start()
         {
@@ -72,24 +76,20 @@ namespace JMT.Planets.Tile
             Destroy(TileInteraction.GetComponent<TileInteraction>());
             TileInteraction.AddComponent<T>();
         }
+        
+        public T GetInteraction<T>() where T : TileInteraction
+        {
+            return TileInteraction.GetComponent<T>();
+        }
 
         public void RemoveInteractionObject()
         {
             Destroy(TileInteraction.transform.GetChild(0).gameObject);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void OnPointerClickHandler()
         {
             OnClick?.Invoke(this);
-        }
-
-        private void OnDrawGizmos()
-        {
-            MeshFilter meshFilter = GetComponent<MeshFilter>();
-            
-            if (meshFilter == null) return;
-            // Draw Normal Vector (not normal[0])
-            Gizmos.color = Color.red;
         }
     }
 }

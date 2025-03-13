@@ -40,5 +40,10 @@ namespace JMT.Agent.State
         {
             _agent.AnimatorCompo.SetBool(_stateName, false);
         }
+
+        public virtual void OnAnimationEnd()
+        {
+            
+        }
     }
 }

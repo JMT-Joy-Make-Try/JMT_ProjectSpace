@@ -9,9 +9,16 @@ namespace JMT.Agent
     {
         // State들을 모아놓은 Dictionary
         [SerializeField] private SerializedDictionary<T, State.State<T>> states;
+
+        public SerializedDictionary<T, State.State<T>> States
+        {
+            get => states; 
+            set => states = value;
+        }
         
         // 현재 State
         private State.State<T> _currentState;
+        public State.State<T> CurrentState => _currentState;
 
         /// <summary>
         /// State 변경
