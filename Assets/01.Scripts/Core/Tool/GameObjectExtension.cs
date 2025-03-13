@@ -30,5 +30,17 @@ namespace JMT.Core.Tool
         {
             return gameObject.transform.root.gameObject;
         }
+        
+        public static GameObject GetChildGameObject(this GameObject gameObject, string childName)
+        {
+            Transform child = gameObject.transform.Find(childName);
+            if (child == null)
+            {
+                Debug.LogError($"There is no {childName} child in {gameObject.name}");
+                return null;
+            }
+
+            return child.gameObject;
+        }
     }
 }
