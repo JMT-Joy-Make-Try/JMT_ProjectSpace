@@ -31,6 +31,13 @@ namespace JMT.UISystem
 
         public override void OpenUI()
         {
+            TotalCategory();
+            base.OpenUI();
+        }
+
+        private void TotalCategory()
+        {
+            cells.Clear();
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
 
             for (int i = 0; i < cells.Count; i++)
@@ -46,7 +53,27 @@ namespace JMT.UISystem
                     cells[i].SetItemCell(string.Empty);
                 }
             }
-            base.OpenUI();
+        }
+
+        private void SelectCategory(BuildingCategory category)
+        {
+            cells.Clear();
+            List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (i < list.Count)
+                {
+                    if (category != list[i].category) continue;
+                    cells[i].SetItemCell(list[i].name);
+                    int index = i; // 현재 i 값을 저장하여 람다 함수 내에서 사용
+                    cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
+                }
+                else
+                {
+                    cells[i].SetItemCell(string.Empty);
+                }
+            }
         }
 
         private void HandleSetInfo(BuildingDataSO data)
