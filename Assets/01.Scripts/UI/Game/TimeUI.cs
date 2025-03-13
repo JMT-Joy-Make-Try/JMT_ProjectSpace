@@ -1,20 +1,50 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
+    public enum Daytime
+    {
+        Day,
+        Night,
+    }
+    [Serializable]
+    public struct Time
+    {
+        public int minute;
+        public int second;
+    }
     public class TimeUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI dayText, timeText;
-        [SerializeField] private int repeatMinute, repeatSecond;
+        [SerializeField] private Time repeatDayTime, repeatNightTime;
+        [SerializeField] private Image icon, back;
+
+        [Header("Daytime")]
+        [SerializeField] private Color daytextColor;
+        [SerializeField] private Color daybackColor;
+        [SerializeField] private Color nighttextColor, nightbackColor;
+        [SerializeField] private Sprite sun, moon;
 
         private Coroutine timeRoutine;
-        private int day, saveMinute, saveSecond;
+        private Time saveTime;
+        private int day;
+        private bool isNight;
 
-        public void StartTime()
+        public void StartDayTime()
         {
-            timeRoutine = StartCoroutine(TimeCoroutine(repeatMinute, repeatSecond));
+            ChangeDayTime(Daytime.Day);
+            timeRoutine = StartCoroutine(TimeCoroutine(repeatDayTime));
+        }
+
+        public void StartNightTime()
+        {
+            ChangeDayTime(Daytime.Night);
+            timeRoutine = StartCoroutine(TimeCoroutine(repeatNightTime));
         }
 
         public void StopTime()
@@ -24,35 +54,66 @@ namespace JMT.UISystem
 
         public void RestartTime()
         {
-            timeRoutine = StartCoroutine(TimeCoroutine(saveMinute, saveSecond));
+            timeRoutine = StartCoroutine(TimeCoroutine(saveTime));
         }
 
-        private IEnumerator TimeCoroutine(int m, int s)
+        private IEnumerator TimeCoroutine(Time time)
         {
             var waitTime = new WaitForSeconds(1);
-            saveMinute = m;
-            saveSecond = s;
+            saveTime.minute = time.minute;
+            saveTime.second = time.second;
             while (true)
             {
                 dayText.text = "Day " + day;
-                timeText.text = saveMinute.ToString("D2") + ":" + saveSecond.ToString("D2");
+                timeText.text = saveTime.minute.ToString("D2") + ":" + saveTime.second.ToString("D2");
                 yield return waitTime;
 
-                if (saveSecond <= 0)
+                if (saveTime.second <= 0)
                 {
-                    if (saveMinute <= 0)
+                    if (saveTime.minute <= 0)
                     {
-                        saveMinute = repeatMinute;
-                        saveSecond = repeatSecond;
-                        day++;
+                        if (isNight)
+                        {
+                            day++;
+                            isNight = false;
+                            saveTime.minute = repeatDayTime.minute;
+                            saveTime.second = repeatDayTime.second;
+                            ChangeDayTime(Daytime.Day);
+                        }
+                        else
+                        {
+                            isNight = true;
+                            saveTime.minute = repeatNightTime.minute;
+                            saveTime.second = repeatNightTime.second;
+                            ChangeDayTime(Daytime.Night);
+                        }
                     }
                     else
                     {
-                        saveMinute--;
-                        saveSecond += 59;
+                        saveTime.minute--;
+                        saveTime.second += 59;
                     }
                 }
-                else saveSecond--;
+                else saveTime.second--;
+            }
+        }
+
+        private void ChangeDayTime(Daytime dayTime)
+        {
+            switch (dayTime)
+            {
+                case Daytime.Day:
+                    icon.sprite = sun;
+                    dayText.DOColor(daytextColor, 0.3f);
+                    timeText.DOColor(daytextColor, 0.3f);
+                    back.DOColor(daybackColor, 0.3f);
+                    break;
+                case Daytime.Night:
+                    icon.sprite = moon;
+                    dayText.DOColor(nighttextColor, 0.3f);
+                    timeText.DOColor(nighttextColor, 0.3f);
+                    back.DOColor(nightbackColor, 0.3f);
+                    break;
             }
         }
     }
