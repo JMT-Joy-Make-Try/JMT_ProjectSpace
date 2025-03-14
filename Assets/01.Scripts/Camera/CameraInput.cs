@@ -17,7 +17,7 @@ namespace JMT.CameraSystem
 
         private void Awake()
         {
-            camTransform = camParentTrm.GetChild(0);
+            //camTransform = camParentTrm.GetChild(0);
             inputSO.OnZoomStartEvent += HandleZoomStartEvent;
             inputSO.OnZoomEndEvent += HandleZoomEndEvent;
             inputSO.OnRotateStartEvent += HandleRotateStartEvent;

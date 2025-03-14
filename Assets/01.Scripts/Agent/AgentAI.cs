@@ -25,7 +25,7 @@ namespace JMT.Agent
             AnimationEndTrigger = gameObject.GetComponentOrAdd<AnimationEndTrigger>();
             
             StateMachineCompo.InitAllState(this);
-            AnimationEndTrigger.OnAnimationEnd += StateMachineCompo.CurrentState.OnAnimationEnd;
+            //AnimationEndTrigger.OnAnimationEnd += StateMachineCompo.CurrentState.OnAnimationEnd;
         }
 
         protected virtual void Update()
@@ -35,7 +35,7 @@ namespace JMT.Agent
 
         protected virtual void OnDestroy()
         {
-            AnimationEndTrigger.OnAnimationEnd -= StateMachineCompo.CurrentState.OnAnimationEnd;
+            //AnimationEndTrigger.OnAnimationEnd -= StateMachineCompo.CurrentState.OnAnimationEnd;
         }
     }
 }
