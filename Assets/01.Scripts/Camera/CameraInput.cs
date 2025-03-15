@@ -1,23 +1,18 @@
 using JMT.InputSystem;
 using System.Collections;
 using UnityEngine;
-using DG.Tweening;
 
 namespace JMT.CameraSystem
 {
     public class CameraInput : MonoBehaviour
     {
-        [SerializeField] private float camSpeed = 4f;
-        [SerializeField] private float rotateSpeed = 4f;
         [SerializeField] private CameraInputSO inputSO;
-        [SerializeField] private Transform camParentTrm;
-        private Transform camTransform;
-        private Coroutine zoomCoroutine;
-        private Coroutine rotateCoroutine;
+        [SerializeField] private float camSpeed = 4f;
+        [SerializeField] private float moveSpeed = 4f;
+        private Coroutine zoomCoroutine, moveCoroutine;
 
         private void Awake()
         {
-            //camTransform = camParentTrm.GetChild(0);
             inputSO.OnZoomStartEvent += HandleZoomStartEvent;
             inputSO.OnZoomEndEvent += HandleZoomEndEvent;
             inputSO.OnRotateStartEvent += HandleRotateStartEvent;
@@ -41,13 +36,9 @@ namespace JMT.CameraSystem
             {
                 float distance = Vector2.Distance(inputSO.GetPrimaryPosition(), inputSO.GetSecondaryPosition());
                 float deltaDistance = distance - prevDistance;
-                Debug.Log(deltaDistance);
 
-                Vector3 targetPos = camTransform.localPosition;
-                targetPos.y -= deltaDistance * camSpeed;
-                targetPos.y = Mathf.Clamp(targetPos.z, 110f, 400f);
 
-                camParentTrm.localPosition = new Vector3(camParentTrm.localPosition.x, Mathf.Lerp(camParentTrm.localPosition.y, targetPos.y, Time.deltaTime * camSpeed));
+                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - deltaDistance * camSpeed, 50f, 950f);
 
                 prevDistance = distance;
                 yield return null;
@@ -55,32 +46,34 @@ namespace JMT.CameraSystem
         }
         private void HandleRotateStartEvent()
         {
-            rotateCoroutine = StartCoroutine(MoveCoroutine());
+            moveCoroutine = StartCoroutine(MoveCoroutine());
         }
 
         private void HandleRotateEndEvent()
         {
-            StopCoroutine(rotateCoroutine);
+            StopCoroutine(moveCoroutine);
         }
 
         private IEnumerator MoveCoroutine()
         {
             float prevX = inputSO.GetPrimaryPosition().x;
             float prevY = inputSO.GetPrimaryPosition().y;
-            Vector3 curPos = camTransform.localPosition;
+            Vector3 curPos = Camera.main.transform.localPosition;
 
             while (true)
             {
                 float deltaX = inputSO.GetPrimaryPosition().x - prevX;
                 float deltaY = inputSO.GetPrimaryPosition().y - prevY;
 
-                camTransform.localPosition += new Vector3(-(deltaX * rotateSpeed), 0, -(deltaY * rotateSpeed));
+                float value = Camera.main.orthographicSize / 950;
+                if (value <= 0) value = 1;
+
+                Camera.main.transform.localPosition += new Vector3(-deltaX, -deltaY) * (moveSpeed * value);
 
                 prevX = inputSO.GetPrimaryPosition().x;
                 prevY = inputSO.GetPrimaryPosition().y;
                 yield return null;
             }
-            
         }
     }
 }
