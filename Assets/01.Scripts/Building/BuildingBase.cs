@@ -3,6 +3,7 @@ using JMT.Agent;
 using JMT.Core.Tool;
 using JMT.Planets.Tile.Items;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,14 +38,40 @@ namespace JMT.Building
 
         public virtual void Work(ItemType itemType)
         {
+            StartCoroutine(WorkCoroutine(itemType));
+        }
+
+        private IEnumerator WorkCoroutine(ItemType itemType)
+        {
             _currentItemType = itemType;
-            if (!CurrentItems.Contains(new Tuple<ItemType, int>(itemType, 0)))
+            while (CurrentItems.Count > 0)
             {
-                Debug.Log("아이템이 없습니다.");
+                Tuple<ItemType, int> item = CurrentItems.Peek();
+                if (item.Item1 == itemType)
+                {
+                    _progress += 0.1f;
+                    if (_progress >= 1)
+                    {
+                        _progress = 0;
+                        RemoveItem(item);
+                        Debug.Log("아이템이 제작되었습니다.");
+                    }
+                }
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        private void RemoveItem(Tuple<ItemType, int> item)
+        {
+            if (item.Item2 > 0)
+            {
+                item = CurrentItems.Dequeue();
+                item = new Tuple<ItemType, int>(item.Item1, item.Item2 - 1);
+                CurrentItems.Enqueue(item);
             }
             else
             {
-                Debug .Log("아이템이 있습니다.");
+                CurrentItems.Dequeue();
             }
         }
 
@@ -53,6 +80,10 @@ namespace JMT.Building
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SetItem(ItemType.Ice, 10);
+                foreach (var item in CurrentItems)
+                {
+                    Debug.Log(item.Item1 + " : " + item.Item2);
+                }
                 Work(ItemType.Cloth);
             }
         }
