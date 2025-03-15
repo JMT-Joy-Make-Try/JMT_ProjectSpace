@@ -52,9 +52,8 @@ namespace JMT.Planets.Tile
             {
                 Debug.Log("Build");
                 OnBuild?.Invoke();
-                _currentBuilding = Instantiate(building, transform);
-                _currentBuilding.Build(transform.position + new Vector3(0, 0, 50f), TileInteraction.transform);
-                
+                _currentBuilding = Instantiate(building, TileInteraction.transform);
+                //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
             }
             else
             {

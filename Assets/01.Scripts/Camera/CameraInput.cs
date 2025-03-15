@@ -37,7 +37,6 @@ namespace JMT.CameraSystem
                 float distance = Vector2.Distance(inputSO.GetPrimaryPosition(), inputSO.GetSecondaryPosition());
                 float deltaDistance = distance - prevDistance;
 
-
                 Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - deltaDistance * camSpeed, 50f, 950f);
 
                 prevDistance = distance;
