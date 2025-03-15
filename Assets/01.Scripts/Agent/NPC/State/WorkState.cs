@@ -16,7 +16,7 @@ namespace JMT.Agent.State
             while (agent.IsWorking)
             {
                 yield return new WaitForSeconds(1f);
-                agent.CurrentWorkingBuilding.AddNpc(1);
+                agent.CurrentWorkingBuilding.AddNpc(agent);
             }
         }
     }

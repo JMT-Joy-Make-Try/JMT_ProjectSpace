@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using JMT.Planets.Tile.Items;
+using UnityEngine;
 
 namespace JMT.Building
 {
     public class TestBuilding : BuildingBase
     {
-        public override void Build(Vector3 position)
+        public override void Build(Vector3 position, Transform parent)
         {
             transform.position = position;
         }
 
-        public override void Work()
+        public override void Work(ItemType itemType)
         {
             
         }

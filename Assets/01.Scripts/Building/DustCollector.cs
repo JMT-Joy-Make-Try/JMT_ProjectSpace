@@ -6,7 +6,8 @@ namespace JMT.Building
 {
     public class DustCollector : BuildingBase
     {
-        public override void Build(Vector3 position)
+
+        public override void Build(Vector3 position, Transform parent)
         {
             foreach (var item in decreaseItems)
             {
@@ -14,12 +15,12 @@ namespace JMT.Building
             }
         }
 
-        public override void Work()
+        public override void Work(ItemType itemType)
         {
-            foreach (var item in increaseItems)
-            {
-                InventoryManager.Instance.AddItem(item.Key, item.Value);
-            }
+            // foreach (var item in increaseItems)
+            // {
+            //     InventoryManager.Instance.AddItem(item.Key, item.Value);
+            // }
         }
     }
 }
