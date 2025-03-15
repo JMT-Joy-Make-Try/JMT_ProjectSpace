@@ -37,20 +37,16 @@ namespace JMT.UISystem
 
         private void TotalCategory()
         {
-            cells.Clear();
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
 
             for (int i = 0; i < cells.Count; i++)
             {
+                cells[i].SetItemCell(string.Empty);
                 if (i < list.Count)
                 {
                     cells[i].SetItemCell(list[i].name);
                     int index = i; // 현재 i 값을 저장하여 람다 함수 내에서 사용
                     cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
-                }
-                else
-                {
-                    cells[i].SetItemCell(string.Empty);
                 }
             }
         }
@@ -62,16 +58,13 @@ namespace JMT.UISystem
 
             for (int i = 0; i < cells.Count; i++)
             {
+                cells[i].SetItemCell(string.Empty);
                 if (i < list.Count)
                 {
                     if (category != list[i].category) continue;
                     cells[i].SetItemCell(list[i].name);
                     int index = i; // 현재 i 값을 저장하여 람다 함수 내에서 사용
                     cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
-                }
-                else
-                {
-                    cells[i].SetItemCell(string.Empty);
                 }
             }
         }
@@ -97,6 +90,7 @@ namespace JMT.UISystem
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
             BuildingBase b = BuildingManager.Instance.CurrentBuilding.prefab;
             TileManager.Instance._currentTile.Build(b);
+            CloseUI();
         }
 
 
