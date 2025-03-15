@@ -19,7 +19,7 @@ namespace JMT.Building
         protected List<NPCAgent> _currentNpc;
         protected ItemType _currentItemType;
         
-        protected Queue<Tuple<ItemType, int>> CurrentItems;
+        [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
         
         protected float _progress;
         protected event Action<ItemType> OnStartWorking;
@@ -28,7 +28,7 @@ namespace JMT.Building
         protected virtual void Start()
         {
             OnStartWorking += Work;
-            CurrentItems = new Queue<Tuple<ItemType, int>>();
+            CurrentItems = new SerializeQueue<SerializeTuple<ItemType, int>>();
         }
 
         protected virtual void OnDestroy()
@@ -44,9 +44,11 @@ namespace JMT.Building
         private IEnumerator WorkCoroutine(ItemType itemType)
         {
             _currentItemType = itemType;
+            Debug.Log($"Working for {itemType}");
             while (CurrentItems.Count > 0)
             {
-                Tuple<ItemType, int> item = CurrentItems.Peek();
+                SerializeTuple<ItemType, int> item = CurrentItems.Peek();
+                Debug.Log($"Working for {item.Item1} : {item.Item2}");
                 if (item.Item1 == itemType)
                 {
                     _progress += 0.1f;
@@ -61,12 +63,12 @@ namespace JMT.Building
             }
         }
 
-        private void RemoveItem(Tuple<ItemType, int> item)
+        private void RemoveItem(SerializeTuple<ItemType, int> item)
         {
             if (item.Item2 > 0)
             {
                 item = CurrentItems.Dequeue();
-                item = new Tuple<ItemType, int>(item.Item1, item.Item2 - 1);
+                item = new SerializeTuple<ItemType, int>(item.Item1, item.Item2 - 1);
                 CurrentItems.Enqueue(item);
             }
             else
@@ -80,6 +82,7 @@ namespace JMT.Building
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SetItem(ItemType.Ice, 10);
+                Debug.Log(CurrentItems.Count);
                 foreach (var item in CurrentItems)
                 {
                     Debug.Log(item.Item1 + " : " + item.Item2);
@@ -103,7 +106,7 @@ namespace JMT.Building
 
         protected virtual void SetItem(ItemType type, int amount)
         {
-            CurrentItems.Enqueue(new Tuple<ItemType, int>(type, amount));
+            CurrentItems.Enqueue(new SerializeTuple<ItemType, int>(type, amount));
         }
     }
 }
