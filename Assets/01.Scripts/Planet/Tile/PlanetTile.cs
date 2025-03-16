@@ -24,6 +24,7 @@ namespace JMT.Planets.Tile
         {
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
+            Renderer.material = Instantiate(Renderer.material);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
             //_tileHeight = UnityEngine.Random.Range(0f, 10f);
 
@@ -89,6 +90,12 @@ namespace JMT.Planets.Tile
         public void OnPointerClickHandler()
         {
             OnClick?.Invoke(this);
+            EdgeEnable(false);
+        }
+        
+        private void EdgeEnable(bool enable)
+        {
+            Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace JMT.Planets.Tile
             foreach (var tile in Tiles)
             {
                 tile.TileType = tileType;
-                tile.Renderer.material.color = color;
+                tile.Renderer.material.SetColor("_BaseColor", color);
             }
         }
     }

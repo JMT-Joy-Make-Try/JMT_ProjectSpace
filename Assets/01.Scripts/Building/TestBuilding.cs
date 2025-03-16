@@ -9,10 +9,5 @@ namespace JMT.Building
         {
             transform.position = position;
         }
-
-        public override void Work(ItemType itemType)
-        {
-            
-        }
     }
 }
