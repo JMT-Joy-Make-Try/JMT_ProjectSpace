@@ -90,7 +90,6 @@ namespace JMT.Planets.Tile
         public void OnPointerClickHandler()
         {
             OnClick?.Invoke(this);
-            EdgeEnable(false);
         }
         
         private void EdgeEnable(bool enable)
