@@ -97,7 +97,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 239378781582670930, guid: 058df818c2bb5704589797d1f39f4378, type: 3}
+      objectReference: {fileID: 2100000, guid: 24c0139bd54825b45a982932ec14f830, type: 2}
     - target: {fileID: -5754084199372789682, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -105,6 +105,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_Name
       value: TileFloor
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -165,7 +173,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.0000002, z: 0}
+  m_Size: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1268100791131957320 stripped
 MeshRenderer:
