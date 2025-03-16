@@ -34,8 +34,6 @@ namespace JMT.Agent
             AgentType = agentType;
         }
         
-        
-        
         protected override void Awake()
         {
             base.Awake();
@@ -74,7 +72,21 @@ namespace JMT.Agent
             int healthPercent = Mathf.RoundToInt(health * 100 / Data.MaxHealth);
             return healthPercent.GetRangeValue(_healthRange);
         }
-        
-        
+
+        protected void SetBuilding(BuildingBase building)
+        {
+            CurrentWorkingBuilding = building;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out GatheringBuilding building))
+            {
+                if (building.ProductionItem != TakeItemTuple.Item1) return;
+                
+                building.AddItem(TakeItemTuple.Item2);
+                TakeItemTuple = null;
+            }
+        }
     }
 }

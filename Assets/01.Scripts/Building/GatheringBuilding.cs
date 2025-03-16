@@ -8,7 +8,7 @@ namespace JMT.Building
 {
     public class GatheringBuilding : BuildingBase
     {
-        [SerializeField] private ItemType _productionItem;
+        [field: SerializeField] public ItemType ProductionItem { get; private set; }
         [SerializeField] private int _productionAmount;
         
         private int _currentProductionAmount;
@@ -24,7 +24,7 @@ namespace JMT.Building
 
         private void InventoryAdd()
         {
-            InventoryManager.Instance.AddItem(_productionItem, _currentProductionAmount);
+            InventoryManager.Instance.AddItem(ProductionItem, _currentProductionAmount);
             _currentProductionAmount = 0;
         }
 

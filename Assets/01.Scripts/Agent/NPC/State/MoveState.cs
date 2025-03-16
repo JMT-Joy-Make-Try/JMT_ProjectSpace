@@ -16,7 +16,7 @@ namespace JMT.Agent.State
         {
             _agent.MovementCompo.Move(new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f)), 5);
             yield return new WaitForSeconds(5f);
-            _agent.StateMachineCompo.ChangeState(NPCState.Idle);
+            _agent.StateMachineCompo.ChangeState(NPCState.Work);
         }
     }
 }
