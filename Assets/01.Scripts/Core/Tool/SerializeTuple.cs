@@ -27,6 +27,10 @@ namespace JMT.Core.Tool
             return tuple;
         }
         
+        public SerializeTuple()
+        {
+        }
+        
         public SerializeTuple(T item1, TU item2)
         {
             Item1 = item1;

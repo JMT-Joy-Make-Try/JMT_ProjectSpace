@@ -3,23 +3,37 @@ using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
 using JMT.Planets.Tile.Items;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Range = JMT.Core.Tool.Range;
 
 namespace JMT.Agent
 {
     public class NPCAgent : AgentAI<NPCState>
     {
+        [Header("Unlock NPC")]
         [SerializeField] private SerializedDictionary<ItemType, int> needItems;
         [field: SerializeField] public NPCData Data { get; set; }
         public bool IsActive { get; private set; }
+        
+        [Header("Working")]
         public BuildingBase CurrentWorkingBuilding { get; set; }
         public bool IsWorking { get; private set; }
+        public Tuple<ItemType, int> TakeItemTuple { get; private set; }
 
         [Space]
         [SerializeField] private List<Range> _healthRange;
         [SerializeField] private int _moveSpeed;
         [SerializeField] private int _workSpeed;
+        
+        public AgentType AgentType { get; private set; }     
+        
+        public void SetAgentType(AgentType agentType)
+        {
+            AgentType = agentType;
+        }
+        
         
         
         protected override void Awake()
