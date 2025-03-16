@@ -1,6 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Core.Tool;
+using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections;
@@ -16,14 +17,23 @@ namespace JMT.Building
         [Header("Decrease Item")]
         [SerializeField] protected SerializedDictionary<ItemType, int> decreaseItems;
         
-        protected List<NPCAgent> _currentNpc;
-        protected ItemType _currentItemType;
-        
+        [SerializeField] protected List<NPCAgent> _currentNpc;
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
         
         protected float _progress;
-        protected event Action<ItemType> OnStartWorking;
+        protected event Action OnStartWorking;
+        protected bool _isWorking;
+        
+        [Space]
+        
+        [Header("Debug")]
+        [SerializeField] private NPCAgent _npcAgent;
         public abstract void Build(Vector3 position, Transform parent);
+
+        protected void Awake()
+        {
+            _currentNpc = new List<NPCAgent>();
+        }
 
         protected virtual void Start()
         {
@@ -36,40 +46,44 @@ namespace JMT.Building
             OnStartWorking -= Work;
         }
 
-        public virtual void Work(ItemType itemType)
+        public virtual void Work()
         {
-            StartCoroutine(WorkCoroutine(itemType));
+            if (_isWorking)
+            {
+                return;
+            }
+            _isWorking = true;
+            StartCoroutine(WorkCoroutine());
         }
 
-        private IEnumerator WorkCoroutine(ItemType itemType)
+        protected IEnumerator WorkCoroutine()
         {
-            _currentItemType = itemType;
-            Debug.Log($"Working for {itemType}");
             while (CurrentItems.Count > 0)
             {
                 SerializeTuple<ItemType, int> item = CurrentItems.Peek();
                 Debug.Log($"Working for {item.Item1} : {item.Item2}");
-                if (item.Item1 == itemType)
+                _progress += 0.1f;
+                if (_progress >= 1)
                 {
-                    _progress += 0.1f;
-                    if (_progress >= 1)
-                    {
-                        _progress = 0;
-                        RemoveItem(item);
-                        Debug.Log("아이템이 제작되었습니다.");
-                    }
+                    _progress = 0;
+                    RemoveItem(ref item);
+                    Debug.Log("아이템이 제작되었습니다.");
                 }
                 yield return new WaitForSeconds(1);
             }
+            _isWorking = false;
         }
 
-        private void RemoveItem(SerializeTuple<ItemType, int> item)
+        private void RemoveItem(ref SerializeTuple<ItemType, int> item)
         {
             if (item.Item2 > 0)
             {
-                item = CurrentItems.Dequeue();
-                item = new SerializeTuple<ItemType, int>(item.Item1, item.Item2 - 1);
-                CurrentItems.Enqueue(item);
+                item--;
+                if (item.Item2 == 0)
+                {
+                    CurrentItems.Dequeue();
+                }
+                InventoryManager.Instance.AddItem(item.Item1, 1);
             }
             else
             {
@@ -77,26 +91,29 @@ namespace JMT.Building
             }
         }
 
+        #if UNITY_EDITOR
         private void Update()
         {
+            // 테스트용 코드
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SetItem(ItemType.Ice, 10);
-                Debug.Log(CurrentItems.Count);
-                foreach (var item in CurrentItems)
-                {
-                    Debug.Log(item.Item1 + " : " + item.Item2);
-                }
-                Work(ItemType.Cloth);
+                SetItem(ItemType.Ice, 2);
+                SetItem(ItemType.Cloth, 2);
+                SetItem(ItemType.Seed, 2);
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                AddNpc(_npcAgent);
             }
         }
+        #endif
 
         public virtual void AddNpc(NPCAgent agent)
         {
             _currentNpc.Add(agent);
-            if (_currentNpc.Count > NpcCount)
+            if (_currentNpc.Count >= NpcCount)
             {
-                OnStartWorking?.Invoke(_currentItemType);
+                OnStartWorking?.Invoke();
             }
         }
         

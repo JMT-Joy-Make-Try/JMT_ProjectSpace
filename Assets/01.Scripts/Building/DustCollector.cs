@@ -15,7 +15,7 @@ namespace JMT.Building
             }
         }
 
-        public override void Work(ItemType itemType)
+        public override void Work()
         {
             // foreach (var item in increaseItems)
             // {
