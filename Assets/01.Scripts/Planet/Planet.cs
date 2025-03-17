@@ -7,7 +7,8 @@ using Event = JMT.Planets.Events.Event;
 
 namespace JMT.Planets
 {
-    public abstract class Planet : MonoBehaviour
+    [DefaultExecutionOrder(-40)]
+    public class Planet : MonoBehaviour
     {
         [SerializeField] private List<BuildingBase> buildings = new List<BuildingBase>();
         [SerializeField] private List<Event> events = new List<Event>();

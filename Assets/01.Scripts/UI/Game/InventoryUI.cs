@@ -4,6 +4,7 @@ using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace JMT.UISystem
@@ -37,46 +38,21 @@ namespace JMT.UISystem
 
         private string GetName(ItemType key)
         {
-            switch (key)
+            string name = Enum.GetName(key.GetType(), key);
+            if (string.IsNullOrEmpty(name)) return string.Empty;
+
+            var result = new StringBuilder();
+            result.Append(name[0]);
+
+            for (int i = 1; i < name.Length; i++)
             {
-                case ItemType.LiquidFuel:
-                    return "Liquid Fuel";
-                case ItemType.OrganicMatter:
-                    return "Organic Matter";
-                case ItemType.SpaceDust:
-                    return "Space Dust";
-                case ItemType.FlameIron:
-                    return "Flame Iron";
-                case ItemType.IceIron:
-                    return "Ice Iron";
-                case ItemType.Techron:
-                    return "Techron";
-                case ItemType.DustBundle:
-                    return "Dust Bundle";
-                case ItemType.DustBoard:
-                    return "Dust Board";
-                case ItemType.DustSteelPlate:
-                    return "Dust Steel Plate";
-                case ItemType.FuelConcentrate:
-                    return "Fuel Concentrate";
-                case ItemType.ImpureWater:
-                    return "Impure Water";
-                case ItemType.PureWater:
-                    return "PureWater";
-                case ItemType.SpaceBrick:
-                    return "Space Brick";
-                case ItemType.Cloth:
-                    return "Cloth";
-                case ItemType.CulturePaper:
-                    return "Culture Paper";
-                case ItemType.Seed:
-                    return "Seed";
-                case ItemType.Fuel:
-                    return "Fuel";
-                case ItemType.Ice:
-                    return "Ice";
+                if (char.IsUpper(name[i]))
+                    result.Append(' ');
+
+                result.Append(name[i]);
             }
-            return string.Empty;
+
+            return result.ToString();
         }
     }
 }
