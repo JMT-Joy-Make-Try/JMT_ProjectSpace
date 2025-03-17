@@ -66,7 +66,7 @@ namespace JMT.Agent
         
         private IEnumerator WaitForArrival(Action onComplete)
         {
-            while (NavMeshAgentCompo.pathPending || NavMeshAgentCompo.remainingDistance > 0.1f)
+            while (NavMeshAgentCompo.pathPending || NavMeshAgentCompo.remainingDistance > 0.5f)
             {
                 yield return null;
             }

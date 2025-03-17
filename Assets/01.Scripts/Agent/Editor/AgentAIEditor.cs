@@ -37,8 +37,7 @@ namespace JMT.Agent.Editor
             Animator animator = agentAI.GetComponent<Animator>();
             if (animator == null)
             {
-                Debug.LogError("Animator 컴포넌트가 없습니다.");
-                return;
+                animator = agentAI.GetComponentInChildren<Animator>();
             }
 
             string directoryPath = "Assets/04.Animations/";
