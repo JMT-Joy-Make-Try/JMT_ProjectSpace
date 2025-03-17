@@ -15,8 +15,6 @@ namespace JMT.Building
     {
         [field: SerializeField] public int NpcCount { get; protected set; }
         [Space]
-        [Header("Decrease Item")]
-        [SerializeField] protected SerializedDictionary<ItemType, int> decreaseItems;
         
         [SerializeField] protected List<NPCAgent> _currentNpc;
         

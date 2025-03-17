@@ -9,10 +9,6 @@ namespace JMT.Building
 
         public override void Build(Vector3 position, Transform parent)
         {
-            foreach (var item in decreaseItems)
-            {
-                InventoryManager.Instance.RemoveItem(item.Key, item.Value);
-            }
         }
 
         public override void Work()

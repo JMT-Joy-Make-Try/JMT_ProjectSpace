@@ -8,7 +8,6 @@ namespace JMT.Planets
     public class TestPlanet : Planet
     {
         [SerializeField] private TilesSO _tile;
-        [SerializeField] private float _radius;
 
         private void Start()
         {
