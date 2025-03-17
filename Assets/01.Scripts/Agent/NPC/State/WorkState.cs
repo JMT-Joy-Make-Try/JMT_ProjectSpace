@@ -14,6 +14,7 @@ namespace JMT.Agent.State
 
         public override void EnterState()
         {
+            base.EnterState();
             StartCoroutine(MoveBuilding());
         }
 

@@ -91,7 +91,7 @@ namespace JMT.UISystem
             }
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
             TileManager.Instance.CurrentTile.EdgeEnable(false);
-            TileManager.Instance._currentTile.Build(BuildingManager.Instance.CurrentBuilding);
+            TileManager.Instance.CurrentTile.Build(BuildingManager.Instance.CurrentBuilding);
             CloseUI();
         }
 
