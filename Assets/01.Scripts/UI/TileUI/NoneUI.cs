@@ -1,6 +1,7 @@
 using JMT.Building;
 using JMT.Core.Manager;
 using JMT.Planets.Tile;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,13 @@ namespace JMT.UISystem
             buildButton = PanelTrm.Find("BuildBtn").GetComponent<Button>();
             buildButton.onClick.AddListener(HandleBuildButton);
         }
+
+        public override void OpenUI()
+        {
+            UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += CloseUI;
+            base.OpenUI();
+        }
+
         private void HandleBuildButton()
         {
             Debug.Log("Click Build Button");

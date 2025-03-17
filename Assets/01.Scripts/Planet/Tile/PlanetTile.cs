@@ -2,6 +2,7 @@ using System;
 using JMT.Building;
 using JMT.Object;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -92,6 +93,7 @@ namespace JMT.Planets.Tile
         {
             OnClick?.Invoke(this);
             EdgeEnable(true);
+            UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += () => EdgeEnable(false);
         }
 
         public void EdgeEnable(bool enable)
