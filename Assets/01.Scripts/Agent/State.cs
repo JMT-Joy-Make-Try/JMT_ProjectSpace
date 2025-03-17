@@ -39,6 +39,7 @@ namespace JMT.Agent.State
         public virtual void ExitState()
         {
             _agent.AnimatorCompo.SetBool(_stateName, false);
+            StopAllCoroutines();
         }
 
         public virtual void OnAnimationEnd()

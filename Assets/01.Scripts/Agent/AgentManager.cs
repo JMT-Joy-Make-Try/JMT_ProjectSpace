@@ -7,7 +7,6 @@ namespace JMT.Agent
 {
     public class AgentManager : MonoSingleton<AgentManager>
     {
-        [field: SerializeField] public int AgentCount { get; private set; }
         [field: SerializeField] public int MaxAgentCount { get; private set; }
         [field: SerializeField] public NPCAgent NPCAgent { get; private set; }
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; }
@@ -21,12 +20,12 @@ namespace JMT.Agent
         {
             Instantiate(NPCAgent, position, Quaternion.identity);
         }
-        
-        
-        
-        public void AddAgentCount(int count)
+
+        public NPCAgent GetAgent()
         {
-            AgentCount += count;
+            NPCAgent agent = UnemployedAgents[0];
+            UnemployedAgents.RemoveAt(0);
+            return agent;
         }
 
         private void SetUnemployedAgents()

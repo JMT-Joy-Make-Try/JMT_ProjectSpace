@@ -17,8 +17,8 @@ namespace JMT.UISystem
         private void HandleMineButton()
         {
             Debug.Log("Click Mine Button");
-            TileManager.Instance._currentTile.RemoveInteractionObject();
-            TileManager.Instance._currentTile.ChangeInteraction<NoneInteraction>();
+            TileManager.Instance.CurrentTile.RemoveInteractionObject();
+            TileManager.Instance.CurrentTile.ChangeInteraction<NoneInteraction>();
             UIManager.Instance.ItemUI.CloseUI();
             // 자원 캐기
         }

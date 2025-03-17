@@ -14,8 +14,31 @@ namespace JMT.Agent.State
 
         private IEnumerator MoveCoroutine()
         {
-            _agent.MovementCompo.Move(new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f)), 5);
-            yield return new WaitForSeconds(5f);
+            NPCAgent agent = _agent as NPCAgent;
+            while (true)
+            {
+                if (agent.AgentType == AgentType.Base)
+                {
+                    _agent.MovementCompo.Move(new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f)), agent.MoveSpeed);
+                }
+                else
+                {
+                    _agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed,
+                        ChangeState);
+                }
+
+                yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
+            }
+        }
+
+        private void ChangeState()
+        {
+            StartCoroutine(ChangeCoroutine());
+        }
+
+        private IEnumerator ChangeCoroutine()
+        {
+            yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
             _agent.StateMachineCompo.ChangeState(NPCState.Work);
         }
     }

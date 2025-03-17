@@ -2,10 +2,12 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
+using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Range = JMT.Core.Tool.Range;
 
 namespace JMT.Agent
@@ -18,16 +20,17 @@ namespace JMT.Agent
         public bool IsActive { get; private set; }
         
         [Header("Working")]
-        public BuildingBase CurrentWorkingBuilding { get; set; }
+        [field: SerializeField] public BuildingBase CurrentWorkingBuilding { get; private set; }
+        [field: SerializeField] public PlanetTile CurrentWorkingPlanetTile { get; private set; }
         public bool IsWorking { get; private set; }
         public Tuple<ItemType, int> TakeItemTuple { get; private set; }
 
         [Space]
         [SerializeField] private List<Range> _healthRange;
-        [SerializeField] private int _moveSpeed;
-        [SerializeField] private int _workSpeed;
+        [field:SerializeField] public int MoveSpeed;
+        [field:SerializeField] public int WorkSpeed;
         
-        public AgentType AgentType { get; private set; }    
+        [field:SerializeField] public AgentType AgentType { get; private set; }    
         
         public event Action<AgentType> OnTypeChanged;
         
@@ -59,18 +62,21 @@ namespace JMT.Agent
         private void Start()
         {
             SetAgentType(AgentType.Base);
-            AgentManager.Instance.AddAgentCount(1);
         }
 
         public void TakeItem(ItemType itemType, int count)
         {
-            if (needItems.Count == 0)
-                ActiveAgent();
             if (!needItems.ContainsKey(itemType))
                 return;
             needItems[itemType] -= count;
             if (needItems[itemType] <= 0)
+            {
                 needItems.Remove(itemType);
+                if (needItems.Count <= 0)
+                {
+                    ActiveAgent();
+                }
+            }
         }
         
         private void ActiveAgent()
@@ -80,10 +86,10 @@ namespace JMT.Agent
         
         protected void SetSpeed()
         {
-            _workSpeed = MathExtension.GetPercentageValue(_workSpeed, GetPercent(Data.Health));
-            _moveSpeed = MathExtension.GetPercentageValue(_moveSpeed, GetPercent(Data.Health));
+            WorkSpeed = MathExtension.GetPercentageValue(WorkSpeed, GetPercent(Data.Health));
+            MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(Data.Health));
 
-            if (_workSpeed.IsZero() && _moveSpeed.IsZero()) // 나중에 일도 포함시켜야함
+            if (WorkSpeed.IsZero() && MoveSpeed.IsZero()) // 나중에 일도 포함시켜야함
             {
                 StateMachineCompo.ChangeState(NPCState.Dead);
             }
@@ -108,6 +114,15 @@ namespace JMT.Agent
                 
                 building.AddItem(TakeItemTuple.Item2);
                 TakeItemTuple = null;
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TakeItem(ItemType.LiquidFuel, 1);
             }
         }
     }

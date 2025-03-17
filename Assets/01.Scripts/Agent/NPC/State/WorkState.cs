@@ -5,19 +5,35 @@ namespace JMT.Agent.State
 {
     public class WorkState : State<NPCState>
     {
-        public override void EnterState()
+        private NPCAgent npcAgent;
+        public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
-            StartCoroutine(WorkCoroutine());
+            base.Initialize(agent, stateName);
+            npcAgent = agent as NPCAgent;
         }
 
-        private IEnumerator WorkCoroutine()
+        public override void EnterState()
         {
-            var agent = _agent as NPCAgent;
-            while (agent.IsWorking)
-            {
-                yield return new WaitForSeconds(1f);
-                agent.CurrentWorkingBuilding.AddNpc(agent);
-            }
+            StartCoroutine(MoveBuilding());
+        }
+
+        private IEnumerator MoveBuilding()
+        {
+            yield return new WaitForSeconds(npcAgent.WorkSpeed * 0.2f);
+            Debug.Log("Work");
+            _agent.MovementCompo.Move(npcAgent.CurrentWorkingBuilding.transform.position, npcAgent.WorkSpeed,
+                ChangeState);
+        }
+
+        private void ChangeState()
+        {
+            StartCoroutine(ChangeCoroutine());
+        }
+
+        private IEnumerator ChangeCoroutine()
+        {
+            yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
+            _agent.StateMachineCompo.ChangeState(NPCState.Move);
         }
     }
 }
