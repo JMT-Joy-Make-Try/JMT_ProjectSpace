@@ -27,17 +27,39 @@ namespace JMT.Agent
         [SerializeField] private int _moveSpeed;
         [SerializeField] private int _workSpeed;
         
-        public AgentType AgentType { get; private set; }     
+        public AgentType AgentType { get; private set; }    
+        
+        public event Action<AgentType> OnTypeChanged;
         
         public void SetAgentType(AgentType agentType)
         {
             AgentType = agentType;
+            OnTypeChanged?.Invoke(agentType);
         }
         
         protected override void Awake()
         {
             base.Awake();
+            OnTypeChanged += HandleTypeChanged;
             StateMachineCompo.ChangeState(NPCState.Idle);
+        }
+
+        private void HandleTypeChanged(AgentType type)
+        {
+            if (type == AgentType.Base)
+            {
+                AgentManager.Instance.RegisterAgent(this);
+            }
+            else
+            {
+                AgentManager.Instance.UnregisterAgent(this);
+            }
+        }
+
+        private void Start()
+        {
+            SetAgentType(AgentType.Base);
+            AgentManager.Instance.AddAgentCount(1);
         }
 
         public void TakeItem(ItemType itemType, int count)
