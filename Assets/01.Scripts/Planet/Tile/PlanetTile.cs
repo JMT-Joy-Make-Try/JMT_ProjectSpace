@@ -47,13 +47,14 @@ namespace JMT.Planets.Tile
             transform.position = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
         }
 
-        public void Build(BuildingBase building)
+        public void Build(BuildingDataSO building)
         {
             if (CanBuild())
             {
                 Debug.Log("Build");
                 OnBuild?.Invoke();
-                _currentBuilding = Instantiate(building, TileInteraction.transform);
+                _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
+                _currentBuilding.SetBuildingData(building);
                 //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
             }
             else

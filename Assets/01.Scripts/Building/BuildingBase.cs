@@ -17,6 +17,9 @@ namespace JMT.Building
         [Space]
         
         [SerializeField] protected List<NPCAgent> _currentNpc;
+        [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
+
+        private BuildingDataSO buildingData;
         
         protected event Action OnStartWorking;
         protected bool _isWorking;
@@ -60,7 +63,17 @@ namespace JMT.Building
         public virtual void Upgrade()
         {
         }
+        
+        protected virtual void SetItem(ItemType type, int amount)
+        {
+            CurrentItems.Enqueue(new SerializeTuple<ItemType, int>(type, amount));
+        }
 
-      
+        public void SetBuildingData(BuildingDataSO data)
+        {
+            buildingData = data;
+        }
+
+        public BuildingDataSO GetBuildingData => buildingData;
     }
 }
