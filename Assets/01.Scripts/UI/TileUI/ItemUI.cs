@@ -14,6 +14,12 @@ namespace JMT.UISystem
             itemButton.onClick.AddListener(HandleMineButton);
         }
 
+        public override void OpenUI()
+        {
+            UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += CloseUI;
+            base.OpenUI();
+        }
+
         private void HandleMineButton()
         {
             Debug.Log("Click Mine Button");
