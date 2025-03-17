@@ -1,5 +1,6 @@
 ﻿using System;
 using JMT.Core.Tool;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,8 @@ namespace JMT.Agent
     public class AgentMovement : MonoBehaviour
     {
         [field:SerializeField] public NavMeshAgent NavMeshAgentCompo { get; private set; }
+        
+        public bool IsMoving => NavMeshAgentCompo.velocity.magnitude > 0.1f;
 
         private void Awake()
         {
@@ -30,7 +33,7 @@ namespace JMT.Agent
         }
 
         
-        public void Move(Vector3 destination, float speed)
+        public void Move(Vector3 destination, float speed, Action onComplete = null)
         {
             if (!NavMeshAgentCompo.enabled)
             {
@@ -44,19 +47,32 @@ namespace JMT.Agent
                 return;
             }
 
-            if (!NavMesh.SamplePosition(destination + transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(destination, out NavMeshHit hit, 1000.0f, NavMesh.AllAreas))
             {
                 Debug.LogError($"잘못된 목적지: {destination}");
                 return;
             }
 
+
             NavMeshAgentCompo.speed = speed;
             NavMeshAgentCompo.SetDestination(hit.position);
+            StartCoroutine(WaitForArrival(onComplete));
 
             if (NavMeshAgentCompo.pathStatus != NavMeshPathStatus.PathComplete)
             {
                 Debug.LogError($"이동할 수 없는 경로! {destination}");
             }
+        }
+        
+        private IEnumerator WaitForArrival(Action onComplete)
+        {
+            while (NavMeshAgentCompo.pathPending || NavMeshAgentCompo.remainingDistance > 0.1f)
+            {
+                yield return null;
+            }
+    
+            Debug.Log("도착 완료!");
+            onComplete?.Invoke();
         }
 
         
