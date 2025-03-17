@@ -88,8 +88,7 @@ namespace JMT.UISystem
                 return;
             }
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
-            BuildingBase b = BuildingManager.Instance.CurrentBuilding.prefab;
-            TileManager.Instance._currentTile.Build(b);
+            TileManager.Instance._currentTile.Build(BuildingManager.Instance.CurrentBuilding);
             CloseUI();
         }
 

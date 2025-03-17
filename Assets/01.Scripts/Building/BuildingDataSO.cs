@@ -1,6 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Building;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using UnityEngine;
 
 namespace JMT.Building
@@ -19,5 +20,6 @@ namespace JMT.Building
         public BuildingCategory category;
         public string buildingName;
         public SerializedDictionary<ItemType, int> needItems;
+        public TimeData buildTime;
     }
 }
