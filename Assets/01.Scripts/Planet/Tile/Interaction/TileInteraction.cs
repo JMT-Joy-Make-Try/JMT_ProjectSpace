@@ -26,7 +26,7 @@ namespace JMT.Planets.Tile
 
         public virtual void Interaction(PlanetTile tile)
         {
-            TileManager.Instance._currentTile = tile;
+            TileManager.Instance.CurrentTile = tile;
         }
 
         public void AddObject(GameObject obj)

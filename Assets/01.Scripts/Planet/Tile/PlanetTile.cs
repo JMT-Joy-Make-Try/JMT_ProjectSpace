@@ -92,8 +92,8 @@ namespace JMT.Planets.Tile
             OnClick?.Invoke(this);
             EdgeEnable(true);
         }
-        
-        private void EdgeEnable(bool enable)
+
+        public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
         }
