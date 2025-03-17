@@ -17,6 +17,12 @@ namespace JMT.UISystem
             setPeopleButton.onClick.AddListener(HandleSetPeopleButton);
         }
 
+        public override void OpenUI()
+        {
+            UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += CloseUI;
+            base.OpenUI();
+        }
+
         private void HandleUpgradeButton()
         {
             Debug.Log("Click Upgrade Button");
