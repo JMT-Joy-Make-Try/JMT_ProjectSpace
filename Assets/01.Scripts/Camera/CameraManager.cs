@@ -1,4 +1,5 @@
 using DG.Tweening;
+using JMT.Core.Tool;
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -11,28 +12,18 @@ namespace JMT.CameraSystem
         
         [SerializeField] private Transform Test;
 
-        public void LookAt(Transform target)
+
+        public void LookCamera(Transform target, float duration)
         {
-            _mainCamera.LookAt = target;
-            CameraMove(target.position, 10);
+            Debug.Log(target.position);
+            _mainCamera.transform.DOMove(target.position, duration, false, false, true);
         }
 
-        private void Update()
+        public void ZoomCamera(float zoomValue, float duration)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                LookAt(Test);
-            }
-        }
-
-        public void CameraMove(Vector3 position)
-        {
-            _mainCamera.transform.position = position;
-        }
-
-        public void CameraMove(Vector3 position, float duration)
-        {
-            _mainCamera.transform.DOMove(position, duration);
+            float currentOrthographicSize = _mainCamera.Lens.OrthographicSize;
+            Debug.Log(currentOrthographicSize);
+            _mainCamera.DOZoom(currentOrthographicSize * (zoomValue / 10), duration);
         }
     }
 }

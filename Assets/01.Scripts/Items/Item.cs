@@ -16,7 +16,6 @@ namespace JMT.Planets.Tile.Items
     {
         LiquidFuel, // 액체 연료
         OrganicMatter, // 유기물
-        SpaceDust, // 우주 먼지
         FlameIron, // 플레임아이언
         IceIron, // 아이스아이언
         Techron, // 테크론
