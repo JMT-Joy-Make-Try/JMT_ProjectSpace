@@ -3,11 +3,11 @@
 namespace JMT.Agent
 {
     [System.Serializable]
-    public struct NPCData
+    public class NPCData
     {
         public float MaxHealth;
-        [HideInInspector] public float Health;
+        public float Health;
         public float MaxOxygen;
-        [HideInInspector] public float OxygenAmount;
+        public float OxygenAmount;
     }
 }

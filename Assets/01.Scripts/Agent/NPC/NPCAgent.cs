@@ -46,6 +46,7 @@ namespace JMT.Agent
             base.Awake();
             OnTypeChanged += HandleTypeChanged;
             StateMachineCompo.ChangeState(NPCState.Idle);
+            ActiveAgent();
         }
 
         private void HandleTypeChanged(AgentType type)
@@ -121,15 +122,20 @@ namespace JMT.Agent
         protected override void Update()
         {
             base.Update();
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                TakeItem(ItemType.LiquidFuel, 1);
-            }
+            // if (Input.GetKeyDown(KeyCode.Space))
+            // {
+            //     TakeItem(ItemType.LiquidFuel, 1);
+            // }
         }
 
         public void Spawn(Vector3 position)
         {
             Instantiate(this, position, Quaternion.identity);
+        }
+        
+        public void AddOxygen(float amount)
+        {
+            Data.OxygenAmount += amount;
         }
     }
 }
