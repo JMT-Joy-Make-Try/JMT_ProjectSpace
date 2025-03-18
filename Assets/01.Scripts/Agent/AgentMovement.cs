@@ -9,6 +9,7 @@ namespace JMT.Agent
     public class AgentMovement : MonoBehaviour
     {
         [field:SerializeField] public NavMeshAgent NavMeshAgentCompo { get; private set; }
+        [SerializeField] private float _remainDistance = 0.5f;
         
         public bool IsMoving => NavMeshAgentCompo.velocity.magnitude > 0.1f;
 
@@ -66,7 +67,7 @@ namespace JMT.Agent
         
         private IEnumerator WaitForArrival(Action onComplete)
         {
-            while (NavMeshAgentCompo.pathPending || NavMeshAgentCompo.remainingDistance > 0.5f)
+            while (NavMeshAgentCompo.pathPending || NavMeshAgentCompo.remainingDistance > _remainDistance)
             {
                 yield return null;
             }

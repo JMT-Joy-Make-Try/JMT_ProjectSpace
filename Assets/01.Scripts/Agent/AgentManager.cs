@@ -16,9 +16,17 @@ namespace JMT.Agent
             
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                SpawnAgent(new Vector3(0, 100, 0));
+            }
+        }
+
         public void SpawnAgent(Vector3 position)
         {
-            Instantiate(NPCAgent, position, Quaternion.identity);
+            NPCAgent.Spawn(position);
         }
 
         public NPCAgent GetAgent()
