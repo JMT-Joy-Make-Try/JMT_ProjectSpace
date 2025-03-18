@@ -1,19 +1,20 @@
+using JMT.Core.Tool.PoolManager.Core;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.Object
 {
-    public class BlackHole : MonoBehaviour
+    public class BlackHole : MonoBehaviour, ISpawnable, IPoolable
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public void Spawn(Vector3 position)
         {
-        
+            
         }
 
-        // Update is called once per frame
-        void Update()
+        [field: SerializeField] public PoolingType type { get; set; }
+        public GameObject ObjectPrefab => gameObject;
+        public void ResetItem()
         {
-        
+            
         }
     }
 }

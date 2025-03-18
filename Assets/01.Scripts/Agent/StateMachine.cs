@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
+using System.Collections;
 using UnityEngine;
 
 namespace JMT.Agent
@@ -32,6 +33,22 @@ namespace JMT.Agent
             }
             _currentState = states[state];
             _currentState.EnterState();
+        }
+
+        public void ChangeStateDelay(T state, float delayTime)
+        {
+            if (_currentState != null)
+            {
+                _currentState.ExitState();
+            }
+            _currentState = states[state];
+            StartCoroutine(Change(delayTime));
+        }
+
+        private IEnumerator Change(float delayTime)
+        {
+            yield return new WaitForSeconds(delayTime);
+            _currentState.ExitState();
         }
 
         /// <summary>

@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
+using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
@@ -12,7 +13,7 @@ using Range = JMT.Core.Tool.Range;
 
 namespace JMT.Agent
 {
-    public class NPCAgent : AgentAI<NPCState>
+    public class NPCAgent : AgentAI<NPCState>, ISpawnable
     {
         [Header("Unlock NPC")]
         [SerializeField] private SerializedDictionary<ItemType, int> needItems;
@@ -124,6 +125,11 @@ namespace JMT.Agent
             {
                 TakeItem(ItemType.LiquidFuel, 1);
             }
+        }
+
+        public void Spawn(Vector3 position)
+        {
+            Instantiate(this, position, Quaternion.identity);
         }
     }
 }
