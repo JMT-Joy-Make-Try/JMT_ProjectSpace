@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
+using JMT.CameraSystem;
 using JMT.Core.Tool;
 using JMT.Object;
 using JMT.Planets.Tile;
@@ -35,12 +36,20 @@ namespace JMT.Building
         protected virtual void Start()
         {
             OnStartWorking += Work;
+            OnClick += HandleClick;
             
+        }
+
+        private void HandleClick()
+        {
+            //CameraManager.Instance.ZoomCamera(1.2f, 1f);
+            //CameraManager.Instance.LookCamera(transform, 1f);
         }
 
         protected virtual void OnDestroy()
         {
             OnStartWorking -= Work;
+            OnClick -= HandleClick;
         }
 
         public virtual void Work()
