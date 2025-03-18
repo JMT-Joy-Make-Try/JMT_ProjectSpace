@@ -1,3 +1,4 @@
+using JMT.Resource;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,12 @@ namespace JMT.UISystem
     public class ResourceUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI fuelText, oxygenText;
+
+        private void Awake()
+        {
+            ResourceManager.Instance.OnFuelValueChanged += SetFuelText;
+            ResourceManager.Instance.OnOxygenValueChanged += SetOxygenText;
+        }
 
         private void SetFuelText(int current, int max)
         {
