@@ -27,6 +27,7 @@ namespace JMT.Planets.Tile
         public virtual void Interaction(PlanetTile tile)
         {
             TileManager.Instance.CurrentTile = tile;
+            tile.EdgeEnable(true);
         }
 
         public void AddObject(GameObject obj)
