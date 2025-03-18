@@ -4,11 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using JMT.Planets.Tile;
 
 namespace JMT.UISystem
 {
     public class BuildTimeUI : MonoBehaviour
     {
+        private PlanetTile rootTile;
         private TimeData timeData;
         private Transform buildTimePanel;
         private TextMeshProUGUI timeText;
@@ -18,7 +20,9 @@ namespace JMT.UISystem
         private void Start()
         {
             buildTimePanel = transform.Find("BuildTime");
-            timeData = transform.parent.GetComponentInParent<BuildingBase>().GetBuildingData.buildTime;
+            BuildingBase buildingBase = transform.parent.GetComponentInParent<BuildingBase>();
+            timeData = buildingBase.GetBuildingData.buildTime;
+            rootTile = buildingBase.transform.parent.GetComponentInParent<PlanetTile>();
             timeText = buildTimePanel.GetComponentInChildren<TextMeshProUGUI>();
             buildCompleteButton = transform.Find("BuildComplete").GetComponent<Button>();
             fillBar = buildTimePanel.Find("FillBar").Find("Fill").GetComponent<Image>();
@@ -29,7 +33,7 @@ namespace JMT.UISystem
 
         private void HandleBuildCompleteButton()
         {
-            Debug.Log("다지어졌다밍");
+            rootTile.AddInteraction<BuildingInteraction>();
             gameObject.SetActive(false);
         }
 

@@ -1,10 +1,8 @@
 using System;
 using JMT.Building;
 using JMT.Object;
-using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace JMT.Planets.Tile
 {
@@ -14,6 +12,7 @@ namespace JMT.Planets.Tile
         [field:SerializeField] public MeshRenderer Renderer { get; private set; }
         [field:SerializeField] public MeshFilter Filter { get; private set; }
         [SerializeField] private float _tileHeight;
+        private bool canInteraction = true;
         
         private BuildingBase _currentBuilding;
         private GameObject TileInteraction;
@@ -56,6 +55,8 @@ namespace JMT.Planets.Tile
                 OnBuild?.Invoke();
                 _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
                 _currentBuilding.SetBuildingData(building);
+
+                RemoveInteraction();
                 //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
             }
             else
@@ -73,26 +74,32 @@ namespace JMT.Planets.Tile
             }
         }
 
-        public void ChangeInteraction<T>() where T : TileInteraction
+        public void AddInteraction<T>() where T : TileInteraction
         {
-            Destroy(TileInteraction.GetComponent<TileInteraction>());
             TileInteraction.AddComponent<T>();
         }
-        
+
+        public void RemoveInteraction()
+        {
+            Destroy(TileInteraction.GetComponent<TileInteraction>());
+        }
+
         public T GetInteraction<T>() where T : TileInteraction
         {
+            canInteraction = true;
             return TileInteraction.GetComponent<T>();
         }
 
         public void RemoveInteractionObject()
         {
             Destroy(TileInteraction.transform.GetChild(0).gameObject);
+            canInteraction = false;
         }
 
         public void OnPointerClickHandler()
         {
+            if (!canInteraction) return;
             OnClick?.Invoke(this);
-            EdgeEnable(true);
             UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += () => EdgeEnable(false);
         }
 
