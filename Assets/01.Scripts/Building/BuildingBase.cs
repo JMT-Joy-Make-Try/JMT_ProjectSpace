@@ -15,17 +15,17 @@ namespace JMT.Building
     public abstract class BuildingBase : TouchableObject
     {
         [field: SerializeField] public int NpcCount { get; protected set; }
-        [Space]
-        
-        [SerializeField] protected List<NPCAgent> _currentNpc;
+        [Space] [SerializeField] protected List<NPCAgent> _currentNpc;
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
 
         private BuildingDataSO buildingData;
-        
+
         protected event Action OnStartWorking;
         protected bool _isWorking;
-        
+
         [SerializeField] protected AgentType _agentType;
+
+        private int _curLevel;
         public abstract void Build(Vector3 position, Transform parent);
 
         protected virtual void Awake()
@@ -37,7 +37,6 @@ namespace JMT.Building
         {
             OnStartWorking += Work;
             OnClick += HandleClick;
-            
         }
 
         private void HandleClick()
@@ -58,6 +57,7 @@ namespace JMT.Building
             {
                 return;
             }
+
             _isWorking = true;
         }
 
@@ -68,11 +68,12 @@ namespace JMT.Building
             //if (!_isWorking)
             //    OnStartWorking?.Invoke();
         }
-        
+
         public virtual void Upgrade()
         {
+            _curLevel++;
         }
-        
+
         protected virtual void SetItem(ItemType type, int amount)
         {
             CurrentItems.Enqueue(new SerializeTuple<ItemType, int>(type, amount));

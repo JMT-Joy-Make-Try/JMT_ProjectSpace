@@ -20,7 +20,7 @@ namespace JMT.Agent
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                SpawnAgent(new Vector3(0, 100, 0));
+                SpawnAgent(new Vector3(0, -257, 0));
             }
         }
 
