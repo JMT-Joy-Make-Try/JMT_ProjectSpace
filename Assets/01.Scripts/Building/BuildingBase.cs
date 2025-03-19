@@ -84,6 +84,6 @@ namespace JMT.Building
             buildingData = data;
         }
 
-        public BuildingDataSO GetBuildingData => buildingData;
+        public BuildingDataSO BuildingData => buildingData;
     }
 }

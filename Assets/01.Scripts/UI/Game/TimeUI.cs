@@ -32,8 +32,13 @@ namespace JMT.UISystem
 
         private Coroutine timeRoutine;
         private TimeData saveTime;
-        private int day;
+        private int day = 1;
         private bool isNight;
+
+        private void Start()
+        {
+            StartDayTime();
+        }
 
         public void StartDayTime()
         {

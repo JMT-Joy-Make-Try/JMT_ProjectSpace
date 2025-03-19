@@ -12,7 +12,7 @@ namespace JMT.UISystem
             countText = transform.Find("CountTxt").GetComponent<TextMeshProUGUI>();
         }
 
-        public void SetItemCell(string name, int count)
+        public virtual void SetItemCell(string name, int count)
         {
             nameText.text = name;
             countText.text = count.ToString();
