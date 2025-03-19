@@ -21,7 +21,7 @@ namespace JMT.Building
         {
             transform.position = position;
             transform.SetParent(parent);
-            AgentManager.Instance.SpawnAgent(transform.position);
+            AgentManager.Instance.SpawnAgent(new Vector3(0, -257, 0));
             Work();
         }
 
