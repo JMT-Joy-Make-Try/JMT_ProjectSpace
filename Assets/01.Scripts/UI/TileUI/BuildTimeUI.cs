@@ -21,7 +21,7 @@ namespace JMT.UISystem
         {
             buildTimePanel = transform.Find("BuildTime");
             BuildingBase buildingBase = transform.parent.GetComponentInParent<BuildingBase>();
-            timeData = buildingBase.GetBuildingData.buildTime;
+            timeData = buildingBase.BuildingData.buildTime;
             rootTile = buildingBase.transform.parent.GetComponentInParent<PlanetTile>();
             timeText = buildTimePanel.GetComponentInChildren<TextMeshProUGUI>();
             buildCompleteButton = transform.Find("BuildComplete").GetComponent<Button>();
