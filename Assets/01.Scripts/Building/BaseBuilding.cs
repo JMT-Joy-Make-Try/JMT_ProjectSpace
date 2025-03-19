@@ -1,4 +1,5 @@
 ﻿using JMT.Agent;
+using JMT.Resource;
 using System.Collections;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace JMT.Building
     {
         [SerializeField] private float _radius;
         [SerializeField] private LayerMask _whatIsAgent;
-        
+
         private Collider[] _colliders;
 
         protected override void Awake()
@@ -21,7 +22,7 @@ namespace JMT.Building
         {
             transform.position = position;
             transform.SetParent(parent);
-            AgentManager.Instance.SpawnAgent(new Vector3(0, -257, 0));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0));
             Work();
         }
 
@@ -31,6 +32,7 @@ namespace JMT.Building
             {
                 return;
             }
+
             _isWorking = true;
             StartCoroutine(WorkCoroutine());
         }
@@ -44,18 +46,15 @@ namespace JMT.Building
                 {
                     if (_colliders[i].TryGetComponent(out NPCAgent agent))
                     {
-                        //agent.AddOxygen(OxygenAmount);
-                        //RemoveOxygen(OxygenAmount);
+                        ResourceManager.Instance.AddOxygen(-1);
+                        agent.AddOxygen(1);
                     }
                 }
-                yield return null;
+
+                yield return new WaitForSeconds(10f);
             }
         }
-        public void AddOxygen(int oxygen)
-        {
-            // Add oxygen
-        }
-        
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;

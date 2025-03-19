@@ -20,6 +20,8 @@ namespace JMT.UISystem
 
         private TextMeshProUGUI nameText, needItemText;
         private Button buildButton;
+        
+        private List<BuildingDataSO> buildingDatas;
 
         private void Awake()
         {
@@ -30,6 +32,8 @@ namespace JMT.UISystem
             needItemText = panelRight.Find("Build").Find("NeedItem").GetComponentInChildren<TextMeshProUGUI>();
             buildButton = panelRight.Find("Build").GetComponentInChildren<Button>();
             buildButton.onClick.AddListener(HandleBuildButton);
+            
+            buildingDatas = new List<BuildingDataSO>();
         }
 
         public override void OpenUI()
@@ -93,6 +97,8 @@ namespace JMT.UISystem
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
             TileManager.Instance.CurrentTile.EdgeEnable(false);
             TileManager.Instance.CurrentTile.Build(BuildingManager.Instance.CurrentBuilding);
+            buildingDatas.Add(BuildingManager.Instance.CurrentBuilding);
+            UIManager.Instance.WorkUI.SetBuilding(buildingDatas);
             CloseUI();
         }
     }
