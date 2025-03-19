@@ -6,7 +6,7 @@ namespace JMT.Planets.Tile
 {
     public class TileManager : MonoSingleton<TileManager>
     {
-        private PlanetTile _planetTile;
+        [SerializeField] private PlanetTile _planetTile;
         public PlanetTile CurrentTile
         {
             get => _planetTile;

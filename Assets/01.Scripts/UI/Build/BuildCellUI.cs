@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace JMT.UISystem
 {
-    [DefaultExecutionOrder(-10)]
     public class BuildCellUI : MonoBehaviour
     {
         private TextMeshProUGUI nameText;
