@@ -16,13 +16,6 @@ namespace JMT.Agent
             
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                SpawnAgent(new Vector3(0, -257, 0));
-            }
-        }
 
         public void SpawnAgent(Vector3 position)
         {
