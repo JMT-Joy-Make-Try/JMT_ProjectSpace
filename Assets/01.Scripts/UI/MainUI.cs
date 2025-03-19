@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace JMT.UISystem
 {
-    [DefaultExecutionOrder(-100)]
     public class UIManager : MonoSingleton<UIManager>
     {
         public NoneUI NoneUI {  get; private set; }

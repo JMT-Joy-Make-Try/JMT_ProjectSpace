@@ -15,7 +15,6 @@ namespace JMT.Planets.Tile
         private void Awake()
         {
             planetTile = transform.parent.GetComponent<PlanetTile>();
-            Debug.Log("Test Click / TileInteraction.cs");
             planetTile.OnClick += Interaction;
         }
 

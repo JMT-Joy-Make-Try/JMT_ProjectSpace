@@ -9,7 +9,13 @@ namespace JMT.Resource
         public event Action<int, int> OnOxygenValueChanged;
 
         [SerializeField] private int maxFuelValue, maxOxygenValue;
-        [SerializeField] private int currentFuelValue, currentOxygenValue;
+        private int currentFuelValue, currentOxygenValue;
+
+        private void Start()
+        {
+            AddFuel(maxFuelValue);
+            AddOxygen(maxOxygenValue);
+        }
 
         public void AddFuel(int increaseValue)
         {
@@ -19,7 +25,7 @@ namespace JMT.Resource
 
         public void AddOxygen(int increaseValue)
         {
-            maxOxygenValue += increaseValue;
+            currentOxygenValue += increaseValue;
             OnOxygenValueChanged?.Invoke(currentOxygenValue, maxOxygenValue);
         }
     }

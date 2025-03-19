@@ -15,6 +15,7 @@ namespace JMT.Planets.Tile
         private bool canInteraction = true;
         
         private BuildingBase _currentBuilding;
+        public BuildingBase CurrentBuilding => _currentBuilding;
         private GameObject TileInteraction;
 
         public event Action OnBuild;
