@@ -12,6 +12,7 @@ namespace JMT.Planets.Tile
         [field:SerializeField] public MeshRenderer Renderer { get; private set; }
         [field:SerializeField] public MeshFilter Filter { get; private set; }
         [SerializeField] private float _tileHeight;
+        
         private bool canInteraction = true;
         
         private BuildingBase _currentBuilding;

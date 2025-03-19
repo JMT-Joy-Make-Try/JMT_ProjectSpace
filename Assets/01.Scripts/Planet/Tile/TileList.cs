@@ -8,6 +8,12 @@ namespace JMT.Planets.Tile
     public class TileList : MonoBehaviour
     {
         [field: SerializeField] public List<PlanetTile> Tiles { get; private set; } = new List<PlanetTile>();
+        private HashSet<Vector2> tilePositions = new HashSet<Vector2>();
+        [SerializeField] private Fog _fog; 
+        
+        private LineRenderer lineRenderer;
+        
+        
 
         private void Awake()
         {
@@ -21,6 +27,10 @@ namespace JMT.Planets.Tile
                 tile.TileType = tileType;
                 tile.Renderer.material.SetColor("_BaseColor", color);
             }
+        }
+        
+        void UpdateTopBorder()
+        {
         }
     }
 }
