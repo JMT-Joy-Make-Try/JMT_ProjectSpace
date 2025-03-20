@@ -22,19 +22,8 @@ namespace JMT.Agent.State
         {
             yield return new WaitForSeconds(npcAgent.WorkSpeed * 0.2f);
             Debug.Log("Work");
-            _agent.MovementCompo.Move(npcAgent.CurrentWorkingBuilding.transform.position, npcAgent.WorkSpeed,
-                ChangeState);
-        }
-
-        private void ChangeState()
-        {
-            StartCoroutine(ChangeCoroutine());
-        }
-
-        private IEnumerator ChangeCoroutine()
-        {
-            yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
-            _agent.StateMachineCompo.ChangeState(NPCState.Move);
+            _agent.MovementCompo.Move(npcAgent.CurrentWorkingBuilding.transform.position, npcAgent.WorkSpeed);
+            _agent.StateMachineCompo.ChangeStateWait(NPCState.Move, !_agent.MovementCompo.IsMoving);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace JMT.Planets.Tile
         [field:SerializeField] public MeshFilter Filter { get; private set; }
         [SerializeField] private float _tileHeight;
         
+        [SerializeField] private Fog _fog;
+        
         private bool canInteraction = true;
         
         private BuildingBase _currentBuilding;
@@ -37,6 +39,7 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             //SetHeight(_tileHeight);
+            _fog.SetFog(true);
         }
 
         public bool CanBuild()

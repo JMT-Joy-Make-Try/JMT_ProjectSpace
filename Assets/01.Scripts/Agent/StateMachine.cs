@@ -50,6 +50,22 @@ namespace JMT.Agent
             yield return new WaitForSeconds(delayTime);
             _currentState.ExitState();
         }
+        
+        public void ChangeStateWait(T state, bool waitUntil)
+        {
+            if (_currentState != null)
+            {
+                _currentState.ExitState();
+            }
+            _currentState = states[state];
+            StartCoroutine(Wait(waitUntil));
+        }
+
+        private IEnumerator Wait(bool waitUntil)
+        {
+            yield return new WaitUntil(() => waitUntil);
+            _currentState.ExitState();
+        }
 
         /// <summary>
         /// State 초기화
