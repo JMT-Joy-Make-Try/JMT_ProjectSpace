@@ -8,6 +8,7 @@ namespace JMT.UISystem
     {
         [SerializeField] private Transform content;
         [SerializeField] private BuildingCellUI buildingPrefab;
+        
         public void SetBuilding(List<BuildingDataSO> data)
         {
             ResetContent();
@@ -22,7 +23,7 @@ namespace JMT.UISystem
         {
             for(int i = 0; i < content.childCount; i++)
             {
-                Destroy(content.GetChild(i));
+                Destroy(content.GetChild(i).gameObject);
             }
         }
     }

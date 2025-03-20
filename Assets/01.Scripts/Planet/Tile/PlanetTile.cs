@@ -13,6 +13,8 @@ namespace JMT.Planets.Tile
         [field:SerializeField] public MeshFilter Filter { get; private set; }
         [SerializeField] private float _tileHeight;
         
+        [SerializeField] private Fog _fog;
+        
         private bool canInteraction = true;
         
         private BuildingBase _currentBuilding;
@@ -37,6 +39,7 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             //SetHeight(_tileHeight);
+            _fog.SetFog(true);
         }
 
         public bool CanBuild()
@@ -57,6 +60,7 @@ namespace JMT.Planets.Tile
                 OnBuild?.Invoke();
                 _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
                 _currentBuilding.SetBuildingData(building);
+                
 
                 RemoveInteraction();
                 //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
@@ -108,6 +112,14 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.TryGetComponent<BaseBuilding>(out var building))
+            {
+                _currentBuilding = building;
+            }
         }
     }
 }

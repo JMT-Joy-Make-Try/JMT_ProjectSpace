@@ -23,23 +23,19 @@ namespace JMT.Agent.State
                 }
                 else
                 {
-                    _agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed,
-                        ChangeState);
+                    if (agent.CurrentWorkingPlanetTile == null)
+                    {
+                        agent.MovementCompo.Move(agent.CurrentWorkingBuilding.transform.position, agent.MoveSpeed);
+                    }
+                    else
+                    {
+                        _agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed);
+                    }
+                    _agent.StateMachineCompo.ChangeStateWait(NPCState.Work, !agent.MovementCompo.IsMoving);
                 }
 
                 yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
             }
-        }
-
-        private void ChangeState()
-        {
-            StartCoroutine(ChangeCoroutine());
-        }
-
-        private IEnumerator ChangeCoroutine()
-        {
-            yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
-            _agent.StateMachineCompo.ChangeState(NPCState.Work);
         }
     }
 }

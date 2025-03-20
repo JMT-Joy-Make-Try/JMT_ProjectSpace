@@ -13,10 +13,11 @@ namespace JMT.Core.Manager
 
         public List<BuildingDataSO> GetDictionary() => buildingDatas;
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             var basebuilding = Instantiate(_baseBuilding, new Vector3(0, -257, 0), Quaternion.identity);
-            basebuilding.Build(Vector3.zero, transform);
+            basebuilding.Build(new Vector3(0, -257, 0), transform);
         }
     }
 }

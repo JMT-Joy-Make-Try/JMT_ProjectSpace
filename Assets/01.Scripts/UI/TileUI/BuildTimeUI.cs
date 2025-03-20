@@ -11,24 +11,25 @@ namespace JMT.UISystem
     public class BuildTimeUI : MonoBehaviour
     {
         private PlanetTile rootTile;
-        private TimeData timeData;
         private Transform buildTimePanel;
         private TextMeshProUGUI timeText;
         private Button buildCompleteButton;
         private Image fillBar;
+        
+        private float _buildPercent;
+        private bool _isBuilding;
 
         private void Start()
         {
             buildTimePanel = transform.Find("BuildTime");
             BuildingBase buildingBase = transform.parent.GetComponentInParent<BuildingBase>();
-            timeData = buildingBase.BuildingData.buildTime;
+            //timeData = buildingBase.BuildingData.buildTime;
             rootTile = buildingBase.transform.parent.GetComponentInParent<PlanetTile>();
             timeText = buildTimePanel.GetComponentInChildren<TextMeshProUGUI>();
             buildCompleteButton = transform.Find("BuildComplete").GetComponent<Button>();
             fillBar = buildTimePanel.Find("FillBar").Find("Fill").GetComponent<Image>();
             buildCompleteButton.onClick.AddListener(HandleBuildCompleteButton);
             buildCompleteButton.gameObject.SetActive(false);
-            StartCoroutine(TimeCoroutine());
         }
 
         private void HandleBuildCompleteButton()
@@ -37,33 +38,9 @@ namespace JMT.UISystem
             gameObject.SetActive(false);
         }
 
-        private IEnumerator TimeCoroutine()
+        private void GaugeUp()
         {
-            int minute = timeData.minute;
-            int second = timeData.second;
-            fillBar.fillAmount = 0;
-            fillBar.DOFillAmount(1f, minute * 60 + second).SetEase(Ease.Linear);
-            var waitTime = new WaitForSeconds(1);
-            while (true)
-            {
-                timeText.text = minute.ToString("D2") + ":" + second.ToString("D2");
-                yield return waitTime;
-
-                if (second <= 0)
-                {
-                    if (minute <= 0)
-                    {
-                        buildTimePanel.gameObject.SetActive(false);
-                        buildCompleteButton.gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        minute--;
-                        second += 59;
-                    }
-                }
-                else second--;
-            }
+            fillBar.fillAmount = _buildPercent;
         }
     }
 }
