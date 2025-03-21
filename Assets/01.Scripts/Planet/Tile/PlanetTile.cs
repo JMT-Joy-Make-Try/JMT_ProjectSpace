@@ -44,7 +44,7 @@ namespace JMT.Planets.Tile
 
         public bool CanBuild()
         {
-            return _currentBuilding == null;
+            return !_fog.IsFogActive || _currentBuilding == null;
         }
 
         private void SetHeight(float height)

@@ -1,6 +1,6 @@
 ﻿namespace JMT.Agent.State
 {
-    public class DeadState : State<NPCState>
+    public class NPCDeadState : State<NPCState>
     {
         public override void OnAnimationEnd()
         {

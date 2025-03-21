@@ -11,10 +11,12 @@ namespace JMT.Agent.Editor
     public class StateMachineCustomEditor : UnityEditor.Editor
     {
         private Transform _parent;
+        private bool _isAlien;
 
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
+            _isAlien = EditorGUILayout.Toggle("Is Alien", _isAlien);
 
             if (GUILayout.Button("Add State"))
             {
@@ -42,7 +44,8 @@ namespace JMT.Agent.Editor
                 if (existingStates.Contains(stateName)) continue;
 
                 var stateObject = new GameObject(stateName) { transform = { parent = _parent, localPosition = Vector3.zero} };
-                Type stateClass = GetStateType($"JMT.Agent.State.{stateName}State");
+                string agentName = _isAlien ? "Alien" : "NPC";
+                Type stateClass = GetStateType($"JMT.Agent.State.{agentName}{stateName}State");
                 if (stateClass != null) stateObject.AddComponent(stateClass);
 
                 var stateMachineField = stateMachine.GetType();

@@ -136,6 +136,10 @@ namespace JMT.Agent
         public void AddOxygen(float amount)
         {
             Data.OxygenAmount += amount;
+            if (Data.OxygenAmount < 0)
+            {
+                WorkSpeed -= 1;
+            }
         }
     }
 }

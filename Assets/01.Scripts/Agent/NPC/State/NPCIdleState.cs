@@ -1,6 +1,6 @@
 ﻿namespace JMT.Agent.State
 {
-    public class IdleState : State<NPCState>
+    public class NPCIdleState : State<NPCState>
     {
         public override void UpdateState()
         {

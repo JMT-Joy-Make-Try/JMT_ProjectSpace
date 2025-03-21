@@ -6,6 +6,7 @@ namespace JMT.Agent.State
     {
         protected AgentAI<T> _agent;
         protected string _stateName;
+        protected StateMachine<T> _stateMachine;
 
         /// <summary>
         /// Init state
@@ -15,6 +16,7 @@ namespace JMT.Agent.State
         {
             _agent = agent;
             _stateName = stateName;
+            _stateMachine = _agent.StateMachineCompo;
         }
 
         /// <summary>

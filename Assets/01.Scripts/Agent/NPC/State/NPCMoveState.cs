@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JMT.Agent.State
 {
-    public class MoveState : State<NPCState>
+    public class NPCMoveState : State<NPCState>
     {
         public override void EnterState()
         {
