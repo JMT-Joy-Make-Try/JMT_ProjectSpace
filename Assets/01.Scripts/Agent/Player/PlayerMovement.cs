@@ -10,6 +10,7 @@ namespace JMT.Player
 
         private Vector3 moveVec = Vector3.zero;
         private bool isSecondaryTouch = false;
+        private bool isJoystickActive = false;
 
         private void Awake()
         {
@@ -17,13 +18,15 @@ namespace JMT.Player
             player.InputSO.OnMoveEvent += HandleMoveEvent;
             player.InputSO.OnLookEvent += HandleLookEvent;
             player.InputSO.OnSecondaryStartEvent += HandleSecondaryStartEvent;
-            player.InputSO.OnSecondaryStartEvent += HandleSecondaryEndEvent;
+            player.InputSO.OnSecondaryEndEvent += HandleSecondaryEndEvent;
         }
-
 
         private void OnDestroy()
         {
             player.InputSO.OnMoveEvent -= HandleMoveEvent;
+            player.InputSO.OnLookEvent -= HandleLookEvent;
+            player.InputSO.OnSecondaryStartEvent -= HandleSecondaryStartEvent;
+            player.InputSO.OnSecondaryEndEvent -= HandleSecondaryEndEvent;
         }
 
         private void FixedUpdate()
@@ -51,13 +54,15 @@ namespace JMT.Player
             player.RigidCompo.MovePosition(player.RigidCompo.position + velocity);
         }
 
-
         private void HandleMoveEvent(Vector2 moveVec)
-            => this.moveVec = new(moveVec.x, 0, moveVec.y);
+        {
+            this.moveVec = new Vector3(moveVec.x, 0, moveVec.y);
+            isJoystickActive = moveVec.sqrMagnitude > 0.01f;
+        }
 
         private void HandleLookEvent(Vector2 delta)
         {
-            if (player.InputSO.IsJoystickActive && !isSecondaryTouch) return;
+            if (!isSecondaryTouch && isJoystickActive) return;
 
             Vector3 currentRotation = player.CameraTrm.eulerAngles;
             currentRotation.y += delta.x * camSpeed * Time.deltaTime;
