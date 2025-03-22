@@ -15,18 +15,17 @@ namespace JMT.Planets.Tile
         private void Awake()
         {
             planetTile = transform.parent.GetComponent<PlanetTile>();
-            planetTile.OnClick += Interaction;
+            //planetTile.OnClick += Interaction;
         }
 
         private void OnDestroy()
         {
-            planetTile.OnClick -= Interaction;
+            //planetTile.OnClick -= Interaction;
         }
 
-        public virtual void Interaction(PlanetTile tile)
+        public virtual void Interaction()
         {
-            TileManager.Instance.CurrentTile = tile;
-            tile.EdgeEnable(true);
+            planetTile.EdgeEnable(true);
         }
 
         public void AddObject(GameObject obj)
