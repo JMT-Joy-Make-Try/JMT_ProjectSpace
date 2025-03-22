@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using JMT.Agent;
+using JMT.Agent.NPC;
 
 namespace JMT.Planets.Tile
 {
@@ -12,11 +13,13 @@ namespace JMT.Planets.Tile
         private float _curPlayerInFogTime = 0f;
 
         private List<NPCAgent> _npcAgents = new List<NPCAgent>();
+        public bool IsFogActive { get; private set; } 
 
         public void SetFog(bool active, bool lightActive = false)
         {
             gameObject.SetActive(active);
             _fogLightObject.SetActive(lightActive);
+            IsFogActive = active;
         }
 
         private void Update()

@@ -11,7 +11,5 @@ namespace JMT.Agent
         public float OxygenAmount;
         public float MaxFuel;
         public float FuelAmount;
-        public float MaxHealth;
-        public float Health;
     }
 }

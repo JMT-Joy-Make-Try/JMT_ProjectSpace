@@ -89,6 +89,7 @@ namespace JMT.Agent
         /// </summary>
         public void UpdateState()
         {
+        if (_currentState == null) Debug.LogError("Current State is null");
             _currentState.UpdateState();
         }
     }

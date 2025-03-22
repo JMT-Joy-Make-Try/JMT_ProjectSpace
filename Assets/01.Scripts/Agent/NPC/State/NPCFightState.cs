@@ -2,7 +2,7 @@
 
 namespace JMT.Agent.State
 {
-    public class FightState : State<NPCState>
+    public class NPCFightState : State<NPCState>
     {
         
     }

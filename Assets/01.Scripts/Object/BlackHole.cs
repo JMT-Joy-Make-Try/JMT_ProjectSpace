@@ -5,9 +5,9 @@ namespace JMT.Object
 {
     public class BlackHole : MonoBehaviour, ISpawnable, IPoolable
     {
-        public void Spawn(Vector3 position)
+        public GameObject Spawn(Vector3 position)
         {
-            
+            return gameObject;
         }
 
         [field: SerializeField] public PoolingType type { get; set; }

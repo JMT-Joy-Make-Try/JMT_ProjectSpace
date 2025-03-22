@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using JMT.Agent.NPC;
+using System.Collections;
 using UnityEngine;
 
 namespace JMT.Agent.State
 {
-    public class WorkState : State<NPCState>
+    public class NPCWorkState : State<NPCState>
     {
         private NPCAgent npcAgent;
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
