@@ -4,6 +4,6 @@ namespace JMT.Object
 {
 	public interface ISpawnable
 	{
-		void Spawn(Vector3 position);
+		GameObject Spawn(Vector3 position);
 	}
 }

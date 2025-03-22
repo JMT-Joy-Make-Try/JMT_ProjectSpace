@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
+using JMT.Agent.NPC;
 using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Tool;

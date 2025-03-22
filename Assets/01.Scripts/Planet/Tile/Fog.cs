@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using JMT.Agent;
+using JMT.Agent.NPC;
 
 namespace JMT.Planets.Tile
 {

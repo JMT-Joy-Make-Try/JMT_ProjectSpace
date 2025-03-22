@@ -1,4 +1,5 @@
 ﻿using JMT.Agent;
+using JMT.Agent.NPC;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;

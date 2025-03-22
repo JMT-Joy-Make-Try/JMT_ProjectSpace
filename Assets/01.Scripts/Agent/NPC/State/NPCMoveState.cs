@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JMT.Agent.NPC;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,14 @@ namespace JMT.Agent.State
 {
     public class NPCMoveState : State<NPCState>
     {
+        private NPCAgent agent;
+
+        public override void Initialize(AgentAI<NPCState> agent, string stateName)
+        {
+            base.Initialize(agent, stateName);
+            this.agent = (NPCAgent)agent;
+        }
+
         public override void EnterState()
         {
             base.EnterState();
@@ -14,7 +23,7 @@ namespace JMT.Agent.State
 
         private IEnumerator MoveCoroutine()
         {
-            NPCAgent agent = _agent as NPCAgent;
+            
             while (true)
             {
                 if (agent.AgentType == AgentType.Base)

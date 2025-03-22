@@ -11,10 +11,11 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Range = JMT.Core.Tool.Range;
 
-namespace JMT.Agent
+namespace JMT.Agent.NPC
 {
     public class NPCAgent : AgentAI<NPCState>, ISpawnable
     {
+        [field: SerializeField] public NPCOxygen OxygenCompo { get; private set; }
         [Header("Unlock NPC")]
         [SerializeField] private SerializedDictionary<ItemType, int> needItems;
         [field: SerializeField] public NPCData Data { get; set; }
@@ -40,13 +41,34 @@ namespace JMT.Agent
             AgentType = agentType;
             OnTypeChanged?.Invoke(agentType);
         }
-        
+
+        protected override void Init()
+        {
+            base.Init();
+            StateMachineCompo.ChangeState(NPCState.Idle);
+        }
+
         protected override void Awake()
         {
             base.Awake();
             OnTypeChanged += HandleTypeChanged;
+            OnDeath += HandleDeath;
+            
+            OxygenCompo = GetComponent<NPCOxygen>();
             StateMachineCompo.ChangeState(NPCState.Idle);
             ActiveAgent();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            OnTypeChanged -= HandleTypeChanged;
+            OnDeath -= HandleDeath;
+        }
+
+        private void HandleDeath()
+        {
+            StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
         private void HandleTypeChanged(AgentType type)
@@ -128,18 +150,12 @@ namespace JMT.Agent
             // }
         }
 
-        public void Spawn(Vector3 position)
+        public GameObject Spawn(Vector3 position)
         {
-            Instantiate(this, position, Quaternion.identity);
+            var npc = Instantiate(this, position, Quaternion.identity);
+            return npc.gameObject;
         }
         
-        public void AddOxygen(float amount)
-        {
-            Data.OxygenAmount += amount;
-            if (Data.OxygenAmount < 0)
-            {
-                WorkSpeed -= 1;
-            }
-        }
+        
     }
 }

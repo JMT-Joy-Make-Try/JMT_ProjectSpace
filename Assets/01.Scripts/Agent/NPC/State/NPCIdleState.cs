@@ -1,4 +1,6 @@
-﻿namespace JMT.Agent.State
+﻿using JMT.Agent.NPC;
+
+namespace JMT.Agent.State
 {
     public class NPCIdleState : State<NPCState>
     {

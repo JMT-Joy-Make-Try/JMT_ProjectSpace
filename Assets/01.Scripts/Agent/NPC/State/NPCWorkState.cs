@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JMT.Agent.NPC;
+using System.Collections;
 using UnityEngine;
 
 namespace JMT.Agent.State
