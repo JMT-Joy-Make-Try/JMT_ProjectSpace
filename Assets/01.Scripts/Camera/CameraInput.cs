@@ -1,78 +1,57 @@
-using JMT.InputSystem;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace JMT.CameraSystem
 {
     public class CameraInput : MonoBehaviour
     {
-        [SerializeField] private CameraInputSO inputSO;
+        [SerializeField] private PlayerInputSO inputSO;
         [SerializeField] private float camSpeed = 4f;
-        [SerializeField] private float moveSpeed = 4f;
-        private Coroutine zoomCoroutine, moveCoroutine;
+
+        private Transform camRotateTrm;
+        private Coroutine moveCoroutine;
 
         private void Awake()
         {
-            inputSO.OnZoomStartEvent += HandleZoomStartEvent;
-            inputSO.OnZoomEndEvent += HandleZoomEndEvent;
+            camRotateTrm = transform.Find("Camera");
             inputSO.OnRotateStartEvent += HandleRotateStartEvent;
             inputSO.OnRotateEndEvent += HandleRotateEndEvent;
+            inputSO.OnLookEvent += HandleLookEvent;
         }
 
-        private void HandleZoomStartEvent()
-        {
-            zoomCoroutine = StartCoroutine(ZoomDetection());
-        }
-
-        private void HandleZoomEndEvent()
-        {
-            StopCoroutine(zoomCoroutine);
-        }
-
-        private IEnumerator ZoomDetection()
-        {
-            float prevDistance = Vector2.Distance(inputSO.GetPrimaryPosition(), inputSO.GetSecondaryPosition());
-            while (true)
-            {
-                float distance = Vector2.Distance(inputSO.GetPrimaryPosition(), inputSO.GetSecondaryPosition());
-                float deltaDistance = distance - prevDistance;
-
-                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - deltaDistance * camSpeed, 50f, 950f);
-
-                prevDistance = distance;
-                yield return null;
-            }
-        }
         private void HandleRotateStartEvent()
         {
-            moveCoroutine = StartCoroutine(MoveCoroutine());
+            if (inputSO.IsJoystickActive && Touchscreen.current.touches.Count <= 1)
+            {
+                return; // 조이스틱 사용 중에는 첫 번째 터치만 있을 경우 회전 안 함
+            }
+            moveCoroutine = StartCoroutine(RotateCoroutine());
         }
 
         private void HandleRotateEndEvent()
         {
-            StopCoroutine(moveCoroutine);
+            if (moveCoroutine != null)
+            {
+                StopCoroutine(moveCoroutine);
+            }
         }
 
-        private IEnumerator MoveCoroutine()
+        private IEnumerator RotateCoroutine()
         {
-            float prevX = inputSO.GetPrimaryPosition().x;
-            float prevY = inputSO.GetPrimaryPosition().y;
-            Vector3 curPos = Camera.main.transform.localPosition;
-
             while (true)
             {
-                float deltaX = inputSO.GetPrimaryPosition().x - prevX;
-                float deltaY = inputSO.GetPrimaryPosition().y - prevY;
-
-                float value = Camera.main.orthographicSize / 950;
-                if (value <= 0) value = 1;
-
-                Camera.main.transform.localPosition += new Vector3(-deltaX, -deltaY) * (moveSpeed * value);
-
-                prevX = inputSO.GetPrimaryPosition().x;
-                prevY = inputSO.GetPrimaryPosition().y;
                 yield return null;
             }
+        }
+
+        private void HandleLookEvent(Vector2 delta)
+        {
+            if (inputSO.IsJoystickActive) return;
+
+            Vector3 currentRotation = camRotateTrm.eulerAngles;
+            currentRotation.y += delta.x * camSpeed * Time.deltaTime;
+            camRotateTrm.rotation = Quaternion.Euler(currentRotation);
         }
     }
 }

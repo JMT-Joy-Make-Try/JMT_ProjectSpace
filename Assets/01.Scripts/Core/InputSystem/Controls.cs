@@ -103,7 +103,16 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Secondary"",
+                    ""type"": ""Button"",
+                    ""id"": ""9db03795-2cd6-47e3-b534-a18656d70d88"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -492,6 +501,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7582cd65-8e36-4118-9bb1-d153bd82e17f"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1176,6 +1196,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1271,6 +1292,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Previous;
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_Secondary;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -1284,6 +1306,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Previous => m_Wrapper.m_Player_Previous;
         public InputAction @Next => m_Wrapper.m_Player_Next;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1320,6 +1343,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Secondary.started += instance.OnSecondary;
+            @Secondary.performed += instance.OnSecondary;
+            @Secondary.canceled += instance.OnSecondary;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1351,6 +1377,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Secondary.started -= instance.OnSecondary;
+            @Secondary.performed -= instance.OnSecondary;
+            @Secondary.canceled -= instance.OnSecondary;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1612,6 +1641,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnPrevious(InputAction.CallbackContext context);
         void OnNext(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnSecondary(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
