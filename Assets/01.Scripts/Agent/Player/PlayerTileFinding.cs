@@ -28,11 +28,11 @@ namespace JMT.Player
         {
             if (Physics.Raycast(startTrm.position, RayDirection, out RaycastHit hit, rayDistance, player.GroundLayer))
             {
-                if(currentTile != null)
-                    currentTile.EdgeEnable(false);
+                if(TileManager.Instance.CurrentTile != null)
+                    TileManager.Instance.CurrentTile.EdgeEnable(false);
 
-                currentTile = hit.transform.GetComponent<PlanetTile>();
-                currentTile.EdgeEnable(true);
+                TileManager.Instance.CurrentTile = hit.transform.GetComponent<PlanetTile>();
+                TileManager.Instance.CurrentTile.EdgeEnable(true);
                 Debug.Log("타일의 이름은 : " + hit.transform.name);
             }
         }

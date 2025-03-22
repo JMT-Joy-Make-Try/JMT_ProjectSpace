@@ -19,7 +19,7 @@ namespace JMT.UISystem
 
         public override void OpenUI()
         {
-            UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += CloseUI;
+            //UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += CloseUI;
             base.OpenUI();
         }
 
