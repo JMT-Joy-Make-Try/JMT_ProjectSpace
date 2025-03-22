@@ -8,7 +8,17 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            _agent.MovementCompo.Move(new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f)), 100);
+            _agent.MovementCompo.Move(Vector3.zero, ((Alien.Alien)_agent).MoveSpeed);
+        }
+
+        public override void UpdateState()
+        {
+            base.UpdateState();
+            DetectObject();
+        }
+
+        private void DetectObject()
+        {
         }
     }
 }

@@ -1,6 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.CameraSystem;
+using JMT.Core;
 using JMT.Core.Tool;
 using JMT.Object;
 using JMT.Planets.Tile;
@@ -12,15 +13,17 @@ using UnityEngine;
 
 namespace JMT.Building
 {
-    public abstract class BuildingBase : TouchableObject
+    public abstract class BuildingBase : TouchableObject, IDamageable
     {
         [field: SerializeField] public int NpcCount { get; protected set; }
         [Space] [SerializeField] protected List<NPCAgent> _currentNpc;
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
-
         private BuildingDataSO buildingData;
+        [field: SerializeField] public int Health { get; }
+        protected int _curHealth;
 
         protected event Action OnStartWorking;
+        protected event Action OnBuildingBroken;
         protected bool _isWorking;
 
         [SerializeField] protected AgentType _agentType;
@@ -85,5 +88,24 @@ namespace JMT.Building
         }
 
         public BuildingDataSO BuildingData => buildingData;
+
+        public void InitHealth()
+        {
+            _curHealth = Health;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _curHealth -= damage;
+            if (_curHealth <= 0)
+            {
+                Dead();
+            }
+        }
+
+        public void Dead()
+        {
+            OnBuildingBroken?.Invoke();
+        }
     }
 }

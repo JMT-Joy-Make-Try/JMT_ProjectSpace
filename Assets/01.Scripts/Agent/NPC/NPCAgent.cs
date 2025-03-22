@@ -88,8 +88,8 @@ namespace JMT.Agent
         
         protected void SetSpeed()
         {
-            WorkSpeed = MathExtension.GetPercentageValue(WorkSpeed, GetPercent(Data.Health));
-            MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(Data.Health));
+            WorkSpeed = MathExtension.GetPercentageValue(WorkSpeed, GetPercent(Health));
+            MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(Health));
 
             if (WorkSpeed.IsZero() && MoveSpeed.IsZero()) // 나중에 일도 포함시켜야함
             {
@@ -99,7 +99,7 @@ namespace JMT.Agent
 
         protected int GetPercent(float health)
         {
-            int healthPercent = Mathf.RoundToInt(health * 100 / Data.MaxHealth);
+            int healthPercent = Mathf.RoundToInt(health * 100 / Health);
             return healthPercent.GetRangeValue(_healthRange);
         }
 
