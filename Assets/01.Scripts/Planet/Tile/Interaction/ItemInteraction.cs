@@ -9,7 +9,7 @@ namespace JMT.Planets.Tile
             base.Interaction(tile);*/
         public override void Interaction()
         {
-            UIManager.Instance.ItemUI.OpenUI();
+            //UIManager.Instance.ItemUI.OpenUI();
         }
     }
 }
