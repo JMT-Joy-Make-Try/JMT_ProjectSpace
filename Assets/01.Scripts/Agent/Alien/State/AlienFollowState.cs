@@ -1,8 +1,9 @@
 ﻿using JMT.Agent.Alien;
+using System;
 
 namespace JMT.Agent.State
 {
-    public class AlienAttackState : State<AlienState>
+    public class AlienFollowState : State<AlienState>
     {
         private Alien.Alien _alien;
 
@@ -16,6 +17,11 @@ namespace JMT.Agent.State
         {
             _agent.MovementCompo.Stop(false);
             base.EnterState();
+            
+        }
+
+        private void Update()
+        {
             _agent.MovementCompo.Move(_alien.Target.position, _alien.MoveSpeed);
         }
     }

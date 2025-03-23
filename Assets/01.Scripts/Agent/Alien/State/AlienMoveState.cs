@@ -61,7 +61,7 @@ namespace JMT.Agent.State
                     }
                 }
                 _agent.MovementCompo.Stop(true);
-                _agent.StateMachineCompo.ChangeState(AlienState.Attack);
+                _agent.StateMachineCompo.ChangeState(AlienState.Attack1);
                 Debug.Log("Target Found");
             }
         }
