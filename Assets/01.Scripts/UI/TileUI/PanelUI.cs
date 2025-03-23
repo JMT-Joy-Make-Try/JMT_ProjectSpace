@@ -15,7 +15,7 @@ namespace JMT.UISystem
             panelGroup.DOFade(1f, 0.3f);
             panelGroup.interactable = true;
             panelGroup.blocksRaycasts = true;
-            UIManager.Instance.NoTouchUI.ActiveNoTouchZone(true);
+            //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(true);
         }
 
         public virtual void CloseUI()
@@ -23,7 +23,7 @@ namespace JMT.UISystem
             panelGroup.DOFade(0f, 0.3f);
             panelGroup.interactable = false;
             panelGroup.blocksRaycasts = false;
-            UIManager.Instance.NoTouchUI.ActiveNoTouchZone(false);
+            //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(false);
         }
     }
 }

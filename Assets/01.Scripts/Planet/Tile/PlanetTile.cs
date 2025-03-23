@@ -32,7 +32,7 @@ namespace JMT.Planets.Tile
             TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
             //_tileHeight = UnityEngine.Random.Range(0f, 10f);
 
-            base.OnClick += OnPointerClickHandler;
+            //base.OnClick += OnPointerClickHandler;
         }
 
 
@@ -106,7 +106,7 @@ namespace JMT.Planets.Tile
         {
             if (!canInteraction) return;
             OnClick?.Invoke(this);
-            UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += () => EdgeEnable(false);
+            //UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += () => EdgeEnable(false);
         }
 
         public void EdgeEnable(bool enable)

@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
-    public class BuildPanelUI : PanelUI
+    public class ConstructUI : PanelUI
     {
         [SerializeField] private Transform content;
         private List<BuildCellUI> cells = new();
