@@ -4,7 +4,10 @@
     {
         Idle,
         Move,
-        Attack,
+        Follow,
+        Attack1,
+        Attack2,
+        Attack3,
         Dead
     }
 }
