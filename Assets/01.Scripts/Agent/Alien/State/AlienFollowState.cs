@@ -20,9 +20,14 @@ namespace JMT.Agent.State
             
         }
 
-        private void Update()
+        public override void UpdateState()
         {
-            _agent.MovementCompo.Move(_alien.Target.position, _alien.MoveSpeed);
+            if (_alien.TargetFinder.Target == null)
+            {
+                _agent.StateMachineCompo.ChangeState(AlienState.Move);
+                return;
+            }
+            _agent.MovementCompo.Move(_alien.TargetFinder.Target.position, _alien.MoveSpeed);
         }
     }
 }
