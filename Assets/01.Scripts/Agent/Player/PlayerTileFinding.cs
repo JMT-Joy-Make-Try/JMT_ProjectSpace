@@ -1,4 +1,5 @@
 using JMT.Planets.Tile;
+using JMT.UISystem;
 using UnityEngine;
 
 namespace JMT.Player
@@ -28,12 +29,13 @@ namespace JMT.Player
         {
             if (Physics.Raycast(startTrm.position, RayDirection, out RaycastHit hit, rayDistance, player.GroundLayer))
             {
-                if(TileManager.Instance.CurrentTile != null)
-                    TileManager.Instance.CurrentTile.EdgeEnable(false);
+                var tileManager = TileManager.Instance;
+                if(tileManager.CurrentTile != null)
+                    tileManager.CurrentTile.EdgeEnable(false);
 
-                TileManager.Instance.CurrentTile = hit.transform.GetComponent<PlanetTile>();
-                TileManager.Instance.CurrentTile.EdgeEnable(true);
-                Debug.Log("타일의 이름은 : " + hit.transform.name);
+                tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
+                tileManager.CurrentTile.EdgeEnable(true);
+                UIManager.Instance.GameUI.ChangeInteract(tileManager.GetInteractType());
             }
         }
 
