@@ -15,7 +15,7 @@ namespace JMT.Agent.State
         private IEnumerator Move()
         {
             yield return new WaitForSeconds(1f);
-            _stateMachine.ChangeState(AlienState.Move);
+            _stateMachine.ChangeState(AlienState.Follow);
         }
     }
 }

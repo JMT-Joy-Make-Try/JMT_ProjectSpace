@@ -26,7 +26,7 @@ namespace JMT.Agent.Alien
                 {
                     if (_colliders[i].TryGetComponent(out IDamageable damageable))
                     {
-                        damageable.TakeDamage(AttackDamage);
+                        //damageable.TakeDamage(AttackDamage);
                     }
                 }
             }

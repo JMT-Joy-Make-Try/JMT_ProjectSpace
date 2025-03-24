@@ -30,7 +30,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4953395046624584188}
-  - {fileID: 2035592084223299085}
   - {fileID: 8957769437661360526}
   - {fileID: 5257908835081870601}
   - {fileID: 8922648303940654501}
@@ -139,6 +138,7 @@ MonoBehaviour:
   <MovementCompo>k__BackingField: {fileID: 3715039698959327352}
   <ClothCompo>k__BackingField: {fileID: 0}
   <AnimationEndTrigger>k__BackingField: {fileID: 1742914729380375964}
+  <Health>k__BackingField: 100
   <type>k__BackingField: 0
   <MoveSpeed>k__BackingField: 10
   <TargetFinder>k__BackingField: {fileID: 8276747524008537087}
@@ -149,14 +149,12 @@ MonoBehaviour:
   - state: 1
     color: {r: 0, g: 4.069543, b: 11.984315, a: 0}
   - state: 2
-    color: {r: 11.984314, g: 6.5482855, b: 0, a: 0}
+    color: {r: 11.984315, g: 0, b: 0, a: 0}
   - state: 3
     color: {r: 11.984315, g: 0, b: 0, a: 0}
   - state: 4
     color: {r: 11.984315, g: 0, b: 0, a: 0}
   - state: 5
-    color: {r: 11.984315, g: 0, b: 0, a: 0}
-  - state: 6
     color: {r: 0, g: 0, b: 0, a: 0}
   AlienRenderer: {fileID: 5446798025856302517}
 --- !u!114 &4229307884603465151
@@ -176,16 +174,14 @@ MonoBehaviour:
     - Key: 0
       Value: {fileID: 3582730725460114294}
     - Key: 1
-      Value: {fileID: 2377972055461861658}
-    - Key: 2
       Value: {fileID: 8427875629936128679}
-    - Key: 3
+    - Key: 2
       Value: {fileID: 4255966462766040256}
-    - Key: 4
+    - Key: 3
       Value: {fileID: 932318404573488342}
-    - Key: 5
+    - Key: 4
       Value: {fileID: 969513661671219551}
-    - Key: 6
+    - Key: 5
       Value: {fileID: 4606968874928015320}
 --- !u!114 &3715039698959327352
 MonoBehaviour:
@@ -239,7 +235,7 @@ MonoBehaviour:
   <AgentAttackRange>k__BackingField: 5
   <WhatIsAttackable>k__BackingField:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
 --- !u!114 &7236778680650646161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,11 +248,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6351140e014f1b910d67daf96014bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AttackRange>k__BackingField: 2
+  <AttackRange>k__BackingField: 10
   <AttackDamage>k__BackingField: 1
   <WhatIsAttackable>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
 --- !u!1 &2360298551129726837
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,51 +475,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 974b36d4e734461e990e169286a70c6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Agent: {fileID: 0}
---- !u!1 &8327075970353830901
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2035592084223299085}
-  - component: {fileID: 2377972055461861658}
-  m_Layer: 0
-  m_Name: Move
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2035592084223299085
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8327075970353830901}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6660015531015094367}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2377972055461861658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8327075970353830901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f7221a084934564b044d098678b992f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Agent: {fileID: 0}

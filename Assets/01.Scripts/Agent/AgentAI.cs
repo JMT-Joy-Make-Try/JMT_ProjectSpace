@@ -40,7 +40,7 @@ namespace JMT.Agent
         }
 
 
-        public int Health { get; }
+        [field: SerializeField]public int Health { get; set; }
         public void InitHealth()
         {
             _curHealth = Health;
@@ -59,6 +59,7 @@ namespace JMT.Agent
         {
             IsDead = true;
             OnDeath?.Invoke();
+            Debug.Log(gameObject.name + " is dead");
         }
 
         [field: SerializeField] public PoolingType type { get; set; }
@@ -70,8 +71,8 @@ namespace JMT.Agent
 
         protected virtual void Init()
         {
+            InitHealth();
             IsDead = false;
-            _curHealth = Health;
         }
     }
 }

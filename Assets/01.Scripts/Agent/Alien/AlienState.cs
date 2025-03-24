@@ -3,7 +3,6 @@
     public enum AlienState
     {
         Idle,
-        Move,
         Follow,
         Attack1,
         Attack2,

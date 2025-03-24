@@ -19,20 +19,20 @@ namespace JMT.Agent.State
         {
             Agent.MovementCompo.Stop(false);
             base.EnterState();
-            
         }
 
         public override void UpdateState()
         {
             if (_alien.TargetFinder.Target == null)
             {
-                Agent.StateMachineCompo.ChangeState(AlienState.Move);
+                Agent.MovementCompo.Move(Vector3.zero, _alien.MoveSpeed);
                 return;
             }
             Agent.MovementCompo.Move(_alien.TargetFinder.Target.position, _alien.MoveSpeed);
             if (Vector3.Distance(_alien.TargetFinder.Target.position, Agent.transform.position) < _alien.Attacker.AttackRange)
             {
-                int attackState = Random.Range(3, 6);
+                Agent.MovementCompo.Stop(true);
+                int attackState = Random.Range(2, 5);
                 Agent.StateMachineCompo.ChangeState((AlienState)attackState);
             }
         }
