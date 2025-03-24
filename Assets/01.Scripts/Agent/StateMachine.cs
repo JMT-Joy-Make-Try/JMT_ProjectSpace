@@ -29,8 +29,8 @@ namespace JMT.Agent
         {
             if (_currentState != null)
             {
-                _currentState.ExitState();
                 _currentState.Agent.AnimationEndTrigger.OnAnimationEnd -= _currentState.OnAnimationEnd;
+                _currentState.ExitState();
             }
             _currentState = states[state];
             _currentState.EnterState();
@@ -94,8 +94,8 @@ namespace JMT.Agent
         /// </summary>
         public void UpdateState()
         {
-        if (_currentState == null) Debug.LogError("Current State is null");
-            _currentState.UpdateState();
+            if (_currentState == null) Debug.LogError("Current State is null");
+                _currentState.UpdateState();
         }
     }
 }

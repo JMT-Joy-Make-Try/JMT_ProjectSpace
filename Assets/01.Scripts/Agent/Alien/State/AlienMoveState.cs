@@ -30,6 +30,7 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
+            _alien.TargetFinder.Target = null;
             Agent.MovementCompo.Move(Vector3.zero, _alien.MoveSpeed);
         }
     }

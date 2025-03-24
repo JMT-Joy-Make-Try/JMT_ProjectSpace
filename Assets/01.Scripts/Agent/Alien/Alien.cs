@@ -43,7 +43,6 @@ namespace JMT.Agent.Alien
         public void ChangeColor(AlienState state)
         {
             var color = StateColor.Find(x => x.state == state).color;
-            Debug.Log(color);
             AlienRenderer.material.DOColor(color, "_Color", 0.2f);
         }
     }
