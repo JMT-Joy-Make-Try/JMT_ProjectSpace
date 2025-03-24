@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db096c8d1e994ad4af7903877b4cf1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1 &1971645974295314498
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,11 +138,27 @@ MonoBehaviour:
   <AnimatorCompo>k__BackingField: {fileID: 0}
   <MovementCompo>k__BackingField: {fileID: 3715039698959327352}
   <ClothCompo>k__BackingField: {fileID: 0}
-  <AnimationEndTrigger>k__BackingField: {fileID: 0}
+  <AnimationEndTrigger>k__BackingField: {fileID: 1742914729380375964}
   <type>k__BackingField: 0
   <MoveSpeed>k__BackingField: 10
   <TargetFinder>k__BackingField: {fileID: 8276747524008537087}
   <Attacker>k__BackingField: {fileID: 7236778680650646161}
+  <StateColor>k__BackingField:
+  - state: 0
+    color: {r: 11.984315, g: 11.984315, b: 11.984315, a: 0}
+  - state: 1
+    color: {r: 0, g: 4.069543, b: 11.984315, a: 0}
+  - state: 2
+    color: {r: 11.984314, g: 6.5482855, b: 0, a: 0}
+  - state: 3
+    color: {r: 11.984315, g: 0, b: 0, a: 0}
+  - state: 4
+    color: {r: 11.984315, g: 0, b: 0, a: 0}
+  - state: 5
+    color: {r: 11.984315, g: 0, b: 0, a: 0}
+  - state: 6
+    color: {r: 0, g: 0, b: 0, a: 0}
+  AlienRenderer: {fileID: 5446798025856302517}
 --- !u!114 &4229307884603465151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +254,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AttackRange>k__BackingField: 2
   <AttackDamage>k__BackingField: 1
+  <WhatIsAttackable>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2360298551129726837
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386538d7ed3447b8a72e50e2e81e7772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1 &6770915257760041835
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba84b3e987f4fb1a3fbf8d668262d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1 &6909670982990246204
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3e380fb3e444bfa4b187f85355f6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1 &7932170986858941414
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 319977bd4ad243d7868b20ebfc3c001a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1 &8228698961217163858
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974b36d4e734461e990e169286a70c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1 &8327075970353830901
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7221a084934564b044d098678b992f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 0}
+  Agent: {fileID: 0}
 --- !u!1001 &2625010358488827474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -851,3 +870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e84dbcc1414321b041a52139610d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!137 &5446798025856302517 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1154327842607842329, guid: 71553c286d70c3047a84d4e75569a5f0, type: 3}
+  m_PrefabInstance: {fileID: 2625010358488827474}
+  m_PrefabAsset: {fileID: 0}

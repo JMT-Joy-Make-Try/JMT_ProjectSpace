@@ -23,7 +23,7 @@ namespace JMT.Agent.State
         public override void OnAnimationEnd()
         {
             base.OnAnimationEnd();
-            _agent.StateMachineCompo.ChangeState(AlienState.Follow);
+            Agent.StateMachineCompo.ChangeState(AlienState.Follow);
         }
     }
 }

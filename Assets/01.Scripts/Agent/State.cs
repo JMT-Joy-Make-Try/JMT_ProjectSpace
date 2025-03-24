@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JMT.Agent.State
 {
     public abstract class State<T> : MonoBehaviour where T : System.Enum
     {
-        public AgentAI<T> _agent;
+        public AgentAI<T> Agent;
         protected string _stateName;
         protected StateMachine<T> _stateMachine;
 
@@ -14,9 +15,9 @@ namespace JMT.Agent.State
         /// <param name="agent"></param>
         public virtual void Initialize(AgentAI<T> agent, string stateName)
         {
-            _agent = agent;
+            Agent = agent;
             _stateName = stateName;
-            _stateMachine = _agent.StateMachineCompo;
+            _stateMachine = Agent.StateMachineCompo;
         }
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void EnterState()
         {
-            _agent.AnimatorCompo.SetBool(_stateName, true);
+            Agent.AnimatorCompo.SetBool(_stateName, true);
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void ExitState()
         {
-            _agent.AnimatorCompo.SetBool(_stateName, false);
+            Agent.AnimatorCompo.SetBool(_stateName, false);
             StopAllCoroutines();
         }
 

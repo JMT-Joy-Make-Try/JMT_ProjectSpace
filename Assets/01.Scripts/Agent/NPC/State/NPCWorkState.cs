@@ -23,8 +23,8 @@ namespace JMT.Agent.State
         {
             yield return new WaitForSeconds(npcAgent.WorkSpeed * 0.2f);
             Debug.Log("Work");
-            _agent.MovementCompo.Move(npcAgent.CurrentWorkingBuilding.transform.position, npcAgent.WorkSpeed);
-            _agent.StateMachineCompo.ChangeStateWait(NPCState.Move, !_agent.MovementCompo.IsMoving);
+            Agent.MovementCompo.Move(npcAgent.CurrentWorkingBuilding.transform.position, npcAgent.WorkSpeed);
+            Agent.StateMachineCompo.ChangeStateDelay(NPCState.Move, npcAgent.WorkSpeed);
         }
     }
 }

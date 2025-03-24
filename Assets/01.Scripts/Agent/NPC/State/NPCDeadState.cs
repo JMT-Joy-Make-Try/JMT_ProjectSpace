@@ -4,7 +4,7 @@
     {
         public override void OnAnimationEnd()
         {
-            _agent.gameObject.SetActive(false);
+            Agent.gameObject.SetActive(false);
         }
     }
 }

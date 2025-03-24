@@ -1,4 +1,6 @@
 using DG.Tweening;
+using JMT.Agent;
+using JMT.Planets.Tile;
 using System;
 using TMPro;
 using UnityEngine;
@@ -40,6 +42,8 @@ namespace JMT.UISystem
         {
             // 고용하기 버튼
             ActiveLockArea(false);
+            var npc = AgentManager.Instance.GetAgent();
+            TileManager.Instance.CurrentTile.CurrentBuilding.AddNpc(npc);
         }
 
         private void ActiveLockArea(bool isActive)

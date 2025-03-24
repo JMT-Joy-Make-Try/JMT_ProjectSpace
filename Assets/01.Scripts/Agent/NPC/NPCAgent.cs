@@ -124,7 +124,7 @@ namespace JMT.Agent.NPC
             return healthPercent.GetRangeValue(_healthRange);
         }
 
-        protected void SetBuilding(BuildingBase building)
+        public void SetBuilding(BuildingBase building)
         {
             CurrentWorkingBuilding = building;
         }

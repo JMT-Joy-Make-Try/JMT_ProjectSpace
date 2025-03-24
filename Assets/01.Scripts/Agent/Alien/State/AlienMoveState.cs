@@ -24,13 +24,13 @@ namespace JMT.Agent.State
 
         private void OnTargetChanged()
         {
-            _agent.StateMachineCompo.ChangeState(AlienState.Follow);
+            Agent.StateMachineCompo.ChangeState(AlienState.Follow);
         }
 
         public override void EnterState()
         {
             base.EnterState();
-            _agent.MovementCompo.Move(Vector3.zero, _alien.MoveSpeed);
+            Agent.MovementCompo.Move(Vector3.zero, _alien.MoveSpeed);
         }
     }
 }

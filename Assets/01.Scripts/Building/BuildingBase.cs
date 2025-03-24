@@ -66,6 +66,7 @@ namespace JMT.Building
         {
             _currentNpc.Add(agent);
             agent.SetAgentType(_agentType);
+            agent.SetBuilding(this);
             if (!_isWorking)
             {
                 Work();

@@ -6,9 +6,9 @@ namespace JMT.Agent.State
     {
         public override void UpdateState()
         {
-            if ((_agent as NPCAgent).IsActive)
+            if ((Agent as NPCAgent).IsActive)
             {
-                _agent.StateMachineCompo.ChangeState(NPCState.Move);
+                Agent.StateMachineCompo.ChangeState(NPCState.Move);
             }
         }
     }

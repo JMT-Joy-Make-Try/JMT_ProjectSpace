@@ -17,7 +17,7 @@ namespace JMT.Agent.State
 
         public override void EnterState()
         {
-            _agent.MovementCompo.Stop(false);
+            Agent.MovementCompo.Stop(false);
             base.EnterState();
             
         }
@@ -26,14 +26,14 @@ namespace JMT.Agent.State
         {
             if (_alien.TargetFinder.Target == null)
             {
-                _agent.StateMachineCompo.ChangeState(AlienState.Move);
+                Agent.StateMachineCompo.ChangeState(AlienState.Move);
                 return;
             }
-            _agent.MovementCompo.Move(_alien.TargetFinder.Target.position, _alien.MoveSpeed);
-            if (Vector3.Distance(_alien.TargetFinder.Target.position, _agent.transform.position) < _alien.Attacker.AttackRange)
+            Agent.MovementCompo.Move(_alien.TargetFinder.Target.position, _alien.MoveSpeed);
+            if (Vector3.Distance(_alien.TargetFinder.Target.position, Agent.transform.position) < _alien.Attacker.AttackRange)
             {
                 int attackState = Random.Range(3, 6);
-                _agent.StateMachineCompo.ChangeState((AlienState)attackState);
+                Agent.StateMachineCompo.ChangeState((AlienState)attackState);
             }
         }
     }
