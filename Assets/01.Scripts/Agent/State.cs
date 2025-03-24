@@ -33,7 +33,6 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void UpdateState()
         {
-            Debug.Log(_stateName);
         }
 
         /// <summary>

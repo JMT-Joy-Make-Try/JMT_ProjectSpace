@@ -1,4 +1,5 @@
 ﻿using JMT.Agent.Alien;
+using UnityEngine;
 
 namespace JMT.Agent.State
 {
@@ -22,8 +23,9 @@ namespace JMT.Agent.State
 
         public override void OnAnimationEnd()
         {
-            base.OnAnimationEnd();
-            Agent.StateMachineCompo.ChangeState(AlienState.Follow);
+            Agent.StateMachineCompo.ChangeState(AlienState.Move);
+            _alien.TargetFinder.Target = null;
+            Debug.Log("AlienAttack2State.OnAnimationEnd");
         }
     }
 }

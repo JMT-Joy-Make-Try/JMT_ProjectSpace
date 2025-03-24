@@ -6,7 +6,7 @@ namespace JMT.Agent.Alien
 {
     public class AlienTargetFinder : MonoBehaviour
     {
-        public Transform Target { get; private set; }
+        public Transform Target { get; set; }
 
         [field: SerializeField] public float BuildingAttackRange { get; private set; }
         [field: SerializeField] public float AgentAttackRange { get; private set; }
@@ -39,9 +39,12 @@ namespace JMT.Agent.Alien
             int buildingCount = Physics.OverlapSphereNonAlloc(transform.position, BuildingAttackRange, _colliders, WhatIsAttackable);
             for (int i = 0; i < buildingCount; i++)
             {
-                if (_colliders[i].TryGetComponent(out BuildingBase building) && buildingTarget == null)
+                if (_colliders[i].transform.parent != null)
                 {
-                    buildingTarget = building.transform;
+                    if (_colliders[i].transform.parent.TryGetComponent(out BuildingBase building) && buildingTarget == null)
+                    {
+                        buildingTarget = building.transform;
+                    }
                 }
             }
 
