@@ -9,6 +9,10 @@ namespace JMT.Planets.Tile
             base.Interaction(tile);*/
         public override void Interaction()
         {
+            Destroy(TileManager.Instance.CurrentTile.transform.GetChild(0).gameObject);
+            InventoryManager.Instance.AddItem(itemType, itemCount);
+            TileManager.Instance.CurrentTile.RemoveInteraction();
+            TileManager.Instance.CurrentTile.AddInteraction<NoneInteraction>();
             //UIManager.Instance.ItemUI.OpenUI();
         }
     }
