@@ -8,6 +8,7 @@ namespace JMT.Planets.Tile
     {
         public override void Interaction()
         {
+            Debug.Log("너세요?");
             UIManager.Instance.BuildingUI.OpenUI();
         }
     }

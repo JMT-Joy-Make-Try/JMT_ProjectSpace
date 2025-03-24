@@ -15,8 +15,8 @@ namespace JMT.CameraSystem
         private void Awake()
         {
             camRotateTrm = transform.Find("Camera");
-            inputSO.OnRotateStartEvent += HandleRotateStartEvent;
-            inputSO.OnRotateEndEvent += HandleRotateEndEvent;
+            //inputSO.OnRotateStartEvent += HandleRotateStartEvent;
+            //inputSO.OnRotateEndEvent += HandleRotateEndEvent;
             inputSO.OnLookEvent += HandleLookEvent;
         }
 
@@ -45,12 +45,12 @@ namespace JMT.CameraSystem
             }
         }
 
-        private void HandleLookEvent(Vector2 delta)
+        private void HandleLookEvent(float x)
         {
             if (inputSO.IsJoystickActive) return;
 
             Vector3 currentRotation = camRotateTrm.eulerAngles;
-            currentRotation.y += delta.x * camSpeed * Time.deltaTime;
+            currentRotation.y += x * camSpeed * Time.deltaTime;
             camRotateTrm.rotation = Quaternion.Euler(currentRotation);
         }
     }

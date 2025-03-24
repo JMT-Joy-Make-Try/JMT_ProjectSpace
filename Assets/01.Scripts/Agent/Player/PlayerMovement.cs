@@ -10,7 +10,6 @@ namespace JMT.Player
 
         private Vector3 moveVec = Vector3.zero;
         private bool isSecondaryTouch = false;
-        private bool isJoystickActive = false;
 
         private void Awake()
         {
@@ -57,15 +56,12 @@ namespace JMT.Player
         private void HandleMoveEvent(Vector2 moveVec)
         {
             this.moveVec = new Vector3(moveVec.x, 0, moveVec.y);
-            isJoystickActive = moveVec.sqrMagnitude > 0.01f;
         }
 
-        private void HandleLookEvent(Vector2 delta)
+        private void HandleLookEvent(float x)
         {
-            if (!isSecondaryTouch && isJoystickActive) return;
-
             Vector3 currentRotation = player.CameraTrm.eulerAngles;
-            currentRotation.y += delta.x * camSpeed * Time.deltaTime;
+            currentRotation.y += x * camSpeed * Time.deltaTime;
             player.CameraTrm.rotation = Quaternion.Euler(currentRotation);
         }
 

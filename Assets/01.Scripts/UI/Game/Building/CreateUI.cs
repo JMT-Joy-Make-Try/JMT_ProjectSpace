@@ -13,15 +13,16 @@ namespace JMT.UISystem
     {
         private List<ItemCellUI> itemCells;
 
-        /*private void Awake()
+        private void Awake()
         {
-            itemCells = PanelTrm.Find("Panel").Find("Left").GetComponentsInChildren<ItemCellUI>().ToList();
+            itemCells = PanelTrm.Find("Left").GetComponentsInChildren<ItemCellUI>().ToList();
         }
 
         public override void OpenUI()
         {
             base.OpenUI();
 
+            Debug.Log(TileManager.Instance.CurrentTile.CurrentBuilding);
             WorkingBuilding workBuilding = TileManager.Instance.CurrentTile.CurrentBuilding as WorkingBuilding;
             var ItemList = workBuilding.CreateItemList;
 
@@ -37,11 +38,11 @@ namespace JMT.UISystem
                 int value = i;
                 itemCells[value].GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    Debug.Log("itemCells[i]" + itemCells[value] + "/i" + value );
+                    Debug.Log("itemCells[i]" + itemCells[value] + "/i" + value);
                     CreateItemUI.Instance.SetCreatePanel(pairs[value].Key);
                 });
             }
-        }*/
+        }
 
         public void SetItemList(SerializedDictionary<CreateItemSO, bool> createItemList)
         {

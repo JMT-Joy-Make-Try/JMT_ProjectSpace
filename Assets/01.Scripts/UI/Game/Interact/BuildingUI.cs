@@ -28,6 +28,11 @@ namespace JMT.UISystem
             createUI = buildingUI.GetComponent<CreateUI>();
             manageUI = buildingUI.GetComponent<ManageUI>();
             upgradeUI = buildingUI.GetComponent<UpgradeUI>();
+        }
+
+        public override void OpenUI()
+        {
+            base.OpenUI();
             ChangePanel(createUI);
         }
 

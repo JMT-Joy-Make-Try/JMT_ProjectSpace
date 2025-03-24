@@ -48,7 +48,6 @@ namespace JMT.UISystem
         {
             Time.timeScale = (int)speedType;
             speedText.text = (int)speedType + "x";
-            Debug.Log(Time.timeScale);
         }
     }
 }
