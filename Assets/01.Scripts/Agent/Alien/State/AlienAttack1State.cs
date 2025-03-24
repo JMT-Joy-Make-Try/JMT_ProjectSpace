@@ -19,5 +19,11 @@ namespace JMT.Agent.State
             
             _alien.Attacker.Attack(AttackType.OneShot);
         }
+
+        public override void OnAnimationEnd()
+        {
+            base.OnAnimationEnd();
+            _agent.StateMachineCompo.ChangeState(AlienState.Follow);
+        }
     }
 }

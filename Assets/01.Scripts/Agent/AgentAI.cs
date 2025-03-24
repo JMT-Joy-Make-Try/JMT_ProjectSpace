@@ -32,7 +32,6 @@ namespace JMT.Agent
             
             StateMachineCompo.InitAllState(this);
             Init();
-            //AnimationEndTrigger.OnAnimationEnd += StateMachineCompo.CurrentState.OnAnimationEnd;
         }
 
         protected virtual void Update()
@@ -40,10 +39,6 @@ namespace JMT.Agent
             StateMachineCompo.UpdateState();
         }
 
-        protected virtual void OnDestroy()
-        {
-            //AnimationEndTrigger.OnAnimationEnd -= StateMachineCompo.CurrentState.OnAnimationEnd;
-        }
 
         public int Health { get; }
         public void InitHealth()

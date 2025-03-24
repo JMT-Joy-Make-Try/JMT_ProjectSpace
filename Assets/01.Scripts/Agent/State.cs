@@ -4,7 +4,7 @@ namespace JMT.Agent.State
 {
     public abstract class State<T> : MonoBehaviour where T : System.Enum
     {
-        protected AgentAI<T> _agent;
+        public AgentAI<T> _agent;
         protected string _stateName;
         protected StateMachine<T> _stateMachine;
 

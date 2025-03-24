@@ -59,9 +59,8 @@ namespace JMT.Agent.NPC
             ActiveAgent();
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
-            base.OnDestroy();
             OnTypeChanged -= HandleTypeChanged;
             OnDeath -= HandleDeath;
         }

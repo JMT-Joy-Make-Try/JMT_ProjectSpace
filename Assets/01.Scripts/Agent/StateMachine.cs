@@ -30,9 +30,11 @@ namespace JMT.Agent
             if (_currentState != null)
             {
                 _currentState.ExitState();
+                _currentState._agent.AnimationEndTrigger.OnAnimationEnd -= _currentState.OnAnimationEnd;
             }
             _currentState = states[state];
             _currentState.EnterState();
+            _currentState._agent.AnimationEndTrigger.OnAnimationEnd += _currentState.OnAnimationEnd;
         }
 
         public void ChangeStateDelay(T state, float delayTime)

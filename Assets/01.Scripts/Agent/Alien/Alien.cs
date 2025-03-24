@@ -16,9 +16,8 @@ namespace JMT.Agent.Alien
             StateMachineCompo.ChangeState(AlienState.Idle);
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
-            base.OnDestroy();
             OnDeath -= HandleDeath;
         }
 

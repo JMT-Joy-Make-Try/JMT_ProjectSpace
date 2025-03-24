@@ -7,64 +7,59 @@ namespace JMT.Agent.Alien
     public class AlienTargetFinder : MonoBehaviour
     {
         public Transform Target { get; private set; }
-        
+
         [field: SerializeField] public float BuildingAttackRange { get; private set; }
         [field: SerializeField] public float AgentAttackRange { get; private set; }
         [field: SerializeField] public LayerMask WhatIsAttackable { get; private set; }
-        
+
         private Collider[] _colliders;
-        
+
         public event Action OnTargetChanged;
-        
 
         private void Awake()
         {
-            _colliders = new Collider[10];
+            _colliders = new Collider[20];
         }
 
         private void Update()
         {
-            Target = FindTarget();
+            Transform newTarget = FindTarget();
+            if (Target != newTarget)
+            {
+                Target = newTarget;
+                OnTargetChanged?.Invoke();
+            }
         }
 
         private Transform FindTarget()
         {
+            Transform npcTarget = null;
+            Transform buildingTarget = null;
+
             int buildingCount = Physics.OverlapSphereNonAlloc(transform.position, BuildingAttackRange, _colliders, WhatIsAttackable);
+            for (int i = 0; i < buildingCount; i++)
+            {
+                if (_colliders[i].TryGetComponent(out BuildingBase building) && buildingTarget == null)
+                {
+                    buildingTarget = building.transform;
+                }
+            }
+
             int agentCount = Physics.OverlapSphereNonAlloc(transform.position, AgentAttackRange, _colliders, WhatIsAttackable);
-            
-            
-            if (agentCount > 0)
+            for (int i = 0; i < agentCount; i++)
             {
-                for (int i = 0; i < agentCount; i++)
+                if (_colliders[i].TryGetComponent(out Player.Player player))
                 {
-                    if (_colliders[i].TryGetComponent(out Player.Player agent))
-                    {
-                        OnTargetChanged?.Invoke();
-                        return agent.transform;
-                    }
-                    if (_colliders[i].TryGetComponent(out NPC.NPCAgent npcAgent))
-                    {
-                        OnTargetChanged?.Invoke();
-                        return npcAgent.transform;
-                    }
+                    return player.transform;
+                }
+                if (_colliders[i].TryGetComponent(out NPC.NPCAgent npcAgent) && npcTarget == null)
+                {
+                    npcTarget = npcAgent.transform;
                 }
             }
-            else if (buildingCount > 0)
-            {
-                for (int i = 0; i < buildingCount; i++)
-                {
-                    if (_colliders[i].TryGetComponent(out BuildingBase building))
-                    {
-                        OnTargetChanged?.Invoke();
-                        return building.transform;
-                    }
-                }
-            }
-            
-            return null;
+
+            return npcTarget ?? buildingTarget;
         }
-        
-        
 
         private void OnDrawGizmos()
         {
