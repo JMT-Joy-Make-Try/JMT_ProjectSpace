@@ -1,5 +1,7 @@
 ﻿using JMT.Agent.Alien;
 using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
@@ -28,6 +30,11 @@ namespace JMT.Agent.State
                 return;
             }
             _agent.MovementCompo.Move(_alien.TargetFinder.Target.position, _alien.MoveSpeed);
+            if (Vector3.Distance(_alien.TargetFinder.Target.position, _agent.transform.position) < _alien.Attacker.AttackRange)
+            {
+                int attackState = Random.Range(3, 6);
+                _agent.StateMachineCompo.ChangeState((AlienState)attackState);
+            }
         }
     }
 }

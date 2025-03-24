@@ -79,6 +79,7 @@ namespace JMT.Agent
         
         public void Stop(bool isStop)
         {
+            
             NavMeshAgentCompo.isStopped = isStop;
         }
     }

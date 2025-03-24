@@ -96,6 +96,8 @@ GameObject:
   - component: {fileID: 3715039698959327352}
   - component: {fileID: 8709422778532941534}
   - component: {fileID: 2391291619255797107}
+  - component: {fileID: 8276747524008537087}
+  - component: {fileID: 7236778680650646161}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Untagged
@@ -139,6 +141,8 @@ MonoBehaviour:
   <AnimationEndTrigger>k__BackingField: {fileID: 2391291619255797107}
   <type>k__BackingField: 0
   <MoveSpeed>k__BackingField: 10
+  <TargetFinder>k__BackingField: {fileID: 8276747524008537087}
+  <Attacker>k__BackingField: {fileID: 7236778680650646161}
 --- !u!114 &4229307884603465151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +219,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e84dbcc1414321b041a52139610d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8276747524008537087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971645974295314498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74feb8d5e5214be581ecdd32beb94e36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildingAttackRange>k__BackingField: 10
+  <AgentAttackRange>k__BackingField: 5
+  <WhatIsAttackable>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &7236778680650646161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971645974295314498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d6351140e014f1b910d67daf96014bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AttackRange>k__BackingField: 1
+  <AttackDamage>k__BackingField: 1
 --- !u!1 &2360298551129726837
 GameObject:
   m_ObjectHideFlags: 0
