@@ -8,9 +8,7 @@ namespace JMT
     public class PlayerInputSO : ScriptableObject, Controls.IPlayerActions
     {
         public event Action<Vector2> OnMoveEvent;
-        public event Action<Vector2> OnLookEvent;
-        public event Action OnRotateStartEvent;
-        public event Action OnRotateEndEvent;
+        public event Action<float> OnLookEvent;
         public event Action OnSecondaryStartEvent;
         public event Action OnSecondaryEndEvent;
 
@@ -35,23 +33,14 @@ namespace JMT
         public void OnMove(InputAction.CallbackContext context)
         {
             OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
+            Debug.Log("IsJoystickActive" + IsJoystickActive);
             IsJoystickActive = context.phase != InputActionPhase.Canceled;
         }
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Started)
-            {
-                OnRotateStartEvent?.Invoke();
-            }
-            else if (context.phase == InputActionPhase.Canceled)
-            {
-                OnRotateEndEvent?.Invoke();
-            }
-            else
-            {
-                OnLookEvent?.Invoke(context.ReadValue<Vector2>());
-            }
+            if(context.performed && !IsJoystickActive)
+                OnLookEvent?.Invoke(context.ReadValue<Vector2>().x);
         }
 
         public void OnAttack(InputAction.CallbackContext context)
@@ -89,6 +78,9 @@ namespace JMT
                 case InputActionPhase.Started:
                     Debug.Log("누름");
                     OnSecondaryStartEvent?.Invoke();
+                    break;
+                case InputActionPhase.Performed:
+                    OnLookEvent?.Invoke(context.ReadValue<float>());
                     break;
                 case InputActionPhase.Canceled:
                     Debug.Log("뗌");
