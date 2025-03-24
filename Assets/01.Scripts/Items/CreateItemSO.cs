@@ -8,6 +8,7 @@ namespace JMT.UISystem
     public class CreateItemSO : ScriptableObject
     {
         public ItemType ResultItem;
-        public SerializedDictionary<ItemType, int> NeedItemList;
+        public SerializedDictionary<ItemSO, int> NeedItemList;
+        public int UseFuelCount;
     }
 }

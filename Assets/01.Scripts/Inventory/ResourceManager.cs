@@ -11,6 +11,9 @@ namespace JMT.Resource
         [SerializeField] private int maxFuelValue, maxOxygenValue;
         private int currentFuelValue, currentOxygenValue;
 
+        public int CurrentFuelValue => currentFuelValue;
+        public int CurrentOxygenValue => currentOxygenValue;
+
         private void Start()
         {
             AddFuel(maxFuelValue);
