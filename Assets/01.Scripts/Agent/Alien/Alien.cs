@@ -7,7 +7,7 @@ namespace JMT.Agent.Alien
     {
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public AlienTargetFinder TargetFinder { get; private set; }
-        [field: SerializeField] public AlienAttacker Attacker { get; private set; }
+        [field: SerializeField] public Attacker Attacker { get; private set; }
         
         protected override void Awake()
         {

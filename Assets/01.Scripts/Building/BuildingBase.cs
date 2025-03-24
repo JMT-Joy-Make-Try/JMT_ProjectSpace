@@ -23,7 +23,6 @@ namespace JMT.Building
         [field: SerializeField] public int Health { get; }
         protected int _curHealth;
 
-        protected event Action OnStartWorking;
         protected event Action OnBuildingBroken;
         protected bool _isWorking;
 
@@ -39,7 +38,6 @@ namespace JMT.Building
 
         protected virtual void Start()
         {
-            OnStartWorking += Work;
             OnClick += HandleClick;
         }
 
@@ -51,7 +49,6 @@ namespace JMT.Building
 
         protected virtual void OnDestroy()
         {
-            OnStartWorking -= Work;
             OnClick -= HandleClick;
         }
 
@@ -69,8 +66,10 @@ namespace JMT.Building
         {
             _currentNpc.Add(agent);
             agent.SetAgentType(_agentType);
-            //if (!_isWorking)
-            //    OnStartWorking?.Invoke();
+            if (!_isWorking)
+            {
+                Work();
+            }
         }
 
         public virtual void Upgrade()

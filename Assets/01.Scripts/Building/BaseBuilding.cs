@@ -36,12 +36,7 @@ namespace JMT.Building
 
         public override void Work()
         {
-            if (_isWorking)
-            {
-                return;
-            }
-
-            _isWorking = true;
+            base.Work();
             StartCoroutine(WorkCoroutine());
         }
 

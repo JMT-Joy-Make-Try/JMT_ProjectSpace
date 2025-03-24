@@ -17,7 +17,7 @@ namespace JMT.Agent.State
             base.EnterState();
             _alien.transform.LookAt(_alien.TargetFinder.Target);
             
-            _alien.Attacker.Attack(AttackType.Continuous);
+            _alien.Attacker.Attack();
         }
 
         public override void OnAnimationEnd()

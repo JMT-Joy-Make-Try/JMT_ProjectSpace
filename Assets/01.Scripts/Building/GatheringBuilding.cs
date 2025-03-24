@@ -37,11 +37,6 @@ namespace JMT.Building
         public override void Work()
         {
             base.Work();
-            if (!_isWorking)
-            {
-                _isWorking = true;
-                // 애들 가져오는 애니메이션 해줘야함
-            }
         }
 #if UNITY_EDITOR
         private void Update()
