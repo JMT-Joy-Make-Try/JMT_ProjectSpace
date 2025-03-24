@@ -10,7 +10,7 @@ namespace JMT.Agent
     {
         // State들을 모아놓은 Dictionary
         [SerializeField] private SerializedDictionary<T, State.State<T>> states;
-
+        protected event Action<T> OnStateChange;
         public SerializedDictionary<T, State.State<T>> States
         {
             get => states; 
@@ -30,9 +30,12 @@ namespace JMT.Agent
             if (_currentState != null)
             {
                 _currentState.ExitState();
+                _currentState.Agent.AnimationEndTrigger.OnAnimationEnd -= _currentState.OnAnimationEnd;
             }
             _currentState = states[state];
             _currentState.EnterState();
+            _currentState.Agent.AnimationEndTrigger.OnAnimationEnd += _currentState.OnAnimationEnd;
+            OnStateChange?.Invoke(state);
         }
 
         public void ChangeStateDelay(T state, float delayTime)
@@ -42,13 +45,14 @@ namespace JMT.Agent
                 _currentState.ExitState();
             }
             _currentState = states[state];
-            StartCoroutine(Change(delayTime));
+            StartCoroutine(Change(delayTime, state));
         }
 
-        private IEnumerator Change(float delayTime)
+        private IEnumerator Change(float delayTime, T state)
         {
             yield return new WaitForSeconds(delayTime);
             _currentState.ExitState();
+            OnStateChange?.Invoke(state);
         }
         
         public void ChangeStateWait(T state, bool waitUntil)
@@ -58,13 +62,14 @@ namespace JMT.Agent
                 _currentState.ExitState();
             }
             _currentState = states[state];
-            StartCoroutine(Wait(waitUntil));
+            StartCoroutine(Wait(waitUntil, state));
         }
 
-        private IEnumerator Wait(bool waitUntil)
+        private IEnumerator Wait(bool waitUntil, T state)
         {
             yield return new WaitUntil(() => waitUntil);
             _currentState.ExitState();
+            OnStateChange?.Invoke(state);
         }
 
         /// <summary>

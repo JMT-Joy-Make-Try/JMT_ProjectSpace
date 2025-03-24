@@ -20,7 +20,7 @@ namespace JMT.UISystem
         }
         public override void OpenUI()
         {
-            SerializedDictionary<ItemType, int> dic = InventoryManager.Instance.ItemDictionary;
+            Dictionary<ItemType, int> dic = InventoryManager.Instance.ItemDictionary;
 
             for(int i = 0; i < cells.Count; i++)
             {

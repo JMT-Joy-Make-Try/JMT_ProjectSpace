@@ -1,5 +1,6 @@
 ﻿using JMT.Agent;
 using JMT.Agent.NPC;
+using JMT.Object;
 using JMT.Resource;
 using System.Collections;
 using UnityEngine;
@@ -21,21 +22,26 @@ namespace JMT.Building
 
         public override void Build(Vector3 position, Transform parent)
         {
-            transform.position = position;
-            transform.SetParent(parent);
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0));
+            Instantiate(gameObject, position, Quaternion.identity, parent);
+            transform.localPosition = position;
             Work();
+            return;
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
+            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
         }
 
         public override void Work()
         {
-            if (_isWorking)
+            base.Work();
+            if (gameObject.activeSelf)
             {
-                return;
+                StartCoroutine(WorkCoroutine());
             }
-
-            _isWorking = true;
-            StartCoroutine(WorkCoroutine());
         }
 
         private IEnumerator WorkCoroutine()

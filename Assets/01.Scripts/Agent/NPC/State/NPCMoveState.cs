@@ -28,7 +28,7 @@ namespace JMT.Agent.State
             {
                 if (agent.AgentType == AgentType.Base)
                 {
-                    _agent.MovementCompo.Move(new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f)), agent.MoveSpeed);
+                    Agent.MovementCompo.Move(new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f)), agent.MoveSpeed);
                 }
                 else
                 {
@@ -38,12 +38,12 @@ namespace JMT.Agent.State
                     }
                     else
                     {
-                        _agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed);
+                        Agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed);
                     }
-                    _agent.StateMachineCompo.ChangeStateWait(NPCState.Work, !agent.MovementCompo.IsMoving);
+                    Agent.StateMachineCompo.ChangeStateWait(NPCState.Work, !agent.MovementCompo.IsMoving);
                 }
 
-                yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
+                yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
             }
         }
     }

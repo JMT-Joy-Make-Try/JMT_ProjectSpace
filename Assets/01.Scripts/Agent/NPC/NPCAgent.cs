@@ -59,9 +59,8 @@ namespace JMT.Agent.NPC
             ActiveAgent();
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
-            base.OnDestroy();
             OnTypeChanged -= HandleTypeChanged;
             OnDeath -= HandleDeath;
         }
@@ -125,7 +124,7 @@ namespace JMT.Agent.NPC
             return healthPercent.GetRangeValue(_healthRange);
         }
 
-        protected void SetBuilding(BuildingBase building)
+        public void SetBuilding(BuildingBase building)
         {
             CurrentWorkingBuilding = building;
         }

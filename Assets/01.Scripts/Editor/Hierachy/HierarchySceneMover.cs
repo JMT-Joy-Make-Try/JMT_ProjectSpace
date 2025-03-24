@@ -35,7 +35,7 @@ namespace JMT.Editor
         {
             if (instanceID != SceneManager.GetActiveScene().handle) return;
 
-            Rect dropdownRect = new Rect(selectionRect.xMax - 20, selectionRect.y, 16, 16);
+            Rect dropdownRect = new Rect(selectionRect.xMax - 40, selectionRect.y, 25, 16);
             if (GUI.Button(dropdownRect, "\u25BC"))
             {
                 _isDropdownOpen = !_isDropdownOpen;
@@ -54,7 +54,7 @@ namespace JMT.Editor
             EditorGUI.DrawRect(dropdownArea, new Color(0.15f, 0.15f, 0.15f, 1f));
 
             // 검색창과 X 버튼이 동일한 행에 배치되도록 수정
-            Rect searchFieldRect = new Rect(dropdownArea.width - 150, 5, 140, 20); // 검색창 위치
+            Rect searchFieldRect = new Rect(dropdownArea.width - 200, 5, 140, 20); // 검색창 위치
             _searchQuery = GUI.TextField(searchFieldRect, _searchQuery, 20); // 검색 텍스트 필드
 
             Rect closeButtonRect = new Rect(dropdownArea.width - 35, 5, 20, 20); // X 버튼 위치

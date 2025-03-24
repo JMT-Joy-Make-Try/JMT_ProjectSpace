@@ -16,8 +16,7 @@ namespace JMT.Core.Manager
         protected override void Awake()
         {
             base.Awake();
-            var basebuilding = Instantiate(_baseBuilding, new Vector3(0, -257, 0), Quaternion.identity);
-            basebuilding.Build(new Vector3(0, -257, 0), transform);
+            _baseBuilding.Build(new Vector3(0, 0, 0), transform);
         }
     }
 }

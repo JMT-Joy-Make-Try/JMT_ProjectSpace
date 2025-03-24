@@ -26,7 +26,6 @@ namespace JMT.Agent
         public NPCAgent GetAgent()
         {
             NPCAgent agent = UnemployedAgents[0];
-            UnemployedAgents.RemoveAt(0);
             return agent;
         }
 

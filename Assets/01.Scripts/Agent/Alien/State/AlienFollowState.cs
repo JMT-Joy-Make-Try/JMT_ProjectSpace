@@ -1,5 +1,7 @@
 ﻿using JMT.Agent.Alien;
 using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
@@ -15,14 +17,24 @@ namespace JMT.Agent.State
 
         public override void EnterState()
         {
-            _agent.MovementCompo.Stop(false);
+            Agent.MovementCompo.Stop(false);
             base.EnterState();
             
         }
 
-        private void Update()
+        public override void UpdateState()
         {
-            _agent.MovementCompo.Move(_alien.Target.position, _alien.MoveSpeed);
+            if (_alien.TargetFinder.Target == null)
+            {
+                Agent.StateMachineCompo.ChangeState(AlienState.Move);
+                return;
+            }
+            Agent.MovementCompo.Move(_alien.TargetFinder.Target.position, _alien.MoveSpeed);
+            if (Vector3.Distance(_alien.TargetFinder.Target.position, Agent.transform.position) < _alien.Attacker.AttackRange)
+            {
+                int attackState = Random.Range(3, 6);
+                Agent.StateMachineCompo.ChangeState((AlienState)attackState);
+            }
         }
     }
 }
