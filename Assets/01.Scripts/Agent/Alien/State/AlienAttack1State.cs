@@ -16,14 +16,16 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
+            Agent.MovementCompo.Stop(false);
             _alien.transform.LookAt(_alien.TargetFinder.Target);
             
             _alien.Attacker.Attack();
+            Agent.StateMachineCompo.ChangeStateDelay(AlienState.Follow, 2f);
         }
 
         public override void OnAnimationEnd()
         {
-            Agent.StateMachineCompo.ChangeState(AlienState.Move);
+            Agent.StateMachineCompo.ChangeState(AlienState.Follow);
             _alien.TargetFinder.Target = null;
             Debug.Log("AlienAttack1State.OnAnimationEnd");
         }

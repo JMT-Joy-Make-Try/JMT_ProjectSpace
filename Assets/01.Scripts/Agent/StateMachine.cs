@@ -40,34 +40,36 @@ namespace JMT.Agent
 
         public void ChangeStateDelay(T state, float delayTime)
         {
-            if (_currentState != null)
-            {
-                _currentState.ExitState();
-            }
-            _currentState = states[state];
+            
             StartCoroutine(Change(delayTime, state));
         }
 
         private IEnumerator Change(float delayTime, T state)
         {
             yield return new WaitForSeconds(delayTime);
+            if (_currentState != null)
+            {
+                _currentState.ExitState();
+            }
+            _currentState = states[state];
             _currentState.ExitState();
             OnStateChange?.Invoke(state);
         }
         
         public void ChangeStateWait(T state, bool waitUntil)
         {
-            if (_currentState != null)
-            {
-                _currentState.ExitState();
-            }
-            _currentState = states[state];
+            
             StartCoroutine(Wait(waitUntil, state));
         }
 
         private IEnumerator Wait(bool waitUntil, T state)
         {
             yield return new WaitUntil(() => waitUntil);
+            if (_currentState != null)
+            {
+                _currentState.ExitState();
+            }
+            _currentState = states[state];
             _currentState.ExitState();
             OnStateChange?.Invoke(state);
         }
