@@ -1,6 +1,7 @@
 using JMT.Planets.Tile;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ namespace JMT.UISystem
 {
     public class GameUI : PanelUI
     {
-        [SerializeField] private Sprite build, mine, building;
+        [SerializeField] private Sprite build, mine, building, station;
         private Button inventoryButton, workButton, interactionButton;
         private EventTrigger interactTrigger;
         private Image interactionIcon;
@@ -44,6 +45,9 @@ namespace JMT.UISystem
                     break;
                 case InteractType.Building:
                     interactionIcon.sprite = building;
+                    break;
+                case InteractType.Station:
+                    interactionIcon.sprite = station;
                     break;
             }
         }

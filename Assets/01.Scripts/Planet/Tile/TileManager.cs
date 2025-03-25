@@ -9,6 +9,7 @@ namespace JMT.Planets.Tile
         None,
         Item,
         Building,
+        Station,
     }
     public class TileManager : MonoSingleton<TileManager>
     {
@@ -36,6 +37,8 @@ namespace JMT.Planets.Tile
                     return InteractType.Item;
                 case BuildingInteraction:
                     return InteractType.Building;
+                case StationInteraction:
+                    return InteractType.Station;
             }
             return InteractType.None;
         }
