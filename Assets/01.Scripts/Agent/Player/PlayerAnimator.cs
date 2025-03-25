@@ -19,10 +19,7 @@ namespace JMT.Player
             player.InputSO.OnMoveEvent += HandleMoveAnimation;
             stateHash = new Dictionary<PlayerState, int>();
 
-
             InitState();
-
-           
         }
 
         private void InitState()
