@@ -16,7 +16,7 @@ namespace JMT.Core.Manager
         protected override void Awake()
         {
             base.Awake();
-            _baseBuilding.Build(new Vector3(0, 0, 0), transform);
+            //_baseBuilding.Build(new Vector3(0, 0, 0), transform);
         }
     }
 }

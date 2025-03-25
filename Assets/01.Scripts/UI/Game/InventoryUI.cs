@@ -1,4 +1,3 @@
-using AYellowpaper.SerializedCollections;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
@@ -20,15 +19,15 @@ namespace JMT.UISystem
         }
         public override void OpenUI()
         {
-            Dictionary<ItemType, int> dic = InventoryManager.Instance.ItemDictionary;
+            var dic = InventoryManager.Instance.ItemDictionary;
 
             for(int i = 0; i < cells.Count; i++)
             {
                 if(i < dic.Count)
                 {
                     var pairs = dic.ToList();
-                    KeyValuePair<ItemType, int> pair = pairs[i];
-                    cells[i].SetItemCell(GetName(pair.Key), pair.Value);
+                    KeyValuePair<ItemSO, int> pair = pairs[i];
+                    cells[i].SetItemCell(pair.Key.ItemName, pair.Value);
                 }
                 else
                     cells[i].SetItemCell(string.Empty, 0);

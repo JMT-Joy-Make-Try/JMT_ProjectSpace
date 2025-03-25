@@ -8,41 +8,41 @@ namespace JMT.Planets.Tile
 {
     public class InventoryManager : MonoSingleton<InventoryManager>
     {
-        [SerializeField] private SerializedDictionary<ItemType, int> itemDictionary = new();
-        public SerializedDictionary<ItemType, int> ItemDictionary => itemDictionary;
+        [SerializeField] private SerializedDictionary<ItemSO, int> itemDictionary = new();
+        public SerializedDictionary<ItemSO, int> ItemDictionary => itemDictionary;
 
-        public void AddItem(ItemType type, int increaseCount)
+        public void AddItem(ItemSO item, int increaseCount)
         {
-            if(!itemDictionary.ContainsKey(type))
-                itemDictionary.Add(type, increaseCount);
-            else itemDictionary[type] += increaseCount;
+            if(!itemDictionary.ContainsKey(item))
+                itemDictionary.Add(item, increaseCount);
+            else itemDictionary[item] += increaseCount;
         }
         
-        public void RemoveItem(ItemType type, int decreaseCount)
+        public void RemoveItem(ItemSO item, int decreaseCount)
         {
-            if(!itemDictionary.ContainsKey(type))
+            if(!itemDictionary.ContainsKey(item))
                 return;
             else
             {
-                itemDictionary[type] -= decreaseCount;
-                if (itemDictionary[type] <= 0)
-                    itemDictionary.Remove(type);
+                itemDictionary[item] -= decreaseCount;
+                if (itemDictionary[item] <= 0)
+                    itemDictionary.Remove(item);
             }
         }
 
-        public bool CalculateItem(SerializedDictionary<ItemType, int> needItems)
+        public bool CalculateItem(SerializedDictionary<ItemSO, int> needItems)
         {
             var pairs = needItems.ToList();
             for(int i = 0; i < pairs.Count; ++i)
             {
-                KeyValuePair<ItemType, int> pair = pairs[i];
+                KeyValuePair<ItemSO, int> pair = pairs[i];
                 if (!itemDictionary.ContainsKey(pair.Key)) return false;
                 if (itemDictionary[pair.Key] < pair.Value) return false;
             }
 
             for (int i = 0; i < pairs.Count; ++i)
             {
-                KeyValuePair<ItemType, int> pair = pairs[i];
+                KeyValuePair<ItemSO, int> pair = pairs[i];
                 itemDictionary[pair.Key] -= pair.Value;
             }
             return true;

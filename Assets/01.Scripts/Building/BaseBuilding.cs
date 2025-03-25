@@ -1,6 +1,5 @@
-﻿using JMT.Agent;
+using JMT.Agent;
 using JMT.Agent.NPC;
-using JMT.Object;
 using JMT.Resource;
 using System.Collections;
 using UnityEngine;
@@ -11,6 +10,7 @@ namespace JMT.Building
     {
         [SerializeField] private float _radius;
         [SerializeField] private LayerMask _whatIsAgent;
+        [SerializeField] private Transform visual, brokenVisual;
 
         private Collider[] _colliders;
 
@@ -66,6 +66,12 @@ namespace JMT.Building
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _radius);
+        }
+
+        public void FixStation()
+        {
+            visual.gameObject.SetActive(true);
+            brokenVisual.gameObject.SetActive(false);
         }
     }
 }

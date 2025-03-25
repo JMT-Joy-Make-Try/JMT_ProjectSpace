@@ -7,17 +7,6 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
-    public enum Daytime
-    {
-        Day,
-        Night,
-    }
-    [Serializable]
-    public struct TimeData
-    {
-        public int minute;
-        public int second;
-    }
     public class TimeUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI dayText, timeText;
@@ -32,7 +21,6 @@ namespace JMT.UISystem
 
         private Coroutine timeRoutine;
         private TimeData saveTime;
-        private int day = 1;
         private bool isNight;
 
         private void Start()
@@ -42,13 +30,13 @@ namespace JMT.UISystem
 
         public void StartDayTime()
         {
-            ChangeDayTime(Daytime.Day);
+            ChangeDayTime(DaytimeType.Day);
             timeRoutine = StartCoroutine(TimeCoroutine(repeatDayTime));
         }
 
         public void StartNightTime()
         {
-            ChangeDayTime(Daytime.Night);
+            ChangeDayTime(DaytimeType.Night);
             timeRoutine = StartCoroutine(TimeCoroutine(repeatNightTime));
         }
 
@@ -69,7 +57,7 @@ namespace JMT.UISystem
             saveTime.second = time.second;
             while (true)
             {
-                dayText.text = "Day " + day;
+                dayText.text = "Day " + DaySystem.Instance.DayCount;
                 timeText.text = saveTime.minute.ToString("D2") + ":" + saveTime.second.ToString("D2");
                 yield return waitTime;
 
@@ -79,18 +67,20 @@ namespace JMT.UISystem
                     {
                         if (isNight)
                         {
-                            day++;
+                            DaySystem.Instance.AddDayCount();
                             isNight = false;
                             saveTime.minute = repeatDayTime.minute;
                             saveTime.second = repeatDayTime.second;
-                            ChangeDayTime(Daytime.Day);
+                            ChangeDayTime(DaytimeType.Day);
+                            DaySystem.Instance.ChangeDay();
                         }
                         else
                         {
                             isNight = true;
                             saveTime.minute = repeatNightTime.minute;
                             saveTime.second = repeatNightTime.second;
-                            ChangeDayTime(Daytime.Night);
+                            ChangeDayTime(DaytimeType.Night);
+                            DaySystem.Instance.ChangeNight();
                         }
                     }
                     else
@@ -103,17 +93,17 @@ namespace JMT.UISystem
             }
         }
 
-        private void ChangeDayTime(Daytime dayTime)
+        private void ChangeDayTime(DaytimeType dayTime)
         {
             switch (dayTime)
             {
-                case Daytime.Day:
+                case DaytimeType.Day:
                     icon.sprite = sun;
                     dayText.DOColor(daytextColor, 0.3f);
                     timeText.DOColor(daytextColor, 0.3f);
                     back.DOColor(daybackColor, 0.3f);
                     break;
-                case Daytime.Night:
+                case DaytimeType.Night:
                     icon.sprite = moon;
                     dayText.DOColor(nighttextColor, 0.3f);
                     timeText.DOColor(nighttextColor, 0.3f);
