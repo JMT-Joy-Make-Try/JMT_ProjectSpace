@@ -32,7 +32,7 @@ namespace JMT.UISystem
                 else
                     cells[i].SetItemCell("LOCK", 0);
             }
-            resultItemText.text = ObjectExtension.GetName(itemSO.ResultItem);
+            resultItemText.text = itemSO.ResultItem.ItemName;
             useFuelText.text = itemSO.UseFuelCount + " 연료 소모";
         }
     }

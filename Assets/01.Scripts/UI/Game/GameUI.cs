@@ -28,7 +28,7 @@ namespace JMT.UISystem
 
             inventoryButton.onClick.AddListener(HandleInventoryButton);
             workButton.onClick.AddListener(HandleWorkButton);
-            interactionButton.onClick.AddListener(HandleInteractionButton);
+            AddEventTrigger(EventTriggerType.PointerDown, HandleInteractionButton);
         }
 
         public void ChangeInteract(InteractType type)
@@ -50,58 +50,60 @@ namespace JMT.UISystem
 
         private void HandleInteractionButton()
         {
-            if (currentType != InteractType.Item)
+            if (currentType != InteractType.Item && !isHold)
             {
                 TileManager.Instance.GetInteraction().Interaction();
                 return;
             }
-            AddEventTrigger(interactionButton, EventTriggerType.PointerDown, OnHoldStart);
-            AddEventTrigger(interactionButton, EventTriggerType.PointerUp, OnHoldEnd);
+            AddEventTrigger(EventTriggerType.PointerDown, OnHoldStart);
+            AddEventTrigger(EventTriggerType.PointerUp, OnHoldEnd);
         }
 
-        private void OnHoldStart()
+        private void AddEventTrigger(EventTriggerType type, Action action)
         {
-            Debug.Log("시작");
-            holdCoroutine = StartCoroutine(HoldCoroutine());
-        }
-
-        private void OnHoldEnd()
-        {
-            Debug.Log("떼다");
-            StopCoroutine(holdCoroutine);
-            RemoveEventTrigger(EventTriggerType.PointerDown);
-            RemoveEventTrigger(EventTriggerType.PointerUp);
-            isHold = false;
-        }
-
-        private void AddEventTrigger(Button button, EventTriggerType type, Action action)
-        {
-            EventTrigger.Entry entry = new EventTrigger.Entry { eventID = type };
+            var entry = new EventTrigger.Entry { eventID = type };
             entry.callback.AddListener((data) => action());
             interactTrigger.triggers.Add(entry);
         }
         private void RemoveEventTrigger(EventTriggerType type)
         {
-            if(interactTrigger.triggers != null)
-                interactTrigger.triggers.RemoveAll(entry => entry.eventID == type);
+            interactTrigger.triggers.RemoveAll(entry => entry.eventID == type);
         }
 
-        private IEnumerator HoldCoroutine(float time = 2f)
+        private void OnHoldStart()
+        {
+            UIManager.Instance.PopupUI.SetInteractPopup("재료 캐는 중...");
+            UIManager.Instance.PopupUI.ActiveInteractPopup(true);
+            holdCoroutine = StartCoroutine(HoldCoroutine());
+        }
+
+        private void OnHoldEnd()
+        {
+            UIManager.Instance.PopupUI.ActiveInteractPopup(false);
+            if (holdCoroutine != null)
+            {
+                StopCoroutine(holdCoroutine);
+                holdCoroutine = null;
+            }
+
+            RemoveEventTrigger(EventTriggerType.PointerDown);
+            RemoveEventTrigger(EventTriggerType.PointerUp);
+            isHold = false;
+            AddEventTrigger(EventTriggerType.PointerDown, HandleInteractionButton);
+        }
+
+        private IEnumerator HoldCoroutine(float time = 1f)
         {
             yield return new WaitForSeconds(time);
-            Debug.Log("다눌렀따");
             TileManager.Instance.GetInteraction().Interaction();
+            UIManager.Instance.PopupUI.ActiveInteractPopup(false);
             isHold = true;
         }
 
         private void HandleInventoryButton()
-        {
-            UIManager.Instance.InventoryUI.OpenUI();
-        }
+            => UIManager.Instance.InventoryUI.OpenUI();
 
         private void HandleWorkButton()
-        {
-            UIManager.Instance.WorkUI.OpenUI();
-        }
+            => UIManager.Instance.WorkUI.OpenUI();
     }
 }

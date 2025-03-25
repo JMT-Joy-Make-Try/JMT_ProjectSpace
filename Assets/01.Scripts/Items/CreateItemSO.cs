@@ -7,7 +7,7 @@ namespace JMT.UISystem
     [CreateAssetMenu(fileName = "CreateItemSO", menuName = "SO/Data/CreateItemSO")]
     public class CreateItemSO : ScriptableObject
     {
-        public ItemType ResultItem;
+        public ItemSO ResultItem;
         public SerializedDictionary<ItemSO, int> NeedItemList;
         public int UseFuelCount;
     }

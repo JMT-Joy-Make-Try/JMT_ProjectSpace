@@ -7,7 +7,7 @@ namespace JMT.Planets.Tile
     public class TileInteraction : MonoBehaviour
     {
         //[field: SerializeField] protected InteractionTileType interactionTileType;
-        [field: SerializeField] protected ItemType itemType;
+        [field: SerializeField] protected ItemSO itemType;
         [SerializeField] protected int itemCount;
 
         protected PlanetTile planetTile;

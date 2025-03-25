@@ -1,4 +1,4 @@
-﻿using JMT.Object;
+using JMT.Object;
 using JMT.Planets.Tile.Items;
 using System;
 using UnityEngine;
@@ -8,7 +8,7 @@ namespace JMT.Planets.Tile
     public class ItemTile : TouchableObject
     {
         [Header("Item Tile")]
-        [SerializeField] private ItemType _itemType;
+        [SerializeField] private ItemSO _itemType;
         [SerializeField] private int _itemCount = 0;
         
         [Header("Touch Count")]

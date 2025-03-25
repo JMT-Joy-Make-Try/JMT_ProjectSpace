@@ -19,7 +19,7 @@ namespace JMT.Building
         public BuildingBase prefab;
         public BuildingCategory category;
         public string buildingName;
-        public SerializedDictionary<ItemType, int> needItems;
+        public SerializedDictionary<ItemSO, int> needItems;
         public TimeData buildTime;
     }
 }

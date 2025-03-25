@@ -51,8 +51,8 @@ namespace JMT.UISystem
                 cells[i].SetItemCell(string.Empty);
                 if (i < list.Count)
                 {
-                    cells[i].SetItemCell(list[i].name);
-                    int index = i; // 현재 i 값을 저장하여 람다 함수 내에서 사용
+                    cells[i].SetItemCell(list[i].buildingName);
+                    int index = i;
                     cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
                 }
             }
@@ -70,7 +70,7 @@ namespace JMT.UISystem
                 {
                     if (category != list[i].category) continue;
                     cells[i].SetItemCell(list[i].name);
-                    int index = i; // 현재 i 값을 저장하여 람다 함수 내에서 사용
+                    int index = i;
                     cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
                 }
             }
@@ -79,11 +79,11 @@ namespace JMT.UISystem
         private void HandleSetInfo(BuildingDataSO data)
         {
             BuildingManager.Instance.CurrentBuilding = data;
-            nameText.text = data.name;
+            nameText.text = data.buildingName;
             needItemText.text = string.Empty;
             foreach (var needItem in data.needItems)
             {
-                needItemText.text += ObjectExtension.GetName(needItem.Key) + " - " + needItem.Value + "\n";
+                needItemText.text += needItem.Key.ItemName + " - " + needItem.Value + "\n";
             }
         }
 

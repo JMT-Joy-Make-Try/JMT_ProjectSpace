@@ -1,4 +1,4 @@
-﻿using JMT.Agent;
+using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
@@ -9,7 +9,7 @@ namespace JMT.Building
 {
     public class GatheringBuilding : BuildingBase
     {
-        [field: SerializeField] public ItemType ProductionItem { get; private set; }
+        [field: SerializeField] public ItemSO ProductionItem { get; private set; }
         [SerializeField] private int _productionAmount;
         
         private int _currentProductionAmount;
