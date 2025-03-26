@@ -91,7 +91,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * 사각형 정보 알아오기
          */
-        private void GetRect(PoolingItemSO item)
+        private void GetRect(PoolingItemSO item, UtilType type = UtilType.Enemy)
         {
             // 마지막으로 그린 사각형 정보를 알아옴
             Rect lastRect = GUILayoutUtility.GetLastRect();
@@ -100,7 +100,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 && lastRect.Contains(Event.current.mousePosition))
             {
                 inspectorScroll = Vector2.zero;
-                selectedItem[UtilType.Pool] = item;
+                selectedItem[type] = item;
                 Event.current.Use();
             }
         }
@@ -139,7 +139,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             foreach (PoolingItemSO item in _poolTable.datas)
             {
                 // 현재 그릴 item이 선택아이템과 동일하면 스타일 지정
-                GUIStyle style = selectedItem[UtilType.Pool] == item
+                GUIStyle style = selectedItem[UtilType.Enemy] == item
                     ? _selectStyle
                     : GUIStyle.none;
                 EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
@@ -163,15 +163,15 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * 인스펙터 그리기
          */
-        private void DrawPoolInspector()
+        private void DrawInspector(UtilType type)
         {
-            if (selectedItem[UtilType.Pool] != null)
+            if (selectedItem[type] != null)
             {
                 inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
                 {
                     EditorGUILayout.Space(2f);
                     UnityEditor.Editor.CreateCachedEditor(
-                        selectedItem[UtilType.Pool], null, ref _cachedEditor);
+                        selectedItem[type], null, ref _cachedEditor);
 
                     _cachedEditor.OnInspectorGUI();
                 }
@@ -199,24 +199,24 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * Pool Enum 파일 생성
          */
-        private void GenerateEnumFile()
-        {
-            StringBuilder codeBuilder = new StringBuilder();
-
-            foreach (PoolingItemSO item in _poolTable.datas)
-            {
-                codeBuilder.Append(item.enumName);
-                codeBuilder.Append(",");
-            }
-
-            string code = string.Format(CodeFormat.PoolingTypeFormat, codeBuilder.ToString());
-
-            string path = $"{Application.dataPath}/01.Scripts/Core/Tool/PoolManager/Core/ObjectPool/PoolingType.cs";
-
-
-            File.WriteAllText(path, code);
-            AssetDatabase.Refresh();
-        }
+        // private void GenerateEnumFile()
+        // {
+        //     StringBuilder codeBuilder = new StringBuilder();
+        //
+        //     foreach (PoolingItemSO item in _poolTable.datas)
+        //     {
+        //         codeBuilder.Append(item.enumName);
+        //         codeBuilder.Append(",");
+        //     }
+        //
+        //     string code = string.Format(CodeFormat.PoolingTypeFormat, codeBuilder.ToString());
+        //
+        //     string path = $"{Application.dataPath}/01.Scripts/Core/Tool/PoolManager/Core/ObjectPool/PoolingType.cs";
+        //
+        //
+        //     File.WriteAllText(path, code);
+        //     AssetDatabase.Refresh();
+        // }
 
         /**
          * 풀 그리기
@@ -236,8 +236,8 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                     EditorGUILayout.LabelField("Pooling list");
                     EditorGUILayout.Space(3f);
 
-                    scrollPositions[UtilType.Pool] = EditorGUILayout.BeginScrollView
-                    (scrollPositions[UtilType.Pool], false, true,
+                    scrollPositions[UtilType.Enemy] = EditorGUILayout.BeginScrollView
+                    (scrollPositions[UtilType.Enemy], false, true,
                         GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
                     {
                         DrawPoolTable();
@@ -249,7 +249,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 #endregion
 
                 // 인스펙터 그리기
-                DrawPoolInspector();
+                DrawInspector(UtilType.Enemy);
             }
             EditorGUILayout.EndHorizontal();
         }

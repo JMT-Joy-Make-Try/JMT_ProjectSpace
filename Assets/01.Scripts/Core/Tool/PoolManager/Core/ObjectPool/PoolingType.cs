@@ -2,6 +2,9 @@ namespace JMT.Core.Tool.PoolManager
 {
     public enum PoolingType
     {
-        Enemy_Ailen,
+                Enemy_Ailen,
+        Effect,
+        Effect1,
+
     }
 }

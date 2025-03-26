@@ -8,19 +8,21 @@ namespace JMT.Core.Tool.PoolManager.Core
         private Dictionary<PoolingType, Pool> _pools
             = new Dictionary<PoolingType, Pool>();
 
-        public PoolingTableSO listSO;
+        public List<PoolingTableSO> listSO;
         private List<IPoolable> _generatedObjects = new List<IPoolable>();
 
         protected override void Awake()
         {
             base.Awake();
-            Debug.Log(listSO.datas.Count);
-            foreach (PoolingItemSO item in listSO.datas)
+            foreach (PoolingTableSO table in listSO)
             {
-                Debug.Log(item.name);
-                Debug.Log(item.prefab);
-                Debug.Log($"[ Load Pools ] {item.prefab.type.ToString()}");
-                CreatePool(item);
+                foreach (PoolingItemSO item in table.datas)
+                {
+                    Debug.Log(item.name);
+                    Debug.Log(item.prefab);
+                    Debug.Log($"[ Load Pools ] {item.prefab.type.ToString()}");
+                    CreatePool(item);
+                }
             }
         }
 

@@ -10,11 +10,5 @@ namespace JMT.Core.Tool.PoolManager.Core
         {0}
     }}
 }}";
-
-        public static string EnemyTypeFormat =
-            @"public enum EnemyType
-{{
-{0}
-}}";
     }
 }
