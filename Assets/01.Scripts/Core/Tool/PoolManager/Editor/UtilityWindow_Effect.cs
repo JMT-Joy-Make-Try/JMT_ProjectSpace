@@ -39,62 +39,10 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             #endregion
         }
 
-        /**
-         * PoolManager의 메뉴 설정
-         */
-        private void EffectMenuSetting()
-        {
-            #region Effect Menu Set
-
-            //상단에 메뉴 2개를 만들자.
-            EditorGUILayout.BeginHorizontal();
-            {
-                GUI.color = new Color(0.19f, 0.76f, 0.08f);
-                if (GUILayout.Button("Generate Item"))
-                {
-                    GenerateEffectItem();
-                }
-
-                GUI.color = new Color(0.81f, 0.13f, 0.18f);
-                if (GUILayout.Button("Generate enum file"))
-                {
-                    GenerateEnumFile();
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            #endregion
-        }
 
         /**
          * 사각형 정보 알아오기
          */
-
-        /**
-         * Pool Item 삭제 버튼
-         */
-        private void EffectItemDeleteButton(PoolingItemSO item)
-        {
-            #region Delete Button
-
-            EditorGUILayout.BeginVertical();
-            {
-                EditorGUILayout.Space(10f);
-                GUI.color = Color.red;
-                if (GUILayout.Button("X", GUILayout.Width(20f)))
-                {
-                    _effectTable.datas.Remove(item);
-                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(item));
-                    EditorUtility.SetDirty(_effectTable);
-                    AssetDatabase.SaveAssets();
-                }
-
-                GUI.color = Color.white;
-            }
-            EditorGUILayout.EndVertical();
-
-            #endregion
-        }
 
         /**
          * Pool Table 그리기
@@ -112,7 +60,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                     EditorGUILayout.LabelField(item.enumName,
                         GUILayout.Height(40f), GUILayout.Width(240f));
 
-                    EffectItemDeleteButton(item);
+                    PoolItemDeleteButton(item, _effectTable);
 
                 }
                 EditorGUILayout.EndHorizontal();
@@ -125,23 +73,6 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             }
         }
 
-
-        /**
-         * 풀 아이템 만들기
-         */
-        private void GenerateEffectItem()
-        {
-            Guid guid = Guid.NewGuid(); // 고유한 문자열 키 반환
-
-            PoolingItemSO item = CreateInstance<PoolingItemSO>(); // 메모리에만 생성
-            item.enumName = guid.ToString();
-
-            AssetDatabase.CreateAsset(item, $"{_poolDirectory}/PoolItems/Pool_{item.enumName}.asset");
-            _effectTable.datas.Add(item);
-
-            EditorUtility.SetDirty(_effectTable);
-            AssetDatabase.SaveAssets();
-        }
 
         private void GenerateEnumFile()
         {
@@ -193,7 +124,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
          */
         private void DrawEffectItems()
         {
-            EffectMenuSetting();
+            MenuSetting(UtilType.Effect);
 
             GUI.color = Color.white; //원래 색상으로 복귀.
 
