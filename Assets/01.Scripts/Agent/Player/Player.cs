@@ -16,25 +16,29 @@ namespace JMT.Player
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
 
-        public int Health { get; }
+        [field:SerializeField] public int Health { get; private set; }
         private int _curHealth;
-        public event Action OnDamage;
+        public event Action<int, int> OnDamageEvent;
+        public event Action OnDeadEvent;
         private void Awake()
         {
             VisualTrm = transform.Find("Visual");
             CameraTrm = transform.Find("Camera");
             RigidCompo = GetComponent<Rigidbody>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
+
+            InitHealth();
         }
 
         public void InitHealth()
         {
-            _curHealth = Health;    
+            _curHealth = Health;
         }
 
         public void TakeDamage(int damage)
         {
             _curHealth -= damage;
+            OnDamageEvent?.Invoke(_curHealth, Health);
             if (_curHealth <= 0)
             {
                 Dead();
@@ -43,7 +47,7 @@ namespace JMT.Player
 
         public void Dead()
         {
-            OnDamage?.Invoke();
+            OnDeadEvent?.Invoke();
         }
     }
 }

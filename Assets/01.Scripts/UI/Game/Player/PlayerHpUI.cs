@@ -10,6 +10,7 @@ namespace JMT.UISystem
 
         public void SetHpBar(int currentHp, int maxHp)
         {
+            Debug.Log("asdf");
             fill.DOFillAmount(currentHp / (float)maxHp, 0.2f);
         }
     }
