@@ -64,7 +64,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * PoolManager의 메뉴 설정
          */
-        private void PoolMenuSetting()
+        private void MenuSetting(UtilType type)
         {
             #region Pool Menu Set
 
@@ -74,7 +74,14 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 GUI.color = new Color(0.19f, 0.76f, 0.08f);
                 if (GUILayout.Button("Generate Item"))
                 {
-                    GeneratePoolItem();
+                    if (type == UtilType.Enemy)
+                    {
+                        GenerateItem(_poolTable);
+                    }
+                    else if (type == UtilType.Effect)
+                    {
+                        GenerateItem(_effectTable);
+                    }
                 }
 
                 GUI.color = new Color(0.81f, 0.13f, 0.18f);
@@ -91,7 +98,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * 사각형 정보 알아오기
          */
-        private void GetRect(PoolingItemSO item)
+        private void GetRect(PoolingItemSO item, UtilType type = UtilType.Enemy)
         {
             // 마지막으로 그린 사각형 정보를 알아옴
             Rect lastRect = GUILayoutUtility.GetLastRect();
@@ -100,7 +107,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 && lastRect.Contains(Event.current.mousePosition))
             {
                 inspectorScroll = Vector2.zero;
-                selectedItem[UtilType.Pool] = item;
+                selectedItem[type] = item;
                 Event.current.Use();
             }
         }
@@ -108,7 +115,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * Pool Item 삭제 버튼
          */
-        private void PoolItemDeleteButton(PoolingItemSO item)
+        private void PoolItemDeleteButton(PoolingItemSO item, PoolingTableSO table)
         {
             #region Delete Button
 
@@ -118,9 +125,9 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 GUI.color = Color.red;
                 if (GUILayout.Button("X", GUILayout.Width(20f)))
                 {
-                    _poolTable.datas.Remove(item);
+                    table.datas.Remove(item);
                     AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(item));
-                    EditorUtility.SetDirty(_poolTable);
+                    EditorUtility.SetDirty(table);
                     AssetDatabase.SaveAssets();
                 }
 
@@ -139,7 +146,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             foreach (PoolingItemSO item in _poolTable.datas)
             {
                 // 현재 그릴 item이 선택아이템과 동일하면 스타일 지정
-                GUIStyle style = selectedItem[UtilType.Pool] == item
+                GUIStyle style = selectedItem[UtilType.Enemy] == item
                     ? _selectStyle
                     : GUIStyle.none;
                 EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
@@ -147,7 +154,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                     EditorGUILayout.LabelField(item.enumName,
                         GUILayout.Height(40f), GUILayout.Width(240f));
 
-                    PoolItemDeleteButton(item);
+                    PoolItemDeleteButton(item, _poolTable);
 
                 }
                 EditorGUILayout.EndHorizontal();
@@ -163,15 +170,15 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * 인스펙터 그리기
          */
-        private void DrawPoolInspector()
+        private void DrawInspector(UtilType type)
         {
-            if (selectedItem[UtilType.Pool] != null)
+            if (selectedItem[type] != null)
             {
                 inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
                 {
                     EditorGUILayout.Space(2f);
                     UnityEditor.Editor.CreateCachedEditor(
-                        selectedItem[UtilType.Pool], null, ref _cachedEditor);
+                        selectedItem[type], null, ref _cachedEditor);
 
                     _cachedEditor.OnInspectorGUI();
                 }
@@ -182,7 +189,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * 풀 아이템 만들기
          */
-        private void GeneratePoolItem()
+        private void GenerateItem(PoolingTableSO table)
         {
             Guid guid = Guid.NewGuid(); // 고유한 문자열 키 반환
 
@@ -190,32 +197,10 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             item.enumName = guid.ToString();
 
             AssetDatabase.CreateAsset(item, $"{_poolDirectory}/PoolItems/Pool_{item.enumName}.asset");
-            _poolTable.datas.Add(item);
+            table.datas.Add(item);
 
-            EditorUtility.SetDirty(_poolTable);
+            EditorUtility.SetDirty(table);
             AssetDatabase.SaveAssets();
-        }
-
-        /**
-         * Pool Enum 파일 생성
-         */
-        private void GenerateEnumFile()
-        {
-            StringBuilder codeBuilder = new StringBuilder();
-
-            foreach (PoolingItemSO item in _poolTable.datas)
-            {
-                codeBuilder.Append(item.enumName);
-                codeBuilder.Append(",");
-            }
-
-            string code = string.Format(CodeFormat.PoolingTypeFormat, codeBuilder.ToString());
-
-            string path = $"{Application.dataPath}/01.Scripts/Core/Tool/PoolManager/Core/ObjectPool/PoolingType.cs";
-
-
-            File.WriteAllText(path, code);
-            AssetDatabase.Refresh();
         }
 
         /**
@@ -223,7 +208,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
          */
         private void DrawPoolItems()
         {
-            PoolMenuSetting();
+            MenuSetting(UtilType.Enemy);
 
             GUI.color = Color.white; //원래 색상으로 복귀.
 
@@ -236,8 +221,8 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                     EditorGUILayout.LabelField("Pooling list");
                     EditorGUILayout.Space(3f);
 
-                    scrollPositions[UtilType.Pool] = EditorGUILayout.BeginScrollView
-                    (scrollPositions[UtilType.Pool], false, true,
+                    scrollPositions[UtilType.Enemy] = EditorGUILayout.BeginScrollView
+                    (scrollPositions[UtilType.Enemy], false, true,
                         GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
                     {
                         DrawPoolTable();
@@ -249,7 +234,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 #endregion
 
                 // 인스펙터 그리기
-                DrawPoolInspector();
+                DrawInspector(UtilType.Enemy);
             }
             EditorGUILayout.EndHorizontal();
         }

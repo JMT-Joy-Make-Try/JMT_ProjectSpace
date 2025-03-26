@@ -8,7 +8,8 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
 {
     public enum UtilType
     {
-        Pool,
+        Enemy,
+        Effect
     }
 
     public partial class UtilityWindow : EditorWindow
@@ -60,6 +61,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         {
             EditorStyleSetting();
             PoolSetting();
+            EffectSetting();
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -95,6 +97,9 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             {
                 case 0:
                     DrawPoolItems();
+                    break;
+                case 1:
+                    DrawEffectItems();
                     break;
             }
         }

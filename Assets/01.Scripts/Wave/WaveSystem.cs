@@ -1,3 +1,5 @@
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +37,8 @@ namespace JMT
             {
                 yield return waitTime;
                 int randomValue = Random.Range(0, spawnPoints.Count);
-                Instantiate(enemy, spawnPoints[randomValue].transform.position, Quaternion.identity);
+                var obj = PoolingManager.Instance.Pop(PoolingType.Enemy_Ailen);
+                obj.ObjectPrefab.transform.position = spawnPoints[randomValue].transform.position;
             }
             enemyCount += 5;
             yield return null;

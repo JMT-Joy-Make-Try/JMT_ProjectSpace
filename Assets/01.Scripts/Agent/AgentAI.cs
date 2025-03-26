@@ -2,6 +2,7 @@ using System;
 using AYellowpaper.SerializedCollections;
 using JMT.Core;
 using JMT.Core.Tool;
+using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using UnityEngine;
 using UnityEngine.AI;
