@@ -1,7 +1,7 @@
-namespace JMT.Core.Tool.PoolManager.Core
+namespace JMT.Core.Tool.PoolManager
 {
     public enum PoolingType
     {
-        asdf,
+        Enemy_Ailen,
     }
 }

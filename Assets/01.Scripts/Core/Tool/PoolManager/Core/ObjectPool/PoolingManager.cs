@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 namespace JMT.Core.Tool.PoolManager.Core
@@ -61,14 +60,6 @@ namespace JMT.Core.Tool.PoolManager.Core
             }
 
             _generatedObjects.Clear();
-        }
-
-        public void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Pop(PoolingType.asdf);
-            }
         }
     }
 }
