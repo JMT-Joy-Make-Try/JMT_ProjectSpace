@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
-    public class PlayerHpUI : MonoBehaviour
+    public class PlayerFillUI : MonoBehaviour
     {
         [SerializeField] private Image fill;
 

@@ -17,8 +17,11 @@ namespace JMT.Player
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
+        [field:SerializeField] public int Oxygen { get; private set; }
         private int _curHealth;
+        private int _curOxygen;
         public event Action<int, int> OnDamageEvent;
+        public event Action<int, int> OnOxygenEvent;
         public event Action OnDeadEvent;
         private void Awake()
         {
@@ -43,6 +46,12 @@ namespace JMT.Player
             {
                 Dead();
             }
+        }
+
+        public void AddOxygen(int value)
+        {
+            _curOxygen += value;
+            OnOxygenEvent?.Invoke(_curOxygen, Oxygen);
         }
 
         public void Dead()
