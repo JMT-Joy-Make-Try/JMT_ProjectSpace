@@ -14,13 +14,14 @@ using UnityEngine;
 
 namespace JMT.Building
 {
-    public abstract class BuildingBase : TouchableObject, IDamageable
+    public abstract class BuildingBase : MonoBehaviour, IDamageable
     {
+        [SerializeField] protected Animator buildingAnimator;
         [field: SerializeField] public int NpcCount { get; protected set; }
         [Space] [SerializeField] protected List<NPCAgent> _currentNpc;
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
         private BuildingDataSO buildingData;
-        [field: SerializeField] public int Health { get; }
+        [field: SerializeField] public int Health { get; protected set; }
         protected int _curHealth;
 
         protected event Action OnBuildingBroken;
@@ -36,22 +37,6 @@ namespace JMT.Building
             _currentNpc = new List<NPCAgent>();
         }
 
-        protected virtual void Start()
-        {
-            OnClick += HandleClick;
-        }
-
-        private void HandleClick()
-        {
-            //CameraManager.Instance.ZoomCamera(1.2f, 1f);
-            //CameraManager.Instance.LookCamera(transform, 1f);
-        }
-
-        protected virtual void OnDestroy()
-        {
-            OnClick -= HandleClick;
-        }
-
         public virtual void Work()
         {
             if (_isWorking)
@@ -60,6 +45,7 @@ namespace JMT.Building
             }
 
             _isWorking = true;
+            SetAnimation(_isWorking);   
         }
 
         public virtual void AddNpc(NPCAgent agent)
@@ -107,6 +93,16 @@ namespace JMT.Building
         public void Dead()
         {
             OnBuildingBroken?.Invoke();
+        }
+
+        protected void SetAnimation(bool isWalking)
+        {
+            if (buildingAnimator == null)
+            {
+                Debug.LogWarning("No animator attached to building");
+                return;
+            }
+            buildingAnimator.SetBool("IsWalking", isWalking);
         }
     }
 }
