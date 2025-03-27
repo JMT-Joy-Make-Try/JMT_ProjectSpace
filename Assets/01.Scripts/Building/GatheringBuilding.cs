@@ -20,7 +20,7 @@ namespace JMT.Building
         protected override void Awake()
         {
             base.Awake();
-            OnClick += InventoryAdd;
+            //OnClick += InventoryAdd;
         }
 
         private void InventoryAdd()
