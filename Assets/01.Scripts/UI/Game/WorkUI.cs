@@ -8,22 +8,40 @@ namespace JMT.UISystem
     {
         [SerializeField] private Transform content;
         [SerializeField] private BuildingCellUI buildingPrefab;
-        
-        public void SetBuilding(List<BuildingDataSO> data)
+        [SerializeField] private int buildingCellCount = 0;
+        private readonly List<BuildingCellUI> buildingCells = new();
+
+        private void Awake()
         {
-            ResetContent();
-            for(int i = 0; i < data.Count; i++)
+            for (int i = 0; i < buildingCellCount; i++)
             {
-                BuildingCellUI cell = Instantiate(buildingPrefab, content);
-                cell.Init(data[i]);
+                var cell = Instantiate(buildingPrefab, content);
+                cell.gameObject.SetActive(false);
+                buildingCells.Add(cell);
             }
         }
 
-        private void ResetContent()
+        public void SetBuilding(List<BuildingDataSO> data)
         {
-            for(int i = 0; i < content.childCount; i++)
+            int dataCount = data.Count;
+            int cellCount = buildingCells.Count;
+
+            for (int i = 0; i < dataCount; i++)
             {
-                Destroy(content.GetChild(i).gameObject);
+                if (i >= cellCount)
+                {
+                    var cell = Instantiate(buildingPrefab, content);
+                    cell.gameObject.SetActive(false);
+                    buildingCells.Add(cell);
+                }
+
+                buildingCells[i].gameObject.SetActive(true);
+                buildingCells[i].Init(data[i]);
+            }
+
+            for (int i = dataCount; i < cellCount; i++)
+            {
+                buildingCells[i].gameObject.SetActive(false);
             }
         }
     }
