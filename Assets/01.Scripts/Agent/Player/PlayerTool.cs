@@ -5,8 +5,8 @@ namespace JMT.Player
 {
     public class PlayerTool : MonoBehaviour
     {
-        [SerializeField] private SerializedDictionary<PlayerToolType, PlayerToolSO> _playerToolSOs;
-        private PlayerToolSO _curPlayerToolSO;
+        [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
+        private ToolSO _curPlayerToolSO;
         private Player _player;
         
         public void Init(Player player)

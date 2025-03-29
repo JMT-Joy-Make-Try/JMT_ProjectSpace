@@ -2,8 +2,8 @@
 
 namespace JMT.Player
 {
-    [CreateAssetMenu(fileName = "LiquidFuelCollector", menuName = "PlayerTool/LiquidFuelCollector")]
-    public class LiquidFuelCollectorSO : PlayerToolSO
+    [CreateAssetMenu(fileName = "LiquidFuelCollector", menuName = "SO/Data/ToolSO/LiquidFuelCollector")]
+    public class LiquidFuelCollectorSO : ToolSO
     {
         public override void Equip(Player player)
         {

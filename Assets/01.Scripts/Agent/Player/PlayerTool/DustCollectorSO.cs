@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace JMT.Player
 {
-    [CreateAssetMenu(fileName = "DustCollector", menuName = "PlayerTool/DustCollector")]
-    public class DustCollectorSO : PlayerToolSO
+    [CreateAssetMenu(fileName = "DustCollector", menuName = "SO/Data/ToolSO/DustCollectorSO")]
+    public class DustCollectorSO : ToolSO
     {
         public override void Equip(Player player)
         {
