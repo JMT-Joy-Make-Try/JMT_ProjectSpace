@@ -8,7 +8,6 @@ using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Range = JMT.Core.Tool.Range;
 
 namespace JMT.Agent.NPC
