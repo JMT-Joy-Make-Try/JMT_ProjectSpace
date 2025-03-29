@@ -47,7 +47,7 @@ namespace JMT.UISystem
                 cells[i].SetItemCell(string.Empty, 0);
                 if (i < dic.Count)
                 {
-                    KeyValuePair<ItemSO, int> pair = pairs[i];
+                    KeyValuePair<InventorySO, int> pair = pairs[i];
                     if (category == null || category == pair.Key.Category)
                         cells[i - falseValue].SetItemCell(pair.Key.ItemName, pair.Value);
                     else falseValue++;

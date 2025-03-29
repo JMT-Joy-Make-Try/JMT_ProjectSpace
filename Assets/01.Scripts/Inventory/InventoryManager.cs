@@ -8,8 +8,8 @@ namespace JMT.Planets.Tile
 {
     public class InventoryManager : MonoSingleton<InventoryManager>
     {
-        [SerializeField] private SerializedDictionary<ItemSO, int> itemDictionary = new();
-        public SerializedDictionary<ItemSO, int> ItemDictionary => itemDictionary;
+        [SerializeField] private SerializedDictionary<InventorySO, int> itemDictionary = new();
+        public SerializedDictionary<InventorySO, int> ItemDictionary => itemDictionary;
 
         public void AddItem(ItemSO item, int increaseCount)
         {
