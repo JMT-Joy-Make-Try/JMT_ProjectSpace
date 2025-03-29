@@ -3,11 +3,16 @@ using UnityEngine;
 
 namespace JMT
 {
-    [CreateAssetMenu(fileName = "Item", menuName = "SO/Data/ItemSO")]
-    public class ItemSO : ScriptableObject
+    public enum InventoryCategory
     {
-        public Sprite Icon;
-        public string ItemName;
+        Item, //자원
+        Tool, //도구
+        Costume, //복장
+    }
+
+    [CreateAssetMenu(fileName = "Item", menuName = "SO/Data/ItemSO")]
+    public class ItemSO : InventorySO
+    {
         public ItemType ItemType;
     }
 }
