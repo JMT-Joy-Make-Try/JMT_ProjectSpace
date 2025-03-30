@@ -5,6 +5,7 @@ namespace JMT.Core.Tool.PoolManager
                 Enemy_Ailen,
         Effect,
         Effect1,
+        Agent_NPC,
 
     }
 }

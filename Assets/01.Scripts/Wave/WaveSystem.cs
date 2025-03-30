@@ -1,3 +1,4 @@
+using JMT.Agent.Alien;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using System.Collections;
@@ -9,7 +10,7 @@ namespace JMT
     public class WaveSystem : MonoBehaviour
     {
         [SerializeField] private List<GameObject> spawnPoints = new();
-        [SerializeField] private GameObject enemy;
+        [SerializeField] private Alien enemy;
 
         private Coroutine spawnCoroutine;
         private int enemyCount = 1;

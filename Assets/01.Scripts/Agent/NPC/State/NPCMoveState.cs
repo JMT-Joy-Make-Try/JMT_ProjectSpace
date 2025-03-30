@@ -32,14 +32,7 @@ namespace JMT.Agent.State
                 }
                 else
                 {
-                    if (agent.CurrentWorkingPlanetTile == null)
-                    {
-                        agent.MovementCompo.Move(agent.CurrentWorkingBuilding.transform.position, agent.MoveSpeed);
-                    }
-                    else
-                    {
-                        Agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed);
-                    }
+                    agent.MovementCompo.Move(agent.CurrentWorkingBuilding.transform.position, agent.MoveSpeed);
                     Agent.StateMachineCompo.ChangeStateWait(NPCState.Work, !agent.MovementCompo.IsMoving);
                 }
 

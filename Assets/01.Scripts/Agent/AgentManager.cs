@@ -1,4 +1,6 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,8 @@ namespace JMT.Agent
 
         public void SpawnAgent(Vector3 position)
         {
-            NPCAgent.Spawn(position);
+            var obj = PoolingManager.Instance.Pop(PoolingType.Agent_NPC);
+            obj.ObjectPrefab.transform.position = position;
         }
 
         public NPCAgent GetAgent()

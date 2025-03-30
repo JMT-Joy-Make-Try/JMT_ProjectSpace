@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
@@ -12,7 +13,7 @@ using Range = JMT.Core.Tool.Range;
 
 namespace JMT.Agent.NPC
 {
-    public class NPCAgent : AgentAI<NPCState>, ISpawnable
+    public class NPCAgent : AgentAI<NPCState>
     {
         [field: SerializeField] public NPCOxygen OxygenCompo { get; private set; }
         [Header("Unlock NPC")]
@@ -147,13 +148,5 @@ namespace JMT.Agent.NPC
             //     TakeItem(ItemType.LiquidFuel, 1);
             // }
         }
-
-        public GameObject Spawn(Vector3 position)
-        {
-            var npc = Instantiate(this, position, Quaternion.identity);
-            return npc.gameObject;
-        }
-        
-        
     }
 }

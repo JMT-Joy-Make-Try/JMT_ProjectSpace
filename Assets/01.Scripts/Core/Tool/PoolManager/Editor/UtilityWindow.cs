@@ -8,7 +8,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
 {
     public enum UtilType
     {
-        Enemy,
+        Agent,
         Effect
     }
 

@@ -74,7 +74,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 GUI.color = new Color(0.19f, 0.76f, 0.08f);
                 if (GUILayout.Button("Generate Item"))
                 {
-                    if (type == UtilType.Enemy)
+                    if (type == UtilType.Agent)
                     {
                         GenerateItem(_poolTable);
                     }
@@ -98,7 +98,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         /**
          * 사각형 정보 알아오기
          */
-        private void GetRect(PoolingItemSO item, UtilType type = UtilType.Enemy)
+        private void GetRect(PoolingItemSO item, UtilType type = UtilType.Agent)
         {
             // 마지막으로 그린 사각형 정보를 알아옴
             Rect lastRect = GUILayoutUtility.GetLastRect();
@@ -146,7 +146,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             foreach (PoolingItemSO item in _poolTable.datas)
             {
                 // 현재 그릴 item이 선택아이템과 동일하면 스타일 지정
-                GUIStyle style = selectedItem[UtilType.Enemy] == item
+                GUIStyle style = selectedItem[UtilType.Agent] == item
                     ? _selectStyle
                     : GUIStyle.none;
                 EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
@@ -208,7 +208,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
          */
         private void DrawPoolItems()
         {
-            MenuSetting(UtilType.Enemy);
+            MenuSetting(UtilType.Agent);
 
             GUI.color = Color.white; //원래 색상으로 복귀.
 
@@ -221,8 +221,8 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                     EditorGUILayout.LabelField("Pooling list");
                     EditorGUILayout.Space(3f);
 
-                    scrollPositions[UtilType.Enemy] = EditorGUILayout.BeginScrollView
-                    (scrollPositions[UtilType.Enemy], false, true,
+                    scrollPositions[UtilType.Agent] = EditorGUILayout.BeginScrollView
+                    (scrollPositions[UtilType.Agent], false, true,
                         GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
                     {
                         DrawPoolTable();
@@ -234,7 +234,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
                 #endregion
 
                 // 인스펙터 그리기
-                DrawInspector(UtilType.Enemy);
+                DrawInspector(UtilType.Agent);
             }
             EditorGUILayout.EndHorizontal();
         }

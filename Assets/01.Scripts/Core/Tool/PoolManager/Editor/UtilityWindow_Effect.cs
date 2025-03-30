@@ -52,7 +52,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             foreach (PoolingItemSO item in _effectTable.datas)
             {
                 // 현재 그릴 item이 선택아이템과 동일하면 스타일 지정
-                GUIStyle style = selectedItem[UtilType.Enemy] == item
+                GUIStyle style = selectedItem[UtilType.Agent] == item
                     ? _selectStyle
                     : GUIStyle.none;
                 EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
@@ -77,15 +77,18 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
         private void GenerateEnumFile()
         {
             string path = $"{Application.dataPath}/01.Scripts/Core/Tool/PoolManager/Core/ObjectPool/PoolingType.cs";
+            Debug.Log(path);
             HashSet<string> enumEntries = new HashSet<string>();
 
             // 기존 파일이 존재하면 기존 Enum 항목을 읽어옴
             if (File.Exists(path))
             {
+                Debug.Log($"File exists at {path}");
                 string existingCode = File.ReadAllText(path);
                 Match match = Regex.Match(existingCode, @"enum PoolingType\s*{([^}]*)}");
                 if (match.Success)
                 {
+                    Debug.Log($"Enum file exists at {path}");
                     string[] existingEntries = match.Groups[1].Value.Split(new[] { ',', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string entry in existingEntries)
                     {
@@ -99,6 +102,11 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             }
 
             // 새로운 항목 추가
+            foreach (PoolingItemSO item in _poolTable.datas)
+            {
+                enumEntries.Add(item.enumName);
+            }
+            
             foreach (PoolingItemSO item in _effectTable.datas)
             {
                 enumEntries.Add(item.enumName);
@@ -112,7 +120,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             }
 
             string code = string.Format(CodeFormat.PoolingTypeFormat, codeBuilder.ToString().TrimEnd(','));
-    
+            Debug.Log(code);
     
             File.WriteAllText(path, code);
             AssetDatabase.Refresh();
