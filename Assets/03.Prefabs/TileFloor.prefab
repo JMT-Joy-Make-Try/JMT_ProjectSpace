@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ac0a41e0d32524991f0db5902299aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemType: {fileID: 0}
   itemCount: 0
 --- !u!1 &4520522586023960586
 GameObject:
@@ -4895,6 +4895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInFogDamageTime: 5
+  _damageAmount: 10
   _fogLightObject: {fileID: 7461132169374103522}
 --- !u!65 &2819504554867104734
 BoxCollider:
@@ -5025,11 +5026,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_LocalRotation.y
@@ -5037,7 +5038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0810e824e575897428b8e8a39b40147f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
