@@ -1,13 +1,14 @@
+using System;
 using UnityEngine;
 
 namespace JMT.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        private Player player;
         [SerializeField] private float moveSpeed;
         [SerializeField] private float camSpeed = 4f;
 
+        private Player player;
         private Vector3 moveVec = Vector3.zero;
         private bool isSecondaryTouch = false;
 
