@@ -4,12 +4,18 @@ using UnityEngine;
 namespace JMT
 {
     [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/ToolSO")]
-    public class ToolSO : ScriptableObject
+    public class ToolSO : InventorySO
     {
-        public Sprite Icon;
-        public InventoryCategory Category;
-        public string ItemName;
-        public string ItemDescription;
         // public ItemType ItemType;
+        
+        public virtual void Equip(Player.Player player)
+        {
+            
+        }
+        
+        public virtual void UnEquip(Player.Player player)
+        {
+            
+        }
     }
 }

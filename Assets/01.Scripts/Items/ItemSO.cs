@@ -11,12 +11,8 @@ namespace JMT
     }
 
     [CreateAssetMenu(fileName = "Item", menuName = "SO/Data/ItemSO")]
-    public class ItemSO : ScriptableObject
+    public class ItemSO : InventorySO
     {
-        public Sprite Icon;
-        public InventoryCategory Category;
-        public string ItemName;
-        public string ItemDescription;
         public ItemType ItemType;
     }
 }
