@@ -28,7 +28,17 @@ namespace JMT.Agent
 
         public NPCAgent GetAgent()
         {
+            if (UnemployedAgents.Count == 0)
+            {
+                Debug.LogWarning("No unemployed agents");
+                return null;
+            }
             NPCAgent agent = UnemployedAgents[0];
+            if (agent == null)
+            {
+                Debug.LogWarning("No unemployed agents");
+                return null;
+            }
             return agent;
         }
 

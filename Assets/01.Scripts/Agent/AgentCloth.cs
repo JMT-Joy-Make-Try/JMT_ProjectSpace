@@ -7,44 +7,34 @@ namespace JMT.Agent
 {
     public class AgentCloth : MonoBehaviour
     {
-        [SerializeField] private SerializedDictionary<AgentType, List<GameObject>> agentClothList;
+        [SerializeField] private SerializedDictionary<AgentType, Animator> agentClothList;
 
-        private List<GameObject> _currentClothList;
+        public Animator CurrentCloth { get; private set; }
 
-        private void Awake()
+        private void Start()
         {
-            _currentClothList = new List<GameObject>();
+            SetCloth(AgentType.Base);
         }
+
 
         public void SetCloth(AgentType type)
         {
-            if (_currentClothList.Count > 0)
+            if (CurrentCloth != null)
             {
-                foreach (var cloth in _currentClothList)
-                {
-                    cloth.SetActive(false);
-                }
-                _currentClothList.Clear();
+                CurrentCloth.gameObject.SetActive(false);
             }
-            foreach (var cloth in agentClothList[type])
-            {
-                cloth.SetActive(true);
-                _currentClothList.Add(cloth);
-            }
-            
+
+            CurrentCloth = agentClothList[type];
+            CurrentCloth.gameObject.SetActive(true);
         }
     }
 
     public enum AgentType
     {
         Base,
-        Patient,
-        Doctor,
-        Researcher,
-        Pilot,
-        Worker,
-        Farmer,
-        Cook,
         DustCollector,
+        Guard,
+        FuelCollector,
+        Patient
     }
 }

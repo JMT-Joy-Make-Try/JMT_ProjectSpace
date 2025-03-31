@@ -8,6 +8,7 @@ using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Range = JMT.Core.Tool.Range;
 
@@ -80,6 +81,9 @@ namespace JMT.Agent.NPC
             {
                 AgentManager.Instance.UnregisterAgent(this);
             }
+            ClothCompo.SetCloth(type);
+            AnimatorCompo = ClothCompo.CurrentCloth;
+            AnimatorCompo.SetBool(StateMachineCompo.CurrentState.StateName, true);
         }
 
         private void Start()
@@ -138,15 +142,6 @@ namespace JMT.Agent.NPC
                 building.AddItem(TakeItemTuple.Item2);
                 TakeItemTuple = null;
             }
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            // if (Input.GetKeyDown(KeyCode.Space))
-            // {
-            //     TakeItem(ItemType.LiquidFuel, 1);
-            // }
         }
     }
 }
