@@ -8,10 +8,10 @@ namespace JMT.Building
 {
     public enum BuildingCategory
     {
-        GatheringBuilding, // 채집 건물
-        ConstructBuilding, // 제작 건물
+        ItemBuilding, // 자원 건물
+        AttackBuilding, // 공격 건물
         FacilityBuilding, // 설비 건물
-        MovementBuilding, // 이동 건물
+        MoveBuilding, // 이동 건물
     }
     [CreateAssetMenu(menuName = "SO/Data/BuildingDataSO")]
     public class BuildingDataSO : ScriptableObject
