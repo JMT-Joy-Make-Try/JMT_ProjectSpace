@@ -17,18 +17,20 @@ namespace JMT
 
         private void Awake()
         {
-            DaySystem.Instance.OnDayEvent += StopSpawn;
-            DaySystem.Instance.OnNightEvent += StartSpawn;
+            DaySystem.Instance.OnChangeDaytimeEvent += EnemySpawn;
         }
 
-        public void StartSpawn()
+        public void EnemySpawn(DaytimeType type)
         {
-            spawnCoroutine = StartCoroutine(SpawnCoroutine(0.5f));
-        }
-
-        public void StopSpawn()
-        {
-            StopCoroutine(spawnCoroutine);
+            switch (type)
+            {
+                case DaytimeType.Day:
+                    spawnCoroutine = StartCoroutine(SpawnCoroutine(0.5f));
+                    break;
+                case DaytimeType.Night:
+                    StopCoroutine(spawnCoroutine);
+                    break;
+            }
         }
 
         private IEnumerator SpawnCoroutine(float coolTime)

@@ -9,7 +9,6 @@ namespace JMT.Player
         [SerializeField] private PlayerFillUI playerHpUI;
         [SerializeField] private PlayerFillUI playerOxygenUI;
 
-
         private void Awake()
         {
             player.OnDamageEvent += playerHpUI.SetHpBar;

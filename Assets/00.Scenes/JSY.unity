@@ -387,7 +387,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   <Health>k__BackingField: 100
-  <Oxygen>k__BackingField: 10
+  <Oxygen>k__BackingField: 100
 --- !u!114 &18778682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24660,6 +24660,18 @@ PrefabInstance:
     - target: {fileID: 822707531021957730, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025948858841400325, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      propertyPath: repeatDayTime.minute
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025948858841400325, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      propertyPath: repeatDayTime.second
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025948858841400325, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      propertyPath: repeatNightTime.second
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1087927972335102416, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
       propertyPath: m_AnchorMax.y

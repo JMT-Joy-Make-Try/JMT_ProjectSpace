@@ -25,12 +25,12 @@ namespace JMT.UISystem
         private void Awake()
         {
             cells = content.GetComponentsInChildren<ItemCellUI>().ToList();
-            Transform buttonGroup = PanelTrm.Find("Panel").Find("Left").Find("ButtonGroup");
+            Transform leftGroup = PanelTrm.Find("Panel").Find("Left").Find("ButtonGroup");
 
-            totalButton = buttonGroup.Find("TotalBtn").GetComponent<Button>();
-            itemButton = buttonGroup.Find("ItemBtn").GetComponent<Button>();
-            toolButton = buttonGroup.Find("ToolBtn").GetComponent<Button>();
-            costumeButton = buttonGroup.Find("CostumeBtn").GetComponent<Button>();
+            totalButton = leftGroup.Find("TotalBtn").GetComponent<Button>();
+            itemButton = leftGroup.Find("ItemBtn").GetComponent<Button>();
+            toolButton = leftGroup.Find("ToolBtn").GetComponent<Button>();
+            costumeButton = leftGroup.Find("CostumeBtn").GetComponent<Button>();
 
             totalButton.onClick.AddListener(() => SelectCategory());
             itemButton.onClick.AddListener(() => SelectCategory(InventoryCategory.Item));
@@ -41,9 +41,9 @@ namespace JMT.UISystem
             nameText = right.Find("ItemName").GetComponentInChildren<TextMeshProUGUI>();
             descriptionText = right.Find("Description").GetComponentInChildren<TextMeshProUGUI>();
             locationText = right.Find("Location").GetComponentInChildren<TextMeshProUGUI>();
-            this.buttonGroup = right.Find("ButtonGroup").gameObject;
-            clearButton = buttonGroup.Find("ClearBtn").GetComponent<Button>();
-            EquipButton = buttonGroup.Find("EquipBtn").GetComponent<Button>();
+            buttonGroup = right.Find("ButtonGroup").gameObject;
+            clearButton = buttonGroup.transform.Find("ClearBtn").GetComponent<Button>();
+            EquipButton = buttonGroup.transform.Find("EquipBtn").GetComponent<Button>();
         }
         public override void OpenUI()
         {
@@ -67,7 +67,7 @@ namespace JMT.UISystem
                     KeyValuePair<InventorySO, int> pair = pairs[i];
                     if (category == null || category == pair.Key.Category)
                     {
-                        cells[value].GetComponent<Button>().onClick.AddListener(()=> HandleSellButton(pair.Key));
+                        cells[value - falseValue].GetComponent<Button>().onClick.AddListener(()=> HandleCellButton(pair.Key));
                         cells[i - falseValue].SetItemCell(pair.Key.ItemName, pair.Value);
                     }    
                     else falseValue++;
@@ -75,12 +75,13 @@ namespace JMT.UISystem
             }
         }
 
-        private void HandleSellButton(InventorySO data)
+        private void HandleCellButton(InventorySO data)
         {
             if(data.Icon != null)
                 icon.sprite = data.Icon;
             nameText.text = data.ItemName;
             descriptionText.text = data.ItemDescription;
+            buttonGroup.SetActive(data.Category != InventoryCategory.Item);
         }
     }
 }
