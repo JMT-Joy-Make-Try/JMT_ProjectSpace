@@ -9,6 +9,10 @@ namespace JMT.Player
         [SerializeField] private PlayerInputSO inputSO;
         [SerializeField] private LayerMask groundLayer;
 
+        public event Action<int, int> OnDamageEvent;
+        public event Action<int, int> OnOxygenEvent;
+        public event Action OnDeadEvent;
+
         public Transform VisualTrm { get; private set; }
         public Transform CameraTrm { get; private set; }
         public Rigidbody RigidCompo {  get; private set; }
@@ -18,11 +22,12 @@ namespace JMT.Player
 
         [field:SerializeField] public int Health { get; private set; }
         [field:SerializeField] public int Oxygen { get; private set; }
+
         private int _curHealth;
         private int _curOxygen;
-        public event Action<int, int> OnDamageEvent;
-        public event Action<int, int> OnOxygenEvent;
-        public event Action OnDeadEvent;
+        private bool isOxygenArea;
+        private bool isTimeChanged;
+        
         private void Awake()
         {
             VisualTrm = transform.Find("Visual");
@@ -30,12 +35,28 @@ namespace JMT.Player
             RigidCompo = GetComponent<Rigidbody>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
 
-            InitHealth();
+            DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
+
+            InitStat();
         }
 
-        public void InitHealth()
+        public void InitStat()
         {
             _curHealth = Health;
+            _curOxygen = Oxygen;
+        }
+
+        private void HandleChangeTimeEvent(int m, int s)
+        {
+            if (isOxygenArea) return;
+            if (isTimeChanged)
+            {
+                Debug.Log("감소!!!");
+                AddOxygen(-1);
+                isTimeChanged = false;
+            }
+            else
+                isTimeChanged = true;
         }
 
         public void TakeDamage(int damage)

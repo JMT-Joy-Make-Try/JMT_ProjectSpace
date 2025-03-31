@@ -76,7 +76,7 @@ namespace JMT.Building
 
         public BuildingDataSO BuildingData => buildingData;
 
-        public void InitHealth()
+        public void InitStat()
         {
             _curHealth = Health;
         }

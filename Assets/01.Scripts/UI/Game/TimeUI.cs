@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,6 @@ namespace JMT.UISystem
     public class TimeUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI dayText, timeText;
-        [SerializeField] private TimeData repeatDayTime, repeatNightTime;
         [SerializeField] private Image icon, back;
 
         [Header("Daytime")]
@@ -19,78 +19,26 @@ namespace JMT.UISystem
         [SerializeField] private Color nighttextColor, nightbackColor;
         [SerializeField] private Sprite sun, moon;
 
-        private Coroutine timeRoutine;
-        private TimeData saveTime;
-        private bool isNight;
-
-        private void Start()
+        private void Awake()
         {
-            StartDayTime();
+            DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
+            DaySystem.Instance.OnChangeDaytimeEvent += HandleChangeDaytimeEvent;
+            DaySystem.Instance.OnChangeDayCountEvent += HandleChangeDayCountEvent;
         }
 
-        public void StartDayTime()
+        private void HandleChangeTimeEvent(int m, int s)
         {
-            ChangeDayTime(DaytimeType.Day);
-            timeRoutine = StartCoroutine(TimeCoroutine(repeatDayTime));
+            timeText.text = m.ToString("D2") + ":" + s.ToString("D2");
         }
 
-        public void StartNightTime()
+        private void HandleChangeDaytimeEvent(DaytimeType type)
         {
-            ChangeDayTime(DaytimeType.Night);
-            timeRoutine = StartCoroutine(TimeCoroutine(repeatNightTime));
+            ChangeDayTime(type);
         }
 
-        public void StopTime()
+        private void HandleChangeDayCountEvent(int day)
         {
-            StopCoroutine(timeRoutine);
-        }
-
-        public void RestartTime()
-        {
-            timeRoutine = StartCoroutine(TimeCoroutine(saveTime));
-        }
-
-        private IEnumerator TimeCoroutine(TimeData time)
-        {
-            var waitTime = new WaitForSeconds(1);
-            saveTime.minute = time.minute;
-            saveTime.second = time.second;
-            while (true)
-            {
-                dayText.text = "Day " + DaySystem.Instance.DayCount;
-                timeText.text = saveTime.minute.ToString("D2") + ":" + saveTime.second.ToString("D2");
-                yield return waitTime;
-
-                if (saveTime.second <= 0)
-                {
-                    if (saveTime.minute <= 0)
-                    {
-                        if (isNight)
-                        {
-                            DaySystem.Instance.AddDayCount();
-                            isNight = false;
-                            saveTime.minute = repeatDayTime.minute;
-                            saveTime.second = repeatDayTime.second;
-                            ChangeDayTime(DaytimeType.Day);
-                            DaySystem.Instance.ChangeDay();
-                        }
-                        else
-                        {
-                            isNight = true;
-                            saveTime.minute = repeatNightTime.minute;
-                            saveTime.second = repeatNightTime.second;
-                            ChangeDayTime(DaytimeType.Night);
-                            DaySystem.Instance.ChangeNight();
-                        }
-                    }
-                    else
-                    {
-                        saveTime.minute--;
-                        saveTime.second += 59;
-                    }
-                }
-                else saveTime.second--;
-            }
+            dayText.text = "Day " + day;
         }
 
         private void ChangeDayTime(DaytimeType dayTime)
