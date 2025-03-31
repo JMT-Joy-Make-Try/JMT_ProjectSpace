@@ -42,7 +42,7 @@ namespace JMT.Agent
 
 
         [field: SerializeField]public int Health { get; set; }
-        public void InitHealth()
+        public void InitStat()
         {
             _curHealth = Health;
         }
@@ -72,7 +72,7 @@ namespace JMT.Agent
 
         protected virtual void Init()
         {
-            InitHealth();
+            InitStat();
             IsDead = false;
         }
     }
