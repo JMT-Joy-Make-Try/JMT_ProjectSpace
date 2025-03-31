@@ -12,9 +12,10 @@ namespace JMT.UISystem
 
         public virtual void OpenUI()
         {
-            panelGroup.DOFade(1f, 0.3f);
+            panelGroup.DOFade(1f, 0.3f).SetUpdate(true);
             panelGroup.interactable = true;
             panelGroup.blocksRaycasts = true;
+            Time.timeScale = 0;
             //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(true);
         }
 
@@ -23,6 +24,7 @@ namespace JMT.UISystem
             panelGroup.DOFade(0f, 0.3f);
             panelGroup.interactable = false;
             panelGroup.blocksRaycasts = false;
+            Time.timeScale = 1;
             //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(false);
         }
     }
