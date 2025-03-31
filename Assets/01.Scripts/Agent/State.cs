@@ -6,7 +6,7 @@ namespace JMT.Agent.State
     public abstract class State<T> : MonoBehaviour where T : System.Enum
     {
         public AgentAI<T> Agent;
-        protected string _stateName;
+        public string StateName;
         protected StateMachine<T> _stateMachine;
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace JMT.Agent.State
         public virtual void Initialize(AgentAI<T> agent, string stateName)
         {
             Agent = agent;
-            _stateName = stateName;
+            StateName = stateName;
             _stateMachine = Agent.StateMachineCompo;
         }
 
@@ -25,7 +25,7 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void EnterState()
         {
-            Agent.AnimatorCompo.SetBool(_stateName, true);
+            Agent.AnimatorCompo.SetBool(StateName, true);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace JMT.Agent.State
         /// </summary>
         public virtual void ExitState()
         {
-            Agent.AnimatorCompo.SetBool(_stateName, false);
+            Agent.AnimatorCompo.SetBool(StateName, false);
             StopAllCoroutines();
         }
 

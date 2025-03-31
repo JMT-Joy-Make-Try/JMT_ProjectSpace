@@ -1,8 +1,5 @@
-using JMT.Agent;
 using JMT.Agent.NPC;
-using JMT.Core.Tool;
 using JMT.Planets.Tile;
-using JMT.Planets.Tile.Items;
 using UnityEngine;
 
 namespace JMT.Building
@@ -38,15 +35,6 @@ namespace JMT.Building
         {
             base.Work();
         }
-#if UNITY_EDITOR
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                AddNpc(_npcAgent);
-            }
-        }
-#endif
 
 
         // 이건 애들이 가져오면 호출이 될거임

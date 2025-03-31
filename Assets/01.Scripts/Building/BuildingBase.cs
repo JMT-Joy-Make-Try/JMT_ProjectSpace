@@ -18,6 +18,7 @@ namespace JMT.Building
     {
         [SerializeField] protected Animator buildingAnimator;
         [field: SerializeField] public int NpcCount { get; protected set; }
+        [field: SerializeField] public Transform WorkPosition { get; protected set; }
         [Space] [SerializeField] protected List<NPCAgent> _currentNpc;
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
         private BuildingDataSO buildingData;
@@ -51,8 +52,8 @@ namespace JMT.Building
         public virtual void AddNpc(NPCAgent agent)
         {
             _currentNpc.Add(agent);
-            agent.SetAgentType(_agentType);
             agent.SetBuilding(this);
+            agent.SetAgentType(_agentType);
             if (!_isWorking)
             {
                 Work();

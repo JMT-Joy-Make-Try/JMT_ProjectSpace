@@ -8,11 +8,36 @@ namespace JMT.Agent.State
     public class NPCMoveState : State<NPCState>
     {
         private NPCAgent agent;
-
+        private Vector3 targetPosition;
+        
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
             base.Initialize(agent, stateName);
             this.agent = (NPCAgent)agent;
+            this.agent.OnTypeChanged += HandleTypeChanged;
+        }
+
+        private void HandleTypeChanged(AgentType obj)
+        {
+            if (obj == AgentType.Base)
+            {
+                targetPosition = new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f));
+            }
+            else
+            {
+                targetPosition = agent.CurrentWorkingBuilding.WorkPosition.position;
+            }
+            agent.MovementCompo.Move(targetPosition, agent.MoveSpeed, () => EndMove(obj));
+        }
+
+        private void EndMove(AgentType type)
+        {
+            agent.transform.rotation = agent.CurrentWorkingBuilding.WorkPosition.rotation;
+            if (type != AgentType.Base)
+            {
+                agent.StateMachineCompo.ChangeState(NPCState.Work);
+                Debug.Log("일해라 인간아");
+            }
         }
 
         public override void EnterState()
@@ -26,23 +51,7 @@ namespace JMT.Agent.State
             
             while (true)
             {
-                if (agent.AgentType == AgentType.Base)
-                {
-                    Agent.MovementCompo.Move(new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f)), agent.MoveSpeed);
-                }
-                else
-                {
-                    if (agent.CurrentWorkingPlanetTile == null)
-                    {
-                        agent.MovementCompo.Move(agent.CurrentWorkingBuilding.transform.position, agent.MoveSpeed);
-                    }
-                    else
-                    {
-                        Agent.MovementCompo.Move(agent.CurrentWorkingPlanetTile.transform.position, agent.MoveSpeed);
-                    }
-                    Agent.StateMachineCompo.ChangeStateWait(NPCState.Work, !agent.MovementCompo.IsMoving);
-                }
-
+                agent.MovementCompo.Move(targetPosition, agent.MoveSpeed);
                 yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
             }
         }

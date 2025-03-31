@@ -23,16 +23,7 @@ namespace JMT.Building
         public override void Build(Vector3 position, Transform parent)
         {
             Instantiate(gameObject, position, Quaternion.identity, parent);
-            transform.localPosition = position;
             Work();
-            return;
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
-            AgentManager.Instance.SpawnAgent(position + new Vector3(_radius, 0f));
         }
 
         public override void Work()
@@ -41,7 +32,9 @@ namespace JMT.Building
             if (gameObject.activeSelf)
             {
                 StartCoroutine(WorkCoroutine());
+                Debug.Log("asdf");
             }
+            AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
         }
 
         private IEnumerator WorkCoroutine()
@@ -72,6 +65,7 @@ namespace JMT.Building
         {
             visual.gameObject.SetActive(true);
             brokenVisual.gameObject.SetActive(false);
+            Work();
         }
     }
 }

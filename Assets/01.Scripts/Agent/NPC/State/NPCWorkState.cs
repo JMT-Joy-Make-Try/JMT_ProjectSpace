@@ -11,20 +11,17 @@ namespace JMT.Agent.State
         {
             base.Initialize(agent, stateName);
             npcAgent = agent as NPCAgent;
+            npcAgent.OnTypeChanged += HandleTypeChanged;
+        }
+
+        private void HandleTypeChanged(AgentType obj)
+        {
+            
         }
 
         public override void EnterState()
         {
             base.EnterState();
-            StartCoroutine(MoveBuilding());
-        }
-
-        private IEnumerator MoveBuilding()
-        {
-            yield return new WaitForSeconds(npcAgent.WorkSpeed * 0.2f);
-            Debug.Log("Work");
-            Agent.MovementCompo.Move(npcAgent.CurrentWorkingBuilding.transform.position, npcAgent.WorkSpeed);
-            Agent.StateMachineCompo.ChangeStateDelay(NPCState.Move, npcAgent.WorkSpeed);
         }
     }
 }

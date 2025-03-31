@@ -2,17 +2,19 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Range = JMT.Core.Tool.Range;
 
 namespace JMT.Agent.NPC
 {
-    public class NPCAgent : AgentAI<NPCState>, ISpawnable
+    public class NPCAgent : AgentAI<NPCState>
     {
         [field: SerializeField] public NPCOxygen OxygenCompo { get; private set; }
         [Header("Unlock NPC")]
@@ -79,6 +81,9 @@ namespace JMT.Agent.NPC
             {
                 AgentManager.Instance.UnregisterAgent(this);
             }
+            ClothCompo.SetCloth(type);
+            AnimatorCompo = ClothCompo.CurrentCloth;
+            AnimatorCompo.SetBool(StateMachineCompo.CurrentState.StateName, true);
         }
 
         private void Start()
@@ -138,22 +143,5 @@ namespace JMT.Agent.NPC
                 TakeItemTuple = null;
             }
         }
-
-        protected override void Update()
-        {
-            base.Update();
-            // if (Input.GetKeyDown(KeyCode.Space))
-            // {
-            //     TakeItem(ItemType.LiquidFuel, 1);
-            // }
-        }
-
-        public GameObject Spawn(Vector3 position)
-        {
-            var npc = Instantiate(this, position, Quaternion.identity);
-            return npc.gameObject;
-        }
-        
-        
     }
 }
