@@ -4,11 +4,11 @@ namespace JMT
 {
     public enum InteractType
     {
-        None,
-        Item,
-        Building,
-        Station,
-        Attack,
+        None = 0,
+        Item = 1,
+        Building = 2,
+        Station = 3,
+        Attack = 4,
     }
     public class InteractSystem : MonoSingleton<InteractSystem>
     {
