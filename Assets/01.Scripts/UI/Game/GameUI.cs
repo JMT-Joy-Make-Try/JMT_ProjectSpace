@@ -1,7 +1,6 @@
 using JMT.Planets.Tile;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,11 +9,12 @@ namespace JMT.UISystem
 {
     public class GameUI : PanelUI
     {
-        [SerializeField] private Sprite build, mine, building, station;
+        public event Action<bool> OnHoldEvent;
+
+        [SerializeField] private Sprite[] interactSprite;
         private Button inventoryButton, workButton, interactionButton;
         private EventTrigger interactTrigger;
         private Image interactionIcon;
-        private InteractType currentType;
         private Coroutine holdCoroutine;
 
         private bool isHold;
@@ -32,29 +32,15 @@ namespace JMT.UISystem
             AddEventTrigger(EventTriggerType.PointerDown, HandleInteractionButton);
         }
 
-        public void ChangeInteract(InteractType type)
+        public void ChangeInteractSprite(InteractType type)
         {
-            currentType = type;
-            switch (type)
-            {
-                case InteractType.None:
-                    interactionIcon.sprite = build;
-                    break;
-                case InteractType.Item:
-                    interactionIcon.sprite = mine;
-                    break;
-                case InteractType.Building:
-                    interactionIcon.sprite = building;
-                    break;
-                case InteractType.Station:
-                    interactionIcon.sprite = station;
-                    break;
-            }
+            InteractSystem.Instance.ChangeInteract(type);
+            interactionIcon.sprite = interactSprite[(int)type];
         }
 
         private void HandleInteractionButton()
         {
-            if (currentType != InteractType.Item && !isHold)
+            if (InteractSystem.Instance.InteractType != InteractType.Item && !isHold)
             {
                 TileManager.Instance.GetInteraction().Interaction();
                 return;
@@ -88,6 +74,7 @@ namespace JMT.UISystem
             {
                 StopCoroutine(holdCoroutine);
                 holdCoroutine = null;
+                OnHoldEvent?.Invoke(false);
             }
 
             RemoveEventTrigger(EventTriggerType.PointerDown);
@@ -98,9 +85,11 @@ namespace JMT.UISystem
 
         private IEnumerator HoldCoroutine(float time = 1f)
         {
+            OnHoldEvent?.Invoke(true);
             yield return new WaitForSeconds(time);
             TileManager.Instance.GetInteraction().Interaction();
             UIManager.Instance.PopupUI.ActiveInteractPopup(false);
+            OnHoldEvent?.Invoke(false);
             isHold = true;
         }
 

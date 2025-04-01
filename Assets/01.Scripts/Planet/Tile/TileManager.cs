@@ -4,13 +4,6 @@ using UnityEngine.Serialization;
 
 namespace JMT.Planets.Tile
 {
-    public enum InteractType
-    {
-        None,
-        Item,
-        Building,
-        Station,
-    }
     public class TileManager : MonoSingleton<TileManager>
     {
         [SerializeField] private PlanetTile _planetTile;
@@ -27,20 +20,6 @@ namespace JMT.Planets.Tile
         }
         public TileInteraction GetInteraction() => CurrentTile.transform.GetComponentInChildren<TileInteraction>();
 
-        public InteractType GetInteractType()
-        {
-            switch(GetInteraction())
-            {
-                case NoneInteraction:
-                    return InteractType.None;
-                case ItemInteraction:
-                    return InteractType.Item;
-                case BuildingInteraction:
-                    return InteractType.Building;
-                case StationInteraction:
-                    return InteractType.Station;
-            }
-            return InteractType.None;
-        }
+        public InteractType GetInteractType() => GetInteraction().InteractType;
     }
 }
