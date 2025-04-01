@@ -11,17 +11,29 @@ namespace JMT.Agent.State
         {
             base.Initialize(agent, stateName);
             npcAgent = agent as NPCAgent;
-            npcAgent.OnTypeChanged += HandleTypeChanged;
-        }
-
-        private void HandleTypeChanged(AgentType obj)
-        {
-            
         }
 
         public override void EnterState()
         {
             base.EnterState();
+            npcAgent.MovementCompo.Stop(true);
+            npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
+            npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            npcAgent.CurrentWorkingBuilding.Work();
+        }
+
+        public override void UpdateState()
+        {
+            npcAgent.transform.position = npcAgent.CurrentWorkingBuilding.WorkPosition.position;
+            base.UpdateState();
+            npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
+            npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        public override void ExitState()
+        {
+            base.ExitState();
+            npcAgent.MovementCompo.Stop(false);
         }
     }
 }

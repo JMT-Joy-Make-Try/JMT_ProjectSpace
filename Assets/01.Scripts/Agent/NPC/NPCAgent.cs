@@ -81,9 +81,7 @@ namespace JMT.Agent.NPC
             {
                 AgentManager.Instance.UnregisterAgent(this);
             }
-            ClothCompo.SetCloth(type);
-            AnimatorCompo = ClothCompo.CurrentCloth;
-            AnimatorCompo.SetBool(StateMachineCompo.CurrentState.StateName, true);
+            
         }
 
         private void Start()
@@ -142,6 +140,11 @@ namespace JMT.Agent.NPC
                 building.AddItem(TakeItemTuple.Item2);
                 TakeItemTuple = null;
             }
+        }
+
+        public void SetAnimator(Animator animator)
+        {
+            AnimatorCompo = animator;
         }
     }
 }

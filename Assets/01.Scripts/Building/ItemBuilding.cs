@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace JMT.Building
 {
-    public class ConstructBuilding : BuildingBase
+    // 
+    public class ItemBuilding : BuildingBase
     {
         [field:SerializeField] public SerializedDictionary<CreateItemSO, bool> CreateItemList {  get; private set; }
         protected List<CreateItemSO> _createItems;

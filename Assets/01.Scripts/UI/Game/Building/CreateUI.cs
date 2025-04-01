@@ -27,7 +27,7 @@ namespace JMT.UISystem
             base.OpenUI();
 
             Debug.Log(TileManager.Instance.CurrentTile.CurrentBuilding);
-            ConstructBuilding workBuilding = TileManager.Instance.CurrentTile.CurrentBuilding as ConstructBuilding;
+            ItemBuilding workBuilding = TileManager.Instance.CurrentTile.CurrentBuilding as ItemBuilding;
             var ItemList = workBuilding.CreateItemList;
 
             if (workBuilding != null)
