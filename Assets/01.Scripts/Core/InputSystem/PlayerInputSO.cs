@@ -33,7 +33,6 @@ namespace JMT
         public void OnMove(InputAction.CallbackContext context)
         {
             OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
-            Debug.Log("IsJoystickActive" + IsJoystickActive);
             IsJoystickActive = context.phase != InputActionPhase.Canceled;
         }
 

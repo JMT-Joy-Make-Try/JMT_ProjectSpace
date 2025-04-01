@@ -52,7 +52,6 @@ namespace JMT.Player
             if (isOxygenArea) return;
             if (isTimeChanged)
             {
-                Debug.Log("감소!!!");
                 AddOxygen(-1);
                 isTimeChanged = false;
             }
