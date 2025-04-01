@@ -34,6 +34,7 @@ namespace JMT.UISystem
 
         public void ChangeInteractSprite(InteractType type)
         {
+            Debug.Log("네ㅁㄴㅇㄹ " + (int)type);
             InteractSystem.Instance.ChangeInteract(type);
             interactionIcon.sprite = interactSprite[(int)type];
         }
