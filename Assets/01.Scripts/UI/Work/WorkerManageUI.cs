@@ -48,7 +48,7 @@ namespace JMT.UISystem
 
         private void ActiveLockArea(bool isActive)
         {
-            lockArea.DOFade(isActive ? 1 : 0, 0.3f);
+            lockArea.DOFade(isActive ? 1 : 0, 0.3f).SetUpdate(true);
             lockArea.interactable = isActive;
             lockArea.blocksRaycasts = isActive;
         }
