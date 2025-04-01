@@ -24,12 +24,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390614169103204840}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.153, y: 0.5, z: 0.451}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.51, y: 0, z: 1.5033333}
+  m_LocalScale: {x: 3.3333333, y: 3.3333333, z: 3.3333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5639493241145852249}
+  m_Father: {fileID: 4648458149947415848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8043130067928398331
 GameObject:
@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5639493241145852249}
   - component: {fileID: -7706433159247690830}
+  - component: {fileID: 2411287327876288569}
   m_Layer: 0
   m_Name: Dust_Inhaler
   m_TagString: Untagged
@@ -62,7 +63,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4648458149947415848}
-  - {fileID: 4570369209832303451}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-7706433159247690830
@@ -88,6 +88,22 @@ MonoBehaviour:
   <ProductionItem>k__BackingField: {fileID: 0}
   _productionAmount: 0
   _npcAgent: {fileID: 0}
+--- !u!208 &2411287327876288569
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.35, y: 1, z: 0.35}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.7, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5118373353888938691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,15 +114,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ef963d1f4a81dad4691d8538dd95be26, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef963d1f4a81dad4691d8538dd95be26, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef963d1f4a81dad4691d8538dd95be26, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef963d1f4a81dad4691d8538dd95be26, type: 3}
       propertyPath: m_LocalPosition.x
@@ -162,7 +178,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef963d1f4a81dad4691d8538dd95be26, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4570369209832303451}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef963d1f4a81dad4691d8538dd95be26, type: 3}
       insertIndex: -1

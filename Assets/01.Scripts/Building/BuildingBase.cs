@@ -51,13 +51,10 @@ namespace JMT.Building
 
         public virtual void AddNpc(NPCAgent agent)
         {
+            Debug.Log(agent == null);
             _currentNpc.Add(agent);
             agent.SetBuilding(this);
             agent.SetAgentType(_agentType);
-            if (!_isWorking)
-            {
-                Work();
-            }
         }
 
         public virtual void Upgrade()
