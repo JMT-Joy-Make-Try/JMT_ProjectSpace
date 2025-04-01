@@ -12,7 +12,7 @@ namespace JMT
     public class SpeedSystem : MonoSingleton<SpeedSystem>
     {
         public event Action<SpeedType> OnSpeedChangeEvent;
-        private SpeedType speedType;
+        private SpeedType speedType = SpeedType.OneSpeed;
         public int TimeScale => (int)speedType;
         public void ChangeSpeed()
         {

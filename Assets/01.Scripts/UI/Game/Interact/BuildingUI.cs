@@ -36,6 +36,12 @@ namespace JMT.UISystem
             ChangePanel(createUI);
         }
 
+        public override void CloseUI()
+        {
+            base.CloseUI();
+            currentPanel?.CloseUI();
+        }
+
         private void HandleExitButton()
         {
             CloseUI();

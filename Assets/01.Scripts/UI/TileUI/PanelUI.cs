@@ -24,6 +24,7 @@ namespace JMT.UISystem
             panelGroup.DOFade(0f, 0.3f);
             panelGroup.interactable = false;
             panelGroup.blocksRaycasts = false;
+            Debug.Log(SpeedSystem.Instance.TimeScale);
             Time.timeScale = SpeedSystem.Instance.TimeScale;
             //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(false);
         }
