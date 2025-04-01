@@ -35,7 +35,7 @@ namespace JMT.Player
 
                 tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
                 tileManager.CurrentTile.EdgeEnable(true);
-                UIManager.Instance.GameUI.ChangeInteract(tileManager.GetInteractType());
+                UIManager.Instance.GameUI.ChangeInteractSprite(tileManager.GetInteractType());
             }
         }
 

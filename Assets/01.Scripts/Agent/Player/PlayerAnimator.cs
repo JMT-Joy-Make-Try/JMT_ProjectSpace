@@ -1,4 +1,5 @@
 using AYellowpaper.SerializedCollections;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace JMT.Player
         {
             player = GetComponent<Player>();
             player.InputSO.OnMoveEvent += HandleMoveAnimation;
+            UIManager.Instance.GameUI.OnHoldEvent += HandleHoldEvent;
             stateHash = new Dictionary<PlayerState, int>();
 
             InitState();
@@ -36,6 +38,12 @@ namespace JMT.Player
                 ChangeState(PlayerState.Walk);
             else
                 ChangeState(PlayerState.Idle);
+        }
+
+        private void HandleHoldEvent(bool isTrue)
+        {
+            if (isTrue) ChangeState(PlayerState.Interact);
+            else ChangeState(PlayerState.Idle);
         }
 
         private void ChangeState(PlayerState state) 

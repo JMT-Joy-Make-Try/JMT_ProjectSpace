@@ -1,4 +1,5 @@
 using JMT.Core;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace JMT.Player
 
         public Transform VisualTrm { get; private set; }
         public Transform CameraTrm { get; private set; }
-        public Rigidbody RigidCompo {  get; private set; }
+        public Rigidbody RigidCompo { get; private set; }
         public Animator AnimCompo { get; private set; }
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;

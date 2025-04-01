@@ -8,6 +8,7 @@ namespace JMT.Planets.Tile
     {
         //[field: SerializeField] protected InteractionTileType interactionTileType;
         [field: SerializeField] protected ItemSO itemType;
+        [field: SerializeField] public InteractType InteractType { get; private set; }
         [SerializeField] protected int itemCount;
 
         protected PlanetTile planetTile;
