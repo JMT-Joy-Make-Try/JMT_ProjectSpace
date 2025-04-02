@@ -27,10 +27,10 @@ namespace JMT.UISystem
                 {
                     var pairs = itemSO.NeedItemList.ToList();
                     KeyValuePair<ItemSO, int> pair = pairs[i];
-                    cells[i].SetItemCell(pair.Key.ItemName, pair.Value);
+                    cells[i].SetItemCell(pair.Key.ItemName, pair.Value, pair.Key.Icon);
                 }
                 else
-                    cells[i].SetItemCell("LOCK", 0);
+                    cells[i].SetItemCell("LOCK", 0, null);
             }
             resultItemText.text = itemSO.ResultItem.ItemName;
             useFuelText.text = itemSO.UseFuelCount + " 연료 소모";

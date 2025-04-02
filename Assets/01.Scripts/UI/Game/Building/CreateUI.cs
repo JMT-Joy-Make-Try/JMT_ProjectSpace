@@ -57,7 +57,7 @@ namespace JMT.UISystem
                 KeyValuePair<CreateItemSO, bool> pair = pairs[i];
 
                 InventoryManager.Instance.ItemDictionary.TryGetValue(pair.Key.ResultItem, out int value);
-                itemCells[i].SetItemCell(pair.Key.ResultItem.ItemName, value);
+                itemCells[i].SetItemCell(pair.Key.ResultItem.ItemName, value, pair.Key.ResultItem.Icon);
             }
         }
 
