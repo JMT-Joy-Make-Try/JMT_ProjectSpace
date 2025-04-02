@@ -68,7 +68,7 @@ namespace JMT.Agent.NPC
 
         private void HandleDeath()
         {
-            StateMachineCompo.ChangeState(NPCState.Dead);
+           // StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
         private void HandleTypeChanged(AgentType type)
@@ -111,13 +111,20 @@ namespace JMT.Agent.NPC
         
         protected void SetSpeed()
         {
-            WorkSpeed = MathExtension.GetPercentageValue(WorkSpeed, GetPercent(Health));
+            WorkSpeed = GetPercent(Health);
             MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(Health));
 
-            if (WorkSpeed.IsZero() && MoveSpeed.IsZero()) // 나중에 일도 포함시켜야함
+            if (WorkSpeed <= 0)
             {
-                StateMachineCompo.ChangeState(NPCState.Dead);
+                ChangeCloth(AgentType.Patient);
             }
+        }
+
+        public void ChangeCloth(AgentType agentType)
+        {
+            ClothCompo.SetCloth(agentType);
+            SetAnimator(ClothCompo.CurrentCloth);
+            AnimatorCompo.SetBool(StateMachineCompo.CurrentState.StateName, true);
         }
 
         protected int GetPercent(float health)

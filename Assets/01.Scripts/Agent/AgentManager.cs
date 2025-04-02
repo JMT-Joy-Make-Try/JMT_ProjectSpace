@@ -50,6 +50,8 @@ namespace JMT.Agent
 
         public void RegisterAgent(NPCAgent agent)
         {
+            if (agent == null) Debug.LogWarning("Agent is null");
+            if (UnemployedAgents == null) UnemployedAgents = new List<NPCAgent>();
             if (UnemployedAgents.Contains(agent))
             {
                 Debug.LogWarning($"Agent {agent.name} is already unemployed");

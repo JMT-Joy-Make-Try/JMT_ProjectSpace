@@ -32,8 +32,8 @@ namespace JMT.Agent.State
 
         public override void ExitState()
         {
-            base.ExitState();
             npcAgent.MovementCompo.Stop(false);
+            base.ExitState();
         }
     }
 }
