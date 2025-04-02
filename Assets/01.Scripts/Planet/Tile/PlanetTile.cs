@@ -39,7 +39,7 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             //SetHeight(_tileHeight);
-            _fog.SetFog(true);
+            _fog.SetFog(false);
         }
 
         public bool CanBuild()

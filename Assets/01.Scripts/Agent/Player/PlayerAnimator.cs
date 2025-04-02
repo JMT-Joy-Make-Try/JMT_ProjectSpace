@@ -20,13 +20,18 @@ namespace JMT.Player
         private void Awake()
         {
             player = GetComponent<Player>();
+            
+            stateHash = new Dictionary<PlayerState, int>();
+
+            InitState();
+        }
+
+        private void Start()
+        {
             player.InputSO.OnMoveEvent += HandleMoveAnimation;
             UIManager.Instance.GameUI.OnHoldEvent += HandleHoldEvent;
             UIManager.Instance.GameUI.OnAttackEvent += HandleChangeInteractEvent;
             player.EndTrigger.OnAnimationEnd += HandleAnimationEndEvent;
-            stateHash = new Dictionary<PlayerState, int>();
-
-            InitState();
         }
 
         private void HandleAnimationEndEvent()

@@ -10,7 +10,7 @@ namespace JMT
     public class WaveSystem : MonoBehaviour
     {
         [SerializeField] private List<GameObject> spawnPoints = new();
-        [SerializeField] private Alien enemy;
+        [SerializeField] private int _increaseEnemyCount = 5;
 
         private Coroutine spawnCoroutine;
         private int enemyCount = 1;
@@ -25,10 +25,11 @@ namespace JMT
             switch (type)
             {
                 case DaytimeType.Day:
-                    spawnCoroutine = StartCoroutine(SpawnCoroutine(0.5f));
+                    if (spawnCoroutine != null)
+                        StopCoroutine(spawnCoroutine);
                     break;
                 case DaytimeType.Night:
-                    StopCoroutine(spawnCoroutine);
+                    spawnCoroutine = StartCoroutine(SpawnCoroutine(0.5f));
                     break;
             }
         }
@@ -43,7 +44,8 @@ namespace JMT
                 var obj = PoolingManager.Instance.Pop(PoolingType.Enemy_Ailen);
                 obj.ObjectPrefab.transform.position = spawnPoints[randomValue].transform.position;
             }
-            enemyCount += 5;
+
+            enemyCount += _increaseEnemyCount;
             yield return null;
         }
     }

@@ -39,7 +39,6 @@ namespace JMT.UISystem
 
         private void HandleChangeInteract(InteractType type)
         {
-            InteractSystem.Instance.ChangeInteract(type);
             interactionIcon.sprite = interactSprite[(int)type];
         }
 
