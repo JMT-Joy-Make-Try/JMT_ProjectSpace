@@ -22,20 +22,20 @@ namespace JMT.Player
 
         private void Update()
         {
-            TileFind();
+            TileFind(InteractSystem.Instance.InteractType);
         }
 
-        private void TileFind()
+        private void TileFind(InteractType type)
         {
+            var tileManager = TileManager.Instance;
+            if (tileManager.CurrentTile != null)
+                tileManager.CurrentTile.EdgeEnable(false);
+            if (type == InteractType.Attack) return;
             if (Physics.Raycast(startTrm.position, RayDirection, out RaycastHit hit, rayDistance, player.GroundLayer))
             {
-                var tileManager = TileManager.Instance;
-                if(tileManager.CurrentTile != null)
-                    tileManager.CurrentTile.EdgeEnable(false);
-
                 tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
                 tileManager.CurrentTile.EdgeEnable(true);
-                UIManager.Instance.GameUI.ChangeInteractSprite(tileManager.GetInteractType());
+                InteractSystem.Instance.ChangeInteract(tileManager.GetInteractType());
             }
         }
 

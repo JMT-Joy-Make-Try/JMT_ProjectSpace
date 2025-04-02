@@ -10,9 +10,10 @@ namespace JMT.UISystem
     public class GameUI : PanelUI
     {
         public event Action<bool> OnHoldEvent;
+        public event Action OnAttackEvent;
 
         [SerializeField] private Sprite[] interactSprite;
-        private Button inventoryButton, workButton, interactionButton;
+        private Button inventoryButton, workButton, interactButton, changeBtn;
         private EventTrigger interactTrigger;
         private Image interactionIcon;
         private Coroutine holdCoroutine;
@@ -23,31 +24,52 @@ namespace JMT.UISystem
         {
             inventoryButton = PanelTrm.Find("InvenBtn").GetComponent<Button>();
             workButton = PanelTrm.Find("WorkBtn").GetComponent<Button>();
-            interactionButton = PanelTrm.Find("InteractionBtn").GetComponent<Button>();
-            interactionIcon = interactionButton.transform.Find("Icon").GetComponent<Image>();
-            interactTrigger = interactionButton.GetComponent<EventTrigger>();
+            interactButton = PanelTrm.Find("InteractBtn").GetComponent<Button>();
+            changeBtn = PanelTrm.Find("ChangeBtn").GetComponent<Button>();
+            interactionIcon = interactButton.transform.Find("Icon").GetComponent<Image>();
+            interactTrigger = interactButton.GetComponent<EventTrigger>();
 
             inventoryButton.onClick.AddListener(HandleInventoryButton);
             workButton.onClick.AddListener(HandleWorkButton);
+            changeBtn.onClick.AddListener(HandleAttackButton);
             AddEventTrigger(EventTriggerType.PointerDown, HandleInteractionButton);
+
+            InteractSystem.Instance.OnChangeInteractEvent += HandleChangeInteract;
         }
 
-        public void ChangeInteractSprite(InteractType type)
+        private void HandleChangeInteract(InteractType type)
         {
-            Debug.Log("네ㅁㄴㅇㄹ " + (int)type);
-            InteractSystem.Instance.ChangeInteract(type);
             interactionIcon.sprite = interactSprite[(int)type];
         }
 
         private void HandleInteractionButton()
         {
-            if (InteractSystem.Instance.InteractType != InteractType.Item && !isHold)
+            InteractType type = InteractSystem.Instance.InteractType;
+
+            Debug.Log("type : " + type);
+            if(type == InteractType.Attack)
+            {
+                OnAttackEvent?.Invoke();
+            }
+            else if (type != InteractType.Item && !isHold)
             {
                 TileManager.Instance.GetInteraction().Interaction();
                 return;
             }
-            AddEventTrigger(EventTriggerType.PointerDown, OnHoldStart);
-            AddEventTrigger(EventTriggerType.PointerUp, OnHoldEnd);
+            else
+            {
+                AddEventTrigger(EventTriggerType.PointerDown, OnHoldStart);
+                AddEventTrigger(EventTriggerType.PointerUp, OnHoldEnd);
+            }
+        }
+
+        private void HandleAttackButton()
+        {
+            InteractType type = InteractType.None;
+            if (InteractSystem.Instance.InteractType != InteractType.Attack)
+                type = InteractType.Attack;
+            
+            InteractSystem.Instance.ChangeInteract(type);
         }
 
         private void AddEventTrigger(EventTriggerType type, Action action)

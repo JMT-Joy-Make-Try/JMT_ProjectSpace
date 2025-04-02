@@ -1,3 +1,4 @@
+using JMT.Agent;
 using JMT.Core;
 using JMT.UISystem;
 using System;
@@ -18,6 +19,7 @@ namespace JMT.Player
         public Transform CameraTrm { get; private set; }
         public Rigidbody RigidCompo { get; private set; }
         public Animator AnimCompo { get; private set; }
+        public AnimationEndTrigger EndTrigger { get; private set; }
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
 
@@ -35,6 +37,7 @@ namespace JMT.Player
             CameraTrm = transform.Find("Camera");
             RigidCompo = GetComponent<Rigidbody>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
+            EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
 
             DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
 

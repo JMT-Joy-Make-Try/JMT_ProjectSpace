@@ -1,6 +1,6 @@
-using AYellowpaper.SerializedCollections;
 using JMT.UISystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,15 +13,46 @@ namespace JMT.Player
         private Dictionary<PlayerState, int> stateHash;
 
         [SerializeField] private PlayerState curState;
+        private PlayerState saveState;
+        private bool isAttack, canAttack = true;
+        private float coolTime = 0.4f;
 
         private void Awake()
         {
             player = GetComponent<Player>();
             player.InputSO.OnMoveEvent += HandleMoveAnimation;
             UIManager.Instance.GameUI.OnHoldEvent += HandleHoldEvent;
+            UIManager.Instance.GameUI.OnAttackEvent += HandleChangeInteractEvent;
+            player.EndTrigger.OnAnimationEnd += HandleAnimationEndEvent;
             stateHash = new Dictionary<PlayerState, int>();
 
             InitState();
+        }
+
+        private void HandleAnimationEndEvent()
+        {
+            if (isAttack && !canAttack)
+            {
+                StartCoroutine(AttackCoolTime());
+            }
+        }
+
+        private IEnumerator AttackCoolTime()
+        {
+            isAttack = false;
+            ChangeState(saveState);
+            yield return new WaitForSeconds(coolTime);
+            canAttack = true;
+            ChangeState(saveState);
+        }
+
+        private void HandleChangeInteractEvent()
+        {
+            if (!canAttack) return;
+            canAttack = false;
+            isAttack = true;
+            saveState = curState;
+            ChangeState(PlayerState.Attack);
         }
 
         private void InitState()
@@ -34,6 +65,14 @@ namespace JMT.Player
 
         private void HandleMoveAnimation(Vector2 vector)
         {
+            if (isAttack && !canAttack)
+            {
+                if (vector.sqrMagnitude > 0)
+                    saveState = PlayerState.Walk;
+                else
+                    saveState = PlayerState.Idle;
+                return;
+            }
             if (vector.sqrMagnitude > 0)
                 ChangeState(PlayerState.Walk);
             else
@@ -59,6 +98,7 @@ namespace JMT.Player
         Idle,
         Walk,
         Interact,
+        Attack,
         Hit,
         Dead,
     }
