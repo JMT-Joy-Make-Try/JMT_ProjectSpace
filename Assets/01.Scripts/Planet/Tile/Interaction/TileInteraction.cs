@@ -29,6 +29,11 @@ namespace JMT.Planets.Tile
             planetTile.EdgeEnable(true);
         }
 
+        public void SetType(InteractType interactType)
+        {
+            InteractType = interactType;
+        }
+
         public void AddObject(GameObject obj)
         {
             Instantiate(obj, transform);
