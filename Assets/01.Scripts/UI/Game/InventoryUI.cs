@@ -61,14 +61,14 @@ namespace JMT.UISystem
             {
                 int value = i;
                 cells[value].GetComponent<Button>().onClick.RemoveAllListeners();
-                cells[i].SetItemCell(string.Empty, 0);
+                cells[i].SetItemCell(string.Empty, 0, null);
                 if (i < dic.Count)
                 {
                     KeyValuePair<InventorySO, int> pair = pairs[i];
                     if (category == null || category == pair.Key.Category)
                     {
                         cells[value - falseValue].GetComponent<Button>().onClick.AddListener(()=> HandleCellButton(pair.Key));
-                        cells[i - falseValue].SetItemCell(pair.Key.ItemName, pair.Value);
+                        cells[i - falseValue].SetItemCell(pair.Key.ItemName, pair.Value, pair.Key.Icon);
                     }    
                     else falseValue++;
                 }

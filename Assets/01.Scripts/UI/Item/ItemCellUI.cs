@@ -15,8 +15,10 @@ namespace JMT.UISystem
             countText = transform.Find("CountTxt").GetComponent<TextMeshProUGUI>();
         }
 
-        public virtual void SetItemCell(string name, int count)
+        public virtual void SetItemCell(string name, int count, Sprite image)
         {
+            if(image != null)
+                icon.sprite = image;
             nameText.text = name;
             countText.text = count.ToString();
             // 사진도 넣어야함

@@ -14,22 +14,12 @@ namespace JMT.Planets.Tile.Items
 
     public enum ItemType
     {
+        Dust, // 먼지 뭉치
+        Plant, // 유기물
         LiquidFuel, // 액체 연료
-        OrganicMatter, // 유기물
-        FlameIron, // 플레임아이언
-        IceIron, // 아이스아이언
-        Techron, // 테크론
-        DustBundle, // 먼지 뭉치
-        DustBoard, // 먼지 판자
-        DustSteelPlate, // 먼지 강판
-        FuelConcentrate, // 연료원액
-        ImpureWater, // 불순한 물
-        PureWater, // 정수한 물
-        SpaceBrick, // 우주 벽돌
+        DustBlock, // 먼지 블럭
         Cloth, // 천
-        CulturePaper, // 배양지
-        Seed, // 씨앗
-        Fuel, // 연료
-        Ice, // 열음
+        RefinedFuel, // 정제 연료
+        OxygenTank, // 
     }
 }
