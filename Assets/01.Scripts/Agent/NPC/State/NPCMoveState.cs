@@ -43,9 +43,7 @@ namespace JMT.Agent.State
             {
                 _agent.StateMachineCompo.ChangeState(NPCState.Work);
                 Debug.Log("일해라 인간아");
-                _agent.ClothCompo.SetCloth(type);
-                _agent.SetAnimator(_agent.ClothCompo.CurrentCloth);
-                _agent.AnimatorCompo.SetBool(_stateMachine.CurrentState.StateName, true);
+                _agent.ChangeCloth(type);
             }
         }
 

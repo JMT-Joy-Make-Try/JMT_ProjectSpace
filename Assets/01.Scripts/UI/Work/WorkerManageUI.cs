@@ -36,6 +36,7 @@ namespace JMT.UISystem
         {
             // 퇴사시키기 버튼
             ActiveLockArea(true);
+            TileManager.Instance.CurrentTile.CurrentBuilding.RemoveNpc();
         }
 
         private void HandleHireButton()

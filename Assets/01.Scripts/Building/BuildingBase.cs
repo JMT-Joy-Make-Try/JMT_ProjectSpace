@@ -1,6 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Agent.NPC;
+using JMT.Agent.State;
 using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Tool;
@@ -19,7 +20,7 @@ namespace JMT.Building
         [SerializeField] protected Animator buildingAnimator;
         [field: SerializeField] public int NpcCount { get; protected set; }
         [field: SerializeField] public Transform WorkPosition { get; protected set; }
-        [Space] [SerializeField] protected List<NPCAgent> _currentNpc;
+        [Space] [SerializeField] public List<NPCAgent> _currentNpc;
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
         private BuildingDataSO buildingData;
         [field: SerializeField] public int Health { get; protected set; }
@@ -55,6 +56,20 @@ namespace JMT.Building
             _currentNpc.Add(agent);
             agent.SetBuilding(this);
             agent.SetAgentType(_agentType);
+        }
+        
+        public virtual void RemoveNpc()
+        {
+            _currentNpc[0].SetAgentType(AgentType.Base);
+            _currentNpc[0].ChangeCloth(AgentType.Base);
+            _currentNpc[0].SetBuilding(null);
+            _currentNpc[0].StateMachineCompo.ChangeState(NPCState.Move);
+            _currentNpc.Remove(_currentNpc[0]);
+            if (_currentNpc.Count == 0)
+            {
+                _isWorking = false;
+                SetAnimation(_isWorking);
+            }
         }
 
         public virtual void Upgrade()

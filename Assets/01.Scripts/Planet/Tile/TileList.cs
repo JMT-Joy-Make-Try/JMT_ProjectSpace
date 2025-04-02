@@ -8,18 +8,29 @@ namespace JMT.Planets.Tile
     public class TileList : MonoBehaviour
     {
         [field: SerializeField] public List<PlanetTile> Tiles { get; private set; } = new List<PlanetTile>();
-        private HashSet<Vector2> tilePositions = new HashSet<Vector2>();
         [SerializeField] private Fog _fog; 
-        
-        private LineRenderer lineRenderer;
-        
-        
+        [SerializeField] private Material _topBorderMaterial;
+        private GameObject glowObject;
 
         private void Awake()
         {
             Tiles = GetComponentsInChildren<PlanetTile>().ToList();
         }
-        
+
+        private void Start()
+        {
+            foreach (var VARIABLE in Tiles)
+            {
+                
+            }
+        }
+
+        private void OnPostRender()
+        {
+            
+        }
+
+
         public void SetTile(TileType tileType, Color color)
         {
             foreach (var tile in Tiles)
