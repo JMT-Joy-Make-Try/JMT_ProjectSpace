@@ -18,8 +18,8 @@ namespace JMT.Planets.Tile
                 _planetTile.EdgeEnable(true);
             }
         }
-        public TileInteraction GetInteraction() => CurrentTile.transform.GetComponentInChildren<TileInteraction>();
 
+        public TileInteraction GetInteraction() => CurrentTile.GetInteraction<TileInteraction>();
         public InteractType GetInteractType() => GetInteraction().InteractType;
     }
 }

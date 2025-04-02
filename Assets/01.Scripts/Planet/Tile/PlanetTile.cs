@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
-    public class PlanetTile : TouchableObject
+    public class PlanetTile : MonoBehaviour
     {
         [field:SerializeField] public TileType TileType { get; set; }
         [field:SerializeField] public MeshRenderer Renderer { get; private set; }
@@ -95,7 +95,23 @@ namespace JMT.Planets.Tile
         public T GetInteraction<T>() where T : TileInteraction
         {
             canInteraction = true;
-            return TileInteraction.GetComponent<T>();
+            var interaction = TileInteraction.GetComponent<T>();
+            switch (interaction)
+            {
+                case BuildingInteraction:
+                    interaction.SetType(InteractType.Building);
+                    break;
+                case ItemInteraction:
+                    interaction.SetType(InteractType.Item);
+                    break;
+                case StationInteraction:
+                    interaction.SetType(InteractType.Station);
+                    break;
+                case NoneInteraction:
+                    interaction.SetType(InteractType.None);
+                    break;
+            }
+            return interaction;
         }
 
         public void RemoveInteractionObject()
