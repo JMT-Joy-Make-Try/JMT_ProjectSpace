@@ -10,5 +10,6 @@ namespace JMT
         public ItemSO ResultItem;
         public SerializedDictionary<ItemSO, int> NeedItemList;
         public int UseFuelCount;
+        public TimeData CreateTime;
     }
 }
