@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingAnimator: {fileID: 1184628784670660630}
-  <NpcCount>k__BackingField: 0
-  <WorkPosition>k__BackingField: {fileID: 3670527623101119367}
+  buildingParticles: {fileID: 0}
   _currentNpc: []
+  <WorkPosition>k__BackingField: {fileID: 3670527623101119367}
   CurrentItems:
     items: []
   <Health>k__BackingField: 0
@@ -387,7 +387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8059503690742605692}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
@@ -398,7 +398,7 @@ Transform:
   - {fileID: 4179190560855757609}
   - {fileID: 2380908135651302043}
   m_Father: {fileID: 2158375724001522112}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &1184628784670660630
 Animator:
   serializedVersion: 7
