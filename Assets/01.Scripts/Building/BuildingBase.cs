@@ -1,15 +1,10 @@
-using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Agent.State;
-using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Tool;
-using JMT.Object;
-using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,13 +12,20 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour, IDamageable
     {
+        [Header("Animation")]
         [SerializeField] protected Animator buildingAnimator;
-        [field: SerializeField] public int NpcCount { get; protected set; }
+        [SerializeField] protected ParticleSystem buildingParticles;
+        
+        [Space(10)]
+        [Header("NPCSetting")]
+        [SerializeField] public List<NPCAgent> _currentNpc;
         [field: SerializeField] public Transform WorkPosition { get; protected set; }
-        [Space] [SerializeField] public List<NPCAgent> _currentNpc;
+        
+        [Space(10)]
+        [Header("Building Data")]
         [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
-        private BuildingDataSO buildingData;
         [field: SerializeField] public int Health { get; protected set; }
+        private BuildingDataSO buildingData;
         protected int _curHealth;
 
         protected event Action OnBuildingBroken;
@@ -47,7 +49,7 @@ namespace JMT.Building
             }
 
             _isWorking = true;
-            SetAnimation(_isWorking);   
+            SetAnimation(_isWorking);
         }
 
         public virtual void AddNpc(NPCAgent agent)
@@ -57,7 +59,7 @@ namespace JMT.Building
             agent.SetBuilding(this);
             agent.SetAgentType(_agentType);
         }
-        
+
         public virtual void RemoveNpc()
         {
             _currentNpc[0].SetAgentType(AgentType.Base);
@@ -115,6 +117,18 @@ namespace JMT.Building
                 Debug.LogWarning("No animator attached to building");
                 return;
             }
+            if (buildingParticles != null)
+            {
+                if (isWalking)
+                {
+                    buildingParticles.Play();
+                }
+                else
+                {
+                    buildingParticles.Stop();
+                }
+            }
+
             buildingAnimator.SetBool("IsWalking", isWalking);
         }
     }
