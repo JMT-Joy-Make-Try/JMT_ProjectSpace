@@ -21,7 +21,7 @@ namespace JMT.UISystem
 
         public virtual void CloseUI()
         {
-            panelGroup.DOFade(0f, 0.3f);
+            panelGroup.DOFade(0f, 0.3f).SetUpdate(true);
             panelGroup.interactable = false;
             panelGroup.blocksRaycasts = false;
             Debug.Log(SpeedSystem.Instance.TimeScale);
