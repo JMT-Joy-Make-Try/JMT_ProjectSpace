@@ -1,4 +1,6 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Building;
+using JMT.Core.Tool;
 using System.Collections;
 using UnityEngine;
 
@@ -20,14 +22,33 @@ namespace JMT.Agent.State
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
             npcAgent.CurrentWorkingBuilding.Work();
+            StartCoroutine(Work());
+        }
+
+        private IEnumerator Work()
+        {
+            ItemBuilding building = npcAgent.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
+            
+            while (true)
+            {
+                if (building.data.GetFirstCreateItem() == null || building.data.CreateItemList.Count <= 0)
+                {
+                    Debug.Log("Building Data is null");
+                    _stateMachine.ChangeState(NPCState.Idle);
+                    yield break;
+                }
+                int timeMinute = building.data.GetFirstCreateItem().CreateTime.minute * 60 + building.data.GetFirstCreateItem().CreateTime.second;
+                yield return new WaitForSeconds(timeMinute);
+                building.data.RemoveWork();
+            }
         }
 
         public override void UpdateState()
         {
             npcAgent.transform.position = npcAgent.CurrentWorkingBuilding.WorkPosition.position;
             base.UpdateState();
-            npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
-            npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            npcAgent.transform.rotation = Quaternion.Euler(0, 180, 0);
+            npcAgent.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
 
         public override void ExitState()
