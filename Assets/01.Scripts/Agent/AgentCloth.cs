@@ -1,4 +1,4 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +35,7 @@ namespace JMT.Agent
         DustCollector,
         Guard,
         FuelCollector,
-        Patient
+        Patient,
+        OrganicCollector
     }
 }
