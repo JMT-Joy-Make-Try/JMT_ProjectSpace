@@ -2,7 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Planets.Tile.Items;
 using UnityEngine;
 
-namespace JMT.UISystem
+namespace JMT
 {
     [CreateAssetMenu(fileName = "CreateItemSO", menuName = "SO/Data/CreateItemSO")]
     public class CreateItemSO : ScriptableObject
@@ -10,5 +10,6 @@ namespace JMT.UISystem
         public ItemSO ResultItem;
         public SerializedDictionary<ItemSO, int> NeedItemList;
         public int UseFuelCount;
+        public TimeData CreateTime;
     }
 }
