@@ -2,6 +2,7 @@ using System;
 using JMT.Building;
 using JMT.Object;
 using JMT.UISystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
@@ -14,6 +15,9 @@ namespace JMT.Planets.Tile
         [SerializeField] private float _tileHeight;
         
         [SerializeField] private Fog _fog;
+        
+        [Space]
+        [SerializeField] private List<Texture2D> _textures;
         
         private bool canInteraction = true;
         
@@ -29,6 +33,8 @@ namespace JMT.Planets.Tile
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
             Renderer.material = Instantiate(Renderer.material);
+            int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
+            Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
             //_tileHeight = UnityEngine.Random.Range(0f, 10f);
 

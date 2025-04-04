@@ -1,9 +1,11 @@
 using JMT.Agent.Alien;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT
 {
@@ -11,6 +13,9 @@ namespace JMT
     {
         [SerializeField] private List<GameObject> spawnPoints = new();
         [SerializeField] private int _increaseEnemyCount = 5;
+        [SerializeField] private int _maxEnemyCount = 10;
+        
+        private List<GameObject> _enemies = new();
 
         private Coroutine spawnCoroutine;
         private int enemyCount = 1;
@@ -18,6 +23,13 @@ namespace JMT
         private void Awake()
         {
             DaySystem.Instance.OnChangeDaytimeEvent += EnemySpawn;
+        }
+
+        private void OnDestroy()
+        {
+            DaySystem.Instance.OnChangeDaytimeEvent -= EnemySpawn;
+            if (spawnCoroutine != null)
+                StopCoroutine(spawnCoroutine);
         }
 
         public void EnemySpawn(DaytimeType type)
@@ -36,6 +48,10 @@ namespace JMT
 
         private IEnumerator SpawnCoroutine(float coolTime)
         {
+            if (_enemies.Count >= _maxEnemyCount)
+            {
+                yield break;
+            }
             var waitTime = new WaitForSeconds(coolTime);
             for(int i = 0; i < enemyCount; i++)
             {
@@ -43,6 +59,7 @@ namespace JMT
                 int randomValue = Random.Range(0, spawnPoints.Count);
                 var obj = PoolingManager.Instance.Pop(PoolingType.Enemy_Ailen);
                 obj.ObjectPrefab.transform.position = spawnPoints[randomValue].transform.position;
+                _enemies.Add(obj.ObjectPrefab);
             }
 
             enemyCount += _increaseEnemyCount;

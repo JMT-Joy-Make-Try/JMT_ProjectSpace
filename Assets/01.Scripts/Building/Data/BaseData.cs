@@ -1,6 +1,8 @@
+using JMT.Core.Tool;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace JMT.Building
 {
@@ -22,9 +24,9 @@ namespace JMT.Building
         // 알아서 추가하세요
         public int BuildingLevel = 1;
         public int UseFuelValue = 0;
-        private Queue<BuildingWork> works = new();
+        [SerializeField] private SerializeQueue<BuildingWork> works = new();
 
-        public Queue<BuildingWork> Works => works;
+        public SerializeQueue<BuildingWork> Works => works;
         public void AddWork(BuildingWork work) => works.Enqueue(work);
         public void RemoveWork() => works.Dequeue();
     }
