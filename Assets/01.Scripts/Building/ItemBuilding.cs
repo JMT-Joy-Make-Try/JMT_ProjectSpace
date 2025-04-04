@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace JMT.Building
 {
-    // 
     public class ItemBuilding : BuildingBase
     {
         public ItemBuildingData data;
