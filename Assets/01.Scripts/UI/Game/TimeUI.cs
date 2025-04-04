@@ -26,6 +26,13 @@ namespace JMT.UISystem
             DaySystem.Instance.OnChangeDayCountEvent += HandleChangeDayCountEvent;
         }
 
+        private void OnDestroy()
+        {
+            DaySystem.Instance.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            DaySystem.Instance.OnChangeDaytimeEvent -= HandleChangeDaytimeEvent;
+            DaySystem.Instance.OnChangeDayCountEvent -= HandleChangeDayCountEvent;
+        }
+
         private void HandleChangeTimeEvent(int m, int s)
         {
             timeText.text = m.ToString("D2") + ":" + s.ToString("D2");

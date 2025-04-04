@@ -42,5 +42,17 @@ namespace JMT.Core.Tool
 
             return child.gameObject;
         }
+
+        public static T ConvertTo<T>(this MonoBehaviour gameObject) where T : MonoBehaviour
+        {
+            T component = gameObject.GetComponent<T>();
+            if (component == null)
+            {
+                Debug.LogError($"There is no {typeof(T).Name} component in {gameObject.name}");
+                return null;
+            }
+
+            return component;
+        }
     }
 }

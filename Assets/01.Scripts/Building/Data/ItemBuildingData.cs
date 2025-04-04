@@ -8,5 +8,14 @@ namespace JMT.Building
     public class ItemBuildingData : BaseData
     {
         public List<CreateItemSO> CreateItemList;
+        
+        public CreateItemSO GetFirstCreateItem()
+        {
+            if (CreateItemList.Count > 0)
+            {
+                return CreateItemList[0];
+            }
+            return null;
+        }
     }
 }

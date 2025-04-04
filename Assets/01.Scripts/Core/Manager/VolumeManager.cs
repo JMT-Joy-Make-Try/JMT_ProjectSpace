@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using JMT.Core.Tool;
+using System;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -8,39 +10,39 @@ namespace JMT.Core.Manager
 {
     public class VolumeManager : MonoSingleton<VolumeManager>
     {
-        [SerializeField] private Volume _volume;
+        [Header("Volume")]
+        [SerializeField] private Volume  _dayVolume;
+        [SerializeField] private Volume  _nightVolume;
+        [SerializeField] private float _duration;
         
-        public T GetVolume<T>() where T : VolumeComponent
+        private Volume _currentVolume;
+        
+        private void Start()
         {
-            _volume.profile.TryGet(out T component);
-            return component;
+            DaySystem.Instance.OnChangeDaytimeEvent += OnChangeDaytime;
+            _currentVolume = _dayVolume;
         }
-        
-        public void SetIntensity<T>(float startValue, float endValue, float time) where T : VolumeComponent
+        private void OnDestroy()
         {
-            var volume = GetVolume<T>();
-            if (HasIntensity(volume, out var intensityValue))
-            {
-                DOVirtual.Float(startValue, endValue, time, value => intensityValue.SetValue(volume, value));
-            }
-            
+            DaySystem.Instance.OnChangeDaytimeEvent -= OnChangeDaytime;
         }
 
-        private bool HasIntensity<T>(T volume, out FieldInfo intensityValue) where T : VolumeComponent
+        private void OnChangeDaytime(DaytimeType day)
         {
-            var intensity = volume.GetType().GetField("intensity", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-            
-            if (intensity != null)
+            if (day == DaytimeType.Day)
             {
-                intensityValue = intensity;
-                return true;
+                _currentVolume = _nightVolume.ChangeVolume(_dayVolume, _duration);
             }
-            
             else
             {
-                intensityValue = null;
-                return false;
+                _currentVolume = _dayVolume.ChangeVolume(_nightVolume, _duration);
             }
+        }
+
+        public T GetVolume<T>() where T : VolumeComponent
+        {
+            _currentVolume.profile.TryGet(out T component);
+            return component;
         }
     }
 }
