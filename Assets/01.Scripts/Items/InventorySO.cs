@@ -9,6 +9,5 @@ namespace JMT
         public InventoryCategory Category;
         public string ItemName;
         public string ItemDescription;
-        public ItemType ItemType;
     }
 }

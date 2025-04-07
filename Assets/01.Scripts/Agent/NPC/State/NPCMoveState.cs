@@ -20,7 +20,7 @@ namespace JMT.Agent.State
 
         private void HandleTypeChanged(AgentType obj)
         {
-            if (obj == AgentType.Base)
+            if (obj == AgentType.Base || obj == AgentType.Patient)
             {
                 _targetPosition = new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f));
             }

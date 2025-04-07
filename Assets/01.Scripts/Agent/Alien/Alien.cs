@@ -13,7 +13,7 @@ namespace JMT.Agent.Alien
         [field: SerializeField] public Attacker Attacker { get; private set; }
         
         [field: SerializeField] public List<StateColor> StateColor { get; private set; }
-        [SerializeField] private SkinnedMeshRenderer AlienRenderer;
+        [SerializeField] public SkinnedMeshRenderer AlienRenderer;
         
         protected override void Awake()
         {
@@ -34,10 +34,12 @@ namespace JMT.Agent.Alien
             StateMachineCompo.ChangeState(AlienState.Dead);
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
             StateMachineCompo.ChangeState(AlienState.Idle);
+            MovementCompo.Stop(false);
+            AlienRenderer.material.SetFloat("_DissolveValue", -1);
         }
         
         public void ChangeColor(AlienState state)
