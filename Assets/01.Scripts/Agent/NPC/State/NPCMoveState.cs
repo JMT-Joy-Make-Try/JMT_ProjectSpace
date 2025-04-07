@@ -1,6 +1,5 @@
 ﻿using JMT.Agent.NPC;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Agent.State
@@ -34,6 +33,7 @@ namespace JMT.Agent.State
 
         private void EndMove(AgentType type)
         {
+            if (type == AgentType.Patient) return;
             _agent.transform.rotation = Quaternion.identity;
             _agent.transform.localRotation = Quaternion.identity;
             Debug.Log(_agent.transform.rotation);

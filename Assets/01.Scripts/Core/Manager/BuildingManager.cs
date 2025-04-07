@@ -10,6 +10,8 @@ namespace JMT.Core.Manager
         [SerializeField] private BaseBuilding _baseBuilding;
         public BuildingDataSO CurrentBuilding;
         [SerializeField] private List<BuildingDataSO> buildingDatas;
+        
+        [field: SerializeField] public HospitalBuilding HospitalBuilding { get; set; }
 
         public List<BuildingDataSO> GetDictionary() => buildingDatas;
 

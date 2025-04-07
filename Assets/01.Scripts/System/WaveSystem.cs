@@ -27,9 +27,11 @@ namespace JMT
 
         private void OnDestroy()
         {
-            DaySystem.Instance.OnChangeDaytimeEvent -= EnemySpawn;
             if (spawnCoroutine != null)
                 StopCoroutine(spawnCoroutine);
+            
+            if (DaySystem.Instance != null)
+                DaySystem.Instance.OnChangeDaytimeEvent -= EnemySpawn;
         }
 
         public void EnemySpawn(DaytimeType type)

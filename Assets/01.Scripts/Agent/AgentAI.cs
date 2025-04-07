@@ -41,15 +41,15 @@ namespace JMT.Agent
         }
 
 
-        [field: SerializeField]public int Health { get; set; }
+        [field: SerializeField] public int Health { get; set; }
         public void InitStat()
         {
             _curHealth = Health;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, bool isHeal)
         {
-            _curHealth -= damage;
+            _curHealth += isHeal ? damage : -damage;
             if (_curHealth <= 0)
             {
                 Dead();
@@ -74,6 +74,7 @@ namespace JMT.Agent
         {
             InitStat();
             IsDead = false;
+            MovementCompo.Stop(false);
         }
     }
 }

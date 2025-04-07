@@ -24,6 +24,7 @@ namespace JMT.Core.Manager
         }
         private void OnDestroy()
         {
+            if (DaySystem.Instance == null) return;
             DaySystem.Instance.OnChangeDaytimeEvent -= OnChangeDaytime;
         }
 

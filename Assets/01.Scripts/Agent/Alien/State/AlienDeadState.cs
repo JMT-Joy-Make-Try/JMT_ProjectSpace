@@ -5,6 +5,12 @@ namespace JMT.Agent.State
 {
     public class AlienDeadState : State<AlienState>
     {
+        public override void EnterState()
+        {
+            base.EnterState();
+            Agent.MovementCompo.Stop(true);
+        }
+
         public override void OnAnimationEnd()
         {
             base.OnAnimationEnd();

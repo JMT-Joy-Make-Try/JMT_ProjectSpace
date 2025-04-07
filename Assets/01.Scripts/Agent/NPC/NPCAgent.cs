@@ -68,7 +68,8 @@ namespace JMT.Agent.NPC
 
         private void HandleDeath()
         {
-           // StateMachineCompo.ChangeState(NPCState.Dead);
+            Debug.Log("Dead");
+            StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
         private void HandleTypeChanged(AgentType type)
@@ -135,6 +136,7 @@ namespace JMT.Agent.NPC
 
         public void SetBuilding(BuildingBase building)
         {
+            if (building == null) return;
             CurrentWorkingBuilding = building;
         }
 
