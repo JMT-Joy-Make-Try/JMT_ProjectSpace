@@ -8,6 +8,7 @@ namespace JMT.Agent
 {
     public class StateMachine<T> : MonoBehaviour where T : Enum
     {
+        [SerializeField] private AgentAI<T> _agent;
         // State들을 모아놓은 Dictionary
         [SerializeField] private SerializedDictionary<T, State.State<T>> states;
         protected event Action<T> OnStateChange;
@@ -21,12 +22,14 @@ namespace JMT.Agent
         private State.State<T> _currentState;
         public State.State<T> CurrentState => _currentState;
 
+
         /// <summary>
         /// State 변경
         /// </summary>
         /// <param name="state">바꿀 State</param>
         public void ChangeState(T state)
         {
+            if (_agent.IsDead) return;
             if (_currentState != null)
             {
                 _currentState.Agent.AnimationEndTrigger.OnAnimationEnd -= _currentState.OnAnimationEnd;
@@ -40,7 +43,7 @@ namespace JMT.Agent
 
         public void ChangeStateDelay(T state, float delayTime)
         {
-            
+            if (_agent.IsDead) return;
             StartCoroutine(Change(delayTime, state));
         }
 
@@ -58,7 +61,7 @@ namespace JMT.Agent
         
         public void ChangeStateWait(T state, bool waitUntil)
         {
-            
+            if (_agent.IsDead) return;
             StartCoroutine(Wait(waitUntil, state));
         }
 

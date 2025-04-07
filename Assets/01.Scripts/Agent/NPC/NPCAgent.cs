@@ -43,7 +43,7 @@ namespace JMT.Agent.NPC
             OnTypeChanged?.Invoke(agentType);
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
             StateMachineCompo.ChangeState(NPCState.Idle);
