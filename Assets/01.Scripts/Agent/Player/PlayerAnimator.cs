@@ -57,6 +57,7 @@ namespace JMT.Player
             canAttack = false;
             isAttack = true;
             saveState = curState;
+            player.Attacker.Attack();
             ChangeState(PlayerState.Attack);
         }
 

@@ -9,18 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4660dfbb0587058438728eee265f13f8, type: 3}
-  m_Name: Liquid_Fuel_Collector
+  m_Script: {fileID: 11500000, guid: 9b84710b59c88964aad94fff69043958, type: 3}
+  m_Name: Creat_Cloth
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8227414529495090801, guid: 6f1c6f72d56f8df4881e0243ffb40b98, type: 3}
-  category: 0
-  buildingName: "\uC5F0\uB8CC\uCC44\uC9D1\uC18C"
-  needItems:
+  ResultItem: {fileID: 11400000, guid: 69c975685a3aa964f9c5e52913bceb66, type: 2}
+  NeedItemList:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 964cb340d1a0fcc4797c1d72b6e94306, type: 2}
-      Value: 10
     - Key: {fileID: 11400000, guid: 3eb931930b9dad74887e7ffbf12c528f, type: 2}
       Value: 5
-  buildTime:
+  UseFuelCount: 1
+  CreateTime:
     minute: 0
-    second: 10
+    second: 5

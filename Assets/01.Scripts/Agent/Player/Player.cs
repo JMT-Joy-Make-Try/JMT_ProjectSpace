@@ -1,4 +1,5 @@
 using JMT.Agent;
+using JMT.Agent.Alien;
 using JMT.Core;
 using JMT.UISystem;
 using System;
@@ -20,6 +21,7 @@ namespace JMT.Player
         public Rigidbody RigidCompo { get; private set; }
         public Animator AnimCompo { get; private set; }
         public AnimationEndTrigger EndTrigger { get; private set; }
+        public Attacker Attacker { get; private set; }
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
 
@@ -36,6 +38,7 @@ namespace JMT.Player
             VisualTrm = transform.Find("Visual");
             CameraTrm = transform.Find("Camera");
             RigidCompo = GetComponent<Rigidbody>();
+            Attacker = GetComponent<Attacker>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
             EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
 
