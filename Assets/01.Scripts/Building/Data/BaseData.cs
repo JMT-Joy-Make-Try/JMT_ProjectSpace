@@ -1,4 +1,5 @@
 using JMT.Core.Tool;
+using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace JMT.Building
         }
     }
     
+    [Serializable]
     public class BaseData
     {
         // 알아서 추가하세요
@@ -28,6 +30,11 @@ namespace JMT.Building
 
         public SerializeQueue<BuildingWork> Works => works;
         public void AddWork(BuildingWork work) => works.Enqueue(work);
-        public void RemoveWork() => works.Dequeue();
+
+        public void RemoveWork()
+        {
+            var work = works.Dequeue();
+            InventoryManager.Instance.AddItem(work.type, 1);
+        }
     }
 }

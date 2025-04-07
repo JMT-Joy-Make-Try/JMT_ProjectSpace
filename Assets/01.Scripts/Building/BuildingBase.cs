@@ -96,9 +96,9 @@ namespace JMT.Building
             _curHealth = Health;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, bool isHeal = false)
         {
-            _curHealth -= damage;
+            _curHealth += isHeal ? damage : -damage;
             if (_curHealth <= 0)
             {
                 Dead();

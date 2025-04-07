@@ -39,7 +39,7 @@ namespace JMT.Planets.Tile
         {
             foreach (var npcAgent in _npcAgents)
             {
-                npcAgent.TakeDamage(_damageAmount);
+                npcAgent.TakeDamage(_damageAmount, false);
             }
         }
 

@@ -4,7 +4,7 @@
     {
         public int Health { get; }
         public void InitStat();
-        public void TakeDamage(int damage);
+        public void TakeDamage(int damage, bool isHeal = false);
         public void Dead();
     }
 }

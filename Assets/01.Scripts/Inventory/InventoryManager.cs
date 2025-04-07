@@ -17,6 +17,19 @@ namespace JMT.Planets.Tile
                 itemDictionary.Add(item, increaseCount);
             else itemDictionary[item] += increaseCount;
         }
+
+        public void AddItem(ItemType item, int increaseCount)
+        {
+            var itemSO = itemDictionary.FirstOrDefault(s => s.Key.ItemType == item).Key;
+            if (itemSO == null)
+            {
+                Debug.LogError($"Item of type {item} not found in inventory.");
+                return;
+            }
+            if (!itemDictionary.ContainsKey(itemSO))
+                itemDictionary.Add(itemSO, increaseCount);
+            else itemDictionary[itemSO] += increaseCount;
+        }
         
         public void RemoveItem(ItemSO item, int decreaseCount)
         {

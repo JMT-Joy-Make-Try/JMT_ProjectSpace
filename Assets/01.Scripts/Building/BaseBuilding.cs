@@ -32,7 +32,6 @@ namespace JMT.Building
             if (gameObject.activeSelf)
             {
                 StartCoroutine(WorkCoroutine());
-                Debug.Log("asdf");
             }
             AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
         }

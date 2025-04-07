@@ -28,6 +28,7 @@ namespace JMT.UISystem
 
         private void OnDestroy()
         {
+            if (DaySystem.Instance == null) return;
             DaySystem.Instance.OnChangeTimeEvent -= HandleChangeTimeEvent;
             DaySystem.Instance.OnChangeDaytimeEvent -= HandleChangeDaytimeEvent;
             DaySystem.Instance.OnChangeDayCountEvent -= HandleChangeDayCountEvent;

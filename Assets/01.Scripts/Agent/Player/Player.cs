@@ -44,6 +44,12 @@ namespace JMT.Player
             InitStat();
         }
 
+        private void OnDestroy()
+        {
+            if (DaySystem.Instance == null) return;
+            DaySystem.Instance.OnChangeTimeEvent -= HandleChangeTimeEvent;
+        }
+
         public void InitStat()
         {
             _curHealth = Health;
@@ -62,9 +68,9 @@ namespace JMT.Player
                 isTimeChanged = true;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, bool isHeal = false)
         {
-            _curHealth -= damage;
+            _curHealth += isHeal ? damage : -damage;
             OnDamageEvent?.Invoke(_curHealth, Health);
             if (_curHealth <= 0)
             {
