@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 8709422778532941534}
   - component: {fileID: 8276747524008537087}
   - component: {fileID: 7236778680650646161}
+  - component: {fileID: 6911795406066343340}
   m_Layer: 9
   m_Name: Alien
   m_TagString: Untagged
@@ -139,7 +140,7 @@ MonoBehaviour:
   <MovementCompo>k__BackingField: {fileID: 3715039698959327352}
   <ClothCompo>k__BackingField: {fileID: 0}
   <AnimationEndTrigger>k__BackingField: {fileID: 1742914729380375964}
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 10
   <type>k__BackingField: 0
   <MoveSpeed>k__BackingField: 10
   <TargetFinder>k__BackingField: {fileID: 8276747524008537087}
@@ -254,6 +255,27 @@ MonoBehaviour:
   <WhatIsAttackable>k__BackingField:
     serializedVersion: 2
     m_Bits: 384
+--- !u!135 &6911795406066343340
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971645974295314498}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!1 &2360298551129726837
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,9 +903,6 @@ PrefabInstance:
       addedObject: {fileID: 5140916280129953452}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 71553c286d70c3047a84d4e75569a5f0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1567063335102683188}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 71553c286d70c3047a84d4e75569a5f0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1742914729380375964}
   m_SourcePrefab: {fileID: 100100000, guid: 71553c286d70c3047a84d4e75569a5f0, type: 3}
 --- !u!4 &2587125013644566969 stripped
@@ -918,27 +937,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!135 &1567063335102683188
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2930859100054993667}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &1742914729380375964
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,10 +26,16 @@ namespace JMT.Agent.Alien
                 {
                     if (_colliders[i].TryGetComponent(out IDamageable damageable))
                     {
-                        damageable.TakeDamage(AttackDamage);
+                        
                     }
                 }
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, AttackRange);
         }
     }
 }
