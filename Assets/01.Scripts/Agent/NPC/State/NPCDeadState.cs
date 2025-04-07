@@ -11,13 +11,15 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
+            agent.ChangeCloth(AgentType.Patient);
             Debug.Log(BuildingManager.Instance.HospitalBuilding);
             agent.SetBuilding(BuildingManager.Instance.HospitalBuilding);
-            agent.MovementCompo.Move(agent.CurrentWorkingBuilding.WorkPosition.position, agent.MoveSpeed, Heal);
             if (agent.CurrentWorkingBuilding == null)
             {
                 _stateMachine.ChangeState(NPCState.Move);
+                return;
             }
+            agent.MovementCompo.Move(agent.CurrentWorkingBuilding.WorkPosition.position, agent.MoveSpeed, Heal);
         }
 
         private void Heal()

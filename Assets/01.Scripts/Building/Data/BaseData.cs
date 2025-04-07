@@ -29,12 +29,15 @@ namespace JMT.Building
         [SerializeField] private SerializeQueue<BuildingWork> works = new();
 
         public SerializeQueue<BuildingWork> Works => works;
-        public void AddWork(BuildingWork work) => works.Enqueue(work);
 
-        public void RemoveWork()
+        public virtual void AddWork(BuildingWork work)
+        {
+            works.Enqueue(work);
+        }
+
+        public virtual void RemoveWork()
         {
             var work = works.Dequeue();
-            InventoryManager.Instance.AddItem(work.type, 1);
         }
     }
 }

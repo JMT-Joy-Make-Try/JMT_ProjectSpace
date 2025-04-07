@@ -20,7 +20,7 @@ namespace JMT.Planets.Tile
 
         public void AddItem(ItemType item, int increaseCount)
         {
-            var itemSO = itemDictionary.FirstOrDefault(s => s.Key.ItemType == item).Key;
+            var itemSO = itemDictionary.FirstOrDefault(s => ((ItemSO)s.Key).ItemType == item).Key;
             if (itemSO == null)
             {
                 Debug.LogError($"Item of type {item} not found in inventory.");
@@ -42,6 +42,26 @@ namespace JMT.Planets.Tile
                     itemDictionary.Remove(item);
             }
         }
+        
+        public void RemoveItem(ItemType item, int decreaseCount)
+        {
+            var itemSO = itemDictionary.FirstOrDefault(s => ((ItemSO)s.Key).ItemType == item).Key;
+            if (itemSO == null)
+            {
+                Debug.LogError($"Item of type {item} not found in inventory.");
+                return;
+            }
+            if (!itemDictionary.ContainsKey(itemSO))
+                return;
+            else
+            {
+                itemDictionary[itemSO] -= decreaseCount;
+                if (itemDictionary[itemSO] <= 0)
+                    itemDictionary.Remove(itemSO);
+            }
+        }
+        
+        
 
         public bool CalculateItem(SerializedDictionary<ItemSO, int> needItems)
         {
