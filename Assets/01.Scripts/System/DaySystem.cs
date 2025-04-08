@@ -17,6 +17,8 @@ namespace JMT
     {
         public int minute;
         public int second;
+
+        public int GetSecond() => minute * 60 + second;
     }
 
     public class DaySystem : MonoSingleton<DaySystem>

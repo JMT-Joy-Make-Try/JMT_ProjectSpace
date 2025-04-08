@@ -48,13 +48,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingAnimator: {fileID: 0}
-  <NpcCount>k__BackingField: 0
-  <WorkPosition>k__BackingField: {fileID: 0}
+  buildingParticles: {fileID: 0}
   _currentNpc: []
+  <WorkPosition>k__BackingField: {fileID: 0}
   CurrentItems:
     items: []
   <Health>k__BackingField: 0
   _agentType: 0
+  visualMat: {fileID: 2100000, guid: 93a5389bc9d3e6e4f9aa2f348cc9977e, type: 2}
+  rendererList:
+  - {fileID: 2580800369219373703}
   _radius: 5
   _whatIsAgent:
     serializedVersion: 2
@@ -288,6 +291,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5955037210706407588}
   m_SourcePrefab: {fileID: 100100000, guid: f7610a40113f1604e973c76b3995f468, type: 3}
+--- !u!23 &2580800369219373703 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: f7610a40113f1604e973c76b3995f468, type: 3}
+  m_PrefabInstance: {fileID: 3751865601008997891}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3718834884141871592 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f7610a40113f1604e973c76b3995f468, type: 3}
