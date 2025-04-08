@@ -4976,9 +4976,15 @@ MonoBehaviour:
     items: []
   <Health>k__BackingField: 0
   _agentType: 1
+  visualMat: {fileID: 2100000, guid: a0f72a606c5ab9647868cc31699525b8, type: 2}
+  rendererList:
+  - {fileID: 3834451811143317252}
+  - {fileID: 149762190980938900}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
+    works:
+      items: []
     CreateItemList:
     - {fileID: 11400000, guid: 1d451c04a25cfd343bd4b67db55e1b7b, type: 2}
 --- !u!208 &1545728711343216385
@@ -5061,6 +5067,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2806488520346338002, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}
       propertyPath: m_Name
       value: DustPressMachine_anim
@@ -5079,6 +5089,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2284343399186730783}
   m_SourcePrefab: {fileID: 100100000, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}
+--- !u!23 &149762190980938900 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4470953726896240059, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}
+  m_PrefabInstance: {fileID: 4893148545489041105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1782886951873570998 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6582541446099607143, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}
@@ -5106,6 +5121,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!23 &3834451811143317252 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8561696068547051989, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}
+  m_PrefabInstance: {fileID: 4893148545489041105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4466369563505435323 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -136146094977690518, guid: 6b9ac5ec65ee212489109a71c697b72e, type: 3}

@@ -70,9 +70,15 @@ MonoBehaviour:
     items: []
   <Health>k__BackingField: 0
   _agentType: 5
+  visualMat: {fileID: 2100000, guid: dfaccee099420be4baaba4962c05ee91, type: 2}
+  rendererList:
+  - {fileID: 1661882282227825536}
+  - {fileID: 692218468649481600}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
+    works:
+      items: []
     CreateItemList: []
 --- !u!1001 &1109298298419256500
 PrefabInstance:
@@ -182,5 +188,15 @@ PrefabInstance:
 --- !u!4 &643941705116351327 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9b2b59992bf596b4db80ea345a34bd24, type: 3}
+  m_PrefabInstance: {fileID: 1109298298419256500}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &692218468649481600 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8719454951683086028, guid: 9b2b59992bf596b4db80ea345a34bd24, type: 3}
+  m_PrefabInstance: {fileID: 1109298298419256500}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1661882282227825536 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7460998050374359244, guid: 9b2b59992bf596b4db80ea345a34bd24, type: 3}
   m_PrefabInstance: {fileID: 1109298298419256500}
   m_PrefabAsset: {fileID: 0}

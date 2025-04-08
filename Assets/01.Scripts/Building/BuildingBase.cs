@@ -1,3 +1,4 @@
+using DG.Tweening;
 using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Agent.State;
@@ -30,8 +31,11 @@ namespace JMT.Building
 
         protected event Action OnBuildingBroken;
         protected bool _isWorking;
+        protected bool isBuilding;
 
         [SerializeField] protected AgentType _agentType;
+        [SerializeField] private Material visualMat;
+        [SerializeField] private List<MeshRenderer> rendererList;
 
         private int _curLevel;
         public abstract void Build(Vector3 position, Transform parent);
@@ -39,6 +43,19 @@ namespace JMT.Building
         protected virtual void Awake()
         {
             _currentNpc = new List<NPCAgent>();
+        }
+
+        public void Building()
+        {
+            visualMat = Instantiate(visualMat);
+            for(int i = 0; i < rendererList.Count; ++i)
+                rendererList[i].material = visualMat;
+
+            visualMat.SetFloat("_Alpha", 0.4f);
+            visualMat.DOFloat(1f, "_Alpha", BuildingData.buildTime.GetSecond()).OnComplete(() =>
+            {
+                isBuilding = true;
+            });
         }
 
         public virtual void Work()
@@ -87,6 +104,7 @@ namespace JMT.Building
         public void SetBuildingData(BuildingDataSO data)
         {
             buildingData = data;
+            Building();
         }
 
         public BuildingDataSO BuildingData => buildingData;
