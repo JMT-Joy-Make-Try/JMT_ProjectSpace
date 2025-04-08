@@ -3,6 +3,7 @@ using JMT.Agent.NPC;
 using JMT.Agent.State;
 using JMT.Core;
 using JMT.Core.Tool;
+using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,17 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour, IDamageable
     {
-        [Header("Animation")]
-        [SerializeField] protected Animator buildingAnimator;
+        [Header("Animation")] [SerializeField] protected Animator buildingAnimator;
         [SerializeField] protected ParticleSystem buildingParticles;
-        
-        [Space(10)]
-        [Header("NPCSetting")]
-        [SerializeField] public List<NPCAgent> _currentNpc;
+
+        [Space(10)] [Header("NPCSetting")] [SerializeField]
+        public List<NPCAgent> _currentNpc;
+
         [field: SerializeField] public Transform WorkPosition { get; protected set; }
-        
-        [Space(10)]
-        [Header("Building Data")]
-        [SerializeField] protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
+
+        [Space(10)] [Header("Building Data")] [SerializeField]
+        protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
+
         [field: SerializeField] public int Health { get; protected set; }
         private BuildingDataSO buildingData;
         protected int _curHealth;
@@ -54,7 +54,6 @@ namespace JMT.Building
 
         public virtual void AddNpc(NPCAgent agent)
         {
-            Debug.Log(agent == null);
             _currentNpc.Add(agent);
             agent.SetBuilding(this);
             agent.SetAgentType(_agentType);
@@ -117,6 +116,7 @@ namespace JMT.Building
                 Debug.LogWarning("No animator attached to building");
                 return;
             }
+
             if (buildingParticles != null)
             {
                 if (isWalking)
@@ -130,6 +130,11 @@ namespace JMT.Building
             }
 
             buildingAnimator.SetBool("IsWalking", isWalking);
+        }
+        
+        protected PlanetTile GetPlanetTile()
+        {
+            return transform.parent.parent.GetComponent<PlanetTile>();
         }
     }
 }

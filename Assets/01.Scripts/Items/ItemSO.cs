@@ -14,5 +14,6 @@ namespace JMT
     public class ItemSO : InventorySO
     {
         public ItemType ItemType;
+        public Sprite ItemSprite;
     }
 }

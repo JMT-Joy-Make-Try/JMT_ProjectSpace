@@ -1,6 +1,9 @@
 ﻿using DG.Tweening;
 using JMT.Agent.Alien;
+using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Object;
+using JMT.Planets.Tile.Items;
 
 namespace JMT.Agent.State
 {
@@ -23,7 +26,11 @@ namespace JMT.Agent.State
 
         public override void OnAnimationEnd()
         {
+            var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
+            item.transform.position = Agent.transform.position;
+            item.SetItemType(ItemType.OxygenTank);
             PoolingManager.Instance.Push(Agent);
+            
         }
     }
 }
