@@ -91,5 +91,15 @@ namespace JMT.Player
         {
             OnDeadEvent?.Invoke();
         }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            Debug.LogError("dafdad");
+            if (other.gameObject.TryGetComponent(out ICollectable collectable))
+            {
+                Debug.Log(collectable);
+                collectable.Collect();
+            }
+        }
     }
 }

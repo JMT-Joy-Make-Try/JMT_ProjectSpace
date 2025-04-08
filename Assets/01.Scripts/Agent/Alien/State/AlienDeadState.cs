@@ -30,7 +30,6 @@ namespace JMT.Agent.State
             item.transform.position = Agent.transform.position;
             item.SetItemType(ItemType.OxygenTank);
             PoolingManager.Instance.Push(Agent);
-            
         }
     }
 }
