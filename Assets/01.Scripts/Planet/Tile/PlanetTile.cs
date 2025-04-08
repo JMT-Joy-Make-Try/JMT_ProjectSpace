@@ -58,19 +58,20 @@ namespace JMT.Planets.Tile
             transform.position = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
         }
 
-        public void Build(BuildingDataSO building)
+        public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
             if (CanBuild())
             {
                 Debug.Log("Build");
                 OnBuild?.Invoke();
+                PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
                 _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
-                _currentBuilding.SetBuildingData(building);
+                _currentBuilding.SetBuildingData(building, pvcBuilding);
                 
 
                 RemoveInteraction();
                 Debug.Log("UI를 이용할 수 없으므로 스크립트가 자동 추가됩니다.");
-                AddInteraction<BuildingInteraction>();
+                AddInteraction<ProgressInteraction>();
                 //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
             }
             else
@@ -115,6 +116,9 @@ namespace JMT.Planets.Tile
                     break;
                 case NoneInteraction:
                     interaction.SetType(InteractType.None);
+                    break;
+                case ProgressInteraction:
+                    interaction.SetType(InteractType.Progress);
                     break;
             }
             return interaction;

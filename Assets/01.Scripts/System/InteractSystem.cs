@@ -6,9 +6,10 @@ namespace JMT
     {
         None = 0,
         Item = 1,
-        Building = 2,
-        Station = 3,
-        Attack = 4,
+        Progress = 2,
+        Building = 3,
+        Station = 4,
+        Attack = 5,
     }
     public class InteractSystem : MonoSingleton<InteractSystem>
     {

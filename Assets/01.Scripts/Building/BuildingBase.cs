@@ -7,6 +7,7 @@ using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,13 +26,16 @@ namespace JMT.Building
         [Space(10)] [Header("Building Data")] [SerializeField]
         protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
 
+        public Action OnCompleteEvent;
+        public bool IsBuilding { get; private set; }
+
         [field: SerializeField] public int Health { get; protected set; }
         private BuildingDataSO buildingData;
         protected int _curHealth;
 
         protected event Action OnBuildingBroken;
         protected bool _isWorking;
-        protected bool isBuilding;
+        private PVCBuilding _pvc;
 
         [SerializeField] protected AgentType _agentType;
         [SerializeField] private Material visualMat;
@@ -43,6 +47,13 @@ namespace JMT.Building
         protected virtual void Awake()
         {
             _currentNpc = new List<NPCAgent>();
+            OnCompleteEvent += HandleCompleteEvent;
+        }
+
+        private void HandleCompleteEvent()
+        {
+            Destroy(_pvc.gameObject);
+            visualMat.SetFloat("_Alpha", 1f);
         }
 
         public void Building()
@@ -51,11 +62,14 @@ namespace JMT.Building
             for(int i = 0; i < rendererList.Count; ++i)
                 rendererList[i].material = visualMat;
 
-            visualMat.SetFloat("_Alpha", 0.4f);
-            visualMat.DOFloat(1f, "_Alpha", BuildingData.buildTime.GetSecond()).OnComplete(() =>
-            {
-                isBuilding = true;
-            });
+            StartCoroutine(BuildingRoutine(buildingData.buildTime.GetSecond()));
+        }
+
+        private IEnumerator BuildingRoutine(int time)
+        {
+            visualMat.SetFloat("_Alpha", 0.2f);
+            yield return new WaitForSeconds(time);
+            IsBuilding = true;
         }
 
         public virtual void Work()
@@ -100,9 +114,11 @@ namespace JMT.Building
             CurrentItems.Enqueue(new SerializeTuple<ItemType, int>(type, amount));
         }
 
-        public void SetBuildingData(BuildingDataSO data)
+        public void SetBuildingData(BuildingDataSO data, PVCBuilding pvc)
         {
             buildingData = data;
+            _pvc = pvc;
+            _pvc.SetBuildTime(data.buildTime);
             Building();
         }
 
