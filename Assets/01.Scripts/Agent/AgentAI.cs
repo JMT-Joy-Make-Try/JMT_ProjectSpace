@@ -4,6 +4,7 @@ using JMT.Core;
 using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.UISystem;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,8 @@ namespace JMT.Agent
         [field:SerializeField] public AgentMovement MovementCompo { get; private set; }
         [field:SerializeField] public AgentCloth ClothCompo { get; private set; }
         [field:SerializeField] public AnimationEndTrigger AnimationEndTrigger { get; private set; }
+
+        private FillBarUI hpFillBarUI;
         
         public bool IsDead { get; private set; }
         
@@ -25,6 +28,7 @@ namespace JMT.Agent
        
         protected virtual void Awake()
         {
+            hpFillBarUI = GetComponent<FillBarUI>();
             StateMachineCompo = gameObject.GetComponentOrAdd<StateMachine<T>>();
             AnimatorCompo = gameObject.GetComponentOrAdd<Animator>();
             MovementCompo = gameObject.GetComponentOrAdd<AgentMovement>();
@@ -50,6 +54,7 @@ namespace JMT.Agent
         public void TakeDamage(int damage, bool isHeal)
         {
             _curHealth += isHeal ? damage : -damage;
+            hpFillBarUI?.SetHpBar(_curHealth, Health);
             if (_curHealth <= 0)
             {
                 Dead();

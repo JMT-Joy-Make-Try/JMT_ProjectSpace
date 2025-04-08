@@ -6,8 +6,8 @@ namespace JMT.Player
     public class PlayerSystem : MonoBehaviour
     {
         [SerializeField] private Player player;
-        [SerializeField] private PlayerFillUI playerHpUI;
-        [SerializeField] private PlayerFillUI playerOxygenUI;
+        [SerializeField] private FillBarUI playerHpUI;
+        [SerializeField] private FillBarUI playerOxygenUI;
 
         private void Awake()
         {
