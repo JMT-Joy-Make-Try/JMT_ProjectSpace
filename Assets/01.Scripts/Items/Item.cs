@@ -1,3 +1,6 @@
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
+using System;
 using UnityEngine;
 
 namespace JMT.Planets.Tile.Items
@@ -22,4 +25,5 @@ namespace JMT.Planets.Tile.Items
         RefinedFuel, // 정제 연료
         OxygenTank, // 
     }
+    
 }

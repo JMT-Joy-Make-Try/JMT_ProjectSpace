@@ -6,6 +6,7 @@ namespace JMT.Core.Tool.PoolManager
         Effect,
         Effect1,
         Agent_NPC,
+        Item,
 
     }
 }
