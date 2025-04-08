@@ -13,7 +13,7 @@ namespace JMT.UISystem
         private PanelUI currentPanel;
 
         private void Awake()
-        {
+        {   
             Transform buttonGroup = PanelTrm.Find("Panel").Find("ButtonGroup");
             exitButton = buttonGroup.Find("ExitBtn").GetComponent<Button>();
             createButton = buttonGroup.Find("CreateBtn").GetComponent<Button>();

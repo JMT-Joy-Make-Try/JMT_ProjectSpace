@@ -1,14 +1,16 @@
 ﻿using AYellowpaper.SerializedCollections;
 using DG.Tweening;
+using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using UnityEngine;
 
 namespace JMT.Object
 {
-    public class ItemObject : MonoBehaviour, IPoolable
+    public class ItemObject : MonoBehaviour, IPoolable, ICollectable
     {
         [SerializeField] private SerializedDictionary<ItemType, ItemData> _itemSprites;
         [SerializeField] private SpriteRenderer _itemSpriteRenderer;
@@ -17,6 +19,7 @@ namespace JMT.Object
         public GameObject ObjectPrefab => gameObject;
         
         private MeshRenderer _meshRenderer;
+        private ItemType _itemType;
 
         private void Awake()
         {
@@ -24,13 +27,9 @@ namespace JMT.Object
             _meshRenderer.material = Instantiate(_meshRenderer.material);
         }
 
-        private void Start()
-        {
-            SetItemType(ItemType.OxygenTank);
-        }
-
         public void SetItemType(ItemType itemType)
         {
+            _itemType = itemType;
             _itemSpriteRenderer.sprite = _itemSprites[itemType].sprite;
             _meshRenderer.material.SetColor("_BaseColor", _itemSprites[itemType].color);
         }
@@ -44,6 +43,13 @@ namespace JMT.Object
 
         public void ResetItem()
         {
+        }
+
+        public void Collect()
+        {
+            InventoryManager.Instance.AddItem(_itemType, 1);
+            Debug.Log("Collect Item: " + _itemType);
+            PoolingManager.Instance.Push(this);
         }
     }
     

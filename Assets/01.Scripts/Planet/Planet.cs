@@ -9,7 +9,6 @@ namespace JMT.Planets
 {
     public class Planet : MonoBehaviour
     {
-        [SerializeField] private List<BuildingBase> buildings = new List<BuildingBase>();
         [SerializeField] private List<Event> events = new List<Event>();
         [SerializeField] private List<TileList> tileLists = new List<TileList>();
         [SerializeField] private NavMeshSurface navMeshSurface;

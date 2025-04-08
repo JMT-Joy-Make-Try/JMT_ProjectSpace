@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace JMT.Player
 {
-    public class Player : MonoBehaviour, IDamageable
+    public class Player : MonoBehaviour, IDamageable, IOxygen
     {
         [SerializeField] private PlayerInputSO inputSO;
         [SerializeField] private LayerMask groundLayer;
@@ -90,6 +90,14 @@ namespace JMT.Player
         public void Dead()
         {
             OnDeadEvent?.Invoke();
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.TryGetComponent(out ICollectable collectable))
+            {
+                collectable.Collect();
+            }
         }
     }
 }
