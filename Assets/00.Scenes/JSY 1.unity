@@ -12186,7 +12186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbe5c8bc72044c4bfa00631a3387569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildings: []
   events: []
   tileLists:
   - {fileID: 227005617}
@@ -21578,6 +21577,10 @@ PrefabInstance:
     - target: {fileID: 763868675401861533, guid: 234c07036ed44ac4eb8860f9eb468e56, type: 3}
       propertyPath: m_Name
       value: TileFloor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7461132169374103522, guid: 234c07036ed44ac4eb8860f9eb468e56, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45933,6 +45936,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4616881631131349019, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      propertyPath: buildingDatas.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4616881631131349019, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      propertyPath: 'buildingDatas.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a6f561c34e7715d48b2696d848c0fb60, type: 2}
     - target: {fileID: 4616881631131349019, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
       propertyPath: <HospitalBuilding>k__BackingField
       value: 

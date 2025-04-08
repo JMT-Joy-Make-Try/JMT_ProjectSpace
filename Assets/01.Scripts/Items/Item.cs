@@ -24,6 +24,7 @@ namespace JMT.Planets.Tile.Items
         Cloth, // 천
         RefinedFuel, // 정제 연료
         OxygenTank, // 
+        PurificationContainer, // 정화통
     }
     
 }
