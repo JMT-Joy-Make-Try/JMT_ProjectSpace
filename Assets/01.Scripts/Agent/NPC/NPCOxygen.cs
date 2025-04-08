@@ -1,21 +1,14 @@
-﻿using UnityEngine;
+﻿using JMT.Core;
+using UnityEngine;
 
 namespace JMT.Agent.NPC
 {
-    public class NPCOxygen : MonoBehaviour
+    public class NPCOxygen : MonoBehaviour, IOxygen
     {
-        private NPCAgent _npcAgent;
-        public void Init(NPCAgent agent)
+        [field: SerializeField]public int Oxygen { get; private set; }
+        public void AddOxygen(int value)
         {
-            _npcAgent = agent;
-        }
-        public void AddOxygen(float amount)
-        {
-            _npcAgent.Data.OxygenAmount += amount;
-            if (_npcAgent.Data.OxygenAmount < 0)
-            {
-                _npcAgent.WorkSpeed -= 1;
-            }
+            Oxygen += value;
         }
     }
 }

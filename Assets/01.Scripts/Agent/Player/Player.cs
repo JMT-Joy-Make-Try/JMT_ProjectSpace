@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace JMT.Player
 {
-    public class Player : MonoBehaviour, IDamageable
+    public class Player : MonoBehaviour, IDamageable, IOxygen
     {
         [SerializeField] private PlayerInputSO inputSO;
         [SerializeField] private LayerMask groundLayer;
@@ -94,10 +94,8 @@ namespace JMT.Player
 
         private void OnCollisionEnter(Collision other)
         {
-            Debug.LogError("dafdad");
             if (other.gameObject.TryGetComponent(out ICollectable collectable))
             {
-                Debug.Log(collectable);
                 collectable.Collect();
             }
         }
