@@ -2,11 +2,8 @@ using JMT.Building;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
-using JMT.Planets.Tile.Items;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +13,7 @@ namespace JMT.UISystem
     public class ConstructUI : PanelUI
     {
         [SerializeField] private Transform content;
+        [SerializeField] private PVCBuilding pvcObject;
         private List<BuildCellUI> cells = new();
 
         private TextMeshProUGUI nameText, needItemText;
@@ -96,7 +94,7 @@ namespace JMT.UISystem
             }
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
             TileManager.Instance.CurrentTile.EdgeEnable(false);
-            TileManager.Instance.CurrentTile.Build(BuildingManager.Instance.CurrentBuilding);
+            TileManager.Instance.CurrentTile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
             buildingDatas.Add(BuildingManager.Instance.CurrentBuilding);
             UIManager.Instance.WorkUI.SetBuilding(buildingDatas);
             CloseUI();

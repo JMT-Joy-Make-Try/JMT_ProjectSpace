@@ -4,6 +4,7 @@ namespace JMT.Planets.Tile
     {
         NoneTile,
         ItemTile,
+        ProgressTile,
         BuildingTile,
     }
 }
