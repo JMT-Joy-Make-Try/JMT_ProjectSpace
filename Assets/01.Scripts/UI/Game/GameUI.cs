@@ -85,7 +85,7 @@ namespace JMT.UISystem
 
         private void OnHoldStart()
         {
-            UIManager.Instance.PopupUI.SetInteractPopup("재료 캐는 중...");
+            UIManager.Instance.PopupUI.SetPopupText("재료 캐는 중...");
             UIManager.Instance.PopupUI.ActiveInteractPopup(true);
             holdCoroutine = StartCoroutine(HoldCoroutine());
         }
