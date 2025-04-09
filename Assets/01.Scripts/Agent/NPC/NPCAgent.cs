@@ -76,7 +76,7 @@ namespace JMT.Agent.NPC
         private void HandleDeath()
         {
             Debug.Log("Dead");
-            StateMachineCompo.ChangeState(NPCState.Dead);
+            StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
 
         private void HandleTypeChanged(AgentType type)

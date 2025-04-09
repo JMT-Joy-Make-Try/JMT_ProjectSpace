@@ -26,7 +26,6 @@ namespace JMT.Planets.Tile
         private GameObject TileInteraction;
 
         public event Action OnBuild;
-        public new event Action<PlanetTile> OnClick;
 
         private void Awake()
         {
@@ -132,7 +131,6 @@ namespace JMT.Planets.Tile
         public void OnPointerClickHandler()
         {
             if (!canInteraction) return;
-            OnClick?.Invoke(this);
             //UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += () => EdgeEnable(false);
         }
 

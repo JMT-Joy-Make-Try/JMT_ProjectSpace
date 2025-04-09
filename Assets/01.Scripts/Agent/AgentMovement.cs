@@ -57,7 +57,8 @@ namespace JMT.Agent
 
             NavMeshAgentCompo.speed = speed;
             NavMeshAgentCompo.SetDestination(hit.position);
-            StartCoroutine(WaitForArrival(onComplete));
+            if (gameObject.activeSelf)
+                StartCoroutine(WaitForArrival(onComplete));
 
             if (NavMeshAgentCompo.pathStatus != NavMeshPathStatus.PathComplete)
             {

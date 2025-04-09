@@ -64,8 +64,8 @@ namespace JMT.Agent
         public void Dead()
         {
             if (IsDead) return;
-            OnDeath?.Invoke();
             IsDead = true;
+            OnDeath?.Invoke();
             Debug.Log(gameObject.name + " is dead");
         }
 
