@@ -1,4 +1,4 @@
-﻿using JMT.Agent.NPC;
+using JMT.Agent.NPC;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using System;
@@ -12,7 +12,7 @@ namespace JMT.Agent
     {
         [field: SerializeField] public int MaxAgentCount { get; private set; }
         [field: SerializeField] public NPCAgent NPCAgent { get; private set; }
-        [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; }
+        [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
 
         private void Start()
         {

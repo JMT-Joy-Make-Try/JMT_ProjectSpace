@@ -42,9 +42,15 @@ namespace JMT.UISystem
         private void HandleHireButton()
         {
             // 고용하기 버튼
-            ActiveLockArea(false);
             var npc = AgentManager.Instance.GetAgent();
+            if (npc == null)
+            {
+                UIManager.Instance.PopupUI.SetPopupText("일꾼이 부족합니다.");
+                UIManager.Instance.PopupUI.ActiveAutoPopup();
+                return;
+            }
             TileManager.Instance.CurrentTile.CurrentBuilding.AddNpc(npc);
+            ActiveLockArea(false);
         }
 
         private void ActiveLockArea(bool isActive)

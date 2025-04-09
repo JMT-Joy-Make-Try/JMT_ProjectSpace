@@ -70,7 +70,6 @@ namespace JMT.Planets.Tile
                 
 
                 RemoveInteraction();
-                Debug.Log("UI를 이용할 수 없으므로 스크립트가 자동 추가됩니다.");
                 AddInteraction<ProgressInteraction>();
                 //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
             }

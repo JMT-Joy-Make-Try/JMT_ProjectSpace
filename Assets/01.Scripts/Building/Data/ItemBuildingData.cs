@@ -36,7 +36,12 @@ namespace JMT.Building
             base.RemoveWork();
             foreach (var createItem in CreateItemList)
             {
-                InventoryManager.Instance.AddItem(createItem.ResultItem, 1);
+                if (_buildingBase == null)
+                {
+                    Debug.LogError("BuildingBase is null");
+                    return;
+                }
+                _buildingBase.SetItem(createItem.ResultItem.ItemType, 1);
             }
         }
     }

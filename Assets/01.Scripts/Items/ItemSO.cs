@@ -1,3 +1,4 @@
+using JMT.Object;
 using JMT.Planets.Tile.Items;
 using UnityEngine;
 
@@ -14,5 +15,6 @@ namespace JMT
     public class ItemSO : InventorySO
     {
         public ItemType ItemType;
+        public ItemData ItemData;
     }
 }
