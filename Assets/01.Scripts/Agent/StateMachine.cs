@@ -27,9 +27,9 @@ namespace JMT.Agent
         /// State 변경
         /// </summary>
         /// <param name="state">바꿀 State</param>
-        public void ChangeState(T state)
+        public void ChangeState(T state, bool force = false)
         {
-            if (_agent.IsDead) return;
+            if (_agent.IsDead && force) return;
             if (_currentState != null)
             {
                 _currentState.Agent.AnimationEndTrigger.OnAnimationEnd -= _currentState.OnAnimationEnd;
