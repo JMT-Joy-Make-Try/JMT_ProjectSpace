@@ -51,7 +51,7 @@ namespace JMT.Agent
             _curHealth = Health;
         }
 
-        public void TakeDamage(int damage, bool isHeal)
+        public virtual void TakeDamage(int damage, bool isHeal)
         {
             _curHealth += isHeal ? damage : -damage;
             hpFillBarUI?.SetHpBar(_curHealth, Health);

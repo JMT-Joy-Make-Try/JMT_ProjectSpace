@@ -5,19 +5,9 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
-    public class FillBarUI : MonoBehaviour
+    public class FillBarUI : WorldCanvasUI
     {
-        [SerializeField] private Transform canvas;
         [SerializeField] private Image fill;
-        [SerializeField] private bool isPlayerLook = true;
-
-        private void LateUpdate()
-        {
-            if (!isPlayerLook) return;
-
-            canvas.transform.LookAt(Camera.main.transform.parent);
-            canvas.transform.rotation = Quaternion.Euler(0, Camera.main.transform.parent.rotation.eulerAngles.y, 0);
-        }
 
         public void SetHpBar(int curValue, int maxValue)
         {
