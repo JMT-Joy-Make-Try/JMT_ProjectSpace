@@ -6,22 +6,35 @@ namespace JMT.UISystem
 {
     public class PopupUI : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup interactPopup;
-        private TextMeshProUGUI interactText;
+        [SerializeField] private CanvasGroup panelGroup;
+        private TextMeshProUGUI popupText;
+        private Sequence seq;
 
         private void Awake()
         {
-            interactText = interactPopup.GetComponentInChildren<TextMeshProUGUI>();
+            popupText = panelGroup.GetComponentInChildren<TextMeshProUGUI>();
         }
 
         public void ActiveInteractPopup(bool isActive)
         {
-            interactPopup.DOFade(isActive ? 1 : 0, 0.3f);
+            panelGroup.DOFade(isActive ? 1 : 0, 0.3f).SetUpdate(true);
         }
 
-        public void SetInteractPopup(string str)
+        public void ActiveAutoPopup()
         {
-            interactText.text = str;
+            panelGroup.alpha = 0f;
+            if(seq != null)
+                seq.Kill();
+            seq = DOTween.Sequence();
+            seq.Append(panelGroup.DOFade(1, 0.3f)).SetUpdate(true);
+            seq.AppendInterval(0.5f);
+            seq.Append(panelGroup.DOFade(0, 0.3f)).SetUpdate(true);
+        }
+
+        public void SetPopupText(string str)
+        {
+            popupText.text = str;
+            ActiveAutoPopup();
         }
     }
 }

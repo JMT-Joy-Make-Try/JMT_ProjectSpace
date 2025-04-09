@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using JMT.Agent.Alien;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
@@ -28,7 +28,7 @@ namespace JMT.Agent.State
         {
             var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
             item.transform.position = Agent.transform.position;
-            item.SetItemType(ItemType.OxygenTank);
+            item.SetItemType(ItemListSystem.Instance.GetItemSO(ItemType.OxygenTank));
             PoolingManager.Instance.Push(Agent);
         }
     }

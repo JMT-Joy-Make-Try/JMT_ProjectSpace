@@ -1,4 +1,4 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using DG.Tweening;
 using JMT.Core;
 using JMT.Core.Tool.PoolManager;
@@ -12,14 +12,14 @@ namespace JMT.Object
 {
     public class ItemObject : MonoBehaviour, IPoolable, ICollectable
     {
-        [SerializeField] private SerializedDictionary<ItemType, ItemData> _itemSprites;
+        //[SerializeField] private SerializedDictionary<ItemSO, ItemData> _itemSprites;
         [SerializeField] private SpriteRenderer _itemSpriteRenderer;
         [SerializeField] private float _rotationSpeed;
         [field:SerializeField] public PoolingType type { get; set; }
         public GameObject ObjectPrefab => gameObject;
         
         private MeshRenderer _meshRenderer;
-        private ItemType _itemType;
+        private ItemSO _itemSO;
 
         private void Awake()
         {
@@ -27,11 +27,11 @@ namespace JMT.Object
             _meshRenderer.material = Instantiate(_meshRenderer.material);
         }
 
-        public void SetItemType(ItemType itemType)
+        public void SetItemType(ItemSO itemType)
         {
-            _itemType = itemType;
-            _itemSpriteRenderer.sprite = _itemSprites[itemType].sprite;
-            _meshRenderer.material.SetColor("_BaseColor", _itemSprites[itemType].color);
+            _itemSO = itemType;
+            _itemSpriteRenderer.sprite = itemType.Icon;
+            _meshRenderer.material.SetColor("_BaseColor", itemType.ItemData.color);
         }
 
         private void Update()
@@ -47,8 +47,8 @@ namespace JMT.Object
 
         public void Collect()
         {
-            InventoryManager.Instance.AddItem(_itemType, 1);
-            Debug.Log("Collect Item: " + _itemType);
+            InventoryManager.Instance.AddItem(_itemSO, 1);
+            Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);
         }
     }

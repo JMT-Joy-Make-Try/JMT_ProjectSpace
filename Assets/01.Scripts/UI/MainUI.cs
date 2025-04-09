@@ -12,6 +12,7 @@ namespace JMT.UISystem
         public UpgradeUI UpgradeUI { get; private set; }
         public StationUI StationUI { get; private set; }
         public PopupUI PopupUI { get; private set; }
+        public GetUI GetUI { get; private set; }
 
         private bool isPanelOpen;
 
@@ -25,6 +26,7 @@ namespace JMT.UISystem
             StationUI = GetComponent<StationUI>();
             BuildingUI = GetComponent<BuildingUI>();
             PopupUI = GetComponent<PopupUI>();
+            GetUI = GetComponent<GetUI>();
         }
     }
 }
