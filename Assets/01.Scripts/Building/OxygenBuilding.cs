@@ -21,11 +21,13 @@ namespace JMT.Building
 
         private IEnumerator WorkCoroutine()
         {
+            var ws = new WaitForSeconds(0.1f);
             while (true)
             {
-                if (data.GetFirstCreateItem() == null || data.CreateItemList.Count <= 0)
+                if (data.GetFirstCreateItem() == null || data.CreateItemList.Count <= 0 || data.Works.Count <= 0)
                 {
                     Debug.Log("Building Data is null");
+                    yield return ws;
                     continue;
                 }
                 int timeMinute = data.GetFirstCreateItem().CreateTime.minute * 60 + data.GetFirstCreateItem().CreateTime.second;

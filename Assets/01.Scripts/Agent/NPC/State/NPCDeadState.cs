@@ -19,39 +19,59 @@ namespace JMT.Agent.State
         {
             base.EnterState();
             agent.ChangeCloth(AgentType.Patient);
-            if (agent.OxygenCompo.IsOxygenLow)
-            {
-                agent.SetBuilding(BuildingManager.Instance.OxygenBuilding);
-                if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding)
-                {
-                    _stateMachine.ChangeState(NPCState.Move);
-                    return;
-                }
-            }
-            else
+            if (agent.IsDead)
             {
                 agent.SetBuilding(BuildingManager.Instance.HospitalBuilding);
                 if (agent.CurrentWorkingBuilding == null ||
-                    agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding)
+                    agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding || BuildingManager.Instance.HospitalBuilding == null)
                 {
                     _stateMachine.ChangeState(NPCState.Move);
                     return;
                 }
             }
+            if (agent.OxygenCompo.IsOxygenLow)
+            {
+                agent.SetBuilding(BuildingManager.Instance.OxygenBuilding);
+                if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding || BuildingManager.Instance.OxygenBuilding == null)
+                {
+                    _stateMachine.ChangeState(NPCState.Move);
+                    return;
+                }
+            }
+            
 
             agent.MovementCompo.Move(agent.CurrentWorkingBuilding.WorkPosition.position, agent.MoveSpeed, Heal);
         }
 
         private void Heal()
         {
-            if (agent.OxygenCompo.IsOxygenLow)
+            if (agent.IsDead)
             {
-                StartCoroutine(OxygenRestore());
+                if (BuildingManager.Instance.HospitalBuilding != null)
+                {
+                    Debug.LogError("Asdfafasfa");
+                    StartCoroutine(HealCoroutine());
+                }
+                else
+                {
+                    Debug.LogError("AsdfafasfaaDS");
+                    _stateMachine.ChangeState(NPCState.Move, true);
+                }
             }
-            else
+            else if (agent.OxygenCompo.IsOxygenLow)
             {
-                StartCoroutine(HealCoroutine());
+                if (BuildingManager.Instance.OxygenBuilding != null)
+                {
+                    Debug.LogError("AsdfafasfaFASFDF");
+                    StartCoroutine(OxygenRestore());
+                }
+                else
+                {
+                    Debug.LogError("AsdfafasfaFASFASD");
+                    _stateMachine.ChangeState(NPCState.Move);
+                }
             }
+            
         }
 
         private IEnumerator OxygenRestore()

@@ -1,6 +1,8 @@
 ﻿using JMT.Agent.NPC;
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
@@ -16,6 +18,18 @@ namespace JMT.Agent.State
             base.Initialize(agent, stateName);
             this._agent = (NPCAgent)agent;
             this._agent.OnTypeChanged += HandleTypeChanged;
+            _agent.OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
+        }
+
+        private void OnDestroy()
+        {
+            _agent.OnTypeChanged -= HandleTypeChanged;
+            _agent.OxygenCompo.OnOxygenLowEvent -= HandleOxygenLow;
+        }
+
+        private void HandleOxygenLow()
+        {
+            _stateMachine.ChangeState(NPCState.Dead);
         }
 
         private void HandleTypeChanged(AgentType obj)
@@ -59,6 +73,7 @@ namespace JMT.Agent.State
             {
                 _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed);
                 yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
+                _targetPosition = new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f));
             }
         }
     }
