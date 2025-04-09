@@ -26,11 +26,6 @@ namespace JMT.Building
             _currentProductionAmount = 0;
         }
 
-        public override void Build(Vector3 position, Transform parent)
-        {
-            transform.position = position;
-        }
-
         public override void Work()
         {
             base.Work();

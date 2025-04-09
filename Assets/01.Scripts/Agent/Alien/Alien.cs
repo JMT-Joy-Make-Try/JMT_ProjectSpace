@@ -31,7 +31,7 @@ namespace JMT.Agent.Alien
 
         private void HandleDeath()
         {
-            StateMachineCompo.ChangeState(AlienState.Dead);
+            StateMachineCompo.ChangeState(AlienState.Dead, true);
         }
 
         public override void Init()

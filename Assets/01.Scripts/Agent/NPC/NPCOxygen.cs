@@ -1,4 +1,5 @@
 using JMT.Core;
+using JMT.Core.Tool;
 using UnityEngine;
 using System;
 using System.Collections;
@@ -26,7 +27,7 @@ namespace JMT.Agent.NPC
             while (!_isOxygenLow)
             {
                 yield return new WaitForSeconds(_decreaseTime);
-                if (_currentOxygen > 0)
+                if (_currentOxygen.GetPercent(Oxygen) >= 10)
                 {
                     AddOxygen(-1);
                 }

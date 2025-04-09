@@ -6565,9 +6565,9 @@ GameObject:
   - component: {fileID: 2257528561566081894}
   - component: {fileID: 6062460446107766387}
   - component: {fileID: 8550061002388687951}
-  - component: {fileID: 3627097639919744441}
   - component: {fileID: 5775183926257423185}
   - component: {fileID: 2776019099999613404}
+  - component: {fileID: 7958708845597066041}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -6612,7 +6612,7 @@ MonoBehaviour:
   <StateMachineCompo>k__BackingField: {fileID: 2805633489195981530}
   <AnimatorCompo>k__BackingField: {fileID: 0}
   <MovementCompo>k__BackingField: {fileID: 0}
-  <ClothCompo>k__BackingField: {fileID: 3627097639919744441}
+  <ClothCompo>k__BackingField: {fileID: 0}
   <AnimationEndTrigger>k__BackingField: {fileID: 6062460446107766387}
   <Health>k__BackingField: 10
   <type>k__BackingField: 3
@@ -6717,30 +6717,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NavMeshAgentCompo>k__BackingField: {fileID: 2257528561566081894}
   _remainDistance: 0.5
---- !u!114 &3627097639919744441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9208675050051364842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 039c96087b8349d487cbc60cfb9be61e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentClothList:
-    _serializedList:
-    - Key: 0
-      Value: {fileID: 1191274181813866938}
-    - Key: 1
-      Value: {fileID: 8724107696917343620}
-    - Key: 2
-      Value: {fileID: 5200423350184674911}
-    - Key: 3
-      Value: {fileID: 2052122521997928224}
-    - Key: 4
-      Value: {fileID: 6765381355914992366}
 --- !u!136 &5775183926257423185
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6777,7 +6753,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Oxygen>k__BackingField: 10
-  _decreaseTime: 1
+  _decreaseTime: 10
+--- !u!114 &7958708845597066041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e32dda42dd4a56815762d4301ff857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentClothList:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 1191274181813866938}
+    - Key: 1
+      Value: {fileID: 8724107696917343620}
+    - Key: 2
+      Value: {fileID: 5200423350184674911}
+    - Key: 3
+      Value: {fileID: 2052122521997928224}
+    - Key: 4
+      Value: {fileID: 6765381355914992366}
 --- !u!1001 &1607172668893142597
 PrefabInstance:
   m_ObjectHideFlags: 0

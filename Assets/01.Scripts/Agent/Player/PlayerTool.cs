@@ -1,9 +1,11 @@
 using AYellowpaper.SerializedCollections;
+using JMT.Agent;
+using System;
 using UnityEngine;
 
 namespace JMT.Player
 {
-    public class PlayerTool : MonoBehaviour
+    public class PlayerTool : AgentCloth<PlayerToolType>
     {
         [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
         private ToolSO _curPlayerToolSO;
@@ -13,11 +15,12 @@ namespace JMT.Player
         {
             _player = player;
         }
-        
-        public void SetPlayerTool(PlayerToolType playerToolType)
+
+        public override void SetCloth(PlayerToolType type)
         {
+            base.SetCloth(type);
             _curPlayerToolSO.UnEquip(_player);
-            _curPlayerToolSO = _playerToolSOs[playerToolType];
+            _curPlayerToolSO = _playerToolSOs[type];
             _curPlayerToolSO.Equip(_player);
         }
     }

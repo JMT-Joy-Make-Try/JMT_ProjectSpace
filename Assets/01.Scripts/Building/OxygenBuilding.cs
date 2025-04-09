@@ -9,9 +9,6 @@ namespace JMT.Building
 {
     public class OxygenBuilding : ItemBuilding
     {
-        public override void Build(Vector3 position, Transform parent)
-        {
-        }
 
         private void Start()
         {
@@ -27,6 +24,12 @@ namespace JMT.Building
                 if (data.GetFirstCreateItem() == null || data.CreateItemList.Count <= 0 || data.Works.Count <= 0)
                 {
                     Debug.Log("Building Data is null");
+                    yield return ws;
+                    continue;
+                }
+
+                if (CurrentItems.Find(x => x.Item1 == ItemType.PurificationContainer).Item2 >= 3)
+                {
                     yield return ws;
                     continue;
                 }

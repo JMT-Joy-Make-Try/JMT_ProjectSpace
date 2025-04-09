@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using JMT.Building;
 using JMT.Planets.Tile;
+using System;
 using Unity.AI.Navigation;
 using UnityEngine;
 using Event = JMT.Planets.Events.Event;
+using Random = UnityEngine.Random;
 
 namespace JMT.Planets
 {
@@ -12,6 +14,30 @@ namespace JMT.Planets
         [SerializeField] private List<Event> events = new List<Event>();
         [SerializeField] private List<TileList> tileLists = new List<TileList>();
         [SerializeField] private NavMeshSurface navMeshSurface;
+        
+        public event Action EventWarning;
+
+        private void Start()
+        {
+            DaySystem.Instance.OnChangeDayCountEvent += HandleChangeDay;
+        }
+
+        private void OnDestroy()
+        {
+            DaySystem.Instance.OnChangeDayCountEvent -= HandleChangeDay;
+        }
+
+        private void HandleChangeDay(int day)
+        {
+            if (day % 3 == 2)
+            {
+                EventWarning?.Invoke();
+            }
+            if (day % 3 == 0)
+            {
+                StartEvent();
+            }
+        }
 
         protected virtual void GeneratePlanet(TilesSO tilesSO)
         {
