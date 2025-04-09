@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,9 +17,10 @@ namespace JMT.Planets.Tile
             if(!itemDictionary.ContainsKey(item))
                 itemDictionary.Add(item, increaseCount);
             else itemDictionary[item] += increaseCount;
+            UIManager.Instance.GetUI.GetItem(item, increaseCount);
         }
 
-        public void AddItem(ItemType item, int increaseCount)
+        /*public void AddItem(ItemType item, int increaseCount)
         {
             var itemSO = itemDictionary.FirstOrDefault(s => ((ItemSO)s.Key).ItemType == item).Key;
             if (itemSO == null)
@@ -29,7 +31,7 @@ namespace JMT.Planets.Tile
             if (!itemDictionary.ContainsKey(itemSO))
                 itemDictionary.Add(itemSO, increaseCount);
             else itemDictionary[itemSO] += increaseCount;
-        }
+        }*/
         
         public void RemoveItem(ItemSO item, int decreaseCount)
         {
