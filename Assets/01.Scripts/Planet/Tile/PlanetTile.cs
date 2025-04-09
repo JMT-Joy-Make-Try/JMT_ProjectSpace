@@ -4,6 +4,7 @@ using JMT.Object;
 using JMT.UISystem;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JMT.Planets.Tile
 {
@@ -14,7 +15,7 @@ namespace JMT.Planets.Tile
         [field:SerializeField] public MeshFilter Filter { get; private set; }
         [SerializeField] private float _tileHeight;
         
-        [SerializeField] private Fog _fog;
+        [SerializeField] public Fog Fog;
         
         [Space]
         [SerializeField] private List<Texture2D> _textures;
@@ -44,12 +45,12 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             //SetHeight(_tileHeight);
-            _fog.SetFog(false);
+            Fog.SetFog(true);
         }
 
         public bool CanBuild()
         {
-            return !_fog.IsFogActive || _currentBuilding == null;
+            return !Fog.IsFogActive || _currentBuilding == null;
         }
 
         private void SetHeight(float height)
