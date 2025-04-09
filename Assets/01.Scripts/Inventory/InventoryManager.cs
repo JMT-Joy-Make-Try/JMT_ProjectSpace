@@ -71,8 +71,12 @@ namespace JMT.Planets.Tile
             for(int i = 0; i < pairs.Count; ++i)
             {
                 KeyValuePair<ItemSO, int> pair = pairs[i];
-                if (!itemDictionary.ContainsKey(pair.Key)) return false;
-                if (itemDictionary[pair.Key] < pair.Value) return false;
+                if (!itemDictionary.ContainsKey(pair.Key) || itemDictionary[pair.Key] < pair.Value)
+                {
+                    UIManager.Instance.PopupUI.SetPopupText("자원이 부족합니다.");
+                    UIManager.Instance.PopupUI.ActiveAutoPopup();
+                    return false;
+                }
             }
 
             for (int i = 0; i < pairs.Count; ++i)
