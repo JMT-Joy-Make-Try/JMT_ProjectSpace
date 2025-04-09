@@ -52,18 +52,25 @@ namespace JMT.Agent.NPC
         protected override void Awake()
         {
             base.Awake();
+            OxygenCompo = GetComponent<NPCOxygen>();
             OnTypeChanged += HandleTypeChanged;
             OnDeath += HandleDeath;
+            OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
             
-            OxygenCompo = GetComponent<NPCOxygen>();
             StateMachineCompo.ChangeState(NPCState.Idle);
             ActiveAgent();
+        }
+
+        private void HandleOxygenLow()
+        {
+            StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
         protected void OnDestroy()
         {
             OnTypeChanged -= HandleTypeChanged;
             OnDeath -= HandleDeath;
+            OxygenCompo.OnOxygenLowEvent -= HandleOxygenLow;
         }
 
         private void HandleDeath()

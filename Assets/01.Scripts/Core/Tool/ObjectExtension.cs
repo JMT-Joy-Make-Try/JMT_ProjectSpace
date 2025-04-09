@@ -26,5 +26,16 @@ namespace JMT.Core.Tool
 
             return result.ToString();
         }
+
+        public static bool Contains<T, TU>(this List<SerializeTuple<T, TU>> tuple, T item1)
+        {
+            foreach (var t in tuple)
+            {
+                if (t.Item1.Equals(item1))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -8,6 +8,7 @@ using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.Building
@@ -23,7 +24,7 @@ namespace JMT.Building
         [field: SerializeField] public Transform WorkPosition { get; protected set; }
 
         [Space(10)] [Header("Building Data")] [SerializeField]
-        protected SerializeQueue<SerializeTuple<ItemType, int>> CurrentItems;
+        protected List<SerializeTuple<ItemType, int>> CurrentItems;
 
         [field: SerializeField] public int Health { get; protected set; }
         private BuildingDataSO buildingData;
@@ -95,9 +96,14 @@ namespace JMT.Building
             _curLevel++;
         }
 
-        protected virtual void SetItem(ItemType type, int amount)
+        public virtual void SetItem(ItemType type, int amount)
         {
-            CurrentItems.Enqueue(new SerializeTuple<ItemType, int>(type, amount));
+            if (CurrentItems.Contains(type))
+            {
+                CurrentItems.Find(x => x.Item1 == type).Item2 += amount;
+                return;
+            }
+            CurrentItems.Add(new SerializeTuple<ItemType, int>(type, amount));
         }
 
         public void SetBuildingData(BuildingDataSO data)

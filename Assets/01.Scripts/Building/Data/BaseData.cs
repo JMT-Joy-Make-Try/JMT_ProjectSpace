@@ -26,6 +26,13 @@ namespace JMT.Building
         // 알아서 추가하세요
         public int BuildingLevel = 1;
         public int UseFuelValue = 0;
+        
+        protected BuildingBase _buildingBase;
+
+        public void Init(BuildingBase buildingBase)
+        {
+            _buildingBase = buildingBase;
+        }
         [SerializeField] private SerializeQueue<BuildingWork> works = new();
 
         public SerializeQueue<BuildingWork> Works => works;

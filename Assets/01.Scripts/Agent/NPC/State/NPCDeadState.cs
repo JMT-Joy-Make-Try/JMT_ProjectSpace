@@ -19,19 +19,51 @@ namespace JMT.Agent.State
         {
             base.EnterState();
             agent.ChangeCloth(AgentType.Patient);
-            Debug.Log(BuildingManager.Instance.HospitalBuilding);
-            agent.SetBuilding(BuildingManager.Instance.HospitalBuilding);
-            if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding)
+            if (agent.OxygenCompo.IsOxygenLow)
             {
-                _stateMachine.ChangeState(NPCState.Move);
-                return;
+                agent.SetBuilding(BuildingManager.Instance.OxygenBuilding);
+                if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding)
+                {
+                    _stateMachine.ChangeState(NPCState.Move);
+                    return;
+                }
             }
+            else
+            {
+                agent.SetBuilding(BuildingManager.Instance.HospitalBuilding);
+                if (agent.CurrentWorkingBuilding == null ||
+                    agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding)
+                {
+                    _stateMachine.ChangeState(NPCState.Move);
+                    return;
+                }
+            }
+
             agent.MovementCompo.Move(agent.CurrentWorkingBuilding.WorkPosition.position, agent.MoveSpeed, Heal);
         }
 
         private void Heal()
         {
-            StartCoroutine(HealCoroutine());
+            if (agent.OxygenCompo.IsOxygenLow)
+            {
+                StartCoroutine(OxygenRestore());
+            }
+            else
+            {
+                StartCoroutine(HealCoroutine());
+            }
+        }
+
+        private IEnumerator OxygenRestore()
+        {
+            var ws = new WaitForSeconds(1f);
+            while (!BuildingManager.Instance.OxygenBuilding.GetOxygen())
+            {
+                yield return ws;
+            }
+            agent.OxygenCompo.InitOxygen();
+            agent.ChangeCloth(AgentType.Base);
+            _stateMachine.ChangeState(NPCState.Idle);
         }
 
         private IEnumerator HealCoroutine()
