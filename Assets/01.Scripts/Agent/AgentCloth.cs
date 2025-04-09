@@ -5,19 +5,13 @@ using UnityEngine;
 
 namespace JMT.Agent
 {
-    public class AgentCloth : MonoBehaviour
+    public class AgentCloth<T> : MonoBehaviour where T : Enum
     {
-        [SerializeField] private SerializedDictionary<AgentType, Animator> agentClothList;
+        [SerializeField] private SerializedDictionary<T, Animator> agentClothList;
 
         public Animator CurrentCloth { get; private set; }
-
-        private void Start()
-        {
-            SetCloth(AgentType.Base);
-        }
-
-
-        public void SetCloth(AgentType type)
+        
+        public virtual void SetCloth(T type)
         {
             if (CurrentCloth != null)
             {

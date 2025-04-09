@@ -119,6 +119,9 @@ namespace JMT.Planets.Tile
                 case ProgressInteraction:
                     interaction.SetType(InteractType.Progress);
                     break;
+                case ZeoliteInteraction:
+                    interaction.SetType(InteractType.Zeolite);
+                    break;
             }
             return interaction;
         }
