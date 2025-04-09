@@ -6567,6 +6567,7 @@ GameObject:
   - component: {fileID: 8550061002388687951}
   - component: {fileID: 3627097639919744441}
   - component: {fileID: 5775183926257423185}
+  - component: {fileID: 2776019099999613404}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -6623,8 +6624,6 @@ MonoBehaviour:
   <Data>k__BackingField:
     MaxStamina: 30
     Stamina: 0
-    MaxOxygen: 100
-    OxygenAmount: 0
     MaxFuel: 0
     FuelAmount: 0
   <CurrentWorkingBuilding>k__BackingField: {fileID: 0}
@@ -6765,6 +6764,20 @@ CapsuleCollider:
   m_Height: 9.735687
   m_Direction: 1
   m_Center: {x: 0.113198854, y: 4.1227603, z: 0.59248966}
+--- !u!114 &2776019099999613404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f1ccf5f4e44656971e52ef3777499c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Oxygen>k__BackingField: 10
+  _decreaseTime: 1
 --- !u!1001 &1607172668893142597
 PrefabInstance:
   m_ObjectHideFlags: 0

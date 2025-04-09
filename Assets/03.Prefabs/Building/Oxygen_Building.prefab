@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6438078358172703228}
   - component: {fileID: 94794387616571235}
+  - component: {fileID: 8471740350470397521}
   m_Layer: 6
   m_Name: Oxygen_Building
   m_TagString: Untagged
@@ -49,12 +50,14 @@ MonoBehaviour:
   buildingParticles: {fileID: 0}
   _currentNpc: []
   <WorkPosition>k__BackingField: {fileID: 2991668648938852495}
-  CurrentItems:
-    items: []
+  CurrentItems: []
   <Health>k__BackingField: 0
   _agentType: 0
-  visualMat: {fileID: 0}
-  rendererList: []
+  visualMat: {fileID: 2100000, guid: 1543aa205c71d594a94d90a0b362399a, type: 2}
+  rendererList:
+  - {fileID: 6582345938650067694}
+  - {fileID: 4198222965217008308}
+  - {fileID: 553009529104932310}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
@@ -62,6 +65,22 @@ MonoBehaviour:
       items: []
     CreateItemList:
     - {fileID: 11400000, guid: 0a5dfbb7392707944b76d12b4f4a7405, type: 2}
+--- !u!208 &8471740350470397521
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.15, y: 0.5, z: 0.15}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5708634991250265493
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +106,7 @@ Transform:
   m_GameObject: {fileID: 5708634991250265493}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.38, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -181,8 +200,23 @@ PrefabInstance:
       addedObject: {fileID: 2991668648938852495}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6b90fc126a09364488f80a181177823, type: 3}
+--- !u!23 &553009529104932310 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2348053109929956537, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2356477293731884676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4198222965217008308 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2124097496332456923, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6582345938650067694 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -261092084840383615, guid: d6b90fc126a09364488f80a181177823, type: 3}
   m_PrefabInstance: {fileID: 2826390161159670127}
   m_PrefabAsset: {fileID: 0}
