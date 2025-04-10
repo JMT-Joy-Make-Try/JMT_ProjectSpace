@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace JMT.UISystem
@@ -6,6 +6,10 @@ namespace JMT.UISystem
     public class BuildCellUI : MonoBehaviour
     {
         private TextMeshProUGUI nameText;
+
+        private void Start()
+        {
+        }
         private void Awake()
         {
             nameText = transform.Find("NameTxt").GetComponent<TextMeshProUGUI>();
