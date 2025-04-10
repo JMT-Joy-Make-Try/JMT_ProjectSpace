@@ -43,7 +43,6 @@ namespace JMT.Building
         [SerializeField] private List<MeshRenderer> rendererList;
 
         private int _curLevel;
-        public abstract void Build(Vector3 position, Transform parent);
 
         protected virtual void Awake()
         {

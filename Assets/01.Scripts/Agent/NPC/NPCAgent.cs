@@ -6,6 +6,7 @@ using JMT.Core.Tool.PoolManager.Core;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +34,11 @@ namespace JMT.Agent.NPC
         [field:SerializeField] public int MoveSpeed;
         [field:SerializeField] public int WorkSpeed;
         
-        [field:SerializeField] public AgentType AgentType { get; private set; }    
+        [field:SerializeField] public AgentType AgentType { get; private set; }
+        private NPCStatUI npcStatUI;
         
         public event Action<AgentType> OnTypeChanged;
+        public event Action<bool> OnHealthWarningEvent;
         
         public void SetAgentType(AgentType agentType)
         {
@@ -52,12 +55,19 @@ namespace JMT.Agent.NPC
         protected override void Awake()
         {
             OxygenCompo = GetComponent<NPCOxygen>();
+            npcStatUI = GetComponent<NPCStatUI>();
+
             OnTypeChanged += HandleTypeChanged;
             OnDeath += HandleDeath;
             OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
+            OnHealthWarningEvent += npcStatUI.SetHealthStat;
+            OxygenCompo.OnOxygenWarningEvent += npcStatUI.SetOxygenStat;
+
             base.Awake();
             
             StateMachineCompo.ChangeState(NPCState.Idle);
+
+
             ActiveAgent();
         }
 
@@ -76,7 +86,7 @@ namespace JMT.Agent.NPC
         private void HandleDeath()
         {
             Debug.Log("Dead");
-            StateMachineCompo.ChangeState(NPCState.Dead);
+            StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
 
         private void HandleTypeChanged(AgentType type)
@@ -119,8 +129,8 @@ namespace JMT.Agent.NPC
         
         protected void SetSpeed()
         {
-            WorkSpeed = GetPercent(Health);
-            MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(Health));
+            WorkSpeed = GetPercent(_curHealth);
+            MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(_curHealth));
 
             if (WorkSpeed <= 0)
             {
@@ -138,7 +148,25 @@ namespace JMT.Agent.NPC
         protected int GetPercent(float health)
         {
             int healthPercent = Mathf.RoundToInt(health * 100 / Health);
-            return healthPercent.GetRangeValue(_healthRange);
+            int rangeValue = healthPercent.GetRangeValue(_healthRange);
+            var findRange = _healthRange.Find(s => s.ReturnValue == rangeValue);
+            var rangeIndex = _healthRange.IndexOf(findRange);
+
+            if (rangeIndex == 2)
+                OnHealthWarningEvent?.Invoke(true);
+            else
+                OnHealthWarningEvent?.Invoke(true);
+            return rangeValue;
+        }
+
+        public override void TakeDamage(int damage, bool isHeal)
+        {
+            base.TakeDamage(damage, isHeal);
+            int healthPercent = Mathf.RoundToInt(_curHealth * 100 / Health);
+            if (healthPercent < 40)
+                OnHealthWarningEvent?.Invoke(true);
+            else
+                OnHealthWarningEvent?.Invoke(true);
         }
 
         public void SetBuilding(BuildingBase building)

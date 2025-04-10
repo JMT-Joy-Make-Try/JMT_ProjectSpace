@@ -22,10 +22,6 @@ namespace JMT.Building
             _colliders = new Collider[10];
         }
         
-        public override void Build(Vector3 position, Transform parent)
-        {
-            transform.position = position;
-        }
         
         public override void Work()
         {

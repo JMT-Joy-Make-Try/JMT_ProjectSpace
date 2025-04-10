@@ -13,10 +13,5 @@ namespace JMT.Building
         {
             BuildingManager.Instance.HospitalBuilding = this;
         }
-
-        public override void Build(Vector3 position, Transform parent)
-        {
-            
-        }
     }
 }

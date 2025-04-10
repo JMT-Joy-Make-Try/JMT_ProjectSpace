@@ -2,7 +2,7 @@
 
 namespace JMT.Planets.Tile
 {
-    public class FogManager : MonoSingleton<FogManager>
+    public class Zeolite : MonoBehaviour
     {
         
     }

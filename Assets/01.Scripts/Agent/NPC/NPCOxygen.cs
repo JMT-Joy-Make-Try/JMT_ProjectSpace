@@ -1,4 +1,5 @@
-﻿using JMT.Core;
+using JMT.Core;
+using JMT.Core.Tool;
 using UnityEngine;
 using System;
 using System.Collections;
@@ -9,6 +10,7 @@ namespace JMT.Agent.NPC
     {
         [field: SerializeField] public int Oxygen { get; private set; }
         [SerializeField] private float _decreaseTime = 1f;
+        public event Action<bool> OnOxygenWarningEvent;
         public event Action OnOxygenLowEvent;
         private bool _isOxygenLow = false;
         public bool IsOxygenLow => _isOxygenLow;
@@ -25,9 +27,9 @@ namespace JMT.Agent.NPC
             while (!_isOxygenLow)
             {
                 yield return new WaitForSeconds(_decreaseTime);
-                if (_currentOxygen > 0)
+                if (_currentOxygen.GetPercent(Oxygen) >= 10)
                 {
-                    _currentOxygen--;
+                    AddOxygen(-1);
                 }
                 else
                 {
@@ -40,6 +42,11 @@ namespace JMT.Agent.NPC
         public void AddOxygen(int value)
         {
             _currentOxygen += value;
+            int healthPercent = Mathf.RoundToInt(_currentOxygen * 100 / Oxygen);
+            if (healthPercent <= 10)
+                OnOxygenWarningEvent?.Invoke(true);
+            else
+                OnOxygenWarningEvent?.Invoke(false);
         }
 
         public void InitOxygen()

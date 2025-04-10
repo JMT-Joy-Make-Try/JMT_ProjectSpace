@@ -22,9 +22,11 @@ namespace JMT.Agent.State
             if (agent.IsDead)
             {
                 agent.SetBuilding(BuildingManager.Instance.HospitalBuilding);
+                Debug.Log("Hospital Building Added!");
                 if (agent.CurrentWorkingBuilding == null ||
                     agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding || BuildingManager.Instance.HospitalBuilding == null)
                 {
+                    Debug.Log("Hospital Building is Null!");
                     _stateMachine.ChangeState(NPCState.Move);
                     return;
                 }
@@ -32,8 +34,10 @@ namespace JMT.Agent.State
             if (agent.OxygenCompo.IsOxygenLow)
             {
                 agent.SetBuilding(BuildingManager.Instance.OxygenBuilding);
+                Debug.Log("Oxygen Building Added!");
                 if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding || BuildingManager.Instance.OxygenBuilding == null)
                 {
+                    Debug.Log("Oxygen Building is Null!");
                     _stateMachine.ChangeState(NPCState.Move);
                     return;
                 }

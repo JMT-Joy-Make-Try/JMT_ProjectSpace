@@ -20,11 +20,6 @@ namespace JMT.Building
             _colliders = new Collider[10];
         }
 
-        public override void Build(Vector3 position, Transform parent)
-        {
-            Instantiate(gameObject, position, Quaternion.identity, parent);
-            Work();
-        }
 
         public override void Work()
         {

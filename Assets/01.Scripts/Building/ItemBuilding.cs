@@ -9,10 +9,6 @@ namespace JMT.Building
     public class ItemBuilding : BuildingBase
     {
         public ItemBuildingData data;
-        public override void Build(Vector3 position, Transform parent)
-        {
-            
-        }
 
         protected override void Awake()
         {
