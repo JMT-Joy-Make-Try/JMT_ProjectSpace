@@ -52,7 +52,7 @@ namespace JMT.Building
 
         private void HandleCompleteEvent()
         {
-            Destroy(_pvc.gameObject);
+            _pvc.PlayAnimation();
             visualMat.SetFloat("_Alpha", 1f);
         }
 
