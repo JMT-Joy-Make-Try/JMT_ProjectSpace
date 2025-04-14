@@ -1,14 +1,17 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
     public class BuildCellUI : MonoBehaviour
     {
+        private Image image;
         private TextMeshProUGUI nameText;
         private void Awake()
         {
-            nameText = transform.Find("NameTxt").GetComponent<TextMeshProUGUI>();
+            nameText = transform.Find("Name").GetComponentInChildren<TextMeshProUGUI>();
+            image = transform.Find("Icon").GetComponent<Image>();
         }
 
         public void SetItemCell(string name)

@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace JMT.Building
 {
@@ -53,7 +54,14 @@ namespace JMT.Building
         private void HandleCompleteEvent()
         {
             Destroy(_pvc.gameObject);
-            visualMat.SetFloat("_Alpha", 1f);
+            BuildingTransparent(1f);
+        }
+
+        public void BuildingTransparent(float value)
+        {
+            visualMat.SetFloat("_Alpha", value);
+            for (int i = 0; i < rendererList.Count; ++i)
+                rendererList[i].shadowCastingMode = value < 1f ? ShadowCastingMode.Off : ShadowCastingMode.On;
         }
 
         public void Building()
@@ -67,7 +75,7 @@ namespace JMT.Building
 
         private IEnumerator BuildingRoutine(int time)
         {
-            visualMat.SetFloat("_Alpha", 0.2f);
+            BuildingTransparent(0.3f);
             yield return new WaitForSeconds(time);
             IsBuilding = true;
         }
