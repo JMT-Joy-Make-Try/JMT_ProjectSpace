@@ -2,6 +2,7 @@
 using AYellowpaper.SerializedCollections;
 using EditorAttributes;
 using JMT.Agent;
+using JMT.Planets.Tile;
 
 namespace JMT.Building
 {
@@ -36,8 +37,13 @@ namespace JMT.Building
                 for (int i = 0; i < _npcCount; i++)
                 {
                     AgentManager.Instance.SpawnAgent(transform.position);
+                    GetPlanetTile().RemoveInteraction();
+                    GetPlanetTile().AddInteraction<NoneInteraction>();
+                    Destroy(gameObject);
                 }
             }
+            
+            
         }
     }
 }

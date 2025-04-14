@@ -14,6 +14,7 @@ namespace JMT.Planets.Tile
         private float _curPlayerInFogTime = 0f;
 
         private List<NPCAgent> _npcAgents = new List<NPCAgent>();
+        private Player.Player _player;
         public bool IsFogActive { get; private set; } 
 
         public void SetFog(bool active, bool lightActive = false)
@@ -31,6 +32,7 @@ namespace JMT.Planets.Tile
                 if (_curPlayerInFogTime >= _playerInFogDamageTime)
                 {
                     DamageNPC();
+                    _curPlayerInFogTime = 0f;
                 }
             }
         }
@@ -40,6 +42,12 @@ namespace JMT.Planets.Tile
             foreach (var npcAgent in _npcAgents)
             {
                 npcAgent.TakeDamage(_damageAmount, false);
+                Debug.Log("Damaging NPC in fog");;
+            }
+            if (_player != null)
+            {
+                _player.TakeDamage(_damageAmount, false);
+                Debug.Log("Damaging Player in fog");
             }
         }
 
@@ -52,6 +60,12 @@ namespace JMT.Planets.Tile
                 _isPlayerInFog = true;
                 _npcAgents.Add(npcAgent);
             }
+            if (other.TryGetComponent(out Player.Player player))
+            {
+                _player = player;
+                _curPlayerInFogTime = 0f;
+                _isPlayerInFog = true;
+            }
         }
 
         private void OnTriggerExit(Collider other)
@@ -61,6 +75,12 @@ namespace JMT.Planets.Tile
                 _curPlayerInFogTime = 0f;
                 _isPlayerInFog = false;
                 _npcAgents.Remove(npcAgent);
+            }
+            if (other.TryGetComponent(out Player.Player player))
+            {
+                _curPlayerInFogTime = 0f;
+                _isPlayerInFog = false;
+                _player = null;
             }
         }
     }
