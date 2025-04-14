@@ -23,7 +23,7 @@ namespace JMT.Planets.Tile
 
         private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
-        private GameObject TileInteraction;
+        public GameObject TileInteraction;
 
         public event Action OnBuild;
         
@@ -123,6 +123,9 @@ namespace JMT.Planets.Tile
                     break;
                 case ZeoliteInteraction:
                     interaction.SetType(InteractType.Zeolite);
+                    break;
+                case VillageInteraction:
+                    interaction.SetType(InteractType.Village);
                     break;
             }
 

@@ -11,6 +11,7 @@ namespace JMT
         Station = 4,
         Attack = 5,
         Zeolite = 6,
+        Village = 7,
     }
     public class InteractSystem : MonoSingleton<InteractSystem>
     {
