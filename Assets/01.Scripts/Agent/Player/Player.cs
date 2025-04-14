@@ -22,6 +22,7 @@ namespace JMT.Player
         public Animator AnimCompo { get; private set; }
         public AnimationEndTrigger EndTrigger { get; private set; }
         public Attacker Attacker { get; private set; }
+        public PlayerMovement Movement { get; private set; }
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
 
@@ -41,6 +42,7 @@ namespace JMT.Player
             Attacker = GetComponent<Attacker>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
             EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
+            Movement = GetComponent<PlayerMovement>();
 
             DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
 

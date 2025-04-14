@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using JMT.Agent;
 using JMT.Agent.NPC;
+using JMT.Core.Manager;
+using UnityEngine.Rendering.Universal;
 
 namespace JMT.Planets.Tile
 {
@@ -15,6 +18,8 @@ namespace JMT.Planets.Tile
 
         private List<NPCAgent> _npcAgents = new List<NPCAgent>();
         private Player.Player _player;
+
+        private float _intensity;
         public bool IsFogActive { get; private set; } 
 
         public void SetFog(bool active, bool lightActive = false)
@@ -65,6 +70,11 @@ namespace JMT.Planets.Tile
                 _player = player;
                 _curPlayerInFogTime = 0f;
                 _isPlayerInFog = true;
+                DOVirtual.Float(0.2f, 0.7f, 1f, (x) =>
+                {
+                    VolumeManager.Instance.GetVolume<Vignette>().intensity.value = x;
+                });
+                player.Movement.SetMoveSpeedMultiplier(0.7f);
             }
         }
 
@@ -81,6 +91,11 @@ namespace JMT.Planets.Tile
                 _curPlayerInFogTime = 0f;
                 _isPlayerInFog = false;
                 _player = null;
+                DOVirtual.Float(0.7f, 0.2f, 1f, (x) =>
+                {
+                    VolumeManager.Instance.GetVolume<Vignette>().intensity.value = x;
+                });
+                player.Movement.ResetMoveSpeed();
             }
         }
     }
