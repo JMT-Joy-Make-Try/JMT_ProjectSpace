@@ -11,6 +11,8 @@ namespace JMT.Building
         [SerializeField] private int _npcCount;
         
         [SerializeField] private ItemSO _item;
+        
+        public SerializedDictionary<ItemSO, int> NeedItems => _needItems;
         [Button]
         private void Test()
         {
@@ -19,6 +21,11 @@ namespace JMT.Building
         
         public void GiveItem(ItemSO item, int amount)
         {
+            if (!_needItems.ContainsKey(item))
+            {
+                Debug.LogError($"Item {item} not found in need items.");
+                return;
+            }
             _needItems[item] -= amount;
             if (_needItems[item] <= 0)
             {
