@@ -1,6 +1,7 @@
 using JMT.Agent.NPC;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Resource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,11 @@ namespace JMT.Agent
 {
     public class AgentManager : MonoSingleton<AgentManager>
     {
-        [field: SerializeField] public int MaxAgentCount { get; private set; }
-        [field: SerializeField] public NPCAgent NPCAgent { get; private set; }
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
-
-        private void Start()
-        {
-            
-        }
-
 
         public void SpawnAgent(Vector3 position)
         {
+            ResourceManager.Instance.AddNpc(1);
             var obj = PoolingManager.Instance.Pop(PoolingType.Agent_NPC);
             obj.ObjectPrefab.transform.position = position;
         }

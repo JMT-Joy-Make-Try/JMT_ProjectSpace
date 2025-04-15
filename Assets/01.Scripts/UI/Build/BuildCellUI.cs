@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +9,6 @@ namespace JMT.UISystem
         private Image image;
         private TextMeshProUGUI nameText;
 
-        private void Start()
-        {
-        }
         private void Awake()
         {
             nameText = transform.Find("Name").GetComponentInChildren<TextMeshProUGUI>();

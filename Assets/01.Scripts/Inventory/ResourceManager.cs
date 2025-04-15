@@ -6,30 +6,39 @@ namespace JMT.Resource
     public class ResourceManager : MonoSingleton<ResourceManager>
     {
         public event Action<int, int> OnFuelValueChanged;
-        public event Action<int, int> OnOxygenValueChanged;
+        public event Action<int, int> OnNpcValueChanged;
 
-        [SerializeField] private int maxFuelValue, maxOxygenValue;
-        private int currentFuelValue, currentOxygenValue;
+
+        [field: SerializeField] public int MaxFuelValue { get; private set; }
+        [field: SerializeField] public int MaxNpcValue { get; private set; }
 
         public int CurrentFuelValue => currentFuelValue;
-        public int CurrentOxygenValue => currentOxygenValue;
+        public int CurrentNpcValue => currentNpcValue;
+
+        private int currentFuelValue, currentNpcValue;
 
         private void Start()
         {
-            AddFuel(maxFuelValue);
-            AddOxygen(maxOxygenValue);
+            AddFuel(MaxFuelValue);
+            AddNpc(0);
         }
 
         public void AddFuel(int increaseValue)
         {
             currentFuelValue += increaseValue;
-            OnFuelValueChanged?.Invoke(currentFuelValue, maxFuelValue);
+            OnFuelValueChanged?.Invoke(currentFuelValue, MaxFuelValue);
         }
 
-        public void AddOxygen(int increaseValue)
+        public void AddNpc(int increaseValue)
         {
-            currentOxygenValue += increaseValue;
-            OnOxygenValueChanged?.Invoke(currentOxygenValue, maxOxygenValue);
+            currentNpcValue += increaseValue;
+            OnNpcValueChanged?.Invoke(currentNpcValue, MaxNpcValue);
+        }
+
+        public void AddMaxNpc(int increaseValue)
+        {
+            MaxNpcValue += increaseValue;
+            OnNpcValueChanged?.Invoke(currentNpcValue, MaxNpcValue);
         }
     }
 }
