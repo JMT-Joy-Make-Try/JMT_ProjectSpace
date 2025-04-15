@@ -29,6 +29,8 @@ namespace JMT.Player
 
         [field:SerializeField] public int Health { get; private set; }
         [field:SerializeField] public int Oxygen { get; private set; }
+        
+        public int OxygenMultiplier { get; private set; } = 1;
 
         private int _curHealth;
         private int _curOxygen;
@@ -69,7 +71,7 @@ namespace JMT.Player
             if (isOxygenArea) return;
             if (isTimeChanged)
             {
-                AddOxygen(-1);
+                AddOxygen(-1 * OxygenMultiplier);
                 isTimeChanged = false;
             }
             else
@@ -103,6 +105,11 @@ namespace JMT.Player
             {
                 collectable.Collect();
             }
+        }
+        
+        public void SetMultiplier(int multiplier)
+        {
+            OxygenMultiplier = multiplier;
         }
     }
 }
