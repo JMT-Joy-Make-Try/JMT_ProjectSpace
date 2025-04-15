@@ -6,15 +6,10 @@ namespace JMT
 {
     public class ProgressInteraction : TileInteraction
     {
-        private BuildingBase building;
-
-        private void Awake()
-        {
-            building = GetComponentInChildren<BuildingBase>();
-        }
-
         public override void Interaction()
         {
+            BuildingBase building = GetComponentInChildren<BuildingBase>();
+
             if (!building.IsBuilding) return;
             building.OnCompleteEvent?.Invoke();
 

@@ -14,7 +14,6 @@ namespace JMT.UISystem
         
         // Bottom
 
-        // 귀찮아 이따할래
 
         private void Awake()
         {
@@ -22,6 +21,14 @@ namespace JMT.UISystem
             descriptionText = PanelTrm.Find("Description").GetComponentInChildren<TextMeshProUGUI>();
             buildButton = PanelTrm.Find("BuildBtn").GetComponent<Button>();
             buildButton.onClick.AddListener(() => OnBuildEvent?.Invoke());
+        }
+
+        public override void OpenUI()
+        {
+            panelGroup.alpha = 1f;
+
+            panelGroup.blocksRaycasts = true;
+            panelGroup.interactable = true;
         }
 
         public void SetInfo(BuildingDataSO data)

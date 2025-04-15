@@ -1,5 +1,7 @@
 using DG.Tweening;
 using JMT.UISystem;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +29,7 @@ namespace JMT
 
         public void PlayAnimation()
         {
+            pvcUI.ActiveUI(false, false);
             Sequence sequence = DOTween.Sequence();
             for (int i = 0; i < _walls.Count; i++)
             {

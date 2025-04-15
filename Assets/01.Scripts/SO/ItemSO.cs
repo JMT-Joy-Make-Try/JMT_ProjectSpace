@@ -2,7 +2,7 @@ using JMT.Object;
 using JMT.Planets.Tile.Items;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.Item
 {
     public enum InventoryCategory
     {
@@ -11,10 +11,14 @@ namespace JMT
         Costume, //복장
     }
 
-    [CreateAssetMenu(fileName = "Item", menuName = "SO/Data/ItemSO")]
-    public class ItemSO : InventorySO
+    [CreateAssetMenu(menuName = "SO/Data/ItemSO")]
+    public class ItemSO : ScriptableObject
     {
+        public Sprite Icon;
         public ItemType ItemType;
+        public InventoryCategory Category;
+        public string ItemName;
+        public string ItemDescription;
         public ItemData ItemData;
     }
 }
