@@ -32,11 +32,18 @@ namespace JMT.UISystem
             exitButton.onClick.AddListener(CloseUI);
         }
 
+
         public override void OpenUI()
         {
             TotalCategory();
             UIManager.Instance.GameUI.CloseUI();
-            base.OpenUI();
+
+            panelGroup.alpha = 1f;
+
+            panelGroup.blocksRaycasts = true;
+            panelGroup.interactable = true;
+
+            Time.timeScale = 0;
         }
 
         public override void CloseUI()
