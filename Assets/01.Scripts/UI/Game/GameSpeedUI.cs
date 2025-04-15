@@ -20,6 +20,11 @@ namespace JMT.UISystem
             SpeedSystem.Instance.OnSpeedChangeEvent += ChangeSpeedText;
         }
 
+        private void OnDestroy()
+        {
+            SpeedSystem.Instance.OnSpeedChangeEvent -= ChangeSpeedText;
+        }
+
         private void ChangeSpeedText(SpeedType speedType)
         {
             speedText.text = (int)speedType + "x";

@@ -397,28 +397,8 @@ PrefabInstance:
       value: 0.78616345
       objectReference: {fileID: 0}
     - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.atime1
-      value: 12850
-      objectReference: {fileID: 0}
-    - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.atime2
-      value: 14135
-      objectReference: {fileID: 0}
-    - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key1.a
-      value: 0.32941177
-      objectReference: {fileID: 0}
-    - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.key2.a
-      value: 0.11764706
-      objectReference: {fileID: 0}
-    - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.m_ColorSpace
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198649629676670238, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.m_NumAlphaKeys
-      value: 4
+      value: 0.15686275
       objectReference: {fileID: 0}
     - target: {fileID: 199115893721452942, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
       propertyPath: m_Materials.Array.size
@@ -436,7 +416,7 @@ PrefabInstance:
       addedObject: {fileID: 4700403379497670050}
     - targetCorrespondingSourceObject: {fileID: 1807292479234486, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7948633579097761429}
+      addedObject: {fileID: 2866202045680854078}
   m_SourcePrefab: {fileID: 100100000, guid: df0c133e93e92ea43ac4d6bec15faea4, type: 3}
 --- !u!4 &2707286305239072874 stripped
 Transform:
@@ -460,10 +440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7454b22401be4413ad120bbf37cc08a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInFogDamageTime: 5
-  _damageAmount: 10
   _fogLightObject: {fileID: 7461132169374103522}
---- !u!65 &7948633579097761429
+  <DamageAmount>k__BackingField: 1
+--- !u!65 &2866202045680854078
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -483,4 +462,4 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0.00866882}

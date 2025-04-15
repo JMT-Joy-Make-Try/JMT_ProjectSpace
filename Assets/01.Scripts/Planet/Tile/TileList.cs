@@ -31,8 +31,6 @@ namespace JMT.Planets.Tile
                 tile.Renderer.material.SetColor("_BaseColor", color);
             }
             StartCoroutine(SpawnCo());
-            
-            
         }
 
         private IEnumerator SpawnCo()

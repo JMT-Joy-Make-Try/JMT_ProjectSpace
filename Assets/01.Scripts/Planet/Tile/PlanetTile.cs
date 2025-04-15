@@ -44,13 +44,6 @@ namespace JMT.Planets.Tile
             //base.OnClick += OnPointerClickHandler;
         }
 
-
-        private void Start()
-        {
-            //SetHeight(_tileHeight);
-            Fog.SetFog(true);
-        }
-
         public bool CanBuild()
         {
             return !Fog.IsFogActive || _currentBuilding == null;

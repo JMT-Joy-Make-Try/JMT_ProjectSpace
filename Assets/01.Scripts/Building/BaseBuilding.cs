@@ -1,6 +1,8 @@
 using JMT.Agent;
 using JMT.Agent.NPC;
+using JMT.Core.Manager;
 using JMT.Resource;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -20,14 +22,19 @@ namespace JMT.Building
             _colliders = new Collider[10];
         }
 
+        private void Start()
+        {
+            FogManager.Instance.OffFogBaseBuilding();
+        }
+
 
         public override void Work()
         {
             base.Work();
-            if (gameObject.activeSelf)
-            {
-                StartCoroutine(WorkCoroutine());
-            }
+            // if (gameObject.activeSelf)
+            // {
+            //     StartCoroutine(WorkCoroutine());
+            // }
             AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
         }
 
