@@ -51,5 +51,13 @@ namespace JMT.Core.Tool
 
             return DOTween.To(() => target.position, x => target.position = x, targetPosition, duration);
         }
+
+        public static void DOFloat(this float target, float endValue, float duration, Ease ease = Ease.Unset)
+        {
+            DOVirtual.Float(target, endValue, duration, value =>
+            {
+                target = value;
+            }).SetEase(ease);
+        }
     }
 }

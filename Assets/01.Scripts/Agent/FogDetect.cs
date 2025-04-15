@@ -65,20 +65,27 @@ namespace JMT.Agent
         private void FogCamera(Player.Player player, bool isInFog)
         {
             if (player == null) return;
+            var vignettes = VolumeManager.Instance.GetAllVolume<Vignette>();
             if (isInFog)
             {
-                DOVirtual.Float(0.2f, 0.7f, 1f, (x) =>
+                DOVirtual.Float(0.2f, 0.5f, 1f, (x) =>
                 {
-                    VolumeManager.Instance.GetVolume<Vignette>().intensity.value = x;
+                    for (int i = 0; i < vignettes.Count; i++)
+                    {
+                        vignettes[i].intensity.value = x;
+                    }
                 });
 
                 Camera.main.DOZoom(8f, 0.7f, Ease.OutQuad);
             }
             else
             {
-                DOVirtual.Float(0.7f, 0.2f, 1f, (x) =>
+                DOVirtual.Float(0.5f, 0.2f, 1f, (x) =>
                 {
-                    VolumeManager.Instance.GetVolume<Vignette>().intensity.value = x;
+                    for (int i = 0; i < vignettes.Count; i++)
+                    {
+                        vignettes[i].intensity.value = x;
+                    }
                 });
                 Camera.main.DOZoom(12f, 0.5f, Ease.InQuad);
             }
