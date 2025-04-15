@@ -11,6 +11,7 @@ namespace JMT.Item
         Costume, //복장
     }
 
+    [CreateAssetMenu(menuName = "SO/Data/Item")]
     public class ItemSO : ScriptableObject
     {
         public Sprite Icon;
