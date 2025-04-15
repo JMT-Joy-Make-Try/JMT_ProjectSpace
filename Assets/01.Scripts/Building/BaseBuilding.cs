@@ -40,7 +40,7 @@ namespace JMT.Building
                 {
                     if (_colliders[i].TryGetComponent(out NPCAgent agent))
                     {
-                        ResourceManager.Instance.AddOxygen(-1);
+                        ResourceManager.Instance.AddNpc(-1);
                         agent.OxygenCompo.AddOxygen(1);
                     }
                 }
