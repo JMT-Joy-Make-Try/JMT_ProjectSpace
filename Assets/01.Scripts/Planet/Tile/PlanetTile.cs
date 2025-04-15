@@ -11,28 +11,30 @@ namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
-        [field:SerializeField] public TileType TileType { get; set; }
-        [field:SerializeField] public MeshRenderer Renderer { get; private set; }
-        [field:SerializeField] public MeshFilter Filter { get; private set; }
+        [field: SerializeField] public TileType TileType { get; set; }
+        [field: SerializeField] public MeshRenderer Renderer { get; private set; }
+        [field: SerializeField] public MeshFilter Filter { get; private set; }
         [SerializeField] private float _tileHeight;
-        
+
         [SerializeField] public Fog Fog;
-        
-        [Space]
-        [SerializeField] private List<Texture2D> _textures;
-        
+
+        [Space] [SerializeField] private List<Texture2D> _textures;
+
         private bool canInteraction = true;
-        
+
         private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
-        private GameObject TileInteraction;
+        public GameObject TileInteraction;
 
         public event Action OnBuild;
+        
+        private TileList _tileList;
 
         private void Awake()
         {
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
+            _tileList = GetComponentInParent<TileList>();
             Renderer.material = Instantiate(Renderer.material);
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
@@ -68,7 +70,7 @@ namespace JMT.Planets.Tile
                 PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
                 _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
                 _currentBuilding.SetBuildingData(building, pvcBuilding);
-                
+
 
                 RemoveInteraction();
                 AddInteraction<ProgressInteraction>();
@@ -79,7 +81,7 @@ namespace JMT.Planets.Tile
                 Debug.Log("Can't Build");
             }
         }
-        
+
         public void DestroyBuilding()
         {
             if (_currentBuilding != null)
@@ -123,7 +125,11 @@ namespace JMT.Planets.Tile
                 case ZeoliteInteraction:
                     interaction.SetType(InteractType.Zeolite);
                     break;
+                case VillageInteraction:
+                    interaction.SetType(InteractType.Village);
+                    break;
             }
+
             return interaction;
         }
 
@@ -142,13 +148,9 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent<BaseBuilding>(out var building))
+            if (Fog.IsFogActive)
             {
-                _currentBuilding = building;
+                _tileList.LineRenderer.enabled = enable;
             }
         }
 

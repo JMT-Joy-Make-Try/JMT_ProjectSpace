@@ -62,6 +62,8 @@ namespace JMT.Building
             visualMat.SetFloat("_Alpha", value);
             for (int i = 0; i < rendererList.Count; ++i)
                 rendererList[i].shadowCastingMode = value < 1f ? ShadowCastingMode.Off : ShadowCastingMode.On;
+            _pvc.PlayAnimation();
+            visualMat.SetFloat("_Alpha", 1f);
         }
 
         public void Building()

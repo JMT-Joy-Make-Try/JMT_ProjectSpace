@@ -13,7 +13,7 @@ namespace JMT.Planets.Tile
 
         protected PlanetTile planetTile;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             planetTile = transform.parent.GetComponent<PlanetTile>();
             //planetTile.OnClick += Interaction;
@@ -26,6 +26,7 @@ namespace JMT.Planets.Tile
 
         public virtual void Interaction()
         {
+            Debug.Log(planetTile == null);
             planetTile.EdgeEnable(true);
         }
 
