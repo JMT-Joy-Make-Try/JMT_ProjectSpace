@@ -34,9 +34,9 @@ namespace JMT.UISystem
 
         public void ResetCell()
         {
-            icon.sprite = null;
-            nameText.text = "";
-            countText.text = "";
+            if (icon != null) icon.sprite = null;
+            if (nameText != null) nameText.text = "";
+            if (countText != null) countText.text = "";
         }
     }
 }
