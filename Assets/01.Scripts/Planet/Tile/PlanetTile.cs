@@ -48,17 +48,12 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             //SetHeight(_tileHeight);
-            Fog.SetFog(false);
+            Fog.SetFog(true);
         }
 
         public bool CanBuild()
         {
             return !Fog.IsFogActive || _currentBuilding == null;
-        }
-
-        private void SetHeight(float height)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y + height, transform.position.z);
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)
@@ -99,6 +94,19 @@ namespace JMT.Planets.Tile
         public void RemoveInteraction()
         {
             Destroy(TileInteraction.GetComponent<TileInteraction>());
+        }
+        
+        public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
+        {
+            interaction = TileInteraction.GetComponent<T>();
+            if (interaction != null)
+            {
+                canInteraction = true;
+                return true;
+            }
+
+            canInteraction = false;
+            return false;
         }
 
         public T GetInteraction<T>() where T : TileInteraction

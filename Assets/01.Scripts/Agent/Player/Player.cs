@@ -22,7 +22,9 @@ namespace JMT.Player
         public Animator AnimCompo { get; private set; }
         public AnimationEndTrigger EndTrigger { get; private set; }
         public Attacker Attacker { get; private set; }
+        public PlayerMovement Movement { get; private set; }
         public PlayerInputSO InputSO => inputSO;
+        public FogDetect FogDetect { get; private set; }
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
@@ -41,10 +43,13 @@ namespace JMT.Player
             Attacker = GetComponent<Attacker>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
             EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
+            Movement = GetComponent<PlayerMovement>();
+            FogDetect = GetComponent<FogDetect>();
 
             DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
 
             InitStat();
+            FogDetect.Init(this);
         }
 
         private void OnDestroy()
