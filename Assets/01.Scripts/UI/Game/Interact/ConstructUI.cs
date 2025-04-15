@@ -99,12 +99,12 @@ namespace JMT.UISystem
                 return;
             }
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
+            CloseUI();
             isBuild = true;
             TileManager.Instance.CurrentTile.EdgeEnable(false);
             TileManager.Instance.CurrentTile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
             buildingDatas.Add(BuildingManager.Instance.CurrentBuilding);
             UIManager.Instance.WorkUI.SetBuilding(buildingDatas);
-            CloseUI();
         }
     }
 }

@@ -24,6 +24,14 @@ namespace JMT.UISystem
             buildButton.onClick.AddListener(() => OnBuildEvent?.Invoke());
         }
 
+        public override void OpenUI()
+        {
+            panelGroup.alpha = 1f;
+
+            panelGroup.blocksRaycasts = true;
+            panelGroup.interactable = true;
+        }
+
         public void SetInfo(BuildingDataSO data)
         {
             buildingNameText.text = data.buildingName;

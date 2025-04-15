@@ -10,8 +10,7 @@ namespace JMT
 
         private void Awake()
         {
-            fill.SetActive(true);
-            complete.SetActive(false);
+            ActiveUI(true, false);
         }
 
         public void SetTime(int time)
@@ -22,8 +21,13 @@ namespace JMT
         private IEnumerator TimeRoutine(int time)
         {
             yield return new WaitForSeconds(time);
-            fill.SetActive(false);
-            complete.SetActive(true);
+            ActiveUI(false, true);
+        }
+
+        public void ActiveUI(bool isFillActive, bool isCompleteActive)
+        {
+            fill.SetActive(isFillActive);
+            complete.SetActive(isCompleteActive);
         }
     }
 }
