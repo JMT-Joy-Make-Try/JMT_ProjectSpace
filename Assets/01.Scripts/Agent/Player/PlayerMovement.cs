@@ -44,7 +44,7 @@ namespace JMT.Player
 
             Vector3 moveDirection = Quaternion.Euler(0, 45, 0) * (cameraForward * moveVec.z + cameraRight * moveVec.x);
             moveDirection.Normalize();
-            Vector3 velocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
+            Vector3 velocity = moveDirection * (moveSpeed * Time.fixedDeltaTime);
 
             if (velocity.sqrMagnitude > 0)
             {
@@ -79,7 +79,7 @@ namespace JMT.Player
         {
             if (moveSpeedMultiplier > 0)
             {
-                this.moveSpeed *= moveSpeedMultiplier;
+                moveSpeed *= moveSpeedMultiplier;
             }
             else
             {

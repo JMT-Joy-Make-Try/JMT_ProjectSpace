@@ -2,7 +2,10 @@
 using AYellowpaper.SerializedCollections;
 using EditorAttributes;
 using JMT.Agent;
+using JMT.Core.Manager;
+using JMT.Object;
 using JMT.Planets.Tile;
+using System;
 
 namespace JMT.Building
 {
@@ -14,10 +17,36 @@ namespace JMT.Building
         [SerializeField] private ItemSO _item;
         
         public SerializedDictionary<ItemSO, int> NeedItems => _needItems;
-        [Button]
-        private void Test()
+
+        private Vector3 _spawnPos;
+        private VisibilityTracker _visibilityTracker;
+
+        private bool _isSpawnEnd;
+
+        protected override void Awake()
         {
-            GiveItem(_item, 1);
+            base.Awake();
+            _visibilityTracker = GetComponentInChildren<VisibilityTracker>();
+            _visibilityTracker.OnInvisibleCallback += HandleVisibility;
+        }
+        
+        private void OnDestroy()
+        {
+            _visibilityTracker.OnInvisibleCallback -= HandleVisibility;
+        }
+
+        private void HandleVisibility()
+        {
+            if (_isSpawnEnd)
+            {
+                Destroy(this.gameObject);
+                Debug.LogError("VillageBuilding destroyed");
+            }
+        }
+
+        private void Start()
+        {
+            _spawnPos = BuildingManager.Instance.BaseBuilding.transform.position;
         }
         
         public void GiveItem(ItemSO item, int amount)
@@ -36,14 +65,12 @@ namespace JMT.Building
             {
                 for (int i = 0; i < _npcCount; i++)
                 {
-                    AgentManager.Instance.SpawnAgent(transform.position);
-                    GetPlanetTile().RemoveInteraction();
-                    GetPlanetTile().AddInteraction<NoneInteraction>();
-                    Destroy(gameObject);
+                    AgentManager.Instance.SpawnAgent(_spawnPos);
                 }
+                GetPlanetTile().RemoveInteraction();
+                GetPlanetTile().AddInteraction<NoneInteraction>();
+                _isSpawnEnd = true;
             }
-            
-            
         }
     }
 }
