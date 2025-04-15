@@ -14,5 +14,11 @@ namespace JMT.Player
             player.OnDamageEvent += playerHpUI.SetHpBar;
             player.OnOxygenEvent += playerOxygenUI.SetHpBar;
         }
+        
+        private void OnDestroy()
+        {
+            player.OnDamageEvent -= playerHpUI.SetHpBar;
+            player.OnOxygenEvent -= playerOxygenUI.SetHpBar;
+        }
     }
 }
