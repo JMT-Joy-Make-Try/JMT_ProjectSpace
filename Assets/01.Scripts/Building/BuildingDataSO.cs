@@ -23,5 +23,6 @@ namespace JMT.Building
         [TextArea(4, 10)] public string buildingDescription;
         public SerializedDictionary<ItemSO, int> needItems;
         public TimeData buildTime;
+        public float useFuelPerSecond;
     }
 }
