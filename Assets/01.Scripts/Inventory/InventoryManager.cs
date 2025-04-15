@@ -1,4 +1,5 @@
 using AYellowpaper.SerializedCollections;
+using JMT.Item;
 using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ namespace JMT.Planets.Tile
 {
     public class InventoryManager : MonoSingleton<InventoryManager>
     {
-        [SerializeField] private SerializedDictionary<InventorySO, int> itemDictionary = new();
-        public SerializedDictionary<InventorySO, int> ItemDictionary => itemDictionary;
+        [SerializeField] private SerializedDictionary<ItemSO, int> itemDictionary = new();
+        public SerializedDictionary<ItemSO, int> ItemDictionary => itemDictionary;
 
         public void AddItem(ItemSO item, int increaseCount)
         {
@@ -47,7 +48,7 @@ namespace JMT.Planets.Tile
         
         public void RemoveItem(ItemType item, int decreaseCount)
         {
-            var itemSO = itemDictionary.FirstOrDefault(s => ((ItemSO)s.Key).ItemType == item).Key;
+            var itemSO = itemDictionary.FirstOrDefault(s => (s.Key).ItemType == item).Key;
             if (itemSO == null)
             {
                 Debug.LogError($"Item of type {item} not found in inventory.");
@@ -70,7 +71,7 @@ namespace JMT.Planets.Tile
             var pairs = needItems.ToList();
             for(int i = 0; i < pairs.Count; ++i)
             {
-                KeyValuePair<ItemSO, int> pair = pairs[i];
+                var pair = pairs[i];
                 if (!itemDictionary.ContainsKey(pair.Key) || itemDictionary[pair.Key] < pair.Value)
                 {
                     UIManager.Instance.PopupUI.SetPopupText("자원이 부족합니다.");
@@ -81,7 +82,7 @@ namespace JMT.Planets.Tile
 
             for (int i = 0; i < pairs.Count; ++i)
             {
-                KeyValuePair<ItemSO, int> pair = pairs[i];
+                var pair = pairs[i];
                 itemDictionary[pair.Key] -= pair.Value;
             }
             return true;

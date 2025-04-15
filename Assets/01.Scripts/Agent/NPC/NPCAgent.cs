@@ -3,6 +3,7 @@ using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Item;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
