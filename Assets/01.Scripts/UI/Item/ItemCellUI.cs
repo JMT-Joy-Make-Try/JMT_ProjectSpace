@@ -23,5 +23,12 @@ namespace JMT.UISystem
             countText.text = count.ToString();
             // 사진도 넣어야함
         }
+
+        public void ResetItemCell()
+        {
+            icon.sprite = null;
+            nameText.text = "";
+            countText.text = "";
+        }
     }
 }

@@ -1,5 +1,6 @@
 using JMT.Building;
 using JMT.Core.Manager;
+using JMT.Item;
 using JMT.Planets.Tile;
 using System;
 using System.Collections.Generic;
@@ -64,8 +65,8 @@ namespace JMT.UISystem
                 cells[i].SetItemCell(string.Empty, 0, null);
                 if (i < dic.Count)
                 {
-                    KeyValuePair<InventorySO, int> pair = pairs[i];
-                    if (category == null || category == pair.Key.Category)
+                    var pair = pairs[i];
+                    if (category == null || category.Value.Equals(pair.Key.Category))
                     {
                         cells[value - falseValue].GetComponent<Button>().onClick.AddListener(()=> HandleCellButton(pair.Key));
                         cells[i - falseValue].SetItemCell(pair.Key.ItemName, pair.Value, pair.Key.Icon);
@@ -75,13 +76,13 @@ namespace JMT.UISystem
             }
         }
 
-        private void HandleCellButton(InventorySO data)
+        private void HandleCellButton(ItemSO data)
         {
             if(data.Icon != null)
                 icon.sprite = data.Icon;
             nameText.text = data.ItemName;
             descriptionText.text = data.ItemDescription;
-            buttonGroup.SetActive(data.Category != InventoryCategory.Item);
+            buttonGroup.SetActive(!data.Category.Equals(InventoryCategory.Item));
         }
     }
 }

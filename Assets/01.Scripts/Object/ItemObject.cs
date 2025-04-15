@@ -3,6 +3,7 @@ using DG.Tweening;
 using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Item;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;

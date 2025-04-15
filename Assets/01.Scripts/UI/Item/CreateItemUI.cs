@@ -26,7 +26,7 @@ namespace JMT.UISystem
                 if(i <itemSO.NeedItemList.Count)
                 {
                     var pairs = itemSO.NeedItemList.ToList();
-                    KeyValuePair<ItemSO, int> pair = pairs[i];
+                    var pair = pairs[i];
                     cells[i].SetItemCell(pair.Key.ItemName, pair.Value, pair.Key.Icon);
                 }
                 else

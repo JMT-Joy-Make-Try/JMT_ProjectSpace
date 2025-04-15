@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using EditorAttributes;
 using JMT.Agent;
+using JMT.Item;
 
 namespace JMT.Building
 {
