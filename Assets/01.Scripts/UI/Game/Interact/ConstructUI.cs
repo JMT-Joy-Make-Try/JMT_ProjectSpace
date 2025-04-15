@@ -12,32 +12,41 @@ namespace JMT.UISystem
 {
     public class ConstructUI : PanelUI
     {
+        [SerializeField] private BuildInfoUI infoUI;
         [SerializeField] private Transform content;
         [SerializeField] private PVCBuilding pvcObject;
-        private List<BuildCellUI> cells = new();
+        [SerializeField] private Button exitButton;
 
-        private TextMeshProUGUI nameText, needItemText;
-        private Button buildButton;
-        
+        private List<BuildCellUI> cells = new();
         private List<BuildingDataSO> buildingDatas;
+
+        private bool isBuild;
 
         private void Awake()
         {
             cells = content.GetComponentsInChildren<BuildCellUI>().ToList();
 
-            Transform panelRight = PanelTrm.Find("Panel").Find("Right");
-            nameText = panelRight.Find("Preview").GetComponentInChildren<TextMeshProUGUI>();
-            needItemText = panelRight.Find("Build").Find("NeedItem").GetComponentInChildren<TextMeshProUGUI>();
-            buildButton = panelRight.Find("Build").GetComponentInChildren<Button>();
-            buildButton.onClick.AddListener(HandleBuildButton);
-            
             buildingDatas = new List<BuildingDataSO>();
+
+            infoUI.OnBuildEvent += HandleBuildButton;
+            exitButton.onClick.AddListener(CloseUI);
         }
 
         public override void OpenUI()
         {
             TotalCategory();
+            UIManager.Instance.GameUI.CloseUI();
             base.OpenUI();
+        }
+
+        public override void CloseUI()
+        {
+            if (!isBuild)
+                TileManager.Instance.CurrentTile.DestroyBuilding();
+            infoUI.CloseUI();
+            UIManager.Instance.GameUI.OpenUI();
+            isBuild = false;
+            base.CloseUI();
         }
 
         private void TotalCategory()
@@ -77,12 +86,9 @@ namespace JMT.UISystem
         private void HandleSetInfo(BuildingDataSO data)
         {
             BuildingManager.Instance.CurrentBuilding = data;
-            nameText.text = data.buildingName;
-            needItemText.text = string.Empty;
-            foreach (var needItem in data.needItems)
-            {
-                needItemText.text += needItem.Key.ItemName + " - " + needItem.Value + "\n";
-            }
+            if (!infoUI.IsOpen) infoUI.OpenUI();
+            infoUI.SetInfo(data);
+            TileManager.Instance.CurrentTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
         }
 
         private void HandleBuildButton()
@@ -93,6 +99,7 @@ namespace JMT.UISystem
                 return;
             }
             if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
+            isBuild = true;
             TileManager.Instance.CurrentTile.EdgeEnable(false);
             TileManager.Instance.CurrentTile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
             buildingDatas.Add(BuildingManager.Instance.CurrentBuilding);

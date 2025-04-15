@@ -5,6 +5,7 @@ using JMT.UISystem;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace JMT.Planets.Tile
 {
@@ -47,7 +48,7 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             //SetHeight(_tileHeight);
-            Fog.SetFog(true);
+            Fog.SetFog(false);
         }
 
         public bool CanBuild()
@@ -164,6 +165,13 @@ namespace JMT.Planets.Tile
             {
                 _tileList.LineRenderer.enabled = enable;
             }
+        }
+
+        public void TestBuild(BuildingDataSO building)
+        {
+            DestroyBuilding();
+            _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
+            _currentBuilding.BuildingTransparent(0.5f);
         }
     }
 }
