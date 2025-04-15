@@ -15,7 +15,7 @@ namespace JMT.UISystem
     public class InventoryUI : PanelUI
     {
         [SerializeField] private Transform content, right;
-        private List<ItemCellUI> cells = new();
+        private List<CellUI> cells = new();
         private Button totalButton, itemButton, toolButton, costumeButton;
 
         private Image icon;
@@ -25,7 +25,7 @@ namespace JMT.UISystem
 
         private void Awake()
         {
-            cells = content.GetComponentsInChildren<ItemCellUI>().ToList();
+            cells = content.GetComponentsInChildren<CellUI>().ToList();
             Transform leftGroup = PanelTrm.Find("Panel").Find("Left").Find("ButtonGroup");
 
             totalButton = leftGroup.Find("TotalBtn").GetComponent<Button>();
@@ -62,14 +62,14 @@ namespace JMT.UISystem
             {
                 int value = i;
                 cells[value].GetComponent<Button>().onClick.RemoveAllListeners();
-                cells[i].SetItemCell(string.Empty, 0, null);
+                cells[i].ResetCell();
                 if (i < dic.Count)
                 {
                     var pair = pairs[i];
                     if (category == null || category.Value.Equals(pair.Key.Category))
                     {
                         cells[value - falseValue].GetComponent<Button>().onClick.AddListener(()=> HandleCellButton(pair.Key));
-                        cells[i - falseValue].SetItemCell(pair.Key.ItemName, pair.Value, pair.Key.Icon);
+                        cells[i - falseValue].SetCell(pair.Key, pair.Value.ToString());
                     }    
                     else falseValue++;
                 }

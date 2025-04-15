@@ -14,7 +14,6 @@ namespace JMT.UISystem
         
         // Bottom
 
-        // 귀찮아 이따할래
 
         private void Awake()
         {

@@ -12,13 +12,13 @@ namespace JMT.UISystem
 {
     public class CreateUI : PanelUI
     {
-        private List<ItemCellUI> itemCells;
+        private List<CellUI> itemCells;
         private Button createButton;
         private CreateItemSO currentItemSO;
         private ItemBuilding workBuilding;
         private void Awake()
         {
-            itemCells = PanelTrm.Find("Left").GetComponentsInChildren<ItemCellUI>().ToList();
+            itemCells = PanelTrm.Find("Left").GetComponentsInChildren<CellUI>().ToList();
             createButton = PanelTrm.Find("Right").Find("CreateBtn").GetComponent<Button>();
             createButton.onClick.AddListener(HandleCreateButton);
         }
@@ -52,7 +52,7 @@ namespace JMT.UISystem
                 if (createItemList.Count <= i) return;
 
                 InventoryManager.Instance.ItemDictionary.TryGetValue(createItemList[i].ResultItem, out int value);
-                itemCells[i].SetItemCell(createItemList[i].ResultItem.ItemName, value, createItemList[i].ResultItem.Icon);
+                itemCells[i].SetCell(createItemList[i].ResultItem, value.ToString());
             }
         }
 
