@@ -20,6 +20,14 @@ namespace JMT.Core.Tool
             return DOTween.To(() => target.Lens.OrthographicSize, x => target.Lens.OrthographicSize = x, endValue, duration);
         }
 
+        public static void DOZoom(this Camera camera, float endValue, float duration, Ease ease = Ease.Linear)
+        {
+            DOVirtual.Float(camera.orthographicSize, endValue, duration, value =>
+            {
+                camera.orthographicSize = value;
+            }).SetEase(ease);
+        }
+
         /// <summary>
         /// DOTween을 사용하여 Vector3 값을 변경합니다. - Transform
         /// </summary>
@@ -42,6 +50,14 @@ namespace JMT.Core.Tool
             );
 
             return DOTween.To(() => target.position, x => target.position = x, targetPosition, duration);
+        }
+
+        public static void DOFloat(this float target, float endValue, float duration, Ease ease = Ease.Unset)
+        {
+            DOVirtual.Float(target, endValue, duration, value =>
+            {
+                target = value;
+            }).SetEase(ease);
         }
     }
 }

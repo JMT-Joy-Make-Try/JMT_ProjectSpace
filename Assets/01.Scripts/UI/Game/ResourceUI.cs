@@ -11,14 +11,14 @@ namespace JMT.UISystem
         private void Awake()
         {
             ResourceManager.Instance.OnFuelValueChanged += SetFuelText;
-            ResourceManager.Instance.OnOxygenValueChanged += SetOxygenText;
+            ResourceManager.Instance.OnNpcValueChanged += SetNpcText;
         }
 
         private void SetFuelText(int current, int max)
         {
             fuelText.text = current + "/" + max;
         }
-        private void SetOxygenText(int current, int max)
+        private void SetNpcText(int current, int max)
         {
             oxygenText.text = current + "/" + max;
         }

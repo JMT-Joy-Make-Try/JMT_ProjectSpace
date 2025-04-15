@@ -51,6 +51,11 @@ namespace JMT.Building
             OnCompleteEvent += HandleCompleteEvent;
         }
 
+        private void OnDestroy()
+        {
+            OnCompleteEvent -= HandleCompleteEvent;
+        }
+
         private void HandleCompleteEvent()
         {
             BuildingTransparent(1f);

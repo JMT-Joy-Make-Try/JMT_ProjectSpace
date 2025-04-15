@@ -22,11 +22,15 @@ namespace JMT.Player
         public Animator AnimCompo { get; private set; }
         public AnimationEndTrigger EndTrigger { get; private set; }
         public Attacker Attacker { get; private set; }
+        public PlayerMovement Movement { get; private set; }
         public PlayerInputSO InputSO => inputSO;
+        public FogDetect FogDetect { get; private set; }
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
         [field:SerializeField] public int Oxygen { get; private set; }
+        
+        public int OxygenMultiplier { get; private set; } = 1;
 
         private int _curHealth;
         private int _curOxygen;
@@ -41,10 +45,13 @@ namespace JMT.Player
             Attacker = GetComponent<Attacker>();
             AnimCompo = VisualTrm.GetComponent<Animator>();
             EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
+            Movement = GetComponent<PlayerMovement>();
+            FogDetect = GetComponent<FogDetect>();
 
             DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
 
             InitStat();
+            FogDetect.Init(this);
         }
 
         private void OnDestroy()
@@ -64,7 +71,7 @@ namespace JMT.Player
             if (isOxygenArea) return;
             if (isTimeChanged)
             {
-                AddOxygen(-1);
+                AddOxygen(-1 * OxygenMultiplier);
                 isTimeChanged = false;
             }
             else
@@ -98,6 +105,11 @@ namespace JMT.Player
             {
                 collectable.Collect();
             }
+        }
+        
+        public void SetMultiplier(int multiplier)
+        {
+            OxygenMultiplier = multiplier;
         }
     }
 }

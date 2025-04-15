@@ -81,6 +81,7 @@ namespace JMT.Agent
             InitStat();
             IsDead = false;
             MovementCompo.Stop(false);
+            hpFillBarUI?.ResetBar(Health);
         }
     }
 }

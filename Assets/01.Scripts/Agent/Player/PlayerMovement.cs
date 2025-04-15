@@ -11,6 +11,8 @@ namespace JMT.Player
         private Player player;
         private Vector3 moveVec = Vector3.zero;
         private bool isSecondaryTouch = false;
+        
+        private float _defaultMoveSpeed;
 
         private void Awake()
         {
@@ -19,6 +21,7 @@ namespace JMT.Player
             player.InputSO.OnLookEvent += HandleLookEvent;
             player.InputSO.OnSecondaryStartEvent += HandleSecondaryStartEvent;
             player.InputSO.OnSecondaryEndEvent += HandleSecondaryEndEvent;
+            _defaultMoveSpeed = moveSpeed;
         }
 
         private void OnDestroy()
@@ -41,7 +44,7 @@ namespace JMT.Player
 
             Vector3 moveDirection = Quaternion.Euler(0, 45, 0) * (cameraForward * moveVec.z + cameraRight * moveVec.x);
             moveDirection.Normalize();
-            Vector3 velocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
+            Vector3 velocity = moveDirection * (moveSpeed * Time.fixedDeltaTime);
 
             if (velocity.sqrMagnitude > 0)
             {
@@ -69,5 +72,24 @@ namespace JMT.Player
         private void HandleSecondaryStartEvent() => isSecondaryTouch = true;
 
         private void HandleSecondaryEndEvent() => isSecondaryTouch = false;
+        
+        public void SetMoveSpeed(float moveSpeed) => this.moveSpeed = moveSpeed;
+
+        public void SetMoveSpeedMultiplier(float moveSpeedMultiplier)
+        {
+            if (moveSpeedMultiplier > 0)
+            {
+                moveSpeed *= moveSpeedMultiplier;
+            }
+            else
+            {
+                Debug.LogError("Move speed multiplier must be greater than 0");
+            }
+        }
+        
+        public void ResetMoveSpeed()
+        {
+            moveSpeed = _defaultMoveSpeed;
+        }
     }
 }

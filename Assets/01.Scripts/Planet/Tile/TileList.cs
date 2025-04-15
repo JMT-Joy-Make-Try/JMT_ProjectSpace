@@ -1,5 +1,6 @@
 ﻿using JMT.Building;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,12 +30,32 @@ namespace JMT.Planets.Tile
                 tile.TileType = tileType;
                 tile.Renderer.material.SetColor("_BaseColor", color);
             }
-            
-            int idx = UnityEngine.Random.Range(0, Tiles.Count);
-            PlanetTile tilePos = Tiles[idx];
-            var building = Instantiate(_villageBuilding, tilePos.TileInteraction.transform);
-            tilePos.RemoveInteraction();
-            tilePos.AddInteraction<VillageInteraction>();
+            StartCoroutine(SpawnCo());
+        }
+
+        private IEnumerator SpawnCo()
+        {
+            bool isSpawned = false;
+            PlanetTile tile = null;
+            while (!isSpawned)
+            {
+                int idx = UnityEngine.Random.Range(0, Tiles.Count);
+                PlanetTile tilePos = Tiles[idx];
+                if (tilePos != null)
+                {
+                    if (tilePos.TryGetInteraction(out NoneInteraction interaction))
+                    {
+                        tile = tilePos; 
+                        isSpawned = true;
+                    }
+                }
+                
+                yield return null;
+            }
+            Instantiate(_villageBuilding, tile.TileInteraction.transform);
+            tile.RemoveInteraction();
+            tile.AddInteraction<VillageInteraction>();
+            yield return null;
         }
     }
 }

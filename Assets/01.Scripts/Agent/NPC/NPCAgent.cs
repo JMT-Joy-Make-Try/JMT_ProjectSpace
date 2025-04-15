@@ -41,6 +41,7 @@ namespace JMT.Agent.NPC
         public event Action<AgentType> OnTypeChanged;
         public event Action<bool> OnHealthWarningEvent;
         
+        
         public void SetAgentType(AgentType agentType)
         {
             AgentType = agentType;
@@ -82,6 +83,8 @@ namespace JMT.Agent.NPC
             OnTypeChanged -= HandleTypeChanged;
             OnDeath -= HandleDeath;
             OxygenCompo.OnOxygenLowEvent -= HandleOxygenLow;
+            OnHealthWarningEvent -= npcStatUI.SetHealthStat;
+            OxygenCompo.OnOxygenWarningEvent -= npcStatUI.SetOxygenStat;
         }
 
         private void HandleDeath()

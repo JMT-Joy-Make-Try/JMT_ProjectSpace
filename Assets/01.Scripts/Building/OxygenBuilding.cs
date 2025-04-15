@@ -9,7 +9,6 @@ namespace JMT.Building
 {
     public class OxygenBuilding : ItemBuilding
     {
-
         private void Start()
         {
             BuildingManager.Instance.OxygenBuilding = this;
