@@ -1,3 +1,4 @@
+using JMT.Building;
 using JMT.Item;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,16 @@ namespace JMT.UISystem
             }
             if(nameText != null) nameText.text = name;
             if (countText != null) countText.text = count;
+        }
+        
+        public void SetCell(BuildingDataSO data = null)
+        {
+            if (icon != null)
+            {
+                if (data.Icon != null)
+                    icon.sprite = data.Icon;
+            }
+            if (nameText != null) nameText.text = name;
         }
 
         public void SetCell(string name = null, string count = null, Sprite icon = null)
