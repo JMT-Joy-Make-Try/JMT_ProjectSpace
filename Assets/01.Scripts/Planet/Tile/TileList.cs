@@ -11,10 +11,10 @@ namespace JMT.Planets.Tile
     {
         [field: SerializeField] public List<PlanetTile> Tiles { get; private set; } = new List<PlanetTile>();
         [SerializeField] private VillageBuilding _villageBuilding;
-        [SerializeField] private Fog _fog; 
-        [SerializeField] private Material _topBorderMaterial;
+        [SerializeField] private FogTier _fogTier;
         private GameObject glowObject;
         public LineRenderer LineRenderer { get; private set; }
+        public FogTier FogTier => _fogTier;
 
         private void Awake()
         {
@@ -57,5 +57,13 @@ namespace JMT.Planets.Tile
             tile.AddInteraction<VillageInteraction>();
             yield return null;
         }
+    }
+    
+    public enum FogTier
+    {
+        None,
+        One,
+        Two,
+        Three
     }
 }

@@ -61,7 +61,7 @@ namespace JMT.Core.Tool
         
         public List<T> ToList()
         {
-            return new List<T>(items);
+            return items;
         }
 
         public IEnumerator<T> GetEnumerator()
