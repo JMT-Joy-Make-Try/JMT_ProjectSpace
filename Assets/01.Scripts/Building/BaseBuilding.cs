@@ -24,6 +24,11 @@ namespace JMT.Building
 
         private void Start()
         {
+        }
+
+        protected override void HandleCompleteEvent()
+        {
+            base.HandleCompleteEvent();
             FogManager.Instance.OffFogBaseBuilding();
         }
 
