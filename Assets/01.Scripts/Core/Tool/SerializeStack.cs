@@ -21,7 +21,7 @@ namespace JMT.Core.Tool
             {
                 throw new InvalidOperationException("The stack is empty");
             }
-            var item = items[items.Count - 1];
+            var item = items[^1];
             items.RemoveAt(items.Count - 1);
             return item;
         }
@@ -32,7 +32,7 @@ namespace JMT.Core.Tool
             {
                 throw new InvalidOperationException("The stack is empty");
             }
-            return items[items.Count - 1];
+            return items[^1];
         }
         
         public void Clear()
