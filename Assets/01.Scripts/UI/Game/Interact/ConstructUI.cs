@@ -1,10 +1,8 @@
 using JMT.Building;
 using JMT.Core.Manager;
-using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,23 +11,30 @@ namespace JMT.UISystem
     public class ConstructUI : PanelUI
     {
         [SerializeField] private BuildInfoUI infoUI;
-        [SerializeField] private Transform content;
+        [SerializeField] private Transform scrollView;
         [SerializeField] private PVCBuilding pvcObject;
         [SerializeField] private Button exitButton;
 
-        private List<BuildCellUI> cells = new();
+        private List<CellUI> cells = new();
         private List<BuildingDataSO> buildingDatas;
+        private Button itemButton, facilityButton, defenseButton;
 
         private bool isBuild;
 
         private void Awake()
         {
-            cells = content.GetComponentsInChildren<BuildCellUI>().ToList();
-
             buildingDatas = new List<BuildingDataSO>();
+
+            cells = scrollView.Find("Viewport").Find("Content").GetComponentsInChildren<CellUI>().ToList();
+
+            Transform category = scrollView.Find("Category");
+            itemButton = category.Find("ItemCategoryBtn").GetComponent<Button>();
+            facilityButton = category.Find("FacilityCategoryBtn").GetComponent<Button>();
+            defenseButton = category.Find("DefenseCategoryBtn").GetComponent<Button>();
 
             infoUI.OnBuildEvent += HandleBuildButton;
             exitButton.onClick.AddListener(CloseUI);
+            //itemButton.onClick.AddListener();
         }
 
 
@@ -62,30 +67,35 @@ namespace JMT.UISystem
 
             for (int i = 0; i < cells.Count; i++)
             {
-                cells[i].SetItemCell(string.Empty);
+                cells[i].ResetCell();
                 if (i < list.Count)
                 {
-                    cells[i].SetItemCell(list[i].buildingName);
+                    cells[i].SetCell(list[i].BuildingName);
                     int index = i;
                     cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
                 }
             }
         }
 
-        private void SelectCategory(BuildingCategory category)
+        private void SelectCategory(BuildingCategory? category = null)
         {
-            cells.Clear();
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
+            int falseValue = 0;
 
             for (int i = 0; i < cells.Count; i++)
             {
-                cells[i].SetItemCell(string.Empty);
+                int value = i;
+                cells[value].GetComponent<Button>().onClick.RemoveAllListeners();
+                cells[i].ResetCell();
                 if (i < list.Count)
                 {
-                    if (category != list[i].category) continue;
-                    cells[i].SetItemCell(list[i].name);
-                    int index = i;
-                    cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
+                    var pair = list[i];
+                    if (category == null || category.Value.Equals(pair.Category))
+                    {
+                        cells[i].SetCell(list[i].BuildingName);
+                        cells[value - falseValue].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(pair));
+                    }
+                    else falseValue++;
                 }
             }
         }
@@ -100,12 +110,12 @@ namespace JMT.UISystem
 
         private void HandleBuildButton()
         {
-            if(BuildingManager.Instance.CurrentBuilding == null)
+            if (BuildingManager.Instance.CurrentBuilding == null)
             {
                 Debug.Log("읎으요");
                 return;
             }
-            if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.needItems)) return;
+            if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.NeedItems)) return;
             CloseUI();
             isBuild = true;
             TileManager.Instance.CurrentTile.EdgeEnable(false);

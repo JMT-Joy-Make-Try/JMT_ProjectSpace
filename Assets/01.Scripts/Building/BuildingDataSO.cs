@@ -1,8 +1,5 @@
 using AYellowpaper.SerializedCollections;
-using JMT.Building;
 using JMT.Item;
-using JMT.Planets.Tile.Items;
-using JMT.UISystem;
 using UnityEngine;
 
 namespace JMT.Building
@@ -17,12 +14,13 @@ namespace JMT.Building
     [CreateAssetMenu(menuName = "SO/Data/BuildingDataSO")]
     public class BuildingDataSO : ScriptableObject
     {
-        public BuildingBase prefab;
-        public BuildingCategory category;
-        public string buildingName;
-        [TextArea(4, 10)] public string buildingDescription;
-        public SerializedDictionary<ItemSO, int> needItems;
-        public TimeData buildTime;
-        public float useFuelPerSecond;
+        public Sprite Icon;
+        public BuildingBase Prefab;
+        public BuildingCategory Category;
+        public string BuildingName;
+        [TextArea(4, 10)] public string BuildingDescription;
+        public SerializedDictionary<ItemSO, int> NeedItems;
+        public TimeData BuildTime;
+        public float UseFuelPerSecond;
     }
 }
