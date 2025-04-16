@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4660dfbb0587058438728eee265f13f8, type: 3}
   m_Name: Space_Lodging
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7093283393367730463, guid: 3e250afeec5b53f44a767b135802baf9, type: 3}
-  category: 2
-  buildingName: "\uC219\uC18C"
-  buildingDescription: "\uC77C\uAFBC\uB4E4\uC758 \uB530\uB73B\uD55C \uBCF4\uAE08\uC790\uB9AC"
-  needItems:
+  Icon: {fileID: 0}
+  Prefab: {fileID: 7093283393367730463, guid: 3e250afeec5b53f44a767b135802baf9, type: 3}
+  Category: 2
+  BuildingName: "\uC219\uC18C"
+  BuildingDescription: "\uBC24\uB3D9\uC548 \uAC74\uAC15\uC744 \uD68C\uBCF5\uD558\uB294
+    \uC77C\uAFBC\uB4E4\uC758 \uBCF4\uAE08\uC790\uB9AC\n\uC219\uC18C\uC758 \uAC1C\uC218\uC640
+    \uB4F1\uAE09\uC774 \uB192\uC744\uC218\uB85D \uC77C\uAFBC \uC218\uC6A9\uB7C9\uC774
+    \uC99D\uAC00\uD55C\uB2E4."
+  NeedItems:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
-      Value: 5
+      Value: 10
     - Key: {fileID: 11400000, guid: d5657232cba60b443821309b6f17f964, type: 2}
-      Value: 2
-  buildTime:
+      Value: 5
+  BuildTime:
     minute: 0
-    second: 10
-  useFuelPerSecond: 0
+    second: 5
+  UseFuelPerSecond: 0.2

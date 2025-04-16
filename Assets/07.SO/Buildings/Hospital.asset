@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4660dfbb0587058438728eee265f13f8, type: 3}
   m_Name: Hospital
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6049804337213462308, guid: ca8e14c5911f5234cab5dcba6163b687, type: 3}
-  category: 2
-  buildingName: "\uBCD1\uC6D0"
-  buildingDescription: "\uD658\uC790\uB4E4\uC744 \uCE58\uB8CC\uD558\uB294 \uCE58\uB8CC\uC18C"
-  needItems:
+  Icon: {fileID: 0}
+  Prefab: {fileID: 6049804337213462308, guid: ca8e14c5911f5234cab5dcba6163b687, type: 3}
+  Category: 2
+  BuildingName: "\uCE58\uB8CC\uC18C"
+  BuildingDescription: 
+  NeedItems:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
-      Value: 30
-    - Key: {fileID: 11400000, guid: d5657232cba60b443821309b6f17f964, type: 2}
       Value: 20
-  buildTime:
+    - Key: {fileID: 11400000, guid: 97572d70834b411439656d89e29fc073, type: 2}
+      Value: 3
+  BuildTime:
     minute: 0
     second: 10
-  useFuelPerSecond: 0
+  UseFuelPerSecond: 0.2

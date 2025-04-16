@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4660dfbb0587058438728eee265f13f8, type: 3}
   m_Name: Weaving_Machine
   m_EditorClassIdentifier: 
-  prefab: {fileID: -5398790617666818415, guid: cf237ee393e663d48a14d8f7f4403093, type: 3}
-  category: 0
-  buildingName: "\uC9C1\uC870\uC18C"
-  buildingDescription: "\uC720\uAE30\uBB3C\uC744 \uC870\uD569\uD558\uC5EC \uC9C1\uC870\uBB3C
-    \uD615\uD0DC\uB85C \uAC00\uACF5\uD558\uB294 \uAC74\uBB3C"
-  needItems:
+  Icon: {fileID: 0}
+  Prefab: {fileID: -5398790617666818415, guid: cf237ee393e663d48a14d8f7f4403093, type: 3}
+  Category: 0
+  BuildingName: "\uC9C1\uC870"
+  BuildingDescription: "\uC720\uAE30\uBB3C\uC744 \uC7AC\uC870\uD569\uD558\uC5EC \uCC9C
+    \uD615\uD0DC\uB85C \uC7AC\uC0DD\uC0B0\uD55C\uB2E4."
+  NeedItems:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
-      Value: 20
-    - Key: {fileID: 11400000, guid: d5657232cba60b443821309b6f17f964, type: 2}
       Value: 10
-  buildTime:
+    - Key: {fileID: 11400000, guid: d5657232cba60b443821309b6f17f964, type: 2}
+      Value: 20
+  BuildTime:
     minute: 0
-    second: 20
-  useFuelPerSecond: 0
+    second: 10
+  UseFuelPerSecond: 0.5
