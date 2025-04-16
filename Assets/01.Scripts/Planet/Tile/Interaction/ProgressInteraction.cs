@@ -14,6 +14,11 @@ namespace JMT
             building.OnCompleteEvent?.Invoke();
 
             TileManager.Instance.CurrentTile.RemoveInteraction();
+            if (building is BaseBuilding)
+            {
+                TileManager.Instance.CurrentTile.AddInteraction<StationInteraction>();
+                return;
+            }
             TileManager.Instance.CurrentTile.AddInteraction<BuildingInteraction>();
         }
     }

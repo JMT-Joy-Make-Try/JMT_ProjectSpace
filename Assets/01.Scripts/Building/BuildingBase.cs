@@ -56,7 +56,7 @@ namespace JMT.Building
             OnCompleteEvent -= HandleCompleteEvent;
         }
 
-        private void HandleCompleteEvent()
+        protected virtual void HandleCompleteEvent()
         {
             BuildingTransparent(1f);
             _pvc.PlayAnimation();

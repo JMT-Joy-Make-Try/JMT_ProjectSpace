@@ -11,6 +11,7 @@ namespace JMT.Planets.Tile
     {
         [field: SerializeField] public List<PlanetTile> Tiles { get; private set; } = new List<PlanetTile>();
         [SerializeField] private VillageBuilding _villageBuilding;
+        [SerializeField] private int _maxVillageCount;
         [SerializeField] private FogTier _fogTier;
         private GameObject glowObject;
         public LineRenderer LineRenderer { get; private set; }
@@ -35,28 +36,34 @@ namespace JMT.Planets.Tile
 
         private IEnumerator SpawnCo()
         {
-            bool isSpawned = false;
-            PlanetTile tile = null;
-            while (!isSpawned)
+            int spawnedCount = 0;
+            int attemptLimit = 1000;
+            int attempts = 0;
+
+            while (spawnedCount < _maxVillageCount && attempts < attemptLimit)
             {
+                attempts++;
+
                 int idx = UnityEngine.Random.Range(0, Tiles.Count);
-                PlanetTile tilePos = Tiles[idx];
-                if (tilePos != null)
+                PlanetTile tile = Tiles[idx];
+
+                if (tile != null && tile.TryGetInteraction(out NoneInteraction interaction))
                 {
-                    if (tilePos.TryGetInteraction(out NoneInteraction interaction))
-                    {
-                        tile = tilePos; 
-                        isSpawned = true;
-                    }
+                    Instantiate(_villageBuilding, tile.TileInteraction.transform);
+                    tile.RemoveInteraction();
+                    tile.AddInteraction<VillageInteraction>();
+                    spawnedCount++;
+
+                    yield return null; // 다음 스폰까지 한 프레임 대기
                 }
-                
-                yield return null;
             }
-            Instantiate(_villageBuilding, tile.TileInteraction.transform);
-            tile.RemoveInteraction();
-            tile.AddInteraction<VillageInteraction>();
-            yield return null;
+
+            if (spawnedCount < _maxVillageCount)
+            {
+                Debug.LogWarning($"SpawnCo: Only spawned {spawnedCount}/{_maxVillageCount} villages due to limited valid tiles.");
+            }
         }
+
     }
     
     public enum FogTier
