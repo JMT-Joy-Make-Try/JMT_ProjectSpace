@@ -41,12 +41,12 @@ namespace JMT.UISystem
 
         public void SetInfo(BuildingDataSO data)
         {
-            buildingNameText.text = data.buildingName;
-            descriptionText.text = data.buildingDescription;
+            buildingNameText.text = data.BuildingName;
+            descriptionText.text = data.BuildingDescription;
             for(int i = 0; i < needItemList.Count; i++)
             {
                 int value = i;
-                var needItems = data.needItems.ToList();
+                var needItems = data.NeedItems.ToList();
                 if (needItems.Count > value)
                 {
                     needItemList[value].SetCell(needItems[value].Key, "X" + needItems[value].Value.ToString());
@@ -54,7 +54,7 @@ namespace JMT.UISystem
                 else
                     needItemList[value].ResetCell();
             }
-            useFuel.SetCell(string.Empty, data.useFuelPerSecond.ToString("F1"));
+            useFuel.SetCell(string.Empty, data.UseFuelPerSecond.ToString("F1"));
         }
     }
 }
