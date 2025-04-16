@@ -7,7 +7,7 @@ namespace JMT.Building
     public enum BuildingCategory
     {
         ItemBuilding, // 자원 건물
-        AttackBuilding, // 공격 건물
+        DefenseBuilding, // 공격 건물
         FacilityBuilding, // 설비 건물
         MoveBuilding, // 이동 건물
     }

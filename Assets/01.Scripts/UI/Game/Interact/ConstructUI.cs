@@ -34,13 +34,15 @@ namespace JMT.UISystem
 
             infoUI.OnBuildEvent += HandleBuildButton;
             exitButton.onClick.AddListener(CloseUI);
-            //itemButton.onClick.AddListener();
+            itemButton.onClick.AddListener(() => SelectCategory(BuildingCategory.ItemBuilding));
+            facilityButton.onClick.AddListener(() => SelectCategory(BuildingCategory.FacilityBuilding));
+            defenseButton.onClick.AddListener(() => SelectCategory(BuildingCategory.DefenseBuilding));
         }
 
 
         public override void OpenUI()
         {
-            TotalCategory();
+            SelectCategory();
             UIManager.Instance.GameUI.CloseUI();
 
             panelGroup.alpha = 1f;
@@ -61,22 +63,6 @@ namespace JMT.UISystem
             base.CloseUI();
         }
 
-        private void TotalCategory()
-        {
-            List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
-
-            for (int i = 0; i < cells.Count; i++)
-            {
-                cells[i].ResetCell();
-                if (i < list.Count)
-                {
-                    cells[i].SetCell(list[i].BuildingName);
-                    int index = i;
-                    cells[i].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(list[index]));
-                }
-            }
-        }
-
         private void SelectCategory(BuildingCategory? category = null)
         {
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
@@ -92,7 +78,7 @@ namespace JMT.UISystem
                     var pair = list[i];
                     if (category == null || category.Value.Equals(pair.Category))
                     {
-                        cells[i].SetCell(list[i].BuildingName);
+                        cells[value - falseValue].SetCell(list[value].BuildingName);
                         cells[value - falseValue].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(pair));
                     }
                     else falseValue++;
