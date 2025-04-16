@@ -16,11 +16,12 @@ namespace JMT.Planets.Tile
         public override void Interaction()
         {
             TileList list = transform.parent.parent.GetComponent<TileList>();
-            // if (!FogManager.Instance.IsAllFogOff(list.FogTier - 1))
-            // {
-            //     Debug.Log("Fog is not off");
-            //     return;
-            // }
+            Debug.Log(list.FogTier -1);
+            if (!FogManager.Instance.IsAllFogOff(list.FogTier - 1))
+            {
+                Debug.Log("Fog is not off");
+                return;
+            }
             base.Interaction();
             list.Tiles.ForEach(tile => tile.Fog.SetFog(false));
             Destroy(_zeolitePrefab);
