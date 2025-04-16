@@ -40,6 +40,7 @@ namespace JMT.Core.Manager
 
         public bool IsAllFogOff(FogTier tier)
         {
+            if (tier == FogTier.None) return true;
             var targetList = tier switch
             {
                 FogTier.One => _fogObjects1Tier,
