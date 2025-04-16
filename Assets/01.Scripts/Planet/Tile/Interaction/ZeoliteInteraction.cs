@@ -1,4 +1,5 @@
-﻿using JMT.Core.Manager;
+using JMT.Core.Manager;
+using JMT.UISystem;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
@@ -19,7 +20,7 @@ namespace JMT.Planets.Tile
             Debug.Log(list.FogTier -1);
             if (!FogManager.Instance.IsAllFogOff(list.FogTier - 1))
             {
-                Debug.Log("Fog is not off");
+                UIManager.Instance.PopupUI.SetPopupText("전 단계의 안개가 모두 해금되지 않았습니다.");
                 return;
             }
             base.Interaction();

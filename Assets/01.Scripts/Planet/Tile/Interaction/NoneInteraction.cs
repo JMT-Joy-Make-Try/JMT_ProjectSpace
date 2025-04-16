@@ -7,7 +7,11 @@ namespace JMT.Planets.Tile
     {
         public override void Interaction()
         {
-            if (TileManager.Instance.CurrentTile.Fog.IsFogActive) return;
+            if (TileManager.Instance.CurrentTile.Fog.IsFogActive)
+            {
+                UIManager.Instance.PopupUI.SetPopupText("건설할 수 없는 구역입니다.");
+                return;
+            }
             UIManager.Instance.BuildPanelUI.OpenUI();
         }
     }

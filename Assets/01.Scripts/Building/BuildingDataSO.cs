@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Item;
+using System;
 using UnityEngine;
 
 namespace JMT.Building
@@ -12,7 +13,7 @@ namespace JMT.Building
         MoveBuilding, // 이동 건물
     }
     [CreateAssetMenu(menuName = "SO/Data/BuildingDataSO")]
-    public class BuildingDataSO : ScriptableObject
+    public class BuildingDataSO : ScriptableObject, ICategorizable
     {
         public Sprite Icon;
         public BuildingBase Prefab;
@@ -22,5 +23,9 @@ namespace JMT.Building
         public SerializedDictionary<ItemSO, int> NeedItems;
         public TimeData BuildTime;
         public float UseFuelPerSecond;
+
+        public string DisplayName => BuildingName;
+
+        Enum ICategorizable.Category => Category;
     }
 }
