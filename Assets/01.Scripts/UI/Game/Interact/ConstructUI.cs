@@ -1,6 +1,7 @@
 using JMT.Building;
 using JMT.Core.Manager;
 using JMT.Planets.Tile;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,16 +9,24 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
+    [System.Serializable]
+    public struct ButtonWithIcon
+    {
+        public Button button;
+        public Image icon;
+    }
+
     public class ConstructUI : PanelUI
     {
         [SerializeField] private BuildInfoUI infoUI;
         [SerializeField] private Transform scrollView;
         [SerializeField] private PVCBuilding pvcObject;
         [SerializeField] private Button exitButton;
+        [SerializeField] private AnimationColor buttonColor, iconColor;
 
         private List<CellUI> cells = new();
         private List<BuildingDataSO> buildingDatas;
-        private Button itemButton, facilityButton, defenseButton;
+        private ButtonWithIcon itemCategory, facilityCategory, defenseCategory;
 
         private bool isBuild;
 
@@ -28,29 +37,44 @@ namespace JMT.UISystem
             cells = scrollView.Find("Viewport").Find("Content").GetComponentsInChildren<CellUI>().ToList();
 
             Transform category = scrollView.Find("Category");
-            itemButton = category.Find("ItemCategoryBtn").GetComponent<Button>();
-            facilityButton = category.Find("FacilityCategoryBtn").GetComponent<Button>();
-            defenseButton = category.Find("DefenseCategoryBtn").GetComponent<Button>();
+            itemCategory.button = category.Find("ItemCategoryBtn").GetComponent<Button>();
+            facilityCategory.button = category.Find("FacilityCategoryBtn").GetComponent<Button>();
+            defenseCategory.button = category.Find("DefenseCategoryBtn").GetComponent<Button>();
+            itemCategory.icon = itemCategory.button.transform.Find("Icon").GetComponent<Image>();
+            facilityCategory.icon = facilityCategory.button.transform.Find("Icon").GetComponent<Image>();
+            defenseCategory.icon = defenseCategory.button.transform.Find("Icon").GetComponent<Image>();
 
             infoUI.OnBuildEvent += HandleBuildButton;
             exitButton.onClick.AddListener(CloseUI);
-            itemButton.onClick.AddListener(() => SelectCategory(BuildingCategory.ItemBuilding));
-            facilityButton.onClick.AddListener(() => SelectCategory(BuildingCategory.FacilityBuilding));
-            defenseButton.onClick.AddListener(() => SelectCategory(BuildingCategory.DefenseBuilding));
+            itemCategory.button.onClick.AddListener(() =>
+            {
+                SelectCategory(BuildingCategory.ItemBuilding);
+                SetButtonColor(0);
+            });
+            facilityCategory.button.onClick.AddListener(() =>
+            {
+                SelectCategory(BuildingCategory.FacilityBuilding);
+                SetButtonColor(1);
+            });
+            defenseCategory.button.onClick.AddListener(() =>
+            {
+                SelectCategory(BuildingCategory.DefenseBuilding);
+                SetButtonColor(2);
+            });
         }
 
 
         public override void OpenUI()
         {
-            SelectCategory();
+            SelectCategory(BuildingCategory.ItemBuilding);
+            SetButtonColor(0);
             UIManager.Instance.GameUI.CloseUI();
+            UIManager.Instance.PlayerControlActive(false);
 
             panelGroup.alpha = 1f;
 
             panelGroup.blocksRaycasts = true;
             panelGroup.interactable = true;
-
-            Time.timeScale = 0;
         }
 
         public override void CloseUI()
@@ -59,6 +83,7 @@ namespace JMT.UISystem
                 TileManager.Instance.CurrentTile.DestroyBuilding();
             infoUI.CloseUI();
             UIManager.Instance.GameUI.OpenUI();
+            UIManager.Instance.PlayerControlActive(true);
             isBuild = false;
             base.CloseUI();
         }
@@ -66,23 +91,39 @@ namespace JMT.UISystem
         private void SelectCategory(BuildingCategory? category = null)
         {
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
-            int falseValue = 0;
+            if (category != null)
+                list = CategorySystem.FilteringCategory(list, category);
 
             for (int i = 0; i < cells.Count; i++)
             {
                 int value = i;
-                cells[value].GetComponent<Button>().onClick.RemoveAllListeners();
-                cells[i].ResetCell();
-                if (i < list.Count)
+
+                Button cellButton = cells[value].GetComponent<Button>();
+                cellButton.onClick.RemoveAllListeners();
+                cells[value].ResetCell();
+
+                if (value < list.Count)
                 {
-                    var pair = list[i];
-                    if (category == null || category.Value.Equals(pair.Category))
-                    {
-                        cells[value - falseValue].SetCell(list[value].BuildingName);
-                        cells[value - falseValue].GetComponent<Button>().onClick.AddListener(() => HandleSetInfo(pair));
-                    }
-                    else falseValue++;
+                    cells[value].SetCell(list[value].BuildingName);
+                    cellButton.onClick.AddListener(() => HandleSetInfo(list[value]));
                 }
+            }
+        }
+
+        private void SetButtonColor(int index)
+        {
+            ButtonWithIcon[] categories = new[]
+            {
+                itemCategory,
+                facilityCategory,
+                defenseCategory
+            };
+
+            for (int i = 0; i < categories.Length; i++)
+            {
+                bool isSelected = i == index;
+                buttonColor.ChangeColor(categories[i].button.image, isSelected, 0.3f);
+                iconColor.ChangeColor(categories[i].icon, isSelected, 0.3f);
             }
         }
 

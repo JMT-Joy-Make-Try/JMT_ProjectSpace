@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System;
 
 namespace JMT.Core.Tool
@@ -17,7 +17,6 @@ namespace JMT.Core.Tool
         {
             if (Count >= _maxSize)
             {
-                Dequeue();
                 throw new InvalidOperationException("Queue size limit exceeded. Item dequeued.");
             }
             base.Enqueue(item);

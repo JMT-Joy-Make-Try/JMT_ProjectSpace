@@ -1,6 +1,6 @@
+using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Building
@@ -8,13 +8,13 @@ namespace JMT.Building
     [Serializable]
     public class ItemBuildingData : BaseData
     {
-        public List<CreateItemSO> CreateItemList;
+        public SizeLimitQueue<CreateItemSO> CreateItemList = new(4);
         
         public CreateItemSO GetFirstCreateItem()
         {
             if (CreateItemList.Count > 0)
             {
-                return CreateItemList[0];
+                return CreateItemList.Peek();
             }
             return null;
         }

@@ -55,23 +55,20 @@ namespace JMT.UISystem
         private void SelectCategory(InventoryCategory? category = null)
         {
             var dic = InventoryManager.Instance.ItemDictionary;
-            var pairs = dic.ToList();
-            int falseValue = 0;
 
+            var pairs = dic.ToList();
+            if(category != null)
+                pairs = CategorySystem.FilteringCategory(pairs, category);
             for (int i = 0; i < cells.Count; i++)
             {
                 int value = i;
                 cells[value].GetComponent<Button>().onClick.RemoveAllListeners();
-                cells[i].ResetCell();
-                if (i < dic.Count)
+                cells[value].ResetCell();
+
+                if (value < pairs.Count)
                 {
-                    var pair = pairs[i];
-                    if (category == null || category.Value.Equals(pair.Key.Category))
-                    {
-                        cells[value - falseValue].GetComponent<Button>().onClick.AddListener(()=> HandleCellButton(pair.Key));
-                        cells[i - falseValue].SetCell(pair.Key, pair.Value.ToString());
-                    }    
-                    else falseValue++;
+                    cells[value].GetComponent<Button>().onClick.AddListener(() => HandleCellButton(pairs[value].Key));
+                    cells[i].SetCell(pairs[value].Key, pairs[value].Value.ToString());
                 }
             }
         }

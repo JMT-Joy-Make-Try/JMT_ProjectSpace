@@ -15,20 +15,17 @@ namespace JMT
         private Controls controls;
         public bool IsJoystickActive { get; private set; } = false;
 
-        private void OnEnable()
+        private void OnEnable() => ControlEnable();
+        private void OnDisable() => ControlDisable();
+
+        public void ControlEnable()
         {
             if (controls == null)
-            {
                 controls = new Controls();
-                controls.Player.AddCallbacks(this);
-                controls.Enable();
-            }
+            controls.Player.AddCallbacks(this);
+            controls.Enable();
         }
-
-        private void OnDisable()
-        {
-            controls.Disable();
-        }
+        public void ControlDisable() => controls.Disable();
 
         public void OnMove(InputAction.CallbackContext context)
         {
