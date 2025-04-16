@@ -56,7 +56,7 @@ namespace JMT.Building
             OnCompleteEvent -= HandleCompleteEvent;
         }
 
-        private void HandleCompleteEvent()
+        protected virtual void HandleCompleteEvent()
         {
             BuildingTransparent(1f);
             _pvc.PlayAnimation();
@@ -76,7 +76,7 @@ namespace JMT.Building
             for(int i = 0; i < rendererList.Count; ++i)
                 rendererList[i].material = visualMat;
 
-            StartCoroutine(BuildingRoutine(buildingData.buildTime.GetSecond()));
+            StartCoroutine(BuildingRoutine(buildingData.BuildTime.GetSecond()));
         }
 
         private IEnumerator BuildingRoutine(int time)
@@ -137,7 +137,7 @@ namespace JMT.Building
         {
             buildingData = data;
             _pvc = pvc;
-            _pvc.SetBuildTime(data.buildTime);
+            _pvc.SetBuildTime(data.BuildTime);
             Building();
         }
 

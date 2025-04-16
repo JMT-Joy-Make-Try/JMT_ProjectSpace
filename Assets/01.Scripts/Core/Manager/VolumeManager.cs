@@ -31,14 +31,7 @@ namespace JMT.Core.Manager
 
         private void OnChangeDaytime(DaytimeType day)
         {
-            if (day == DaytimeType.Day)
-            {
-                _currentVolume = _nightVolume.ChangeVolume(_dayVolume, _duration);
-            }
-            else
-            {
-                _currentVolume = _dayVolume.ChangeVolume(_nightVolume, _duration);
-            }
+            _currentVolume = day == DaytimeType.Day ? _nightVolume.ChangeVolume(_dayVolume, _duration) : _dayVolume.ChangeVolume(_nightVolume, _duration);
         }
 
         public T GetVolume<T>() where T : VolumeComponent
@@ -49,7 +42,7 @@ namespace JMT.Core.Manager
 
         public List<T> GetAllVolume<T>() where T : VolumeComponent
         {
-            List<T> components = new List<T>();
+            List<T> components = new();
             _dayVolume.profile.TryGet(out T component);
             if (component != null)
                 components.Add(component);

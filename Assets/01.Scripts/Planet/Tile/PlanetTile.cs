@@ -56,7 +56,7 @@ namespace JMT.Planets.Tile
                 Debug.Log("Build");
                 OnBuild?.Invoke();
                 PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
-                _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
+                _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
                 _currentBuilding.SetBuildingData(building, pvcBuilding);
 
 
@@ -158,7 +158,7 @@ namespace JMT.Planets.Tile
         public void TestBuild(BuildingDataSO building)
         {
             DestroyBuilding();
-            _currentBuilding = Instantiate(building.prefab, TileInteraction.transform);
+            _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
             _currentBuilding.BuildingTransparent(0.5f);
         }
     }

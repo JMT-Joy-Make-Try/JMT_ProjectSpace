@@ -4,6 +4,7 @@ namespace JMT.UISystem
 {
     public class UIManager : MonoSingleton<UIManager>
     {
+        [SerializeField] private PlayerInputSO inputSO;
         public InventoryUI InventoryUI {  get; private set; }
         public GameUI GameUI {  get; private set; }
         public WorkUI WorkUI {  get; private set; }
@@ -27,6 +28,14 @@ namespace JMT.UISystem
             BuildingUI = GetComponent<BuildingUI>();
             PopupUI = GetComponent<PopupUI>();
             GetUI = GetComponent<GetUI>();
+        }
+
+        public void PlayerControlActive(bool isActive)
+        {
+            if(isActive)
+                inputSO.ControlEnable();
+            else
+                inputSO.ControlDisable();
         }
     }
 }

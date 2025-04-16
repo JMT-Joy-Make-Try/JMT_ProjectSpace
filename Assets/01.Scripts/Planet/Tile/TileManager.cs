@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
@@ -17,6 +20,8 @@ namespace JMT.Planets.Tile
                 _planetTile.EdgeEnable(true);
             }
         }
+        
+
 
         public TileInteraction GetInteraction() => CurrentTile.GetInteraction<TileInteraction>();
         public InteractType GetInteractType() => GetInteraction().InteractType;

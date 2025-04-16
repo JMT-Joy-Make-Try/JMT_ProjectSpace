@@ -1,6 +1,4 @@
 using JMT.Core;
-using System;
-using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 namespace JMT.Agent.Alien
@@ -10,7 +8,7 @@ namespace JMT.Agent.Alien
         [field: SerializeField] public float AttackRange { get; private set; }
         [field: SerializeField] public int AttackDamage { get; private set; }
         [field: SerializeField] public LayerMask WhatIsAttackable { get; private set; }
-        
+
         private Collider[] _colliders;
 
         private void Awake()

@@ -1,8 +1,6 @@
 using AYellowpaper.SerializedCollections;
-using JMT.Building;
 using JMT.Item;
-using JMT.Planets.Tile.Items;
-using JMT.UISystem;
+using System;
 using UnityEngine;
 
 namespace JMT.Building
@@ -10,19 +8,24 @@ namespace JMT.Building
     public enum BuildingCategory
     {
         ItemBuilding, // 자원 건물
-        AttackBuilding, // 공격 건물
+        DefenseBuilding, // 공격 건물
         FacilityBuilding, // 설비 건물
         MoveBuilding, // 이동 건물
     }
     [CreateAssetMenu(menuName = "SO/Data/BuildingDataSO")]
-    public class BuildingDataSO : ScriptableObject
+    public class BuildingDataSO : ScriptableObject, ICategorizable
     {
-        public BuildingBase prefab;
-        public BuildingCategory category;
-        public string buildingName;
-        [TextArea(4, 10)] public string buildingDescription;
-        public SerializedDictionary<ItemSO, int> needItems;
-        public TimeData buildTime;
-        public float useFuelPerSecond;
+        public Sprite Icon;
+        public BuildingBase Prefab;
+        public BuildingCategory Category;
+        public string BuildingName;
+        [TextArea(4, 10)] public string BuildingDescription;
+        public SerializedDictionary<ItemSO, int> NeedItems;
+        public TimeData BuildTime;
+        public float UseFuelPerSecond;
+
+        public string DisplayName => BuildingName;
+
+        Enum ICategorizable.Category => Category;
     }
 }
