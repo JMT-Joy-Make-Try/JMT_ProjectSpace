@@ -27,9 +27,9 @@ namespace JMT.Planets.Tile
 
         private void Awake()
         {
-            _fogParticleSystem = GetComponent<ParticleSystem>();
-            _fogRenderer = _fogParticleSystem.GetComponent<Renderer>();
-            _fogMaterial = _fogRenderer.material;
+            // _fogParticleSystem = GetComponent<ParticleSystem>();
+            // _fogRenderer = _fogParticleSystem.GetComponent<Renderer>();
+            // _fogMaterial = _fogRenderer.material;
             _agentManager = AgentManager.Instance;
         }
 
