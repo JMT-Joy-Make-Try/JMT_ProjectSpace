@@ -10,6 +10,11 @@ namespace JMT.Agent
         [SerializeField] private SerializedDictionary<T, Animator> agentClothList;
 
         public Animator CurrentCloth { get; private set; }
+
+        public virtual void Init(T type)
+        {
+            CurrentCloth = agentClothList[type];
+        }
         
         public virtual void SetCloth(T type)
         {
