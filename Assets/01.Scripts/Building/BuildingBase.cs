@@ -83,6 +83,7 @@ namespace JMT.Building
         {
             BuildingTransparent(0.3f);
             yield return new WaitForSeconds(time);
+            Debug.LogError("adaadjdsajlkdasjkldsajlk");
             IsBuilding = true;
         }
 
