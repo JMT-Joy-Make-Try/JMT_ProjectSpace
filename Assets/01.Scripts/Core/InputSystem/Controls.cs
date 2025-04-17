@@ -40,9 +40,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""6b444451-8a00-4d00-a97e-f47457f736a8"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Press(pressPoint=0.01,behavior=2)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
@@ -116,6 +116,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FirstContact"",
+                    ""type"": ""Button"",
+                    ""id"": ""de2b74fb-f349-417e-b8ac-4a6e20f3b0af"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecondContact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e411b1c7-fc6b-49c7-a688-21ae11f4bcce"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -254,7 +272,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
-                    ""path"": ""<Touchscreen>/delta/x"",
+                    ""path"": ""<Touchscreen>/touch0/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Touch"",
@@ -512,6 +530,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Touch"",
                     ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09ad0abd-a439-4523-bb6c-c5ed24ced5bc"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstContact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ab8169b-ab01-40f4-b9d7-99ba26efbc72"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondContact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1197,6 +1237,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
+        m_Player_FirstContact = m_Player.FindAction("FirstContact", throwIfNotFound: true);
+        m_Player_SecondContact = m_Player.FindAction("SecondContact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1293,6 +1335,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Secondary;
+    private readonly InputAction m_Player_FirstContact;
+    private readonly InputAction m_Player_SecondContact;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -1307,6 +1351,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Next => m_Wrapper.m_Player_Next;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
+        public InputAction @FirstContact => m_Wrapper.m_Player_FirstContact;
+        public InputAction @SecondContact => m_Wrapper.m_Player_SecondContact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1346,6 +1392,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Secondary.started += instance.OnSecondary;
             @Secondary.performed += instance.OnSecondary;
             @Secondary.canceled += instance.OnSecondary;
+            @FirstContact.started += instance.OnFirstContact;
+            @FirstContact.performed += instance.OnFirstContact;
+            @FirstContact.canceled += instance.OnFirstContact;
+            @SecondContact.started += instance.OnSecondContact;
+            @SecondContact.performed += instance.OnSecondContact;
+            @SecondContact.canceled += instance.OnSecondContact;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1380,6 +1432,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Secondary.started -= instance.OnSecondary;
             @Secondary.performed -= instance.OnSecondary;
             @Secondary.canceled -= instance.OnSecondary;
+            @FirstContact.started -= instance.OnFirstContact;
+            @FirstContact.performed -= instance.OnFirstContact;
+            @FirstContact.canceled -= instance.OnFirstContact;
+            @SecondContact.started -= instance.OnSecondContact;
+            @SecondContact.performed -= instance.OnSecondContact;
+            @SecondContact.canceled -= instance.OnSecondContact;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1642,6 +1700,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnNext(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnSecondary(InputAction.CallbackContext context);
+        void OnFirstContact(InputAction.CallbackContext context);
+        void OnSecondContact(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

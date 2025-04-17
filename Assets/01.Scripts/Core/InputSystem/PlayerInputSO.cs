@@ -1,9 +1,16 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace JMT
 {
+    public enum TouchType
+    {
+        None,
+        FirstTouch,
+        SecondTouch,
+    }
     [CreateAssetMenu(menuName = "SO/Input/PlayerInputSO")]
     public class PlayerInputSO : ScriptableObject, Controls.IPlayerActions
     {
@@ -13,11 +20,13 @@ namespace JMT
         public event Action OnSecondaryEndEvent;
 
         private Controls controls;
+        private TouchType touchType = TouchType.None;
 
         private Vector2 moveVec;
 
         private bool isMove = false;
-        private bool isLook = false;
+        private bool isFirst = false;
+        private bool isSecond = false;
 
         private void OnEnable() => ControlEnable();
         private void OnDisable() => ControlDisable();
@@ -35,7 +44,12 @@ namespace JMT
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (context.started) isMove = true;
+            if (context.started)
+            {
+                if(isFirst) touchType = TouchType.SecondTouch;
+                else touchType = TouchType.FirstTouch;
+                isMove = true;
+            }
             else if (context.canceled) isMove = false;
             OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
             moveVec = context.ReadValue<Vector2>();
@@ -43,20 +57,13 @@ namespace JMT
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            if (context.started && !isMove)
-            {
-                isLook = true;
-            }
+            if (touchType == TouchType.FirstTouch) return;
 
-            if (context.performed && isLook)
+            Vector2 delta = context.ReadValue<Vector2>();
+            if (!Mathf.Approximately(delta.x, 0f))
             {
-                float delta = context.ReadValue<float>();
-                if (!Mathf.Approximately(delta, 0f))
-                {
-                    OnLookEvent?.Invoke(delta);
-                }
+                OnLookEvent?.Invoke(delta.x);
             }
-            isLook = false;
         }
 
         public void OnAttack(InputAction.CallbackContext context) { }
@@ -76,7 +83,7 @@ namespace JMT
                     break;
 
                 case InputActionPhase.Performed:
-                    if (isMove && !isLook) // 조이스틱 아닌 경우에만 회전 허용
+                    if (touchType == TouchType.FirstTouch)
                     {
                         Vector2 delta = context.ReadValue<Vector2>();
                         if (!Mathf.Approximately(delta.x, 0f))
@@ -90,5 +97,28 @@ namespace JMT
             }
         }
 
+        public void OnFirstContact(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                isFirst = true;
+            else if (context.canceled)
+            {
+                if (touchType == TouchType.FirstTouch)
+                    touchType = TouchType.None;
+                isFirst = false;
+            }
+        }
+
+        public void OnSecondContact(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                isSecond = true;
+            else if (context.canceled)
+            {
+                if (touchType == TouchType.SecondTouch)
+                    touchType = TouchType.None;
+                isSecond = false;
+            }
+        }
     }
 }
