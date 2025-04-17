@@ -1,6 +1,4 @@
 using JMT.Core;
-using System;
-using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 namespace JMT.Agent.Alien

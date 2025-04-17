@@ -7,6 +7,8 @@ namespace JMT.Core.Manager
 {
     public class FogManager : MonoSingleton<FogManager>
     {
+        [SerializeField] private bool _isFogActive = true;
+        [Space]
         [SerializeField] private TileList _defaultTileList;
         [SerializeField] private TileList _baseBuildingTileList;
         [SerializeField] private List<TileList> _fogObjects1Tier;
@@ -16,16 +18,16 @@ namespace JMT.Core.Manager
 
         private void Start()
         {
-            ResetFog();
+            ResetFog(_isFogActive);
             OffDefaultFog();
         }
 
-        private void ResetFog()
+        private void ResetFog(bool active)
         {
-            _defaultTileList.Tiles.ForEach(t => t.Fog.SetFog(true));
-            _fogObjects1Tier.ForEach(t => t.Tiles.ForEach(tile => tile.Fog.SetFog(true)));
-            _fogObjects2Tier.ForEach(t => t.Tiles.ForEach(tile => tile.Fog.SetFog(true)));
-            _fogObjects3Tier.ForEach(t => t.Tiles.ForEach(tile => tile.Fog.SetFog(true)));
+            _defaultTileList.Tiles.ForEach(t => t.Fog.SetFog(active));
+            _fogObjects1Tier.ForEach(t => t.Tiles.ForEach(tile => tile.Fog.SetFog(active)));
+            _fogObjects2Tier.ForEach(t => t.Tiles.ForEach(tile => tile.Fog.SetFog(active)));
+            _fogObjects3Tier.ForEach(t => t.Tiles.ForEach(tile => tile.Fog.SetFog(active)));
         }
 
         public void OffFogBaseBuilding()
