@@ -110,8 +110,26 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Secondary"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""9db03795-2cd6-47e3-b534-a18656d70d88"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FirstContact"",
+                    ""type"": ""Button"",
+                    ""id"": ""de2b74fb-f349-417e-b8ac-4a6e20f3b0af"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecondContact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e411b1c7-fc6b-49c7-a688-21ae11f4bcce"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -125,7 +143,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Touch"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -254,10 +272,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""path"": ""<Touchscreen>/touch0/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Touch"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -268,7 +286,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse;Touch"",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -507,11 +525,33 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7582cd65-8e36-4118-9bb1-d153bd82e17f"",
+                    ""path"": ""<Touchscreen>/touch1/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Touch"",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09ad0abd-a439-4523-bb6c-c5ed24ced5bc"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstContact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ab8169b-ab01-40f4-b9d7-99ba26efbc72"",
                     ""path"": ""<Touchscreen>/touch1/press"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Secondary"",
+                    ""groups"": """",
+                    ""action"": ""SecondContact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1197,6 +1237,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
+        m_Player_FirstContact = m_Player.FindAction("FirstContact", throwIfNotFound: true);
+        m_Player_SecondContact = m_Player.FindAction("SecondContact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1293,6 +1335,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Secondary;
+    private readonly InputAction m_Player_FirstContact;
+    private readonly InputAction m_Player_SecondContact;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -1307,6 +1351,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Next => m_Wrapper.m_Player_Next;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
+        public InputAction @FirstContact => m_Wrapper.m_Player_FirstContact;
+        public InputAction @SecondContact => m_Wrapper.m_Player_SecondContact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1346,6 +1392,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Secondary.started += instance.OnSecondary;
             @Secondary.performed += instance.OnSecondary;
             @Secondary.canceled += instance.OnSecondary;
+            @FirstContact.started += instance.OnFirstContact;
+            @FirstContact.performed += instance.OnFirstContact;
+            @FirstContact.canceled += instance.OnFirstContact;
+            @SecondContact.started += instance.OnSecondContact;
+            @SecondContact.performed += instance.OnSecondContact;
+            @SecondContact.canceled += instance.OnSecondContact;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1380,6 +1432,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Secondary.started -= instance.OnSecondary;
             @Secondary.performed -= instance.OnSecondary;
             @Secondary.canceled -= instance.OnSecondary;
+            @FirstContact.started -= instance.OnFirstContact;
+            @FirstContact.performed -= instance.OnFirstContact;
+            @FirstContact.canceled -= instance.OnFirstContact;
+            @SecondContact.started -= instance.OnSecondContact;
+            @SecondContact.performed -= instance.OnSecondContact;
+            @SecondContact.canceled -= instance.OnSecondContact;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1642,6 +1700,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnNext(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnSecondary(InputAction.CallbackContext context);
+        void OnFirstContact(InputAction.CallbackContext context);
+        void OnSecondContact(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

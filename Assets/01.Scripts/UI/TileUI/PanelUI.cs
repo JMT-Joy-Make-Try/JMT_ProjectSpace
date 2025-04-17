@@ -1,10 +1,22 @@
 using DG.Tweening;
 using System;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
+    [Serializable]
+    public struct AnimationColor
+    {
+        public Color firstColor, secondColor;
+
+        public readonly void ChangeColor(Image image, bool isFirst, float duration)
+        {
+            Color changeColor = isFirst ? firstColor : secondColor;
+            image.DOColor(changeColor, duration).SetUpdate(true);
+        }
+    }
+
     public class PanelUI : MonoBehaviour
     {
         protected event Action OnCloseEvent;

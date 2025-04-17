@@ -1,4 +1,3 @@
-using AYellowpaper.SerializedCollections;
 using JMT.Building;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
@@ -34,25 +33,32 @@ namespace JMT.UISystem
             if (workBuilding != null)
                 SetItemList(ItemList);
 
-            for (int i = 0; i < ItemList.Count; i++)
+            int index = 0;
+            foreach (var item in ItemList)
             {
-                int value = i;
-                itemCells[value].GetComponent<Button>().onClick.AddListener(() =>
+                int capturedIndex = index;
+
+                itemCells[capturedIndex].GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    currentItemSO = ItemList[value];
-                    CreateItemUI.Instance.SetCreatePanel(ItemList[value]);
+                    currentItemSO = item;
+                    CreateItemUI.Instance.SetCreatePanel(item);
                 });
+
+                index++;
             }
         }
 
-        public void SetItemList(List<CreateItemSO> createItemList)
+        public void SetItemList(SizeLimitQueue<CreateItemSO> createItemList)
         {
-            for (int i = 0; i < itemCells.Count; ++i)
+            int index = 0;
+            foreach (var item in createItemList)
             {
-                if (createItemList.Count <= i) return;
+                if (index >= itemCells.Count) break;
 
-                InventoryManager.Instance.ItemDictionary.TryGetValue(createItemList[i].ResultItem, out int value);
-                itemCells[i].SetCell(createItemList[i].ResultItem, value.ToString());
+                InventoryManager.Instance.ItemDictionary.TryGetValue(item.ResultItem, out int value);
+                itemCells[index].SetCell(item.ResultItem, value.ToString());
+
+                index++;
             }
         }
 
