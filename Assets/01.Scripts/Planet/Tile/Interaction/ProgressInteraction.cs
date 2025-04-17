@@ -9,8 +9,13 @@ namespace JMT
         public override void Interaction()
         {
             BuildingBase building = GetComponentInChildren<BuildingBase>();
+            Debug.Log(building);
 
-            if (!building.IsBuilding) return;
+            if (!building.IsBuilding)
+            {
+                Debug.LogError("Dasddadjkadjlkdjl");
+                return;
+            }
             building.OnCompleteEvent?.Invoke();
 
             TileManager.Instance.CurrentTile.RemoveInteraction();
