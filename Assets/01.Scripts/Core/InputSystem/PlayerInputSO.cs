@@ -13,7 +13,11 @@ namespace JMT
         public event Action OnSecondaryEndEvent;
 
         private Controls controls;
-        public bool IsJoystickActive { get; private set; } = false;
+
+        private Vector2 moveVec;
+
+        private bool isMove = false;
+        private bool isLook = false;
 
         private void OnEnable() => ControlEnable();
         private void OnDisable() => ControlDisable();
@@ -22,67 +26,69 @@ namespace JMT
         {
             if (controls == null)
                 controls = new Controls();
+
             controls.Player.AddCallbacks(this);
             controls.Enable();
         }
+
         public void ControlDisable() => controls.Disable();
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            if (context.started) isMove = true;
+            else if (context.canceled) isMove = false;
             OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
-            IsJoystickActive = context.phase != InputActionPhase.Canceled;
+            moveVec = context.ReadValue<Vector2>();
         }
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            if(context.performed && !IsJoystickActive)
-                OnLookEvent?.Invoke(context.ReadValue<Vector2>().x);
+            if (context.started && !isMove)
+            {
+                isLook = true;
+            }
+
+            if (context.performed && isLook)
+            {
+                float delta = context.ReadValue<float>();
+                if (!Mathf.Approximately(delta, 0f))
+                {
+                    OnLookEvent?.Invoke(delta);
+                }
+            }
+            isLook = false;
         }
 
-        public void OnAttack(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnCrouch(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnJump(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnPrevious(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnNext(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnSprint(InputAction.CallbackContext context)
-        {
-        }
+        public void OnAttack(InputAction.CallbackContext context) { }
+        public void OnInteract(InputAction.CallbackContext context) { }
+        public void OnCrouch(InputAction.CallbackContext context) { }
+        public void OnJump(InputAction.CallbackContext context) { }
+        public void OnPrevious(InputAction.CallbackContext context) { }
+        public void OnNext(InputAction.CallbackContext context) { }
+        public void OnSprint(InputAction.CallbackContext context) { }
 
         public void OnSecondary(InputAction.CallbackContext context)
         {
             switch (context.phase)
             {
                 case InputActionPhase.Started:
-                    Debug.Log("누름");
                     OnSecondaryStartEvent?.Invoke();
                     break;
+
                 case InputActionPhase.Performed:
-                    OnLookEvent?.Invoke(context.ReadValue<float>());
+                    if (isMove && !isLook) // 조이스틱 아닌 경우에만 회전 허용
+                    {
+                        Vector2 delta = context.ReadValue<Vector2>();
+                        if (!Mathf.Approximately(delta.x, 0f))
+                            OnLookEvent?.Invoke(delta.x);
+                    }
                     break;
+
                 case InputActionPhase.Canceled:
-                    Debug.Log("뗌");
                     OnSecondaryEndEvent?.Invoke();
                     break;
             }
         }
+
     }
 }

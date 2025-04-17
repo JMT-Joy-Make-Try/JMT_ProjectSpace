@@ -40,9 +40,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""6b444451-8a00-4d00-a97e-f47457f736a8"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.01,behavior=2)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -110,12 +110,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Secondary"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""9db03795-2cd6-47e3-b534-a18656d70d88"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -125,7 +125,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Touch"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -254,10 +254,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""path"": ""<Touchscreen>/delta/x"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Touch"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -268,7 +268,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse;Touch"",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -507,10 +507,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7582cd65-8e36-4118-9bb1-d153bd82e17f"",
-                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""path"": ""<Touchscreen>/touch1/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Touch"",
                     ""action"": ""Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
