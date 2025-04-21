@@ -1,6 +1,9 @@
 using JMT.Agent.NPC;
+using JMT.Building.Component;
 using JMT.Item;
 using JMT.Planets.Tile;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace JMT.Building
@@ -9,19 +12,16 @@ namespace JMT.Building
     {
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
         [SerializeField] private int _productionAmount;
-        
+        [SerializeField] private float _productionTime;
+        [SerializeField] private int _maxProductionAmount;
         private int _currentProductionAmount;
+        private float _productGauge;
+        
 
         [Space] [Header("Debug")] [SerializeField]
         private NPCAgent _npcAgent;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            //OnClick += InventoryAdd;
-        }
-
-        private void InventoryAdd()
+        public void InventoryAdd()
         {
             InventoryManager.Instance.AddItem(ProductionItem, _currentProductionAmount);
             _currentProductionAmount = 0;
@@ -30,13 +30,35 @@ namespace JMT.Building
         public override void Work()
         {
             base.Work();
+            StartCoroutine(WorkCoroutine());
         }
 
-
-        // 이건 애들이 가져오면 호출이 될거임
-        public void AddItem(int itemAmount)
+        private IEnumerator WorkCoroutine()
         {
-            _currentProductionAmount += itemAmount;
+            var ws = new WaitForSeconds(_productionTime);
+            while (_isWorking)
+            {
+                if (_currentProductionAmount >= _maxProductionAmount)
+                {
+                    yield return ws;
+                    continue;
+                }
+                _currentProductionAmount += GetBuildingComponent<BuildingLevel>().CurLevel;
+                // 대충 연료 소모
+                yield return ws;
+            }
+        }
+
+        private void Update()
+        {
+            if (_isWorking)
+            {
+                _productGauge += Time.deltaTime / _productionTime;
+                if (_productGauge >= 1f)
+                {
+                    _productGauge = 0f;
+                }
+            }
         }
     }
 }

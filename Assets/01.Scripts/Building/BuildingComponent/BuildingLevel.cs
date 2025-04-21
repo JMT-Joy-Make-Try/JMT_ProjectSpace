@@ -9,6 +9,17 @@ namespace JMT.Building.Component
         public BuildingBase Building { get; private set; }
         private int _curLevel;
         
+        public int CurLevel
+        {
+            get => _curLevel;
+            set
+            {
+                if (_curLevel == value) return;
+                _curLevel = value;
+                OnLevelChanged?.Invoke(_curLevel);
+            }
+        }
+        
         
         public void Upgrade()
         {
