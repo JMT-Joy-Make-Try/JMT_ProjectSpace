@@ -1,4 +1,4 @@
-using System;
+using JMT.UISystem.Interact;
 using UnityEngine;
 
 namespace JMT.Planets.Tile

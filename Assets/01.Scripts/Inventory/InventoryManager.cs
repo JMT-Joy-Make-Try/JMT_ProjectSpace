@@ -2,7 +2,6 @@ using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile.Items;
 using JMT.UISystem;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,10 +14,10 @@ namespace JMT.Planets.Tile
 
         public void AddItem(ItemSO item, int increaseCount)
         {
-            if(!itemDictionary.ContainsKey(item))
+            if (!itemDictionary.ContainsKey(item))
                 itemDictionary.Add(item, increaseCount);
             else itemDictionary[item] += increaseCount;
-            UIManager.Instance.GetUI.GetItem(item, increaseCount);
+            GameUIManager.Instance.ItemGetCompo.GetItem(item, increaseCount);
         }
 
         /*public void AddItem(ItemType item, int increaseCount)
@@ -33,10 +32,10 @@ namespace JMT.Planets.Tile
                 itemDictionary.Add(itemSO, increaseCount);
             else itemDictionary[itemSO] += increaseCount;
         }*/
-        
+
         public void RemoveItem(ItemSO item, int decreaseCount)
         {
-            if(!itemDictionary.ContainsKey(item))
+            if (!itemDictionary.ContainsKey(item))
                 return;
             else
             {
@@ -45,7 +44,7 @@ namespace JMT.Planets.Tile
                     itemDictionary.Remove(item);
             }
         }
-        
+
         public void RemoveItem(ItemType item, int decreaseCount)
         {
             var itemSO = itemDictionary.FirstOrDefault(s => (s.Key).ItemType == item).Key;
@@ -63,19 +62,18 @@ namespace JMT.Planets.Tile
                     itemDictionary.Remove(itemSO);
             }
         }
-        
-        
+
+
 
         public bool CalculateItem(SerializedDictionary<ItemSO, int> needItems)
         {
             var pairs = needItems.ToList();
-            for(int i = 0; i < pairs.Count; ++i)
+            for (int i = 0; i < pairs.Count; ++i)
             {
                 var pair = pairs[i];
                 if (!itemDictionary.ContainsKey(pair.Key) || itemDictionary[pair.Key] < pair.Value)
                 {
-                    UIManager.Instance.PopupUI.SetPopupText("자원이 부족합니다.");
-                    UIManager.Instance.PopupUI.ActiveAutoPopup();
+                    GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("자원이 부족합니다.");
                     return false;
                 }
             }

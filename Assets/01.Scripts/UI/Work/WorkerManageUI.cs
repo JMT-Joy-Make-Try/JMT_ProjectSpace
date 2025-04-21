@@ -45,8 +45,7 @@ namespace JMT.UISystem
             var npc = AgentManager.Instance.GetAgent();
             if (npc == null)
             {
-                UIManager.Instance.PopupUI.SetPopupText("일꾼이 부족합니다.");
-                UIManager.Instance.PopupUI.ActiveAutoPopup();
+                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
                 return;
             }
             TileManager.Instance.CurrentTile.CurrentBuilding.AddNpc(npc);

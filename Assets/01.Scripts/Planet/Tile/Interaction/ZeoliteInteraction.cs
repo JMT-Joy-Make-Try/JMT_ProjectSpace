@@ -20,7 +20,7 @@ namespace JMT.Planets.Tile
             Debug.Log(list.FogTier -1);
             if (!FogManager.Instance.IsAllFogOff(list.FogTier - 1))
             {
-                UIManager.Instance.PopupUI.SetPopupText("전 단계의 안개가 모두 해금되지 않았습니다.");
+                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("전 단계의 안개가 모두 해금되지 않았습니다.");
                 return;
             }
             base.Interaction();

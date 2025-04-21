@@ -1,7 +1,7 @@
 using JMT.Agent.NPC;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
-using JMT.Resource;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace JMT.Agent
 
         public void SpawnAgent(Vector3 position)
         {
-            ResourceManager.Instance.AddNpc(1);
+            GameUIManager.Instance.ResourceCompo.AddNpc(1);
             var obj = PoolingManager.Instance.Pop(PoolingType.Agent_NPC);
             obj.ObjectPrefab.transform.position = position;
         }

@@ -1,7 +1,7 @@
 using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Core.Manager;
-using JMT.Resource;
+using JMT.UISystem;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -47,7 +47,7 @@ namespace JMT.Building
                 {
                     if (_colliders[i].TryGetComponent(out NPCAgent agent))
                     {
-                        ResourceManager.Instance.AddNpc(-1);
+                        GameUIManager.Instance.ResourceCompo.AddNpc(-1);
                         agent.OxygenCompo.AddOxygen(1);
                     }
                 }

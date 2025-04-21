@@ -6,6 +6,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using Event = JMT.Planets.Events.Event;
 using Random = UnityEngine.Random;
+using JMT.UISystem;
 
 namespace JMT.Planets
 {
@@ -19,12 +20,12 @@ namespace JMT.Planets
 
         private void Start()
         {
-            DaySystem.Instance.OnChangeDayCountEvent += HandleChangeDay;
+            GameUIManager.Instance.TimeCompo.OnChangeDayCountEvent += HandleChangeDay;
         }
 
         private void OnDestroy()
         {
-            DaySystem.Instance.OnChangeDayCountEvent -= HandleChangeDay;
+            GameUIManager.Instance.TimeCompo.OnChangeDayCountEvent -= HandleChangeDay;
         }
 
         private void HandleChangeDay(int day)
