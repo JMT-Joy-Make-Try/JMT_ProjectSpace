@@ -12,12 +12,8 @@ namespace JMT.Building
     {
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
-        // public BuildingData BuildingData { get; private set; }
-        // public BuildingAnimator BuildingAnimator { get; private set; }
-        // public BuildingHealth BuildingHealth { get; private set; }
-        // public BuildingVisual BuildingVisual { get; private set; }
-        // public BuildingLevel BuildingLevel { get; private set; }
-        // public BuildingNPC BuildingNPC { get; private set; }
+        
+        private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
         #endregion
         
         public bool IsBuilding { get; private set; }
@@ -46,20 +42,8 @@ namespace JMT.Building
             foreach (var component in components)
             {
                 component?.Init(this);
+                _componentLookup.Add(component.GetType(), component);
             }
-            // BuildingVisual = GetComponent<BuildingVisual>();
-            // BuildingAnimator = GetComponent<BuildingAnimator>();
-            // BuildingNPC = GetComponent<BuildingNPC>();
-            // BuildingHealth = GetComponent<BuildingHealth>();
-            // BuildingLevel = GetComponent<BuildingLevel>();
-            // BuildingData = GetComponent<BuildingData>();
-            //
-            // BuildingVisual?.Init(this);
-            // BuildingAnimator?.Init(this);
-            // BuildingNPC?.Init(this);
-            // BuildingHealth?.Init(this);
-            // BuildingLevel?.Init(this);
-            // BuildingData?.Init(this);
         }
 
         protected virtual void HandleCompleteEvent()
@@ -115,7 +99,22 @@ namespace JMT.Building
         
         public T GetBuildingComponent<T>() where T : IBuildingComponent
         {
-            return components.OfType<T>().FirstOrDefault();
+            if (_componentLookup.TryGetValue(typeof(T), out var component))
+            {
+                return (T)component;
+            }
+
+            foreach (var comp in components)
+            {
+                if (comp is T matchedComponent)
+                {
+                    return matchedComponent;
+                }
+            }
+
+            Debug.LogError($"Component of type {typeof(T)} not found in {gameObject.name}");
+            return default;
         }
+
     }
 }

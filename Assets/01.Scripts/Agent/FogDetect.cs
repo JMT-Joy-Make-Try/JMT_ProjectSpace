@@ -96,12 +96,12 @@ namespace JMT.Agent
             if (isInFog)
             {
                 player.Movement.SetMoveSpeedMultiplier(0.5f);
-                player.SetMultiplier(2);
+                player.SetOxygenMultiplier(3);
             }
             else
             {
                 player.Movement.ResetMoveSpeed();
-                player.SetMultiplier(1);
+                player.SetOxygenMultiplier(1);
             }
         }
 
