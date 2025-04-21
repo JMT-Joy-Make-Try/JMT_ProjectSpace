@@ -70,6 +70,7 @@ namespace JMT.UISystem
         private void HandleCreateButton()
         {
             if(currentItemSO.UseFuelCount > ResourceManager.Instance.CurrentFuelValue) return;
+            if (workBuilding.data.Works.IsFull()) return;
 
             ResourceManager.Instance.AddFuel(-currentItemSO.UseFuelCount);
             Debug.Log("작업을 시작합니다~!~! 대기열 리스트에 넣었습니당");
