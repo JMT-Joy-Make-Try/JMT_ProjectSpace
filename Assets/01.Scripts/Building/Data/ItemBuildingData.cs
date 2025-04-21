@@ -1,3 +1,4 @@
+using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using System;
@@ -41,7 +42,7 @@ namespace JMT.Building
                     Debug.LogError("BuildingBase is null");
                     return;
                 }
-                _buildingBase.SetItem(createItem.ResultItem.ItemType, 1);
+                _buildingBase.GetBuildingComponent<BuildingData>().SetItem(createItem.ResultItem.ItemType, 1);
             }
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Object;
 using JMT.UISystem;
 using System.Collections.Generic;
@@ -58,12 +59,11 @@ namespace JMT.Planets.Tile
                 PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
                 if (_currentBuilding == null)
                     _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-                _currentBuilding.SetBuildingData(building, pvcBuilding);
+                _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
 
 
                 RemoveInteraction();
                 AddInteraction<ProgressInteraction>();
-                //_currentBuilding.Build(transform.position + new Vector3(0, 0, 50f));
             }
             else
             {
@@ -160,7 +160,7 @@ namespace JMT.Planets.Tile
         {
             DestroyBuilding();
             _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-            _currentBuilding.BuildingTransparent(0.5f);
+            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f);
         }
     }
 }
