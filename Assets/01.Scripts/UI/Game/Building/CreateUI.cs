@@ -28,6 +28,11 @@ namespace JMT.UISystem
 
             Debug.Log(TileManager.Instance.CurrentTile.CurrentBuilding);
             workBuilding = TileManager.Instance.CurrentTile.CurrentBuilding as ItemBuilding;
+            if (workBuilding == null)
+            {
+                Debug.LogError("작업대가 아닙니다.");
+                return;
+            }
             var ItemList = workBuilding.data.CreateItemList;
 
             if (workBuilding != null)

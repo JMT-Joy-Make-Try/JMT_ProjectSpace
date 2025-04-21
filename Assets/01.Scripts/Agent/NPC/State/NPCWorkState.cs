@@ -1,5 +1,6 @@
 ﻿using JMT.Agent.NPC;
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Core.Tool;
 using System.Collections;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace JMT.Agent.State
 
         public override void UpdateState()
         {
-            npcAgent.transform.position = npcAgent.CurrentWorkingBuilding.WorkPosition.position;
+            npcAgent.transform.position = npcAgent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             base.UpdateState();
             npcAgent.transform.rotation = Quaternion.Euler(0, 180, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 180, 0);
