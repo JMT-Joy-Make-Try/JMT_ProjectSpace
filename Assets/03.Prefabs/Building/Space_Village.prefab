@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7696259008495653779}
   - component: {fileID: 1779201252016375945}
+  - component: {fileID: 3305222008658606873}
   m_Layer: 0
   m_Name: Space_Village
   m_TagString: Untagged
@@ -49,6 +50,33 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3305222008658606873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8784733564618996465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b834507e81474259a1094039f8eb4024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingAnimator: {fileID: 0}
+  buildingParticles: {fileID: 0}
+  _currentNpc: []
+  <WorkPosition>k__BackingField: {fileID: 0}
+  CurrentItems: []
+  <Health>k__BackingField: 0
+  _agentType: 0
+  visualMat: {fileID: 0}
+  rendererList: []
+  _needItems:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+      Value: 1
+  _npcCount: 2
+  _item: {fileID: 0}
 --- !u!1001 &3154513179428479742
 PrefabInstance:
   m_ObjectHideFlags: 0
