@@ -11,6 +11,12 @@ GameObject:
   - component: {fileID: 3118513294019641869}
   - component: {fileID: 3216865192241179184}
   - component: {fileID: 6049804337213462308}
+  - component: {fileID: -7304327323797269044}
+  - component: {fileID: -684582077473646928}
+  - component: {fileID: 8800346312103733445}
+  - component: {fileID: 5509410141951466255}
+  - component: {fileID: 2175231568794318025}
+  - component: {fileID: -3857994904873583141}
   m_Layer: 6
   m_Name: Space_Hospital
   m_TagString: Untagged
@@ -62,18 +68,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c095aa95a68f4bddaccd67f6b0f7cbb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingAnimator: {fileID: 0}
-  buildingParticles: {fileID: 0}
-  _currentNpc: []
-  <WorkPosition>k__BackingField: {fileID: 1564859675922609772}
-  CurrentItems:
-    items: []
-  <Health>k__BackingField: 0
-  _agentType: 0
+  HealingTime: 5
+--- !u!114 &-7304327323797269044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746903859375498584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354f4af306474d97a37561e75b99bb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   visualMat: {fileID: 2100000, guid: ab5bb0df233f9a8498300f19652795c8, type: 2}
   rendererList:
   - {fileID: 5196721578137042307}
-  HealingTime: 5
+--- !u!114 &-684582077473646928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746903859375498584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db767dad294937adbf1416f34a4562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingAnimator: {fileID: 0}
+  buildingParticle: {fileID: 0}
+--- !u!114 &8800346312103733445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746903859375498584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b99a8442c5e48a0b58cc85482408fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentNpc: []
+  _agentType: 0
+  <WorkPosition>k__BackingField: {fileID: 3118513294019641869}
+--- !u!114 &5509410141951466255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746903859375498584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f2d1617676449a8ec819cf532fb24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
+--- !u!114 &2175231568794318025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746903859375498584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3857994904873583141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746903859375498584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fed8f31abd84cc3a497b9b1ca58b5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentItems: []
 --- !u!1 &3351655603841088734
 GameObject:
   m_ObjectHideFlags: 0

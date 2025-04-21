@@ -11,6 +11,12 @@ GameObject:
   - component: {fileID: 2158375724001522112}
   - component: {fileID: 8227414529495090801}
   - component: {fileID: 2051677336398126014}
+  - component: {fileID: 8702230670473968860}
+  - component: {fileID: -8175952296317706345}
+  - component: {fileID: -8619862668843430717}
+  - component: {fileID: -4358186329931556141}
+  - component: {fileID: 4417353726765239671}
+  - component: {fileID: 5966564072455186157}
   m_Layer: 0
   m_Name: liquid_Fuel_Collector
   m_TagString: Untagged
@@ -46,19 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2a5f0cd0a2462487eeab06f5367bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingAnimator: {fileID: 1184628784670660630}
-  buildingParticles: {fileID: 0}
-  _currentNpc: []
-  <WorkPosition>k__BackingField: {fileID: 3670527623101119367}
-  CurrentItems:
-    items: []
-  <Health>k__BackingField: 0
-  _agentType: 3
-  visualMat: {fileID: 2100000, guid: 99975e2f3886e514ea4b1401060608d6, type: 2}
-  rendererList:
-  - {fileID: 158569233051824838}
-  - {fileID: 65242394353252257}
-  <ProductionItem>k__BackingField: {fileID: 0}
+  <ProductionItem>k__BackingField: {fileID: 11400000, guid: 9caf9ab1b7bb29140925e584211df642, type: 2}
   _productionAmount: 0
   _npcAgent: {fileID: 0}
 --- !u!208 &2051677336398126014
@@ -77,6 +71,89 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.7, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &8702230670473968860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598597511631695238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354f4af306474d97a37561e75b99bb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualMat: {fileID: 2100000, guid: 99975e2f3886e514ea4b1401060608d6, type: 2}
+  rendererList:
+  - {fileID: 158569233051824838}
+  - {fileID: 65242394353252257}
+--- !u!114 &-8175952296317706345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598597511631695238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db767dad294937adbf1416f34a4562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingAnimator: {fileID: 1184628784670660630}
+  buildingParticle: {fileID: 0}
+--- !u!114 &-8619862668843430717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598597511631695238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b99a8442c5e48a0b58cc85482408fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentNpc: []
+  _agentType: 3
+  <WorkPosition>k__BackingField: {fileID: 2158375724001522112}
+--- !u!114 &-4358186329931556141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598597511631695238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f2d1617676449a8ec819cf532fb24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
+--- !u!114 &4417353726765239671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598597511631695238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5966564072455186157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598597511631695238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fed8f31abd84cc3a497b9b1ca58b5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentItems: []
 --- !u!1 &1589611544697764666
 GameObject:
   m_ObjectHideFlags: 0
