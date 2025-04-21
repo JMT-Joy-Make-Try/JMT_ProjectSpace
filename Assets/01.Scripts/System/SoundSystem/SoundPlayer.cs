@@ -5,7 +5,7 @@ namespace JMT.Sound
 {
     public class SoundPlayer : MonoBehaviour
     {
-        [SerializeField] private SerializedDictionary<SoundKey, SoundData> soundData = new();
+        [SerializeField] private SoundSO soundData;
         
         private AudioSource _audioSource;
 
@@ -14,9 +14,9 @@ namespace JMT.Sound
             _audioSource = GetComponent<AudioSource>();
         }
 
-        public void PlaySound(SoundKey key, SoundType soundType = SoundType.SFX)
+        public void PlaySound(string key, SoundType soundType = SoundType.SFX)
         {
-            if (soundData.TryGetValue(key, out var sound))
+            if (soundData.sounds.TryGetValue(key, out var sound))
             {
                 _audioSource.pitch = sound.pitch;
                 _audioSource.volume = sound.volume;
@@ -42,10 +42,5 @@ namespace JMT.Sound
     {
         BGM,
         SFX,
-    }
-
-    public enum SoundKey
-    {
-        
     }
 }
