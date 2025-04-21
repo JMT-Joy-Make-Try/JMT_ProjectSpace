@@ -17,6 +17,8 @@ namespace JMT.UISystem.DayTime
         private int dayCount = 0;
         private bool isNight;
 
+        public int DayCount => dayCount;
+
         public void AddDayCount()
         {
             dayCount++;

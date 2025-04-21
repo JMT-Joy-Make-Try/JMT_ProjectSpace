@@ -34,6 +34,7 @@ namespace JMT.UISystem.DayTime
             model.OnChangeTimeEvent += view.ChangeTimeText;
             model.OnChangeDaytimeEvent += view.ChangeDayTime;
             model.OnChangeDayCountEvent += view.ChangeDayText;
+            view.ChangeDayText(model.DayCount);
             StartDayTime();
         }
 
