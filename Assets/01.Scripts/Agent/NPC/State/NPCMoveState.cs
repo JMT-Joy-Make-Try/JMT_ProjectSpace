@@ -1,4 +1,6 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Building.Component;
+using JMT.Planets.Tile;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,6 +10,8 @@ namespace JMT.Agent.State
 {
     public class NPCMoveState : State<NPCState>
     {
+        [SerializeField] private LayerMask layerMask;
+        [SerializeField] private float _distance = 10f;
         private NPCAgent _agent;
         private Vector3 _targetPosition;
         
@@ -34,15 +38,18 @@ namespace JMT.Agent.State
 
         private void HandleTypeChanged(AgentType obj)
         {
+            int multiplier = 1;
             if (obj == AgentType.Base || obj == AgentType.Patient)
             {
-                _targetPosition = new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f));
+                multiplier = 1;
+                _targetPosition = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
             }
             else
             {
-                _targetPosition = _agent.CurrentWorkingBuilding.WorkPosition.position;
+                multiplier = 2;
+                _targetPosition = _agent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             }
-            _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed, () => EndMove(obj));
+            _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed * multiplier, () => EndMove(obj));
         }
 
         private void EndMove(AgentType type)
@@ -71,10 +78,11 @@ namespace JMT.Agent.State
         {
             while (true)
             {
+                _targetPosition = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
                 _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed);
-                yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
-                _targetPosition = new Vector3(Random.Range(-100f, 100f), 0, Random.Range(-100f, 100f));
+                yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
             }
         }
+
     }
 }

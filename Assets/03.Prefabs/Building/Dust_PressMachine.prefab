@@ -4933,6 +4933,12 @@ GameObject:
   - component: {fileID: 8711535934024866625}
   - component: {fileID: -2002232819153213730}
   - component: {fileID: 1545728711343216385}
+  - component: {fileID: 5853961393617280015}
+  - component: {fileID: 3946466976965686890}
+  - component: {fileID: 6757752141096889494}
+  - component: {fileID: 4158636392910432958}
+  - component: {fileID: 790739830080904186}
+  - component: {fileID: 1408467076678028365}
   m_Layer: 0
   m_Name: Dust_PressMachine
   m_TagString: Untagged
@@ -4968,26 +4974,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ff7e7e69a6f149b878ab3b1984034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingAnimator: {fileID: 2534867153874071175}
-  buildingParticles: {fileID: 2257130711453474286}
-  _currentNpc: []
-  <WorkPosition>k__BackingField: {fileID: 3995221539975048756}
-  CurrentItems:
-  - Item1: 0
-    Item2: 0
-  <Health>k__BackingField: 0
-  _agentType: 1
-  visualMat: {fileID: 2100000, guid: a0f72a606c5ab9647868cc31699525b8, type: 2}
-  rendererList:
-  - {fileID: 3834451811143317252}
-  - {fileID: 149762190980938900}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
     works:
       items: []
     CreateItemList:
-    - {fileID: 11400000, guid: 1d451c04a25cfd343bd4b67db55e1b7b, type: 2}
+      items:
+      - {fileID: 11400000, guid: caa4d73da4d816b48a26e37d93dd47b9, type: 2}
 --- !u!208 &1545728711343216385
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -5004,6 +4998,89 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.7, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &5853961393617280015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784437765730945750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354f4af306474d97a37561e75b99bb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualMat: {fileID: 2100000, guid: a0f72a606c5ab9647868cc31699525b8, type: 2}
+  rendererList:
+  - {fileID: 3834451811143317252}
+  - {fileID: 149762190980938900}
+--- !u!114 &3946466976965686890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784437765730945750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db767dad294937adbf1416f34a4562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingAnimator: {fileID: 2534867153874071175}
+  buildingParticle: {fileID: 2257130711453474286}
+--- !u!114 &6757752141096889494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784437765730945750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b99a8442c5e48a0b58cc85482408fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentNpc: []
+  _agentType: 1
+  <WorkPosition>k__BackingField: {fileID: 3995221539975048756}
+--- !u!114 &4158636392910432958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784437765730945750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f2d1617676449a8ec819cf532fb24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
+--- !u!114 &790739830080904186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784437765730945750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1408467076678028365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784437765730945750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fed8f31abd84cc3a497b9b1ca58b5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentItems: []
 --- !u!1 &7971492900290020796
 GameObject:
   m_ObjectHideFlags: 0

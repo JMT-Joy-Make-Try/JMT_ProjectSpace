@@ -12,6 +12,7 @@ namespace JMT.Agent
     public class AgentManager : MonoSingleton<AgentManager>
     {
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
+        [field: SerializeField] public Transform PlayerTransform { get; private set; }
 
         public void SpawnAgent(Vector3 position)
         {

@@ -1,4 +1,5 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Building.Component;
 using JMT.Core.Manager;
 using System.Collections;
 using UnityEngine;
@@ -44,7 +45,7 @@ namespace JMT.Agent.State
             }
             
 
-            agent.MovementCompo.Move(agent.CurrentWorkingBuilding.WorkPosition.position, agent.MoveSpeed, Heal);
+            agent.MovementCompo.Move(agent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.MoveSpeed, Heal);
         }
 
         private void Heal()

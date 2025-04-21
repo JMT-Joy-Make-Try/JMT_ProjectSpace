@@ -1,87 +1,71 @@
-using DG.Tweening;
-using JMT.Agent;
-using JMT.Agent.NPC;
-using JMT.Agent.State;
-using JMT.Core;
-using JMT.Core.Tool;
+using JMT.Building.Component;
 using JMT.Planets.Tile;
-using JMT.Planets.Tile.Items;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace JMT.Building
 {
-    public abstract class BuildingBase : MonoBehaviour, IDamageable
+    public abstract class BuildingBase : MonoBehaviour
     {
-        [Header("Animation")] [SerializeField] protected Animator buildingAnimator;
-        [SerializeField] protected ParticleSystem buildingParticles;
-
-        [Space(10)] [Header("NPCSetting")] [SerializeField]
-        public List<NPCAgent> _currentNpc;
-
-        [field: SerializeField] public Transform WorkPosition { get; protected set; }
-
-        [Space(10)] [Header("Building Data")] [SerializeField]
-        protected List<SerializeTuple<ItemType, int>> CurrentItems;
-
-        public Action OnCompleteEvent;
+        #region Building Component
+        public List<IBuildingComponent> components = new List<IBuildingComponent>();
+        
+        private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
+        #endregion
+        
         public bool IsBuilding { get; private set; }
-
-        [field: SerializeField] public int Health { get; protected set; }
-        private BuildingDataSO buildingData;
-        protected int _curHealth;
-
-        protected event Action OnBuildingBroken;
+        public Action OnCompleteEvent;
+        
         protected bool _isWorking;
         private PVCBuilding _pvc;
-
-        [SerializeField] protected AgentType _agentType;
-        [SerializeField] private Material visualMat;
-        [SerializeField] private List<MeshRenderer> rendererList;
-
-        private int _curLevel;
-
+        
+        public PVCBuilding PVC => _pvc;
+        
         protected virtual void Awake()
         {
-            _currentNpc = new List<NPCAgent>();
+            InitBuildingComponents();
+            
             OnCompleteEvent += HandleCompleteEvent;
         }
-
+        
         private void OnDestroy()
         {
             OnCompleteEvent -= HandleCompleteEvent;
         }
 
-        private void HandleCompleteEvent()
+        protected virtual void InitBuildingComponents()
         {
-            BuildingTransparent(1f);
-            _pvc.PlayAnimation();
-            visualMat.SetFloat("_Alpha", 1f);
+            components = GetComponents<IBuildingComponent>().ToList();
+            foreach (var component in components)
+            {
+                component?.Init(this);
+                _componentLookup.Add(component.GetType(), component);
+            }
         }
 
-        public void BuildingTransparent(float value)
+        protected virtual void HandleCompleteEvent()
         {
-            visualMat.SetFloat("_Alpha", value);
-            for (int i = 0; i < rendererList.Count; ++i)
-                rendererList[i].shadowCastingMode = value < 1f ? ShadowCastingMode.Off : ShadowCastingMode.On;
+            var visual = GetBuildingComponent<BuildingVisual>();
+            visual.BuildingTransparent(1f);
+            _pvc.PlayAnimation();
+            visual.SetFloatProperty("_Alpha", 1f);
         }
 
         public void Building()
         {
-            visualMat = Instantiate(visualMat);
-            for(int i = 0; i < rendererList.Count; ++i)
-                rendererList[i].material = visualMat;
+            var visual = GetBuildingComponent<BuildingVisual>();
+            visual.SetMaterial(visual.VisualMat);
 
+            var buildingData = GetBuildingComponent<BuildingData>().Data;
             StartCoroutine(BuildingRoutine(buildingData.BuildTime.GetSecond()));
         }
 
         private IEnumerator BuildingRoutine(int time)
         {
-            BuildingTransparent(0.3f);
+            GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.3f);
             yield return new WaitForSeconds(time);
             IsBuilding = true;
         }
@@ -94,100 +78,43 @@ namespace JMT.Building
             }
 
             _isWorking = true;
-            SetAnimation(_isWorking);
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
         }
-
-        public virtual void AddNpc(NPCAgent agent)
+        
+        public void SetWorking(bool isWorking)
         {
-            _currentNpc.Add(agent);
-            agent.SetBuilding(this);
-            agent.SetAgentType(_agentType);
-        }
-
-        public virtual void RemoveNpc()
-        {
-            _currentNpc[0].SetAgentType(AgentType.Base);
-            _currentNpc[0].ChangeCloth(AgentType.Base);
-            _currentNpc[0].SetBuilding(null);
-            _currentNpc[0].StateMachineCompo.ChangeState(NPCState.Move);
-            _currentNpc.Remove(_currentNpc[0]);
-            if (_currentNpc.Count == 0)
-            {
-                _isWorking = false;
-                SetAnimation(_isWorking);
-            }
-        }
-
-        public virtual void Upgrade()
-        {
-            _curLevel++;
-        }
-
-        public virtual void SetItem(ItemType type, int amount)
-        {
-            if (CurrentItems.Contains(type))
-            {
-                CurrentItems.Find(x => x.Item1 == type).Item2 += amount;
-                return;
-            }
-            CurrentItems.Add(new SerializeTuple<ItemType, int>(type, amount));
-        }
-
-        public void SetBuildingData(BuildingDataSO data, PVCBuilding pvc)
-        {
-            buildingData = data;
-            _pvc = pvc;
-            _pvc.SetBuildTime(data.BuildTime);
-            Building();
-        }
-
-        public BuildingDataSO BuildingData => buildingData;
-
-        public void InitStat()
-        {
-            _curHealth = Health;
-        }
-
-        public void TakeDamage(int damage, bool isHeal = false)
-        {
-            _curHealth += isHeal ? damage : -damage;
-            if (_curHealth <= 0)
-            {
-                Dead();
-            }
-        }
-
-        public void Dead()
-        {
-            OnBuildingBroken?.Invoke();
-        }
-
-        protected void SetAnimation(bool isWalking)
-        {
-            if (buildingAnimator == null)
-            {
-                Debug.LogWarning("No animator attached to building");
-                return;
-            }
-
-            if (buildingParticles != null)
-            {
-                if (isWalking)
-                {
-                    buildingParticles.Play();
-                }
-                else
-                {
-                    buildingParticles.Stop();
-                }
-            }
-
-            buildingAnimator.SetBool("IsWalking", isWalking);
+            _isWorking = isWorking;
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
         }
         
         protected PlanetTile GetPlanetTile()
         {
             return transform.parent.parent.GetComponent<PlanetTile>();
         }
+        
+        public void SetPVCBuilding(PVCBuilding pvc)
+        {
+            _pvc = pvc;
+        }
+        
+        public T GetBuildingComponent<T>() where T : IBuildingComponent
+        {
+            if (_componentLookup.TryGetValue(typeof(T), out var component))
+            {
+                return (T)component;
+            }
+
+            foreach (var comp in components)
+            {
+                if (comp is T matchedComponent)
+                {
+                    return matchedComponent;
+                }
+            }
+
+            Debug.LogError($"Component of type {typeof(T)} not found in {gameObject.name}");
+            return default;
+        }
+
     }
 }

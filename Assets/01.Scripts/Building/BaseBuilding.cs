@@ -22,8 +22,9 @@ namespace JMT.Building
             _colliders = new Collider[10];
         }
 
-        private void Start()
+        protected override void HandleCompleteEvent()
         {
+            base.HandleCompleteEvent();
             FogManager.Instance.OffFogBaseBuilding();
         }
 

@@ -1,5 +1,7 @@
+using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
+using JMT.Resource;
 using System;
 using UnityEngine;
 
@@ -29,6 +31,7 @@ namespace JMT.Building
                     InventoryManager.Instance.RemoveItem(item.Key, item.Value);
                 }
             }
+
         }
         
         public override void RemoveWork()
@@ -41,7 +44,7 @@ namespace JMT.Building
                     Debug.LogError("BuildingBase is null");
                     return;
                 }
-                _buildingBase.SetItem(createItem.ResultItem.ItemType, 1);
+                _buildingBase.GetBuildingComponent<BuildingData>().SetItem(createItem.ResultItem.ItemType, 1);
             }
         }
     }

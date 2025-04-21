@@ -106,7 +106,7 @@ namespace JMT.Player
             }
         }
         
-        public void SetMultiplier(int multiplier)
+        public void SetOxygenMultiplier(int multiplier)
         {
             OxygenMultiplier = multiplier;
         }

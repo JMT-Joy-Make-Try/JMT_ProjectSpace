@@ -1,5 +1,6 @@
 using DG.Tweening;
 using JMT.Agent;
+using JMT.Building.Component;
 using JMT.Planets.Tile;
 using System;
 using TMPro;
@@ -36,7 +37,7 @@ namespace JMT.UISystem
         {
             // 퇴사시키기 버튼
             ActiveLockArea(true);
-            TileManager.Instance.CurrentTile.CurrentBuilding.RemoveNpc();
+            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().RemoveNpc();
         }
 
         private void HandleHireButton()
@@ -48,7 +49,7 @@ namespace JMT.UISystem
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
                 return;
             }
-            TileManager.Instance.CurrentTile.CurrentBuilding.AddNpc(npc);
+            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(npc);
             ActiveLockArea(false);
         }
 

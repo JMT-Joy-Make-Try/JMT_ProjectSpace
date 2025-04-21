@@ -4875,6 +4875,12 @@ GameObject:
   - component: {fileID: 5639493241145852249}
   - component: {fileID: -7706433159247690830}
   - component: {fileID: 2411287327876288569}
+  - component: {fileID: 7837236465785244348}
+  - component: {fileID: 1437728862446333920}
+  - component: {fileID: 463008612396863098}
+  - component: {fileID: 3500522452615691458}
+  - component: {fileID: 2674311661534049742}
+  - component: {fileID: 7978435145743687815}
   m_Layer: 0
   m_Name: Dust_Inhaler
   m_TagString: Untagged
@@ -4910,19 +4916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2a5f0cd0a2462487eeab06f5367bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingAnimator: {fileID: 8704741791800383364}
-  buildingParticles: {fileID: 4822466447940696174}
-  _currentNpc: []
-  <WorkPosition>k__BackingField: {fileID: 4570369209832303451}
-  CurrentItems:
-    items: []
-  <Health>k__BackingField: 0
-  _agentType: 1
-  visualMat: {fileID: 2100000, guid: 3dd5b9545249a0d4c94f2925fbdf99e9, type: 2}
-  rendererList:
-  - {fileID: 2004903886150119484}
-  - {fileID: 3013437326420350241}
-  <ProductionItem>k__BackingField: {fileID: 0}
+  <ProductionItem>k__BackingField: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
   _productionAmount: 0
   _npcAgent: {fileID: 0}
 --- !u!208 &2411287327876288569
@@ -4941,6 +4935,89 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.7, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &7837236465785244348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354f4af306474d97a37561e75b99bb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualMat: {fileID: 2100000, guid: 3dd5b9545249a0d4c94f2925fbdf99e9, type: 2}
+  rendererList:
+  - {fileID: 2004903886150119484}
+  - {fileID: 3013437326420350241}
+--- !u!114 &1437728862446333920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db767dad294937adbf1416f34a4562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingAnimator: {fileID: 8704741791800383364}
+  buildingParticle: {fileID: 4822466447940696174}
+--- !u!114 &463008612396863098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b99a8442c5e48a0b58cc85482408fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentNpc: []
+  _agentType: 1
+  <WorkPosition>k__BackingField: {fileID: 4570369209832303451}
+--- !u!114 &3500522452615691458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f2d1617676449a8ec819cf532fb24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
+--- !u!114 &2674311661534049742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7978435145743687815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043130067928398331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fed8f31abd84cc3a497b9b1ca58b5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentItems: []
 --- !u!1001 &5118373353888938691
 PrefabInstance:
   m_ObjectHideFlags: 0

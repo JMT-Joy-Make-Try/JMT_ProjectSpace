@@ -11,6 +11,12 @@ GameObject:
   - component: {fileID: 7409433036214697833}
   - component: {fileID: 929382173059520313}
   - component: {fileID: -5398790617666818415}
+  - component: {fileID: 3256613691646767259}
+  - component: {fileID: 8138094529047766130}
+  - component: {fileID: 7866935377281299574}
+  - component: {fileID: -5329779576113830588}
+  - component: {fileID: -967359870035171200}
+  - component: {fileID: -7789252470425074139}
   m_Layer: 0
   m_Name: Weaving_Machine
   m_TagString: Untagged
@@ -62,26 +68,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ff7e7e69a6f149b878ab3b1984034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingAnimator: {fileID: 0}
-  buildingParticles: {fileID: 0}
-  _currentNpc: []
-  <WorkPosition>k__BackingField: {fileID: 7409433036214697833}
-  CurrentItems:
-  - Item1: 0
-    Item2: 0
-  <Health>k__BackingField: 0
-  _agentType: 5
-  visualMat: {fileID: 2100000, guid: dfaccee099420be4baaba4962c05ee91, type: 2}
-  rendererList:
-  - {fileID: 1661882282227825536}
-  - {fileID: 692218468649481600}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
     works:
-      items: []
-    CreateItemList:
-    - {fileID: 11400000, guid: 77240f96f6b020547b40b44360c29d77, type: 2}
+      items:
+      - type: 4
+        time:
+          minute: 0
+          second: 10
+--- !u!114 &3256613691646767259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939005463631354534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354f4af306474d97a37561e75b99bb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualMat: {fileID: 2100000, guid: dfaccee099420be4baaba4962c05ee91, type: 2}
+  rendererList:
+  - {fileID: 1661882282227825536}
+  - {fileID: 692218468649481600}
+--- !u!114 &8138094529047766130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939005463631354534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db767dad294937adbf1416f34a4562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingAnimator: {fileID: 0}
+  buildingParticle: {fileID: 0}
+--- !u!114 &7866935377281299574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939005463631354534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b99a8442c5e48a0b58cc85482408fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentNpc: []
+  _agentType: 5
+  <WorkPosition>k__BackingField: {fileID: 7409433036214697833}
+--- !u!114 &-5329779576113830588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939005463631354534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f2d1617676449a8ec819cf532fb24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
+--- !u!114 &-967359870035171200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939005463631354534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7789252470425074139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939005463631354534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fed8f31abd84cc3a497b9b1ca58b5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentItems: []
 --- !u!1001 &1109298298419256500
 PrefabInstance:
   m_ObjectHideFlags: 0
