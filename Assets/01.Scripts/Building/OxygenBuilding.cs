@@ -1,4 +1,5 @@
-﻿using JMT.Core;
+﻿using JMT.Building.Component;
+using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Planets.Tile.Items;
 using System;
@@ -9,9 +10,11 @@ namespace JMT.Building
 {
     public class OxygenBuilding : ItemBuilding
     {
+        private BuildingData _data;
         private void Start()
         {
             BuildingManager.Instance.OxygenBuilding = this;
+            _data = GetBuildingComponent<BuildingData>();
             StartCoroutine(WorkCoroutine());
         }
 
@@ -27,7 +30,7 @@ namespace JMT.Building
                     continue;
                 }
 
-                if (CurrentItems.Find(x => x.Item1 == ItemType.PurificationContainer).Item2 >= 3)
+                if (_data.CurrentItems.Find(x => x.Item1 == ItemType.PurificationContainer).Item2 >= 3)
                 {
                     yield return ws;
                     continue;
@@ -40,14 +43,14 @@ namespace JMT.Building
 
         public bool GetOxygen()
         {
-            var item = CurrentItems.Find(s => s.Item1 == ItemType.PurificationContainer);
+            var item = _data.CurrentItems.Find(s => s.Item1 == ItemType.PurificationContainer);
             if (item == null)
             {
                 return false;
             }
             else if (item.Item2 <= 0)
             {
-                CurrentItems.Remove(item);
+                _data.CurrentItems.Remove(item);
             }
             else
             {

@@ -28,6 +28,11 @@ namespace JMT.UISystem
 
             Debug.Log(TileManager.Instance.CurrentTile.CurrentBuilding);
             workBuilding = TileManager.Instance.CurrentTile.CurrentBuilding as ItemBuilding;
+            if (workBuilding == null)
+            {
+                Debug.LogError("작업대가 아닙니다.");
+                return;
+            }
             var ItemList = workBuilding.data.CreateItemList;
 
             if (workBuilding != null)
@@ -65,6 +70,7 @@ namespace JMT.UISystem
         private void HandleCreateButton()
         {
             if(currentItemSO.UseFuelCount > ResourceManager.Instance.CurrentFuelValue) return;
+            if (workBuilding.data.Works.IsFull()) return;
 
             ResourceManager.Instance.AddFuel(-currentItemSO.UseFuelCount);
             Debug.Log("작업을 시작합니다~!~! 대기열 리스트에 넣었습니당");

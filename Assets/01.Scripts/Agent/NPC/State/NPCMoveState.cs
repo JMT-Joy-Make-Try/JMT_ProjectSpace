@@ -1,4 +1,5 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Building.Component;
 using JMT.Planets.Tile;
 using System;
 using System.Collections;
@@ -46,7 +47,7 @@ namespace JMT.Agent.State
             else
             {
                 multiplier = 2;
-                _targetPosition = _agent.CurrentWorkingBuilding.WorkPosition.position;
+                _targetPosition = _agent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             }
             _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed * multiplier, () => EndMove(obj));
         }

@@ -1,6 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile.Items;
+using JMT.Resource;
 using JMT.UISystem;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +22,13 @@ namespace JMT.Planets.Tile
             UIManager.Instance.GetUI.GetItem(item, increaseCount);
         }
 
-        /*public void AddItem(ItemType item, int increaseCount)
+        public void AddItem(ItemType item, int increaseCount)
         {
-            var itemSO = itemDictionary.FirstOrDefault(s => ((ItemSO)s.Key).ItemType == item).Key;
-            if (itemSO == null)
-            {
-                Debug.LogError($"Item of type {item} not found in inventory.");
-                return;
-            }
+            var itemSO = ItemListSystem.Instance.GetItemSO(item);
             if (!itemDictionary.ContainsKey(itemSO))
                 itemDictionary.Add(itemSO, increaseCount);
             else itemDictionary[itemSO] += increaseCount;
-        }*/
+        }
         
         public void RemoveItem(ItemSO item, int decreaseCount)
         {

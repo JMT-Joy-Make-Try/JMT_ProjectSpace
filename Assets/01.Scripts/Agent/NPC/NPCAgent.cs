@@ -28,7 +28,7 @@ namespace JMT.Agent.NPC
         [field: SerializeField] public BuildingBase CurrentWorkingBuilding { get; private set; }
         [field: SerializeField] public PlanetTile CurrentWorkingPlanetTile { get; private set; }
         public bool IsWorking { get; private set; }
-        public Tuple<ItemSO, int> TakeItemTuple { get; private set; }
+        
 
         [Space]
         [SerializeField] private List<Range> _healthRange;
@@ -177,17 +177,6 @@ namespace JMT.Agent.NPC
         {
             if (building == null) return;
             CurrentWorkingBuilding = building;
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.TryGetComponent(out GatheringBuilding building))
-            {
-                if (building.ProductionItem != TakeItemTuple.Item1) return;
-                
-                building.AddItem(TakeItemTuple.Item2);
-                TakeItemTuple = null;
-            }
         }
 
         public void SetAnimator(Animator animator)
