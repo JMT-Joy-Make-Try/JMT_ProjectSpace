@@ -26,6 +26,8 @@ namespace JMT.Planets.Tile
             base.Interaction();
             list.Tiles.ForEach(tile => tile.Fog.SetFog(false));
             Destroy(_zeolitePrefab);
+            TileManager.Instance.CurrentTile.RemoveInteraction();
+            TileManager.Instance.CurrentTile.AddInteraction<NoneInteraction>();
         }
     }
 }
