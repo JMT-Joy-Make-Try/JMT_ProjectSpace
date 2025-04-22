@@ -54,6 +54,7 @@ namespace JMT.Player
 
             InitStat();
             FogDetect.Init(this);
+            PlayerTool.Init(this);
         }
 
         private void OnDestroy()

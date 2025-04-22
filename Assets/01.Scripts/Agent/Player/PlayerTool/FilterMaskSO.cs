@@ -11,11 +11,14 @@ namespace JMT.Player
                 player.SetOxygenMultiplier(2);
             else
                 player.SetOxygenMultiplier(1);
+            
+            Debug.Log("a");
         }
 
         public override void UnEquip(Player player)
         {
             player.SetOxygenMultiplier(1);
+            Debug.Log("b");
         }
     }
 }
