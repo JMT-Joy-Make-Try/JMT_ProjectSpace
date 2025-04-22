@@ -71,7 +71,7 @@ namespace JMT.UISystem
             if (currentItemSO.UseFuelCount > GameUIManager.Instance.ResourceCompo.CurrentFuelValue) return;
             if (workBuilding.data.Works.IsFull()) return;
 
-            GameUIManager.Instance.ResourceCompo.AddFuel(-currentItemSO.UseFuelCount);
+            GameUIManager.Instance.ResourceCompo.AddFuel(-0.1f);
             Debug.Log("작업을 시작합니다~!~! 대기열 리스트에 넣었습니당");
             BuildingWork work = new(currentItemSO.ResultItem.ItemType, currentItemSO.CreateTime);
             workBuilding.data.AddWork(work);

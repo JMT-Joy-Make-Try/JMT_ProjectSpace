@@ -25,6 +25,8 @@ namespace JMT.Planets
 
         private void OnDestroy()
         {
+            if (GameUIManager.Instance == null) return;
+            if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeDayCountEvent -= HandleChangeDay;
         }
 

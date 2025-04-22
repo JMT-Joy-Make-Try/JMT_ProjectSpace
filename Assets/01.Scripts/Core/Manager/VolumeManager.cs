@@ -23,6 +23,8 @@ namespace JMT.Core.Manager
         }
         private void OnDestroy()
         {
+            if (GameUIManager.Instance == null) return;
+            if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= OnChangeDaytime;
         }
 

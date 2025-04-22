@@ -9,9 +9,9 @@ namespace JMT.UISystem.Resource
 
         private ResourceModel model;
 
-        public int MaxFuelValue => model.MaxFuelValue;
+        public float MaxFuelValue => model.MaxFuelValue;
         public int MaxNpcValue => model.MaxNpcValue;
-        public int CurrentFuelValue => model.CurrentFuelValue;
+        public float CurrentFuelValue => model.CurrentFuelValue;
         public int CurrentNpcValue => model.CurrentNpcValue;
 
         private void Awake()
@@ -32,7 +32,7 @@ namespace JMT.UISystem.Resource
             model.OnNpcValueChanged -= view.SetNpcText;
         }
 
-        public void AddFuel(int increaseValue) => model.AddFuel(increaseValue);
+        public void AddFuel(float increaseValue) => model.AddFuel(increaseValue);
         public void AddNpc(int increaseValue) => model.AddNpc(increaseValue);
     }
 }

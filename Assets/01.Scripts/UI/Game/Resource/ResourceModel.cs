@@ -5,24 +5,25 @@ namespace JMT.UISystem.Resource
 {
     public class ResourceModel
     {
-        public event Action<int, int> OnFuelValueChanged;
+        public event Action<float, float> OnFuelValueChanged;
         public event Action<int, int> OnNpcValueChanged;
 
-        private int currentFuelValue, currentNpcValue;
+        private float currentFuelValue;
+        private int currentNpcValue;
 
-        public int MaxFuelValue { get; private set; }
+        public float MaxFuelValue { get; private set; }
         public int MaxNpcValue { get; private set; }
-        public int CurrentFuelValue => currentFuelValue;
+        public float CurrentFuelValue => currentFuelValue;
         public int CurrentNpcValue => currentNpcValue;
 
-        public ResourceModel(int maxFuel, int maxNpc)
+        public ResourceModel(float maxFuel, int maxNpc)
         {
             MaxFuelValue = maxFuel;
             MaxNpcValue = maxNpc;
             currentFuelValue = maxFuel;
         }
 
-        public void AddFuel(int increaseValue)
+        public void AddFuel(float increaseValue)
         {
             currentFuelValue += increaseValue;
             OnFuelValueChanged?.Invoke(currentFuelValue, MaxFuelValue);
