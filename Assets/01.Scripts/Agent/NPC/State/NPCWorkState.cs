@@ -29,6 +29,11 @@ namespace JMT.Agent.State
         private IEnumerator Work()
         {
             ItemBuilding building = npcAgent.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
+            if (building == null)
+            {
+                Debug.Log("Building is null");
+                yield break;
+            }
             
             while (true)
             {

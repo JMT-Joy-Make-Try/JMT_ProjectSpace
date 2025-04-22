@@ -11,7 +11,6 @@ namespace JMT.Building
     public class GatheringBuilding : BuildingBase
     {
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
-        [SerializeField] private int _productionAmount;
         [SerializeField] private float _productionTime;
         [SerializeField] private int _maxProductionAmount;
         private int _currentProductionAmount;
@@ -44,6 +43,7 @@ namespace JMT.Building
                     continue;
                 }
                 _currentProductionAmount += GetBuildingComponent<BuildingLevel>().CurLevel;
+                InventoryAdd();
                 // 대충 연료 소모
                 yield return ws;
             }

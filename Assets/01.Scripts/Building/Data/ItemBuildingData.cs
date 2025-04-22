@@ -1,7 +1,6 @@
 using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
-using JMT.Resource;
 using System;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace JMT.Building
     public class ItemBuildingData : BaseData
     {
         public SizeLimitQueue<CreateItemSO> CreateItemList = new(4);
-        
+
         public CreateItemSO GetFirstCreateItem()
         {
             if (CreateItemList.Count > 0)
@@ -33,7 +32,7 @@ namespace JMT.Building
             }
 
         }
-        
+
         public override void RemoveWork()
         {
             base.RemoveWork();

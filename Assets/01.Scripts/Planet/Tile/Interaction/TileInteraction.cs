@@ -1,6 +1,5 @@
 using JMT.Item;
-using JMT.Planets.Tile.Items;
-using JMT.UISystem;
+using JMT.UISystem.Interact;
 using UnityEngine;
 
 namespace JMT.Planets.Tile

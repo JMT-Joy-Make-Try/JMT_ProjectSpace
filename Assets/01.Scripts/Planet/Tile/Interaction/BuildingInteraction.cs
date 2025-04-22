@@ -8,7 +8,7 @@ namespace JMT.Planets.Tile
     {
         public override void Interaction()
         {
-            UIManager.Instance.BuildingUI.OpenUI();
+            BuildingUIManager.Instance.ItemBuildingCompo.OpenUI();
         }
     }
 }

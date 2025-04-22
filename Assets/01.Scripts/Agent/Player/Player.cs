@@ -48,7 +48,7 @@ namespace JMT.Player
             Movement = GetComponent<PlayerMovement>();
             FogDetect = GetComponent<FogDetect>();
 
-            DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
 
             InitStat();
             FogDetect.Init(this);
@@ -56,8 +56,9 @@ namespace JMT.Player
 
         private void OnDestroy()
         {
-            if (DaySystem.Instance == null) return;
-            DaySystem.Instance.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            if (GameUIManager.Instance == null) return;
+            if (GameUIManager.Instance.TimeCompo == null) return;
+            GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
         }
 
         public void InitStat()
