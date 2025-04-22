@@ -12,13 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4660dfbb0587058438728eee265f13f8, type: 3}
   m_Name: TestBuilding
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1500323801115965103, guid: 391810f036ae0ce44a59f5248a7f028e, type: 3}
-  category: 0
-  buildingName: TestBuilding
-  needItems:
-    _serializedList:
-    - Key: 0
-      Value: 4
-  buildTime:
-    minute: 0
-    second: 10
+  Icon: {fileID: 0}
+  Prefab: {fileID: 0}
+  Category: 0
+  BuildingName: 
+  BuildingDescription: 
+  buildingLevel:
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2

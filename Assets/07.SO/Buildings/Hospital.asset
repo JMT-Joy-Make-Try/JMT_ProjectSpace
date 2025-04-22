@@ -17,13 +17,28 @@ MonoBehaviour:
   Category: 2
   BuildingName: "\uCE58\uB8CC\uC18C"
   BuildingDescription: 
-  NeedItems:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
-      Value: 20
-    - Key: {fileID: 11400000, guid: 97572d70834b411439656d89e29fc073, type: 2}
-      Value: 3
-  BuildTime:
-    minute: 0
-    second: 10
-  UseFuelPerSecond: 0.2
+  buildingLevel:
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
