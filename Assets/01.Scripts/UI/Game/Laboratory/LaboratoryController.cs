@@ -1,5 +1,6 @@
 using JMT.Building;
 using JMT.Item;
+using JMT.Player;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
