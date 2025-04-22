@@ -24,13 +24,13 @@ namespace JMT.Building
         public override void AddWork(BuildingWork work)
         {
             base.AddWork(work);
-            foreach (var createItem in CreateItemList)
-            {
-                foreach (var item in createItem.NeedItemList)
-                {
-                    GameUIManager.Instance.InventoryCompo.AddItem(item.Key, item.Value);
-                }
-            }
+            // foreach (var createItem in CreateItemList)
+            // {
+            //     foreach (var item in createItem.NeedItemList)
+            //     {
+            //         GameUIManager.Instance.InventoryCompo.AddItem(item.Key, item.Value);
+            //     }
+            // }
 
         }
 

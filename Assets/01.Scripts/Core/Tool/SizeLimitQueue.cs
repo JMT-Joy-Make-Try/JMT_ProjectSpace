@@ -17,7 +17,7 @@ namespace JMT.Core.Tool
         {
             if (IsFull())
             {
-                throw new InvalidOperationException("Queue size limit exceeded. Item dequeued.");
+                throw new InvalidOperationException("Queue size limit exceeded.");
             }
             base.Enqueue(item);
         }
