@@ -28,7 +28,8 @@ namespace JMT.UISystem.Inventory
         private void HandleEquip()
         {
             Player.Player player = AgentManager.Instance.Player;
-            //player.PlayerTool.SetCloth();
+            player.PlayerTool.SetCloth(((_curItemSO) as ToolSO).ToolType);
+            Debug.Log(player.PlayerTool._curPlayerToolSO);
         }
 
         private void HandleItemAdded(ItemSO so)
@@ -41,6 +42,7 @@ namespace JMT.UISystem.Inventory
         {
             view.OnCategoryChangedEvent -= SelectCategory;
             view.OnItemAddedEvent -= HandleItemAdded;
+            view.OnEquipButtonClickedEvent -= HandleEquip;
         }
 
         public void OpenUI()
