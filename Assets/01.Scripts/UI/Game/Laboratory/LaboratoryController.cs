@@ -79,8 +79,8 @@ namespace JMT.UISystem.Laboratory
             bool isCalculate = GameUIManager.Instance.InventoryCompo.CalculateItem(currentItemData.NeedItems);
             if(isCalculate)
             {
-                Debug.Log("아이템이 들어왔습니다!");
                 GameUIManager.Instance.InventoryCompo.AddItem(currentItemData, 1);
+                Debug.Log("아이템이 들어왔습니다!");
             }
         }
 

@@ -59,7 +59,7 @@ namespace JMT.UISystem
             {
                 if (index >= itemCells.Count) break;
 
-                InventoryManager.Instance.ItemDictionary.TryGetValue(item.ResultItem, out int value);
+                GameUIManager.Instance.InventoryCompo.InventorySO.ItemDictionary.TryGetValue(item.ResultItem, out int value);
                 itemCells[index].SetCell(item.ResultItem, value.ToString());
 
                 index++;

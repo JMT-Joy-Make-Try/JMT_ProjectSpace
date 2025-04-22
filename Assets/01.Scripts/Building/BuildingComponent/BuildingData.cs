@@ -1,6 +1,7 @@
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,7 +39,7 @@ namespace JMT.Building.Component
         {
             foreach (var item in CurrentItems)
             {
-                InventoryManager.Instance.AddItem(item.Item1, item.Item2);
+                GameUIManager.Instance.InventoryCompo.AddItem(item.Item1, item.Item2);
             }
         }
         

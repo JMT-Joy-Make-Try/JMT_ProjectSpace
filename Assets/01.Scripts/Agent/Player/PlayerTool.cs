@@ -30,10 +30,10 @@ namespace JMT.Player
     
     public enum PlayerToolType
     {
-        DustCollector, // 먼지채집기
-        OrganicMatterCollector, // 유기물채집기
-        LiquidFuelCollector, // 액체연료채집기
+        Vacuum, // 먼지채집기
+        Scanner, // 유기물채집기
+        FuelSpoid, // 액체연료채집기
         FilterMask, // 필터마스크
-        ProtectiveClothing, // 방호복
+        Hammer, // 망치
     }
 }

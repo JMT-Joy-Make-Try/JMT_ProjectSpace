@@ -1,6 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Item;
+using JMT.Planets.Tile.Items;
 using Unity.Properties;
 using UnityEngine;
 
@@ -9,11 +10,16 @@ namespace JMT.UISystem.Inventory
     public class InventoryController : MonoBehaviour
     {
         [SerializeField] private InventoryView view;
-        private readonly InventoryModel model = new();
-        
+        [SerializeField] private InventorySO inventorySO;
+        private InventoryModel model;
+
         private ItemSO _curItemSO;
+        public InventorySO InventorySO => inventorySO;
+        
         private void Awake()
         {
+            inventorySO = Instantiate(inventorySO);
+            model = new InventoryModel(inventorySO);
             view.OnCategoryChangedEvent += SelectCategory;
             view.OnItemAddedEvent += HandleItemAdded;
             view.OnEquipButtonClickedEvent += HandleEquip;
@@ -39,7 +45,11 @@ namespace JMT.UISystem.Inventory
             view.OnEquipButtonClickedEvent -= HandleEquip;
         }
 
-        public void OpenUI() => view.OpenUI();
+        public void OpenUI()
+        {
+            view.OpenUI();
+            SelectCategory(null);
+        }
 
         public void CloseUI() => view.CloseUI();
 
@@ -48,6 +58,14 @@ namespace JMT.UISystem.Inventory
             Debug.Log("네 아이템 들어왔어요.");
             model.AddItem(itemSO, increaseValue);
             GameUIManager.Instance.ItemGetCompo.GetItem(itemSO, increaseValue);
+        }
+
+        public void AddItem(ItemType itemType, int increaseValue)
+        {
+            ItemSO so = ItemListSystem.Instance.GetItemSO(itemType);
+            Debug.Log("네 아이템 들어왔어요.");
+            model.AddItem(so, increaseValue);
+            GameUIManager.Instance.ItemGetCompo.GetItem(so, increaseValue);
         }
 
         public bool CalculateItem(SerializedDictionary<ItemSO, int> needItems)
@@ -59,6 +77,8 @@ namespace JMT.UISystem.Inventory
             }
             return isCalculate;
         }
+
+        public void RemoveItem(ItemSO item, int value) => model.RemoveItem(item, value);
 
         private void SelectCategory(InventoryCategory? category)
         {

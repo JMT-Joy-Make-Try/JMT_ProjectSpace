@@ -1,5 +1,6 @@
 using JMT.Building;
 using JMT.Item;
+using JMT.UISystem;
 using System.Linq;
 
 namespace JMT.Planets.Tile
@@ -17,7 +18,7 @@ namespace JMT.Planets.Tile
         {
             base.Interaction();
             ItemSO item = _villageBuilding.NeedItems.First().Key;
-            InventoryManager.Instance.RemoveItem(item, 1);
+            GameUIManager.Instance.InventoryCompo.RemoveItem(item, 1);
             _villageBuilding.GiveItem(item, 1);
         }
     }
