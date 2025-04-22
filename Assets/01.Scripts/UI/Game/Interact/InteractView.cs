@@ -17,7 +17,10 @@ namespace JMT.UISystem.Interact
 
         private void Awake()
         {
-            interactButton.onClick.AddListener(() => OnInteractEvent?.Invoke());
+            interactButton.onClick.AddListener(() =>
+            {
+                OnInteractEvent?.Invoke();
+            });
             changeButton.onClick.AddListener(() => OnChangeInteractEvent?.Invoke());
         }
 

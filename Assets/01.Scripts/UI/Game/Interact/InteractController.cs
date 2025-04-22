@@ -25,14 +25,14 @@ namespace JMT.UISystem.Interact
 
         private void Awake()
         {
-            view.OnInteractEvent += HandleInteraction;
+            //view.OnInteractEvent += HandleInteraction;
             view.OnChangeInteractEvent += HandleChangeInteract;
         }
 
         private void HandleChangeInteract()
         {
             InteractType type = InteractType.None;
-            if (model.InteractType != InteractType.Attack)
+            if (!model.InteractType.Equals(InteractType.Attack))
                 type = InteractType.Attack;
 
             ChangeInteract(type);
@@ -42,6 +42,16 @@ namespace JMT.UISystem.Interact
         {
             model.ChangeInteract(type);
             view.ChangeInteract(type);
+
+            view.RemoveAllEventTriggers();
+            if (type.Equals(InteractType.Item))
+                view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
+            else
+            {
+                Debug.Log("asdf");
+                view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
+            }
+
         }
 
         private void HandleInteraction()
@@ -49,17 +59,11 @@ namespace JMT.UISystem.Interact
             InteractType type = model.InteractType;
 
             Debug.Log("type : " + type);
-            if (type == InteractType.Attack)
+            if (type.Equals(InteractType.Attack))
                 OnAttackEvent?.Invoke();
 
-            else if (type != InteractType.Item)
-            {
-                if (isHold) isHold = false;
-                else TileManager.Instance.GetInteraction().Interaction();
-            }
-
-            else
-                view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
+            else if (!type.Equals(InteractType.Item))
+                TileManager.Instance.GetInteraction().Interaction();
         }
 
 
@@ -79,9 +83,7 @@ namespace JMT.UISystem.Interact
                 OnHoldEvent?.Invoke(false);
             }
 
-            view.RemoveAllEventTriggers();
-            Debug.Log("isHOLD : " + isHold);
-            view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
+            isHold = false;
         }
 
         private IEnumerator HoldCoroutine(float time = 1f)
