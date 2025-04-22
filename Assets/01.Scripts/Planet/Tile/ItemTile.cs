@@ -1,6 +1,7 @@
 using JMT.Item;
 using JMT.Object;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace JMT.Planets.Tile
         private void BreakTile()
         {
             Debug.Log("Tile Broken!");
-            InventoryManager.Instance.AddItem(_itemType, _itemCount);
+            GameUIManager.Instance.InventoryCompo.AddItem(_itemType, _itemCount);
         }
     }
 }

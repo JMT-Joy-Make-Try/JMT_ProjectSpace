@@ -2,6 +2,7 @@ using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Item;
 using JMT.Planets.Tile;
+using JMT.UISystem;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace JMT.Building
 
         public void InventoryAdd()
         {
-            InventoryManager.Instance.AddItem(ProductionItem, _currentProductionAmount);
+            GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
             _currentProductionAmount = 0;
         }
 
