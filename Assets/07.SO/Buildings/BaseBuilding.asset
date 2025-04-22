@@ -19,11 +19,28 @@ MonoBehaviour:
   BuildingDescription: "\uC870\uC545\uD55C \uC790\uC6D0\uC73C\uB85C \uB9CC\uB4E0
     \uC784\uC2DC\uAE30\uC9C0\n\uAE30\uBCF8\uC801\uC778 \uC0B0\uC18C\uC640 \uC5F0\uB8CC\uB97C
     \uACF5\uAE09\uD55C\uB2E4."
-  NeedItems:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 3b1398864fee50045a6b32d8e5de4473, type: 2}
-      Value: 10
-  BuildTime:
-    minute: 0
-    second: 3
-  UseFuelPerSecond: 0.1
+  buildingLevel:
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 0
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2

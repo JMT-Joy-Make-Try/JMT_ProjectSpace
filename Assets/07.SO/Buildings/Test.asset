@@ -12,18 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4660dfbb0587058438728eee265f13f8, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7285556136520950692, guid: a9795e5615fb3c5488fc72ce8d42cbc5, type: 3}
-  category: 0
-  buildingName: "\uD14C\uC2A4\uD2B8"
-  buildingDescription: "\uD14C\uC2A4\uD2B8 \uAC74\uBB3C\uC785\uB2C8\uB2E4."
-  needItems:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 75320538404832b42b203e04a065e34f, type: 2}
-      Value: 12
-    - Key: {fileID: 11400000, guid: 3a51f5a9841a3b541bb946ff81b92d4b, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: c033502562ec1f14f8338a0c54749de2, type: 2}
-      Value: 4
-  buildTime:
-    minute: 0
-    second: 3
+  Icon: {fileID: 0}
+  Prefab: {fileID: 0}
+  Category: 0
+  BuildingName: 
+  BuildingDescription: 
+  buildingLevel:
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2

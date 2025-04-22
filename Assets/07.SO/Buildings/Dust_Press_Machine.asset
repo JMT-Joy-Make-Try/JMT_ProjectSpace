@@ -18,13 +18,28 @@ MonoBehaviour:
   BuildingName: "\uBA3C\uC9C0\uC555\uCD95\uC18C"
   BuildingDescription: "\uBA3C\uC9C0\uBB49\uCE58\uB97C \uC555\uCD95\uD558\uC5EC \uB354\uC6B1
     \uB2E8\uB2E8\uD55C \uBE14\uB7ED\uC744 \uC0DD\uC0B0\uD55C\uB2E4."
-  NeedItems:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
-      Value: 10
-    - Key: {fileID: 11400000, guid: d5657232cba60b443821309b6f17f964, type: 2}
-      Value: 6
-  BuildTime:
-    minute: 0
-    second: 10
-  UseFuelPerSecond: 0.5
+  buildingLevel:
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
