@@ -1,4 +1,4 @@
-﻿using JMT.Core.Tool;
+using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using System;
@@ -46,7 +46,7 @@ namespace JMT.Building.Component
         {
             SetBuildingData(data);
             Building.SetPVCBuilding(pvc);
-            Building.PVC.SetBuildTime(data.BuildTime);
+            Building.PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
             Building.Building();
         }
     }

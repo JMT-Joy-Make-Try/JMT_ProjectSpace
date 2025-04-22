@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace JMT.Building.Component
@@ -7,6 +7,7 @@ namespace JMT.Building.Component
     {
         public event Action<int> OnLevelChanged;
         public BuildingBase Building { get; private set; }
+        [SerializeField] private BuildingDataSO data;
         private int _curLevel;
         
         public int CurLevel
