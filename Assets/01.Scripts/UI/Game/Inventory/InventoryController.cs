@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Item;
+using Unity.Properties;
 using UnityEngine;
 
 namespace JMT.UISystem.Inventory
@@ -25,17 +26,19 @@ namespace JMT.UISystem.Inventory
 
         public void AddItem(ItemSO itemSO, int increaseValue)
         {
+            Debug.Log("네 아이템 들어왔어요.");
             model.AddItem(itemSO, increaseValue);
             GameUIManager.Instance.ItemGetCompo.GetItem(itemSO, increaseValue);
         }
 
-        public void CalculateItem(SerializedDictionary<ItemSO, int> needItems)
+        public bool CalculateItem(SerializedDictionary<ItemSO, int> needItems)
         {
             bool isCalculate = model.CalculateItem(needItems);
             if(!isCalculate)
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("자원이 부족합니다.");
             }
+            return isCalculate;
         }
 
         private void SelectCategory(InventoryCategory? category)
@@ -43,6 +46,5 @@ namespace JMT.UISystem.Inventory
             var list = model.SelectCategory(category);
             view.ChangeCell(list);
         }
-
     }
 }
