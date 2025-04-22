@@ -1,8 +1,7 @@
 using JMT.Core.Tool;
-using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
+using JMT.DayTime;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Building
@@ -33,12 +32,13 @@ namespace JMT.Building
         {
             _buildingBase = buildingBase;
         }
-        [SerializeField] private SerializeQueue<BuildingWork> works = new();
+        [SerializeField] private SizeLimitQueue<BuildingWork> works = new(4);
 
-        public SerializeQueue<BuildingWork> Works => works;
+        public SizeLimitQueue<BuildingWork> Works => works;
 
         public virtual void AddWork(BuildingWork work)
         {
+            if (works.IsFull()) return;
             works.Enqueue(work);
         }
 

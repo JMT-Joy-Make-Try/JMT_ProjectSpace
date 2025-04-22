@@ -1,7 +1,7 @@
 using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Core.Manager;
-using JMT.Resource;
+using JMT.UISystem;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -13,6 +13,7 @@ namespace JMT.Building
         [SerializeField] private float _radius;
         [SerializeField] private LayerMask _whatIsAgent;
         [SerializeField] private Transform visual, brokenVisual;
+        [SerializeField] private int _agentSpawnCount;
 
         private Collider[] _colliders;
 
@@ -26,35 +27,18 @@ namespace JMT.Building
         {
             base.HandleCompleteEvent();
             FogManager.Instance.OffFogBaseBuilding();
+            
+            for (int i = 0; i < _agentSpawnCount; i++)
+            {
+                AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
+            }
         }
 
 
         public override void Work()
         {
             base.Work();
-            // if (gameObject.activeSelf)
-            // {
-            //     StartCoroutine(WorkCoroutine());
-            // }
             AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
-        }
-
-        private IEnumerator WorkCoroutine()
-        {
-            while (_isWorking)
-            {
-                int cnt = Physics.OverlapSphereNonAlloc(transform.position, _radius, _colliders, _whatIsAgent);
-                for (int i = 0; i < cnt; i++)
-                {
-                    if (_colliders[i].TryGetComponent(out NPCAgent agent))
-                    {
-                        ResourceManager.Instance.AddNpc(-1);
-                        agent.OxygenCompo.AddOxygen(1);
-                    }
-                }
-
-                yield return new WaitForSeconds(10f);
-            }
         }
 
         private void OnDrawGizmos()

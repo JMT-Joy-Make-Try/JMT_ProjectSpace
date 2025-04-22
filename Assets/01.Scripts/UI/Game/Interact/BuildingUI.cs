@@ -30,6 +30,14 @@ namespace JMT.UISystem
             upgradeUI = buildingUI.GetComponent<UpgradeUI>();
         }
 
+        private void OnDestroy()
+        {
+            exitButton.onClick.RemoveListener(HandleExitButton);
+            createButton.onClick.RemoveListener(HandleCreateButton);
+            workerButton.onClick.RemoveListener(HandleWorkerButton);
+            upgradeButton.onClick.RemoveListener(HandleUpgradeButton);
+        }
+
         public override void OpenUI()
         {
             base.OpenUI();

@@ -38,7 +38,6 @@ namespace JMT.UISystem
             if (!isInteractable) return;
             panelGroup.interactable = true;
             panelGroup.blocksRaycasts = true;
-            //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(true);
         }
 
         public virtual void CloseUI()
@@ -46,12 +45,11 @@ namespace JMT.UISystem
             IsOpen = false;
             panelGroup.DOFade(0f, 0.3f).SetUpdate(true).OnComplete(() => OnCloseEvent?.Invoke());
             if(isTimeStop)
-                Time.timeScale = SpeedSystem.Instance.TimeScale;
+                Time.timeScale = GameUIManager.Instance.SpeedCompo.TimeScale;
 
             if (!isInteractable) return;
             panelGroup.interactable = false;
             panelGroup.blocksRaycasts = false;
-            //UIManager.Instance.NoTouchUI.ActiveNoTouchZone(false);
         }
     }
 }

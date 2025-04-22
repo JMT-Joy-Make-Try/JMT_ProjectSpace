@@ -10,7 +10,7 @@ namespace JMT.Building
     public class ItemBuildingData : BaseData
     {
         public SizeLimitQueue<CreateItemSO> CreateItemList = new(4);
-        
+
         public CreateItemSO GetFirstCreateItem()
         {
             if (CreateItemList.Count > 0)
@@ -30,8 +30,9 @@ namespace JMT.Building
                     InventoryManager.Instance.RemoveItem(item.Key, item.Value);
                 }
             }
+
         }
-        
+
         public override void RemoveWork()
         {
             base.RemoveWork();

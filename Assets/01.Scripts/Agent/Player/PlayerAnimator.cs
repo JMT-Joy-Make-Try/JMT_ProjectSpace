@@ -29,8 +29,8 @@ namespace JMT.Player
         private void Start()
         {
             player.InputSO.OnMoveEvent += HandleMoveAnimation;
-            UIManager.Instance.GameUI.OnHoldEvent += HandleHoldEvent;
-            UIManager.Instance.GameUI.OnAttackEvent += HandleChangeInteractEvent;
+            GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
+            GameUIManager.Instance.InteractCompo.OnAttackEvent += HandleChangeInteractEvent;
             player.EndTrigger.OnAnimationEnd += HandleAnimationEndEvent;
         }
 

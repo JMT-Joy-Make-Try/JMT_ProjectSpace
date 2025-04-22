@@ -1,32 +1,31 @@
-﻿using DG.Tweening;
 using JMT.Core.Tool;
-using System;
+using JMT.DayTime;
+using JMT.UISystem;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 namespace JMT.Core.Manager
 {
     public class VolumeManager : MonoSingleton<VolumeManager>
     {
         [Header("Volume")]
-        [SerializeField] private Volume  _dayVolume;
-        [SerializeField] private Volume  _nightVolume;
+        [SerializeField] private Volume _dayVolume;
+        [SerializeField] private Volume _nightVolume;
         [SerializeField] private float _duration;
-        
+
         private Volume _currentVolume;
-        
+
         private void Start()
         {
-            DaySystem.Instance.OnChangeDaytimeEvent += OnChangeDaytime;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += OnChangeDaytime;
             _currentVolume = _dayVolume;
         }
         private void OnDestroy()
         {
-            if (DaySystem.Instance == null) return;
-            DaySystem.Instance.OnChangeDaytimeEvent -= OnChangeDaytime;
+            if (GameUIManager.Instance == null) return;
+            if (GameUIManager.Instance.TimeCompo == null) return;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= OnChangeDaytime;
         }
 
         private void OnChangeDaytime(DaytimeType day)

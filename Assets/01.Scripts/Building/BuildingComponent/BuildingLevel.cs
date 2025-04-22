@@ -30,6 +30,7 @@ namespace JMT.Building.Component
         public void Init(BuildingBase building)
         {
             Building = building;
+            _curLevel = 1; // Initialize to level 1
         }
     }
 }
