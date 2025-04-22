@@ -95,6 +95,7 @@ namespace JMT.Player
         public void AddOxygen(int value)
         {
             _curOxygen += value;
+            _curOxygen = Mathf.Clamp(_curOxygen, 0, Oxygen);
             OnOxygenEvent?.Invoke(_curOxygen, Oxygen);
         }
 
