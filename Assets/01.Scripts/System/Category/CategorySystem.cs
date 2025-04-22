@@ -10,7 +10,6 @@ namespace JMT
         {
             List<T> result = new();
 
-            Debug.Log("네??" + list);
             for (int i = 0; i < list.Count; i++)
             {
                 if (category.Equals(list[i].Category))
