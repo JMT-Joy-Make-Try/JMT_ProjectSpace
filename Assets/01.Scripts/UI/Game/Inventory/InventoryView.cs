@@ -11,6 +11,8 @@ namespace JMT.UISystem.Inventory
     public class InventoryView : PanelUI
     {
         public event Action<InventoryCategory?> OnCategoryChangedEvent;
+        public event Action<ItemSO> OnItemAddedEvent;
+        public event Action OnEquipButtonClickedEvent;
 
         [SerializeField] private Button inventoryButton;
         [SerializeField] private Transform cellContents;
@@ -40,6 +42,8 @@ namespace JMT.UISystem.Inventory
             itemButton.onClick.AddListener(() => OnCategoryChangedEvent?.Invoke(InventoryCategory.Item));
             toolButton.onClick.AddListener(() => OnCategoryChangedEvent?.Invoke(InventoryCategory.Tool));
             costumeButton.onClick.AddListener(() => OnCategoryChangedEvent?.Invoke(InventoryCategory.Costume));
+            clearButton.onClick.AddListener(() => OnItemAddedEvent?.Invoke(null));
+            EquipButton.onClick.AddListener(() => OnEquipButtonClickedEvent?.Invoke());
         }
 
         public override void OpenUI()
@@ -56,13 +60,13 @@ namespace JMT.UISystem.Inventory
                 int value = i;
                 if (value < itemList.Count)
                 {
-                    cells[value].GetComponent<Button>().onClick.AddListener(() => HandleCellButton(itemList[value].Key));
+                    cells[value].GetComponent<Button>().onClick.AddListener(() => OnItemAddedEvent?.Invoke(itemList[value].Key));
                     cells[i].SetCell(itemList[value].Key, itemList[value].Value.ToString());
                 }
             }
         }
 
-        private void HandleCellButton(ItemSO data)
+        public void HandleCellButton(ItemSO data)
         {
             if (data.Icon != null)
                 infoIcon.sprite = data.Icon;
