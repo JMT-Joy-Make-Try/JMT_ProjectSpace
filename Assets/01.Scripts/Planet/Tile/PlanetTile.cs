@@ -131,6 +131,9 @@ namespace JMT.Planets.Tile
                 case VillageInteraction:
                     interaction.SetType(InteractType.Village);
                     break;
+                case LaboratoryInteraction:
+                    interaction.SetType(InteractType.Laboratory);
+                    break;
             }
 
             return interaction;

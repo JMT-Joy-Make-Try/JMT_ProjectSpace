@@ -26,7 +26,7 @@ namespace JMT.UISystem
         [SerializeField] private bool isTimeStop = true;
 
         public Transform PanelTrm => panelGroup.transform;
-        public Transform PanelRectTrm => PanelTrm as RectTransform;
+        public RectTransform PanelRectTrm => PanelTrm as RectTransform;
         public bool IsOpen { get; private set; } = false;
         public virtual void OpenUI()
         {

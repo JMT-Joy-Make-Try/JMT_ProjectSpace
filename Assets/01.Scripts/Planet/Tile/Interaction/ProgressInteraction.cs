@@ -24,6 +24,11 @@ namespace JMT
                 TileManager.Instance.CurrentTile.AddInteraction<StationInteraction>();
                 return;
             }
+            if (building is LaboratoryBuilding)
+            {
+                TileManager.Instance.CurrentTile.AddInteraction<LaboratoryInteraction>();
+                return;
+            }
             TileManager.Instance.CurrentTile.AddInteraction<BuildingInteraction>();
         }
     }

@@ -60,7 +60,7 @@ namespace JMT.Building
             visual.SetMaterial(visual.VisualMat);
 
             var buildingData = GetBuildingComponent<BuildingData>().Data;
-            StartCoroutine(BuildingRoutine(buildingData.BuildTime.GetSecond()));
+            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
         }
 
         private IEnumerator BuildingRoutine(int time)

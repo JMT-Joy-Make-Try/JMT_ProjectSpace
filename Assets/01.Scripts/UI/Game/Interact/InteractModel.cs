@@ -13,6 +13,7 @@ namespace JMT.UISystem.Interact
         Attack = 5,
         Zeolite = 6,
         Village = 7,
+        Laboratory = 8,
     }
 
     public class InteractModel

@@ -39,7 +39,7 @@ namespace JMT.UISystem.Interact
             for(int i = 0; i < needItemList.Count; i++)
             {
                 int value = i;
-                var needItems = data.NeedItems.ToList();
+                var needItems = data.buildingLevel[0].NeedItems.ToList();
                 if (needItems.Count > value)
                 {
                     needItemList[value].SetCell(needItems[value].Key, "X" + needItems[value].Value.ToString());
@@ -47,7 +47,7 @@ namespace JMT.UISystem.Interact
                 else
                     needItemList[value].ResetCell();
             }
-            useFuel.SetCell(string.Empty, data.UseFuelPerSecond.ToString("F1"));
+            useFuel.SetCell(string.Empty, data.buildingLevel[0].UseFuelPerSecond.ToString("F1"));
         }
     }
 }

@@ -10,6 +10,12 @@ namespace JMT.UISystem
     {
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI nameText, countText;
+        public Button CellButton { get; private set; }
+
+        private void Awake()
+        {
+            CellButton = GetComponent<Button>();
+        }
 
         public void SetCell(ItemSO itemSO = null, string count = null)
         {

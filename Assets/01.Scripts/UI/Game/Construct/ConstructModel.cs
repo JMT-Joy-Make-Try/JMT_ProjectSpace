@@ -31,7 +31,7 @@ namespace JMT.UISystem.Interact
                 Debug.Log("읎으요");
                 return false;
             }
-            if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.NeedItems)) return false;
+            if (!InventoryManager.Instance.CalculateItem(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems)) return false;
 
             isBuild = true;
             tile.EdgeEnable(false);
