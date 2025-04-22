@@ -52,8 +52,11 @@ namespace JMT.UISystem.Interact
             if (type == InteractType.Attack)
                 OnAttackEvent?.Invoke();
 
-            else if (type != InteractType.Item && !isHold)
-                TileManager.Instance.GetInteraction().Interaction();
+            else if (type != InteractType.Item)
+            {
+                if (isHold) isHold = false;
+                else TileManager.Instance.GetInteraction().Interaction();
+            }
 
             else
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
@@ -77,7 +80,7 @@ namespace JMT.UISystem.Interact
             }
 
             view.RemoveAllEventTriggers();
-            isHold = false;
+            Debug.Log("isHOLD : " + isHold);
             view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
         }
 

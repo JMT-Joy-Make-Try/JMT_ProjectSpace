@@ -1,4 +1,5 @@
 using JMT.Item;
+using JMT.Player;
 using UnityEngine;
 
 namespace JMT
