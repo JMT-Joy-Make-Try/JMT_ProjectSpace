@@ -1,4 +1,5 @@
 using AYellowpaper.SerializedCollections;
+using JMT.Agent;
 using JMT.Item;
 using UnityEngine;
 
@@ -8,15 +9,31 @@ namespace JMT.UISystem.Inventory
     {
         [SerializeField] private InventoryView view;
         private readonly InventoryModel model = new();
-
+        
+        private ItemSO _curItemSO;
         private void Awake()
         {
             view.OnCategoryChangedEvent += SelectCategory;
+            view.OnItemAddedEvent += HandleItemAdded;
+            view.OnEquipButtonClickedEvent += HandleEquip;
+        }
+
+        private void HandleEquip()
+        {
+            Player.Player player = AgentManager.Instance.Player;
+            //player.PlayerTool.SetCloth();
+        }
+
+        private void HandleItemAdded(ItemSO so)
+        {
+            view.HandleCellButton(so);
+            _curItemSO = so;
         }
 
         private void OnDestroy()
         {
             view.OnCategoryChangedEvent -= SelectCategory;
+            view.OnItemAddedEvent -= HandleItemAdded;
         }
 
         public void OpenUI() => view.OpenUI();

@@ -25,6 +25,7 @@ namespace JMT.Player
         public PlayerMovement Movement { get; private set; }
         public PlayerInputSO InputSO => inputSO;
         public FogDetect FogDetect { get; private set; }
+        public PlayerTool PlayerTool { get; private set; }
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
@@ -47,6 +48,7 @@ namespace JMT.Player
             EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
             Movement = GetComponent<PlayerMovement>();
             FogDetect = GetComponent<FogDetect>();
+            PlayerTool = GetComponent<PlayerTool>();
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
 
