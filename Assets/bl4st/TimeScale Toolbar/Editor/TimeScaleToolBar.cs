@@ -16,7 +16,7 @@ namespace bl4st.TimeScaleToolbar
         static readonly string key_toolbarOffset = "TimeScaleToolbar_Offset";
         static readonly string[] toolbarPositions = { "Left", "Right" };
 
-        static float _maxScale = 2f;
+        static float _maxScale = 3f;
         static float maxScale
         {
             get => _maxScale;
@@ -103,7 +103,7 @@ namespace bl4st.TimeScaleToolbar
             EditorPrefs.SetBool(key_enabled, enabled);
 
             forcedOverride = EditorPrefs.GetBool(key_forcedOverride, false);
-            maxScale = EditorPrefs.GetFloat(key_maxScale, 2f);
+            maxScale = EditorPrefs.GetFloat(key_maxScale, 3f);
             toolbarPosition = EditorPrefs.GetInt(key_toolbarPosition, 1);
             toolbarOffset = EditorPrefs.GetInt(key_toolbarOffset, 10);
             timeScale = Mathf.Min(EditorPrefs.GetFloat(key_timeScale, 1f), maxScale);
