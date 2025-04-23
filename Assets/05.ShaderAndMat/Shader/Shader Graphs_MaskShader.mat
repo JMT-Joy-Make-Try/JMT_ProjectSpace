@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_MaskShader
-  m_Shader: {fileID: -6465566751694194690, guid: e719b3d1b14721d4294190b643651598, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 36fe165f483f54d41b173849b8f33690, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -44,13 +44,23 @@ Material:
     m_Floats:
     - _DissolveLenght: 10
     - _DissolveValue: -1
+    - _Edge1: 3.1
+    - _Edge2: 3.1
     - _Fuzziness: 0
+    - _IsHit: 0
+    - _IsShadowBlur: 1
     - _MaskRange: 0.429
+    - _Max: 4
+    - _Min: 0.6
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Saturation: 1
+    - _Shades: 0.2
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 0, g: 4.0000005, b: 2.9338467, a: 0.61960787}
     - _DissolveColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HitColor: {r: 1, g: 0.6650944, b: 0.6650944, a: 1}
     - _MaskColor: {r: 0, g: 0.67781353, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
