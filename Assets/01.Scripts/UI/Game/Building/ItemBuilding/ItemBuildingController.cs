@@ -9,7 +9,7 @@ namespace JMT.UISystem.Building
 
         [Header("PanelUI")]
         [SerializeField] private CreateUI createUI;
-        [SerializeField] private ManageUI manageUI;
+        [SerializeField] private ManageController manageUI;
         [SerializeField] private UpgradeUI upgradeUI;
         private PanelUI currentPanel;
 
