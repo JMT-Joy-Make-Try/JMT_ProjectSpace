@@ -12,6 +12,7 @@ namespace JMT.Building.Component
         
         public BuildingBase Building { get; private set; }
         public Material VisualMat => visualMat;
+        public List<MeshFilter> MeshFilters => rendererList.ConvertAll(renderer => renderer.GetComponent<MeshFilter>());
 
         private void Start()
         {

@@ -42,7 +42,6 @@ namespace JMT.Building
             if (_player == null) return;
 
             Vector3 offset = _visualTransform.position - _player.transform.position;
-            Debug.Log(offset.sqrMagnitude);
             if (offset.sqrMagnitude <= _interactionDistanceSqr && !_isPlayerGetOxygen)
             {
                 StartCoroutine(GiveOxygenCoroutine());

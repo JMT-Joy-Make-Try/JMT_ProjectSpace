@@ -27,7 +27,7 @@ namespace JMT.Agent.State
                 if (agent.CurrentWorkingBuilding == null ||
                     agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding || BuildingManager.Instance.HospitalBuilding == null)
                 {
-                    Debug.Log("Hospital Building is Null!");
+                    agent.OxygenCompo.AddOxygen(2);
                     _stateMachine.ChangeState(NPCState.Move);
                     return;
                 }
@@ -38,7 +38,7 @@ namespace JMT.Agent.State
                 Debug.Log("Oxygen Building Added!");
                 if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding || BuildingManager.Instance.OxygenBuilding == null)
                 {
-                    Debug.Log("Oxygen Building is Null!");
+                    agent.OxygenCompo.AddOxygen(2);
                     _stateMachine.ChangeState(NPCState.Move);
                     return;
                 }
@@ -54,12 +54,10 @@ namespace JMT.Agent.State
             {
                 if (BuildingManager.Instance.HospitalBuilding != null)
                 {
-                    Debug.LogError("Asdfafasfa");
                     StartCoroutine(HealCoroutine());
                 }
                 else
                 {
-                    Debug.LogError("AsdfafasfaaDS");
                     _stateMachine.ChangeState(NPCState.Move, true);
                 }
             }
@@ -67,12 +65,10 @@ namespace JMT.Agent.State
             {
                 if (BuildingManager.Instance.OxygenBuilding != null)
                 {
-                    Debug.LogError("AsdfafasfaFASFDF");
                     StartCoroutine(OxygenRestore());
                 }
                 else
                 {
-                    Debug.LogError("AsdfafasfaFASFASD");
                     _stateMachine.ChangeState(NPCState.Move);
                 }
             }

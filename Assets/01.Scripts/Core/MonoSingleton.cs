@@ -10,7 +10,7 @@
             {
                 if (_instance == null)
                 {
-                    _instance = FindAnyObjectByType<T>();
+                    _instance = FindFirstObjectByType<T>();
                     if (_instance == null)
                     {
                         GameObject obj = new GameObject();
