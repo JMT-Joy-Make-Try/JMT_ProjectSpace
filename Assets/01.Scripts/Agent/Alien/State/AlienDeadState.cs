@@ -4,6 +4,7 @@ using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Object;
 using JMT.Planets.Tile.Items;
+using UnityEngine;
 
 namespace JMT.Agent.State
 {
@@ -20,16 +21,17 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            Agent.MovementCompo.Stop(true);
-            _alien.AlienRenderer.material.DOFloat(1f, "_DissolveValue", 1f);
+            //Agent.MovementCompo.Stop(true);
         }
 
         public override void OnAnimationEnd()
         {
+            _alien.AlienRenderer.material.DOFloat(1f, "_DissolveValue", 1f);
             var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
             item.transform.position = Agent.transform.position;
             item.SetItemType(ItemListSystem.Instance.GetItemSO(ItemType.OxygenTank));
             PoolingManager.Instance.Push(Agent);
+            Debug.Log("Alien Dead");
         }
     }
 }

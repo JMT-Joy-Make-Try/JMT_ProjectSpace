@@ -17,6 +17,8 @@ namespace JMT.Building
         private int _currentProductionAmount;
         private float _productGauge;
         
+        private IEnumerator _workCoroutine;
+        
 
         [Space] [Header("Debug")] [SerializeField]
         private NPCAgent _npcAgent;
@@ -30,7 +32,18 @@ namespace JMT.Building
         public override void Work()
         {
             base.Work();
-            StartCoroutine(WorkCoroutine());
+            _workCoroutine = WorkCoroutine();
+            StartCoroutine(_workCoroutine);
+        }
+        
+        public override void StopWork()
+        {
+            base.StopWork();
+            if (_workCoroutine != null)
+            {
+                StopCoroutine(_workCoroutine);
+                _workCoroutine = null;
+            }
         }
 
         private IEnumerator WorkCoroutine()
