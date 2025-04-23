@@ -81,6 +81,17 @@ namespace JMT.Building
             GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
         }
         
+        public virtual void StopWork()
+        {
+            if (!_isWorking)
+            {
+                return;
+            }
+
+            _isWorking = false;
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
+        }
+        
         public void SetWorking(bool isWorking)
         {
             _isWorking = isWorking;

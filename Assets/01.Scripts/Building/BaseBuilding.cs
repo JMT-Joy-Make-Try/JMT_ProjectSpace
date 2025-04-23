@@ -15,13 +15,6 @@ namespace JMT.Building
         [SerializeField] private Transform visual, brokenVisual;
         [SerializeField] private int _agentSpawnCount;
 
-        private Collider[] _colliders;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _colliders = new Collider[10];
-        }
 
         protected override void HandleCompleteEvent()
         {
@@ -32,26 +25,14 @@ namespace JMT.Building
             {
                 AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
             }
+            FixStation();
         }
 
-
-        public override void Work()
-        {
-            base.Work();
-            AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _radius);
-        }
 
         public void FixStation()
         {
             visual.gameObject.SetActive(true);
             brokenVisual.gameObject.SetActive(false);
-            Work();
         }
     }
 }

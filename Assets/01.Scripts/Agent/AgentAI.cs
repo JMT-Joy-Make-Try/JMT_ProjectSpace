@@ -33,7 +33,7 @@ namespace JMT.Agent
             AnimatorCompo = gameObject.GetComponentOrAdd<Animator>();
             MovementCompo = gameObject.GetComponentOrAdd<AgentMovement>();
             ClothCompo = GetComponent<NPCCloth>();
-            AnimationEndTrigger = gameObject.GetComponentOrAdd<AnimationEndTrigger>();
+            AnimationEndTrigger = GetComponentInChildren<AnimationEndTrigger>();
             
             StateMachineCompo.InitAllState(this);
             Init();
