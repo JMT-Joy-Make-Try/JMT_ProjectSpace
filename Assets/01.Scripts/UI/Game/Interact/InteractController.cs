@@ -48,7 +48,6 @@ namespace JMT.UISystem.Interact
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
             else
             {
-                Debug.Log("asdf");
                 view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
             }
 

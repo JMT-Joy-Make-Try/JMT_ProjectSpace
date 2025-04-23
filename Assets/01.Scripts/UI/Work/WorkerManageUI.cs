@@ -2,7 +2,6 @@ using DG.Tweening;
 using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Planets.Tile;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,18 +10,16 @@ namespace JMT.UISystem
 {
     public class WorkerManageUI : MonoBehaviour
     {
-        private Transform workValue;
         private Image workValueIcon;
         private TextMeshProUGUI completeText, workValueText;
+        private CellUI workValueCell;
         private Button quitButton, hireButton;
         private CanvasGroup lockArea;
 
         private void Awake()
         {
             Transform work = transform.Find("Work");
-            workValue = work.Find("WorkValue");
-            workValueIcon = workValue.Find("Icon").GetComponent<Image>();
-            workValueText = workValue.Find("ValueTxt").GetComponent<TextMeshProUGUI>();
+            workValueCell = work.Find("WorkValue").GetComponent<CellUI>();
             completeText = work.Find("Complete").GetComponentInChildren<TextMeshProUGUI>();
             quitButton = work.Find("QuitBtn").GetComponent<Button>();
 
@@ -53,7 +50,7 @@ namespace JMT.UISystem
             ActiveLockArea(false);
         }
 
-        private void ActiveLockArea(bool isActive)
+        public void ActiveLockArea(bool isActive)
         {
             lockArea.DOFade(isActive ? 1 : 0, 0.3f).SetUpdate(true);
             lockArea.interactable = isActive;
