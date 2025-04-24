@@ -17,7 +17,6 @@ namespace JMT.Agent.State
         private bool _wasFollowingTarget = false;
 
         private static readonly Collider[] _overlapResults = new Collider[10]; 
-        
 
         public override void Initialize(AgentAI<AlienState> agent, string stateName)
         {
@@ -30,7 +29,15 @@ namespace JMT.Agent.State
             base.EnterState();
             _isAmbush = Random.Range(0f, 1f) < 0.5f;
             Agent.MovementCompo.Stop(_isAmbush); 
-            _randomTargetCoroutine = _isAmbush ? null : StartCoroutine(RandomTargetPosition());
+
+            if (_isAmbush)
+            {
+                _randomTargetCoroutine = null;
+            }
+            else
+            {
+                _targetPosition = Vector3.zero; 
+            }
         }
 
         public override void UpdateState()
@@ -43,6 +50,7 @@ namespace JMT.Agent.State
             if (target != null && IsPositionInFog(target.position))
             {
                 _wasFollowingTarget = true;
+                Agent.MovementCompo.Stop(_isAmbush);
                 Agent.MovementCompo.Move(target.position, _alien.MoveSpeed);
                 return;
             }
