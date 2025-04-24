@@ -64,6 +64,7 @@ namespace JMT.Player
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
         }
 
+
         public void InitStat()
         {
             _curHealth = Health;
