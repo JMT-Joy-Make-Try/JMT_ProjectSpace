@@ -2,8 +2,8 @@
 
 namespace JMT.Player
 {
-    [CreateAssetMenu(fileName = "ProtectiveClothing", menuName = "SO/Data/ToolSO/ProtectiveClothing")]
-    public class ProtectiveClothingSO : ToolSO
+    [CreateAssetMenu(fileName = "Hammer", menuName = "SO/Data/ToolSO/Hammer")]
+    public class HammerSO : ToolSO
     {
         public override void Equip(Player player)
         {

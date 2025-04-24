@@ -2,8 +2,8 @@
 
 namespace JMT.Player
 {
-    [CreateAssetMenu(fileName = "OrganicMatterCollector", menuName = "SO/Data/ToolSO/OrganicMatterCollector")]
-    public class OrganicMatterCollectorSO : ToolSO
+    [CreateAssetMenu(fileName = "Scanner", menuName = "SO/Data/ToolSO/Scanner")]
+    public class ScannerSO : ToolSO
     {
         public override void Equip(Player player)
         {
