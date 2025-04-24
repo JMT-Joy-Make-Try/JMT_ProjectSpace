@@ -1,13 +1,13 @@
-using AYellowpaper.SerializedCollections;
 using DG.Tweening;
 using JMT.Core;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Agent.Alien
 {
-    public class Alien : AgentAI<AlienState>, IKnockbackable
+    public class Alien : AgentAI<AlienState>, IKnockbackable, IStunable
     {
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public AlienTargetFinder TargetFinder { get; private set; }
@@ -55,6 +55,18 @@ namespace JMT.Agent.Alien
         public void Knockback(Vector3 direction, float force)
         {
             RbCompo.AddForce(direction * force, ForceMode.Impulse);
+        }
+
+        public void Stun(float stunTime)
+        {
+            StartCoroutine(StunCoroutine(stunTime));
+        }
+
+        private IEnumerator StunCoroutine(float stunTime)
+        {
+            MovementCompo.Stop(true);
+            yield return new WaitForSeconds(stunTime);
+            MovementCompo.Stop(false);
         }
     }
 
