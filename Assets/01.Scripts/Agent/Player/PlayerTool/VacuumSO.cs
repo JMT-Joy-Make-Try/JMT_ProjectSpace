@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace JMT.Player
 {
-    [CreateAssetMenu(fileName = "LiquidFuelCollector", menuName = "SO/Data/ToolSO/LiquidFuelCollector")]
-    public class LiquidFuelCollectorSO : ToolSO
+    [CreateAssetMenu(fileName = "Vacuum", menuName = "SO/Data/ToolSO/Vacuum")]
+    public class VacuumSO : ToolSO
     {
         public override void Equip(Player player)
         {
@@ -12,7 +12,6 @@ namespace JMT.Player
 
         public override void UnEquip(Player player)
         {
-            
         }
     }
 }

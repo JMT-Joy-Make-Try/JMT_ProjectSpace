@@ -1,4 +1,4 @@
-using JMT.Planets.Tile;
+    using JMT.Planets.Tile;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -68,21 +68,21 @@ namespace JMT.UISystem.Interact
 
         private void OnHoldStart()
         {
+            GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "재료 캐는 중...");
             holdCoroutine = StartCoroutine(HoldCoroutine());
         }
 
         private void OnHoldEnd()
         {
-            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(false);
             if (holdCoroutine != null)
             {
                 StopCoroutine(holdCoroutine);
                 holdCoroutine = null;
                 OnHoldEvent?.Invoke(false);
             }
-
             isHold = false;
+            EndHold();
         }
 
         private IEnumerator HoldCoroutine(float time = 1f)
@@ -90,9 +90,15 @@ namespace JMT.UISystem.Interact
             OnHoldEvent?.Invoke(true);
             yield return new WaitForSeconds(time);
             TileManager.Instance.GetInteraction().Interaction();
-            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(false);
-            OnHoldEvent?.Invoke(false);
             isHold = true;
+
+            EndHold();
+        }
+
+        private void EndHold()
+        {
+            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(false);
+            GameUIManager.Instance.PlayerControlActive(true);
         }
     }
 }
