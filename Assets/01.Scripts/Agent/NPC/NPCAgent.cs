@@ -75,6 +75,7 @@ namespace JMT.Agent.NPC
 
         private void HandleOxygenLow()
         {
+            CurrentWorkingBuilding.StopWork();
             StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
