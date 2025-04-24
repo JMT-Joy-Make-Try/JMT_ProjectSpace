@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 7236778680650646161}
   - component: {fileID: 6911795406066343340}
   - component: {fileID: 3543947008638365226}
+  - component: {fileID: 2894233833043196567}
   m_Layer: 9
   m_Name: Alien
   m_TagString: Untagged
@@ -477,6 +478,33 @@ MonoBehaviour:
   canvas: {fileID: 7659118855306123417}
   isPlayerLook: 1
   fill: {fileID: 2977050843530751493}
+--- !u!54 &2894233833043196567
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971645974295314498}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &2360298551129726837
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,6 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent: {fileID: 0}
   StateName: 
+  ambushRange: 10
 --- !u!1 &2655080270319610334
 GameObject:
   m_ObjectHideFlags: 0

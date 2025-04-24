@@ -1,18 +1,22 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using DG.Tweening;
+using JMT.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Agent.Alien
 {
-    public class Alien : AgentAI<AlienState>
+    public class Alien : AgentAI<AlienState>, IKnockbackable
     {
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public AlienTargetFinder TargetFinder { get; private set; }
         [field: SerializeField] public Attacker Attacker { get; private set; }
         
         [field: SerializeField] public List<StateColor> StateColor { get; private set; }
+
+        public Rigidbody RbCompo => GetComponent<Rigidbody>();
+
         [SerializeField] public SkinnedMeshRenderer AlienRenderer;
         
         protected override void Awake()
@@ -46,6 +50,11 @@ namespace JMT.Agent.Alien
         {
             var color = StateColor.Find(x => x.state == state).color;
             AlienRenderer.material.DOColor(color, "_Color", 0.2f);
+        }
+
+        public void Knockback(Vector3 direction, float force)
+        {
+            RbCompo.AddForce(direction * force, ForceMode.Impulse);
         }
     }
 
