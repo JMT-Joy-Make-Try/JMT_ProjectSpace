@@ -32,7 +32,7 @@ namespace JMT.Player
     {
         Vacuum, // 먼지채집기
         Scanner, // 유기물채집기
-        FuelSpoid, // 액체연료채집기
+        FuelDropper, // 액체연료채집기
         FilterMask, // 필터마스크
         Hammer, // 망치
     }
