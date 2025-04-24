@@ -34,6 +34,11 @@ namespace JMT.Agent.Alien
                         Vector3 direction = (_colliders[i].transform.position - transform.position).normalized;
                         knockbackable.Knockback(direction, AttackDamage);
                     }
+
+                    if (_colliders[i].TryGetComponent(out IStunable stunable))
+                    {
+                        stunable.Stun(1f);
+                    }
                 }
             }
         }
