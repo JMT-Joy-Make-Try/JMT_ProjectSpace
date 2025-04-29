@@ -11,7 +11,7 @@ namespace JMT.UISystem.GameSpeed
 
         private void Awake()
         {
-            view.SetSpeedButtonListener(HandleSpeedButton);
+            view.OnSpeedButtonEvent += HandleSpeedButton;
             view.ChangeSpeedText(model.SpeedType);
         }
 

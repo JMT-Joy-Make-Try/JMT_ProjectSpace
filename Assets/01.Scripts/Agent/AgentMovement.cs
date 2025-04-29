@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using JMT.Core.Tool;
 using System.Collections;
 using UnityEngine;

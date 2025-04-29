@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace JMT.Core
 {
     public interface IStunable
     {
-        void Stun(float stunTime, Action onStunEnd = null);
+        void Stun(float stunTime);
     }
 }
