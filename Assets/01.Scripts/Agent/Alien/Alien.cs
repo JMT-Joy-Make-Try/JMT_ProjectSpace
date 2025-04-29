@@ -1,5 +1,6 @@
 using DG.Tweening;
 using JMT.Core;
+using JMT.UISystem.Interact;
 using System;
 using System.Collections;
 using System.Collections.Generic;
