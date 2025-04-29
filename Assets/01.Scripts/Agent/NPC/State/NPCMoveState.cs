@@ -67,22 +67,5 @@ namespace JMT.Agent.State
                 _agent.ChangeCloth(type);
             }
         }
-
-        public override void EnterState()
-        {
-            base.EnterState();
-            StartCoroutine(MoveCoroutine());
-        }
-
-        private IEnumerator MoveCoroutine()
-        {
-            while (true)
-            {
-                _targetPosition = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
-                _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed);
-                yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
-            }
-        }
-
     }
 }

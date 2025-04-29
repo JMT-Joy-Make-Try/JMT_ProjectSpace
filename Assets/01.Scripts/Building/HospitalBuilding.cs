@@ -13,5 +13,7 @@ namespace JMT.Building
         {
             BuildingManager.Instance.HospitalBuilding = this;
         }
+        
+        
     }
 }

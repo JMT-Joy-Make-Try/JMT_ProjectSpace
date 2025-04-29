@@ -36,6 +36,7 @@ namespace JMT.Building
             OnCompleteEvent -= HandleCompleteEvent;
         }
 
+
         protected virtual void InitBuildingComponents()
         {
             components = GetComponents<IBuildingComponent>().ToList();
