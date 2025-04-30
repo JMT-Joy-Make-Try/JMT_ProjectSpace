@@ -20,7 +20,6 @@ namespace JMT.Agent.State
             _alien.transform.LookAt(_alien.TargetFinder.Target);
             
             _alien.Attacker.Attack();
-            Agent.StateMachineCompo.ChangeStateDelay(AlienState.Follow, 2f);
         }
 
         public override void OnAnimationEnd()
