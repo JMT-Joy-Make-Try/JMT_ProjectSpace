@@ -1,5 +1,6 @@
 using JMT.Planets.Tile;
 using JMT.UISystem;
+using JMT.UISystem.Interact;
 using UnityEngine;
 
 namespace JMT.Player
@@ -22,7 +23,7 @@ namespace JMT.Player
 
         private void Update()
         {
-            TileFind(InteractSystem.Instance.InteractType);
+            TileFind(GameUIManager.Instance.InteractCompo.InteractType);
         }
 
         private void TileFind(InteractType type)
@@ -35,7 +36,7 @@ namespace JMT.Player
             {
                 tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
                 tileManager.CurrentTile.EdgeEnable(true);
-                InteractSystem.Instance.ChangeInteract(tileManager.GetInteractType());
+                GameUIManager.Instance.InteractCompo.ChangeInteract(tileManager.GetInteractType());
             }
         }
 

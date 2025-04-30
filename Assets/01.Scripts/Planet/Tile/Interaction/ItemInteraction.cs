@@ -12,7 +12,7 @@ namespace JMT.Planets.Tile
         {
             if (TileManager.Instance.CurrentTile.Fog.IsFogActive) return;
             Destroy(transform.GetChild(0).gameObject);
-            InventoryManager.Instance.AddItem(itemType, itemCount);
+            GameUIManager.Instance.InventoryCompo.AddItem(itemType, itemCount);
             TileManager.Instance.CurrentTile.RemoveInteraction();
             TileManager.Instance.CurrentTile.AddInteraction<NoneInteraction>();
             //UIManager.Instance.ItemUI.OpenUI();

@@ -1,5 +1,7 @@
+using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile.Items;
+using JMT.Player;
 using UnityEngine;
 
 namespace JMT
@@ -7,7 +9,8 @@ namespace JMT
     [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/ToolSO")]
     public class ToolSO : ItemSO
     {
-        // public ItemType ItemType;
+        public SerializedDictionary<ItemSO, int> NeedItems;
+        public PlayerToolType ToolType;
         
         public virtual void Equip(Player.Player player)
         {

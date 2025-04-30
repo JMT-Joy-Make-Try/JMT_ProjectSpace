@@ -2,6 +2,7 @@ using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Item;
 using JMT.Planets.Tile;
+using JMT.UISystem;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -11,11 +12,12 @@ namespace JMT.Building
     public class GatheringBuilding : BuildingBase
     {
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
-        [SerializeField] private int _productionAmount;
         [SerializeField] private float _productionTime;
         [SerializeField] private int _maxProductionAmount;
         private int _currentProductionAmount;
         private float _productGauge;
+        
+        private IEnumerator _workCoroutine;
         
 
         [Space] [Header("Debug")] [SerializeField]
@@ -23,14 +25,25 @@ namespace JMT.Building
 
         public void InventoryAdd()
         {
-            InventoryManager.Instance.AddItem(ProductionItem, _currentProductionAmount);
+            GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
             _currentProductionAmount = 0;
         }
 
         public override void Work()
         {
             base.Work();
-            StartCoroutine(WorkCoroutine());
+            _workCoroutine = WorkCoroutine();
+            StartCoroutine(_workCoroutine);
+        }
+        
+        public override void StopWork()
+        {
+            base.StopWork();
+            if (_workCoroutine != null)
+            {
+                StopCoroutine(_workCoroutine);
+                _workCoroutine = null;
+            }
         }
 
         private IEnumerator WorkCoroutine()
@@ -44,6 +57,7 @@ namespace JMT.Building
                     continue;
                 }
                 _currentProductionAmount += GetBuildingComponent<BuildingLevel>().CurLevel;
+                InventoryAdd();
                 // 대충 연료 소모
                 yield return ws;
             }

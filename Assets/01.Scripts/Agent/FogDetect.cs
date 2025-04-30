@@ -25,6 +25,8 @@ namespace JMT.Agent
         private int _damage = 1;
 
         private bool _prevIsPlayerInFog = false;
+        
+        public bool IsPlayerInFog => _isPlayerInFog;
 
         private void Awake()
         {

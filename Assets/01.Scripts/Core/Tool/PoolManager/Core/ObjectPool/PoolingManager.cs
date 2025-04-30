@@ -11,6 +11,7 @@ namespace JMT.Core.Tool.PoolManager.Core
         public List<PoolingTableSO> listSO;
         private List<IPoolable> _generatedObjects = new List<IPoolable>();
 
+
         protected override void Awake()
         {
             base.Awake();
@@ -62,6 +63,17 @@ namespace JMT.Core.Tool.PoolManager.Core
             }
 
             _generatedObjects.Clear();
+        }
+
+        public void ResetPool(PoolingType poolType)
+        {
+            for (int i = _generatedObjects.Count - 1; i >= 0; i--)
+            {
+                if (_generatedObjects[i].type == poolType)
+                {
+                    _pools[_generatedObjects[i].type].Push(_generatedObjects[i]);
+                }
+            }
         }
     }
 }

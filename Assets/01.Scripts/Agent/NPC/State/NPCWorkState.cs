@@ -24,18 +24,23 @@ namespace JMT.Agent.State
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
             npcAgent.CurrentWorkingBuilding.Work();
             StartCoroutine(Work());
+            
         }
 
         private IEnumerator Work()
         {
             ItemBuilding building = npcAgent.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
+            if (building == null)
+            {
+                Debug.Log("Building is null");
+                yield break;
+            }
             
             while (true)
             {
                 if (building.data.GetFirstCreateItem() == null || building.data.CreateItemList.Count <= 0)
                 {
                     Debug.Log("Building Data is null");
-                    _stateMachine.ChangeState(NPCState.Idle);
                     yield break;
                 }
                 int timeMinute = building.data.GetFirstCreateItem().CreateTime.minute * 60 + building.data.GetFirstCreateItem().CreateTime.second;

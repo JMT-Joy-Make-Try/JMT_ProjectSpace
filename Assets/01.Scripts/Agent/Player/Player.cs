@@ -25,6 +25,7 @@ namespace JMT.Player
         public PlayerMovement Movement { get; private set; }
         public PlayerInputSO InputSO => inputSO;
         public FogDetect FogDetect { get; private set; }
+        public PlayerTool PlayerTool { get; private set; }
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
@@ -47,18 +48,22 @@ namespace JMT.Player
             EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
             Movement = GetComponent<PlayerMovement>();
             FogDetect = GetComponent<FogDetect>();
+            PlayerTool = GetComponent<PlayerTool>();
 
-            DaySystem.Instance.OnChangeTimeEvent += HandleChangeTimeEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
 
             InitStat();
             FogDetect.Init(this);
+            PlayerTool.Init(this);
         }
 
         private void OnDestroy()
         {
-            if (DaySystem.Instance == null) return;
-            DaySystem.Instance.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            if (GameUIManager.Instance == null) return;
+            if (GameUIManager.Instance.TimeCompo == null) return;
+            GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
         }
+
 
         public void InitStat()
         {
@@ -91,6 +96,7 @@ namespace JMT.Player
         public void AddOxygen(int value)
         {
             _curOxygen += value;
+            _curOxygen = Mathf.Clamp(_curOxygen, 0, Oxygen);
             OnOxygenEvent?.Invoke(_curOxygen, Oxygen);
         }
 

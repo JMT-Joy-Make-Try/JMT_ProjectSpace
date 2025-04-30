@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using JMT.Core.Tool;
 using System.Collections;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace JMT.Agent
                 NavMeshAgentCompo = gameObject.GetComponentOrAdd<NavMeshAgent>();
         }
         
-        void Start()
+        private void Start()
         {
             if (!NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
             {
@@ -36,17 +36,6 @@ namespace JMT.Agent
         
         public void Move(Vector3 destination, float speed, Action onComplete = null)
         {
-            if (!NavMeshAgentCompo.enabled)
-            {
-                Debug.LogError("NavMeshAgent가 비활성화 상태입니다!");
-                return;
-            }
-
-            if (NavMeshAgentCompo.isStopped)
-            {
-                Debug.LogError("NavMeshAgent가 멈춰 있음!");
-                return;
-            }
 
             if (!NavMesh.SamplePosition(destination, out NavMeshHit hit, 1000.0f, NavMesh.AllAreas))
             {
@@ -73,7 +62,6 @@ namespace JMT.Agent
                 yield return null;
             }
     
-            Debug.Log("도착 완료!");
             onComplete?.Invoke();
         }
 
@@ -81,6 +69,11 @@ namespace JMT.Agent
         public void Stop(bool isStop)
         {
             NavMeshAgentCompo.isStopped = isStop;
+        }
+        
+        public bool IsNearestTarget(Vector3 targetPosition, float distance)
+        {
+            return Vector3.Distance(transform.position, targetPosition) < distance;
         }
     }
 }

@@ -36,6 +36,7 @@ namespace JMT.Building
             OnCompleteEvent -= HandleCompleteEvent;
         }
 
+
         protected virtual void InitBuildingComponents()
         {
             components = GetComponents<IBuildingComponent>().ToList();
@@ -60,7 +61,7 @@ namespace JMT.Building
             visual.SetMaterial(visual.VisualMat);
 
             var buildingData = GetBuildingComponent<BuildingData>().Data;
-            StartCoroutine(BuildingRoutine(buildingData.BuildTime.GetSecond()));
+            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
         }
 
         private IEnumerator BuildingRoutine(int time)
@@ -78,6 +79,17 @@ namespace JMT.Building
             }
 
             _isWorking = true;
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
+        }
+        
+        public virtual void StopWork()
+        {
+            if (!_isWorking)
+            {
+                return;
+            }
+
+            _isWorking = false;
             GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
         }
         

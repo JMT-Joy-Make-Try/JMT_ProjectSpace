@@ -56,11 +56,13 @@ MonoBehaviour:
     BuildingLevel: 1
     UseFuelValue: 0
     works:
+      items: []
+    CreateItemList:
       items:
-      - type: 7
-        time:
-          minute: 0
-          second: 30
+      - {fileID: 11400000, guid: 0a5dfbb7392707944b76d12b4f4a7405, type: 2}
+  interactionDistance: 2.5
+  _visualTransform: {fileID: 2356477293731884676}
+  _oxygenAmount: 50
 --- !u!114 &1076030525563287783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,8 +75,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354f4af306474d97a37561e75b99bb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualMat: {fileID: 0}
-  rendererList: []
+  visualMat: {fileID: 2100000, guid: 1543aa205c71d594a94d90a0b362399a, type: 2}
+  rendererList:
+  - {fileID: 6582345938650067694}
+  - {fileID: 4198222965217008308}
+  - {fileID: 553009529104932310}
 --- !u!114 &-7540552467328510253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
 --- !u!114 &3985889103821257259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,9 +444,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7965616836228624463}
   m_SourcePrefab: {fileID: 100100000, guid: d6b90fc126a09364488f80a181177823, type: 3}
+--- !u!23 &553009529104932310 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2348053109929956537, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2356477293731884676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4198222965217008308 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2124097496332456923, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6582345938650067694 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -261092084840383615, guid: d6b90fc126a09364488f80a181177823, type: 3}
   m_PrefabInstance: {fileID: 2826390161159670127}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6962388450886811673 stripped

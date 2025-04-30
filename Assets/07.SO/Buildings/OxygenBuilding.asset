@@ -19,13 +19,28 @@ MonoBehaviour:
   BuildingDescription: "\uC0B0\uC18C\uD1B5\uC744 \uC548\uC804\uD558\uAC8C \uC0AC\uC6A9\uD560
     \uC218 \uC788\uB3C4\uB85D \uAC00\uACF5\uD558\uC5EC \uC81C\uACF5\uD55C\uB2E4.\n\uC77C\uAFBC\uACFC
     \uD50C\uB808\uC774\uC5B4\uC758 \uC0B0\uC18C\uB97C \uBCF4\uCDA9\uD574\uC900\uB2E4."
-  NeedItems:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
-      Value: 20
-    - Key: {fileID: 11400000, guid: d5657232cba60b443821309b6f17f964, type: 2}
-      Value: 10
-  BuildTime:
-    minute: 0
-    second: 10
-  UseFuelPerSecond: 0.5
+  buildingLevel:
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2
+  - NeedItems:
+      _serializedList:
+      - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
+        Value: 1
+    BuildTime:
+      minute: 0
+      second: 3
+    UseFuelPerSecond: 2

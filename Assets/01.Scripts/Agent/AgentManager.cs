@@ -1,7 +1,7 @@
 using JMT.Agent.NPC;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
-using JMT.Resource;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,21 @@ namespace JMT.Agent
     public class AgentManager : MonoSingleton<AgentManager>
     {
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
-        [field: SerializeField] public Transform PlayerTransform { get; private set; }
+        [field: SerializeField] public Player.Player Player { get; private set; }
 
-        public void SpawnAgent(Vector3 position)
+        public void AddNpc()
         {
-            ResourceManager.Instance.AddNpc(1);
-            var obj = PoolingManager.Instance.Pop(PoolingType.Agent_NPC);
-            obj.ObjectPrefab.transform.position = position;
+            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+            GameUIManager.Instance.ResourceCompo.AddNpc(1);
+            agent.SetAgentType(AgentType.Base);
+        }
+        
+        public void SpawnNpc(Vector3 position, Quaternion rotation)
+        {
+            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+            
+            agent.transform.position = position;
+            agent.transform.rotation = rotation;
         }
 
         public NPCAgent GetAgent()
@@ -35,12 +43,6 @@ namespace JMT.Agent
                 return null;
             }
             return agent;
-        }
-
-        private void SetUnemployedAgents()
-        {
-            UnemployedAgents = FindObjectsByType<NPCAgent>(FindObjectsSortMode.None)
-                .ToList().FindAll(s => s.AgentType == AgentType.Base);
         }
 
         public void RegisterAgent(NPCAgent agent)

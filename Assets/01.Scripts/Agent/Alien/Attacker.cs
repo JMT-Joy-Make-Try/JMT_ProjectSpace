@@ -10,6 +10,8 @@ namespace JMT.Agent.Alien
         [field: SerializeField] public LayerMask WhatIsAttackable { get; private set; }
 
         private Collider[] _colliders;
+        private int KnockbackDamage = 10;
+        
 
         private void Awake()
         {
@@ -26,6 +28,17 @@ namespace JMT.Agent.Alien
                     if (_colliders[i].TryGetComponent(out IDamageable damageable))
                     {
                         damageable.TakeDamage(AttackDamage);
+                    }
+
+                    if (_colliders[i].TryGetComponent(out IKnockbackable knockbackable))
+                    {
+                        Vector3 direction = (_colliders[i].transform.position - transform.position).normalized;
+                        knockbackable.Knockback(direction, KnockbackDamage);
+                    }
+
+                    if (_colliders[i].TryGetComponent(out IStunable stunable))
+                    {
+                        stunable.Stun(1f);
                     }
                 }
             }

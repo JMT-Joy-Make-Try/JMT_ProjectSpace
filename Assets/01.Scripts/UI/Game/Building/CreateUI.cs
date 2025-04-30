@@ -1,7 +1,6 @@
 using JMT.Building;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
-using JMT.Resource;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -60,7 +59,7 @@ namespace JMT.UISystem
             {
                 if (index >= itemCells.Count) break;
 
-                InventoryManager.Instance.ItemDictionary.TryGetValue(item.ResultItem, out int value);
+                GameUIManager.Instance.InventoryCompo.InventorySO.ItemDictionary.TryGetValue(item.ResultItem, out int value);
                 itemCells[index].SetCell(item.ResultItem, value.ToString());
 
                 index++;
@@ -69,10 +68,10 @@ namespace JMT.UISystem
 
         private void HandleCreateButton()
         {
-            if(currentItemSO.UseFuelCount > ResourceManager.Instance.CurrentFuelValue) return;
+            if (currentItemSO.UseFuelCount > GameUIManager.Instance.ResourceCompo.CurrentFuelValue) return;
             if (workBuilding.data.Works.IsFull()) return;
 
-            ResourceManager.Instance.AddFuel(-currentItemSO.UseFuelCount);
+            GameUIManager.Instance.ResourceCompo.AddFuel(-currentItemSO.UseFuelCount);
             Debug.Log("작업을 시작합니다~!~! 대기열 리스트에 넣었습니당");
             BuildingWork work = new(currentItemSO.ResultItem.ItemType, currentItemSO.CreateTime);
             workBuilding.data.AddWork(work);

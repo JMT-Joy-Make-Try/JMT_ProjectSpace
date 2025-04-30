@@ -1,7 +1,7 @@
-using JMT.Agent.Alien;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
-using System;
+using JMT.DayTime;
+using JMT.UISystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace JMT
         [SerializeField] private List<GameObject> spawnPoints = new();
         [SerializeField] private int _increaseEnemyCount = 5;
         [SerializeField] private int _maxEnemyCount = 10;
-        
+
         private List<GameObject> _enemies = new();
 
         private Coroutine spawnCoroutine;
@@ -22,16 +22,16 @@ namespace JMT
 
         private void Awake()
         {
-            DaySystem.Instance.OnChangeDaytimeEvent += EnemySpawn;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += EnemySpawn;
         }
 
         private void OnDestroy()
         {
             if (spawnCoroutine != null)
                 StopCoroutine(spawnCoroutine);
-            
-            if (DaySystem.Instance != null)
-                DaySystem.Instance.OnChangeDaytimeEvent -= EnemySpawn;
+
+            if (GameUIManager.Instance.TimeCompo != null)
+                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= EnemySpawn;
         }
 
         public void EnemySpawn(DaytimeType type)
@@ -55,7 +55,7 @@ namespace JMT
                 yield break;
             }
             var waitTime = new WaitForSeconds(coolTime);
-            for(int i = 0; i < enemyCount; i++)
+            for (int i = 0; i < enemyCount; i++)
             {
                 yield return waitTime;
                 int randomValue = Random.Range(0, spawnPoints.Count);

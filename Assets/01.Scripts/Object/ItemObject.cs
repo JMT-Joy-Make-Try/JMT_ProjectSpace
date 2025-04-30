@@ -6,6 +6,7 @@ using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -48,7 +49,7 @@ namespace JMT.Object
 
         public void Collect()
         {
-            InventoryManager.Instance.AddItem(_itemSO, 1);
+            GameUIManager.Instance.InventoryCompo.AddItem(_itemSO, 1);
             Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);
         }

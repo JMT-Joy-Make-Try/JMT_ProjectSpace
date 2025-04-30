@@ -30,7 +30,7 @@ namespace JMT.UISystem
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            UIManager.Instance.WorkUI.CloseUI();
+            //UIManager.Instance.WorkUI.CloseUI();
             // 구현 간바레
         }
     }

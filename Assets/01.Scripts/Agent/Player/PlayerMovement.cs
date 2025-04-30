@@ -18,7 +18,7 @@ namespace JMT.Player
         {
             player = GetComponent<Player>();
             player.InputSO.OnMoveEvent += HandleMoveEvent;
-            player.InputSO.OnLookEvent += HandleLookEvent;
+            //player.InputSO.OnLookEvent += HandleLookEvent;
             player.InputSO.OnSecondaryStartEvent += HandleSecondaryStartEvent;
             player.InputSO.OnSecondaryEndEvent += HandleSecondaryEndEvent;
             _defaultMoveSpeed = moveSpeed;
@@ -27,7 +27,7 @@ namespace JMT.Player
         private void OnDestroy()
         {
             player.InputSO.OnMoveEvent -= HandleMoveEvent;
-            player.InputSO.OnLookEvent -= HandleLookEvent;
+            //player.InputSO.OnLookEvent -= HandleLookEvent;
             player.InputSO.OnSecondaryStartEvent -= HandleSecondaryStartEvent;
             player.InputSO.OnSecondaryEndEvent -= HandleSecondaryEndEvent;
         }

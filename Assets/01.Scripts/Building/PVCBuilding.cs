@@ -1,7 +1,6 @@
 using DG.Tweening;
+using JMT.DayTime;
 using JMT.UISystem;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,9 +37,9 @@ namespace JMT
             }
             sequence.AppendInterval(0.5f);
             sequence.Append(transform.DOMoveY(-10, 3f));
-            
+
             sequence.OnComplete(() => Destroy(gameObject));
-            
+
             sequence.Play();
         }
     }
