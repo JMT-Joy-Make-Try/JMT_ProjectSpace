@@ -42,7 +42,6 @@ namespace JMT.Agent.State
             if (obj == AgentType.Base || obj == AgentType.Patient)
             {
                 multiplier = 1;
-                _targetPosition = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
             }
             else
             {
@@ -57,9 +56,6 @@ namespace JMT.Agent.State
             if (type == AgentType.Patient) return;
             _agent.transform.rotation = Quaternion.identity;
             _agent.transform.localRotation = Quaternion.identity;
-            Debug.Log(_agent.transform.rotation);
-            Debug.Log(_agent.transform.localRotation);
-            Debug.Log(_agent.name);
             if (type != AgentType.Base)
             {
                 _agent.StateMachineCompo.ChangeState(NPCState.Work);
@@ -67,22 +63,5 @@ namespace JMT.Agent.State
                 _agent.ChangeCloth(type);
             }
         }
-
-        public override void EnterState()
-        {
-            base.EnterState();
-            StartCoroutine(MoveCoroutine());
-        }
-
-        private IEnumerator MoveCoroutine()
-        {
-            while (true)
-            {
-                _targetPosition = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
-                _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed);
-                yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
-            }
-        }
-
     }
 }

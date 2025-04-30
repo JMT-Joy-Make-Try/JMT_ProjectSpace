@@ -27,6 +27,7 @@ namespace JMT.Agent.Alien
             base.Awake();
             OnDeath += HandleDeath;
             StateMachineCompo.ChangeState(AlienState.Idle);
+            DOTween.SetTweensCapacity(500, 50);
         }
 
         protected void OnDestroy()

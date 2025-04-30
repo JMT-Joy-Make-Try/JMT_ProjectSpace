@@ -4,6 +4,8 @@ using EditorAttributes;
 using JMT.Agent;
 using JMT.Item;
 using JMT.Core.Manager;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Object;
 using JMT.Planets.Tile;
 using System;
@@ -66,10 +68,11 @@ namespace JMT.Building
             {
                 for (int i = 0; i < _npcCount; i++)
                 {
-                    AgentManager.Instance.SpawnAgent(_spawnPos);
+                    AgentManager.Instance.AddNpc();
                 }
                 GetPlanetTile().RemoveInteraction();
                 GetPlanetTile().AddInteraction<NoneInteraction>();
+                PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
                 _isSpawnEnd = true;
             }
         }

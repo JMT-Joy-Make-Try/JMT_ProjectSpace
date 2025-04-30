@@ -1,12 +1,8 @@
 using System;
 using JMT.Building;
 using JMT.Building.Component;
-using JMT.Object;
-using JMT.UISystem;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 using JMT.UISystem.Interact;
 
 namespace JMT.Planets.Tile
@@ -41,9 +37,6 @@ namespace JMT.Planets.Tile
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
-            //_tileHeight = UnityEngine.Random.Range(0f, 10f);
-
-            //base.OnClick += OnPointerClickHandler;
         }
 
         public bool CanBuild()
@@ -137,18 +130,6 @@ namespace JMT.Planets.Tile
             }
 
             return interaction;
-        }
-
-        public void RemoveInteractionObject()
-        {
-            Destroy(TileInteraction.transform.GetChild(0).gameObject);
-            canInteraction = false;
-        }
-
-        public void OnPointerClickHandler()
-        {
-            if (!canInteraction) return;
-            //UIManager.Instance.NoTouchUI.NoTouchZone.OnClickEvent += () => EdgeEnable(false);
         }
 
         public void EdgeEnable(bool enable)

@@ -27,6 +27,8 @@ namespace JMT.Building.Component
             _currentNpc.Add(agent);
             agent.SetBuilding(Building);
             agent.SetAgentType(_agentType);
+            
+            Debug.Log(agent + " added to " + Building.name);
         }
         
         public virtual void RemoveNpc()

@@ -54,6 +54,8 @@ namespace JMT.Core.Tool.PoolManager.Core
             obj.ObjectPrefab.SetActive(false);
             _pool.Push(obj);
         }
+        
+        
     }
 }
 

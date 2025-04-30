@@ -10,7 +10,7 @@ namespace JMT.Agent.State
     {
         private bool _isAmbush; 
         [SerializeField] private float ambushRange = 10f;
-
+        [SerializeField] private LayerMask fogLayerMask;
         private Alien.Alien _alien;
         private Vector3 _targetPosition;
         private Coroutine _randomTargetCoroutine;
@@ -36,7 +36,8 @@ namespace JMT.Agent.State
             }
             else
             {
-                _targetPosition = Vector3.zero; 
+                _targetPosition = Vector3.zero;
+                StartCoroutine(RandomTargetPosition());
             }
         }
 
@@ -52,6 +53,11 @@ namespace JMT.Agent.State
                 _wasFollowingTarget = true;
                 Agent.MovementCompo.Stop(_isAmbush);
                 Agent.MovementCompo.Move(target.position, _alien.MoveSpeed);
+                if (Agent.MovementCompo.IsNearestTarget(target.position, 100f))
+                {
+                    Debug.LogError("이동 완료 후 상태 변경");
+                    _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
+                }
                 return;
             }
 
@@ -68,27 +74,48 @@ namespace JMT.Agent.State
         private IEnumerator RandomTargetPosition()
         {
             var ws = new WaitForSeconds(2f);
+            Vector3 center = Vector3.zero;
+
             while (true)
             {
+                Vector3 bestPosition = Vector3.zero;
+                float bestDistance = float.MaxValue;
                 bool found = false;
+
                 for (int i = 0; i < 10; i++)
                 {
-                    var pos = _alien.transform.position + new Vector3(
-                        Random.Range(-20f, 20f),
+                    Vector3 randomOffset = new Vector3(
+                        Random.Range(-15f, 15f),
                         0f,
-                        Random.Range(-20f, 20f)
+                        Random.Range(-15f, 15f)
                     );
-                    if (IsPositionInFog(pos))
+                    Vector3 candidate = Vector3.Lerp(_alien.transform.position, center, 0.3f) + randomOffset;
+
+                    if (IsPositionInFog(candidate))
                     {
-                        _targetPosition = pos;
-                        found = true;
-                        break;
+                        float distToCenter = Vector3.Distance(candidate, center);
+                        if (distToCenter < bestDistance)
+                        {
+                            bestDistance = distToCenter;
+                            bestPosition = candidate;
+                            found = true;
+                        }
                     }
                 }
-                if (!found) Debug.Log("Fog 위치 없음");
+
+                if (found)
+                {
+                    _targetPosition = bestPosition;
+                }
+                else
+                {
+                    Debug.Log("중앙 근처에 안개 위치 없음");
+                }
+
                 yield return ws;
             }
         }
+
 
         private bool IsPositionInFog(Vector3 position)
         {

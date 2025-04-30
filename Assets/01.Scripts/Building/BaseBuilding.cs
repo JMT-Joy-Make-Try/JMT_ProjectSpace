@@ -1,6 +1,8 @@
 using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Core.Manager;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.UISystem;
 using System;
 using System.Collections;
@@ -23,9 +25,10 @@ namespace JMT.Building
             
             for (int i = 0; i < _agentSpawnCount; i++)
             {
-                AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
+                AgentManager.Instance.AddNpc();
             }
             FixStation();
+            PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
         }
 
 
