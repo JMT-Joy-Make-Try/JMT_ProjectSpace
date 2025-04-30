@@ -19,7 +19,7 @@ namespace JMT.UISystem
 
         public void SetData(ItemSO item, int count)
         {
-            icon.sprite = item.Icon;
+            icon.sprite = item.ItemData.Icon;
             valueText.text = item.ItemName + " + " + count;
 
             Sequence seq = DOTween.Sequence();

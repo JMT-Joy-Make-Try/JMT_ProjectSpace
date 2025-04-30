@@ -68,8 +68,8 @@ namespace JMT.UISystem.Inventory
 
         public void HandleCellButton(ItemSO data)
         {
-            if (data.Icon != null)
-                infoIcon.sprite = data.Icon;
+            if (data.ItemData.Icon != null)
+                infoIcon.sprite = data.ItemData.Icon;
             infoNameText.text = data.ItemName;
             infoDescText.text = data.ItemDescription;
             infoButtonGroup.SetActive(!data.Category.Equals(InventoryCategory.Item));

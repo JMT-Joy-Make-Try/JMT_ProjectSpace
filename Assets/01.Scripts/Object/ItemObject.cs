@@ -32,8 +32,8 @@ namespace JMT.Object
         public void SetItemType(ItemSO itemType)
         {
             _itemSO = itemType;
-            _itemSpriteRenderer.sprite = itemType.Icon;
-            _meshRenderer.material.SetColor("_BaseColor", itemType.ItemData.color);
+            _itemSpriteRenderer.sprite = itemType.ItemData.Icon;
+            _meshRenderer.material.SetColor("_BaseColor", itemType.ItemData.Color);
         }
 
         private void Update()
@@ -58,8 +58,8 @@ namespace JMT.Object
     [System.Serializable]
     public struct ItemData
     {
-        public Sprite sprite;
+        public Sprite Icon;
         [ColorUsage(true, true)]
-        public Color32 color;
+        public Color32 Color;
     }
 }
