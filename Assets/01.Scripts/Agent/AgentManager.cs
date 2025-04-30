@@ -16,7 +16,9 @@ namespace JMT.Agent
 
         public void AddNpc()
         {
+            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
             GameUIManager.Instance.ResourceCompo.AddNpc(1);
+            agent.SetAgentType(AgentType.Base);
         }
         
         public void SpawnNpc(Vector3 position, Quaternion rotation)
@@ -41,12 +43,6 @@ namespace JMT.Agent
                 return null;
             }
             return agent;
-        }
-
-        private void SetUnemployedAgents()
-        {
-            UnemployedAgents = FindObjectsByType<NPCAgent>(FindObjectsSortMode.None)
-                .ToList().FindAll(s => s.AgentType == AgentType.Base);
         }
 
         public void RegisterAgent(NPCAgent agent)

@@ -1,6 +1,8 @@
 using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Core.Manager;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.UISystem;
 using System;
 using System.Collections;
@@ -26,6 +28,7 @@ namespace JMT.Building
                 AgentManager.Instance.AddNpc();
             }
             FixStation();
+            PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
         }
 
 

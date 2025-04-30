@@ -39,6 +39,7 @@ namespace JMT.UISystem
 
         private void HandleHireButton()
         {
+            Debug.Log("<size=100>Hire Button Clicked</size>");
             // 고용하기 버튼
             var npc = AgentManager.Instance.GetAgent();
             if (npc == null)
@@ -46,7 +47,7 @@ namespace JMT.UISystem
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
                 return;
             }
-            AgentManager.Instance.SpawnNpc(Vector3.zero, Quaternion.identity);
+            AgentManager.Instance.SpawnNpc(new Vector3(10f, 0, 10f), Quaternion.identity);
             TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(npc);
 
             ActiveLockArea(false);

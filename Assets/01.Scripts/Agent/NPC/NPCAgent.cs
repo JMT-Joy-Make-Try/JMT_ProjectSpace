@@ -1,16 +1,10 @@
-using AYellowpaper.SerializedCollections;
 using JMT.Agent.State;
 using JMT.Building;
 using JMT.Core.Tool;
-using JMT.Core.Tool.PoolManager.Core;
-using JMT.Item;
-using JMT.Object;
 using JMT.Planets.Tile;
-using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Range = JMT.Core.Tool.Range;
 
@@ -92,6 +86,8 @@ namespace JMT.Agent.NPC
             Debug.Log("Dead");
             StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
+        
+        
 
         private void HandleTypeChanged(AgentType type)
         {
@@ -106,10 +102,6 @@ namespace JMT.Agent.NPC
             
         }
 
-        private void Start()
-        {
-            SetAgentType(AgentType.Base);
-        }
         
         private void ActiveAgent()
         {
