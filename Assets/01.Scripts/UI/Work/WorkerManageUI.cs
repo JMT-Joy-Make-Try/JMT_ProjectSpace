@@ -46,7 +46,9 @@ namespace JMT.UISystem
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
                 return;
             }
+            AgentManager.Instance.SpawnNpc(Vector3.zero, Quaternion.identity);
             TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(npc);
+
             ActiveLockArea(false);
         }
 

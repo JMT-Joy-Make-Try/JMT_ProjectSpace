@@ -281,9 +281,9 @@ GameObject:
   - component: {fileID: 8709422778532941534}
   - component: {fileID: 8276747524008537087}
   - component: {fileID: 7236778680650646161}
-  - component: {fileID: 6911795406066343340}
   - component: {fileID: 3543947008638365226}
   - component: {fileID: 2894233833043196567}
+  - component: {fileID: 9105151934640249445}
   m_Layer: 9
   m_Name: Alien
   m_TagString: Untagged
@@ -442,27 +442,6 @@ MonoBehaviour:
   <WhatIsAttackable>k__BackingField:
     serializedVersion: 2
     m_Bits: 384
---- !u!135 &6911795406066343340
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971645974295314498}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &3543947008638365226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +484,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &9105151934640249445
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971645974295314498}
+  m_Material: {fileID: 13400000, guid: ad0ed5045f9552341b90757f8f28ffc3, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.88, z: 0}
 --- !u!1 &2360298551129726837
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +554,9 @@ MonoBehaviour:
   Agent: {fileID: 0}
   StateName: 
   ambushRange: 10
+  fogLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2655080270319610334
 GameObject:
   m_ObjectHideFlags: 0

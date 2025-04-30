@@ -19,7 +19,7 @@ namespace JMT.Agent
                 NavMeshAgentCompo = gameObject.GetComponentOrAdd<NavMeshAgent>();
         }
         
-        void Start()
+        private void Start()
         {
             if (!NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
             {
@@ -69,6 +69,11 @@ namespace JMT.Agent
         public void Stop(bool isStop)
         {
             NavMeshAgentCompo.isStopped = isStop;
+        }
+        
+        public bool IsNearestTarget(Vector3 targetPosition, float distance)
+        {
+            return Vector3.Distance(transform.position, targetPosition) < distance;
         }
     }
 }

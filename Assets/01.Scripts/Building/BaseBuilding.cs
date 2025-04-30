@@ -23,7 +23,7 @@ namespace JMT.Building
             
             for (int i = 0; i < _agentSpawnCount; i++)
             {
-                AgentManager.Instance.SpawnAgent(transform.position + new Vector3(_radius, 0f));
+                AgentManager.Instance.AddNpc();
             }
             FixStation();
         }

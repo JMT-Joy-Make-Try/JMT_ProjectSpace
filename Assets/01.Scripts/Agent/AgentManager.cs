@@ -14,11 +14,17 @@ namespace JMT.Agent
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
         [field: SerializeField] public Player.Player Player { get; private set; }
 
-        public void SpawnAgent(Vector3 position)
+        public void AddNpc()
         {
             GameUIManager.Instance.ResourceCompo.AddNpc(1);
-            var obj = PoolingManager.Instance.Pop(PoolingType.Agent_NPC);
-            obj.ObjectPrefab.transform.position = position;
+        }
+        
+        public void SpawnNpc(Vector3 position, Quaternion rotation)
+        {
+            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+            
+            agent.transform.position = position;
+            agent.transform.rotation = rotation;
         }
 
         public NPCAgent GetAgent()

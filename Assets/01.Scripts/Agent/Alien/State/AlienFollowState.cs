@@ -10,7 +10,7 @@ namespace JMT.Agent.State
     {
         private bool _isAmbush; 
         [SerializeField] private float ambushRange = 10f;
-
+        [SerializeField] private LayerMask fogLayerMask;
         private Alien.Alien _alien;
         private Vector3 _targetPosition;
         private Coroutine _randomTargetCoroutine;
@@ -52,6 +52,11 @@ namespace JMT.Agent.State
                 _wasFollowingTarget = true;
                 Agent.MovementCompo.Stop(_isAmbush);
                 Agent.MovementCompo.Move(target.position, _alien.MoveSpeed);
+                if (Agent.MovementCompo.IsNearestTarget(target.position, 10f))
+                {
+                    Debug.LogError("이동 완료 후 상태 변경");
+                    _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
+                }
                 return;
             }
 

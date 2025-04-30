@@ -66,7 +66,7 @@ namespace JMT.Building
             {
                 for (int i = 0; i < _npcCount; i++)
                 {
-                    AgentManager.Instance.SpawnAgent(_spawnPos);
+                    AgentManager.Instance.AddNpc();
                 }
                 GetPlanetTile().RemoveInteraction();
                 GetPlanetTile().AddInteraction<NoneInteraction>();
