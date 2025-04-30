@@ -454,6 +454,7 @@ GameObject:
   - component: {fileID: 10099376}
   - component: {fileID: 10099375}
   - component: {fileID: 10099377}
+  - component: {fileID: 10099378}
   m_Layer: 0
   m_Name: Timeline
   m_TagString: Untagged
@@ -523,7 +524,7 @@ PlayableDirector:
   - key: {fileID: -3287797960476799754, guid: 399da0c9947a0034fb1f390c90b44064, type: 2}
     value: {fileID: 985303494}
   - key: {fileID: 6663916790419792981, guid: 399da0c9947a0034fb1f390c90b44064, type: 2}
-    value: {fileID: 1396096903}
+    value: {fileID: 10099378}
   m_ExposedReferences:
     m_References:
     - 4f48b2dd380f29d49be6d800991ab3dd: {fileID: 1129539836}
@@ -554,7 +555,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f19e21931126ad4396f2b03d866a947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  director: {fileID: 0}
+--- !u!114 &10099378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10099374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 6dab3c19daa5f214a9c0bdbd01cbbd26, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 10099377}
+          m_TargetAssemblyTypeName: JMT.SceneLoad, Assembly-CSharp
+          m_MethodName: EndProcessing
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &11373139 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2805734494957130806, guid: 610d83e51fd302949bb8ae3573f7c322, type: 3}
@@ -38061,8 +38091,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129539834}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12281868, y: -0.21260288, z: 0.026946552, w: 0.9690147}
-  m_LocalPosition: {x: 150, y: 50, z: 30}
+  m_LocalRotation: {x: 0.14901045, y: 0.17155556, z: -0.026259823, w: 0.973486}
+  m_LocalPosition: {x: -3.9974928, y: 2.9658833, z: -14.979853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44575,7 +44605,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1396096902}
-  - component: {fileID: 1396096903}
   m_Layer: 0
   m_Name: NextScene
   m_TagString: Untagged
@@ -44598,36 +44627,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1416802038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1396096903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1396096901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 6dab3c19daa5f214a9c0bdbd01cbbd26, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: JMT.SceneLoad, Assembly-CSharp
-          m_MethodName: NextScene
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1396719660 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6427677510479044444, guid: 610d83e51fd302949bb8ae3573f7c322, type: 3}
@@ -47676,8 +47675,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514440276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12281868, y: -0.21260288, z: 0.026946552, w: 0.9690147}
-  m_LocalPosition: {x: 150, y: 50, z: 30}
+  m_LocalRotation: {x: 0.14901045, y: 0.17155556, z: -0.026259823, w: 0.973486}
+  m_LocalPosition: {x: -3.9974928, y: 2.9658833, z: -14.979853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
