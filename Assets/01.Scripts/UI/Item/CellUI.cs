@@ -10,19 +10,21 @@ namespace JMT.UISystem
     {
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI nameText, countText;
+        [SerializeField] private Image select;
         public Button CellButton { get; private set; }
 
         private void Awake()
         {
             CellButton = GetComponent<Button>();
+            SetSelect(false);
         }
 
         public void SetCell(ItemSO itemSO = null, string count = null)
         {
             if(icon != null)
             {
-                if (itemSO.Icon != null)
-                    icon.sprite = itemSO.Icon;
+                if (itemSO.ItemData.Icon != null)
+                    icon.sprite = itemSO.ItemData.Icon;
             }
             if(nameText != null) nameText.text = itemSO.ItemName;
             if (countText != null) countText.text = count;
@@ -54,6 +56,12 @@ namespace JMT.UISystem
             if (icon != null) icon.sprite = null;
             if (nameText != null) nameText.text = "";
             if (countText != null) countText.text = "";
+        }
+
+        public void SetSelect(bool isActive)
+        {
+            if(select != null)
+            select.enabled = isActive;
         }
     }
 }
