@@ -28,7 +28,7 @@ namespace JMT.UISystem.Inventory
         private void HandleEquip()
         {
             Player.Player player = AgentManager.Instance.Player;
-            player.PlayerTool.SetCloth(((_curItemSO) as ToolSO).ToolType);
+            player.PlayerTool.SetCloth((_curItemSO as ToolSO).ToolType);
             Debug.Log(player.PlayerTool._curPlayerToolSO);
         }
 
@@ -55,7 +55,6 @@ namespace JMT.UISystem.Inventory
 
         public void AddItem(ItemSO itemSO, int increaseValue)
         {
-            Debug.Log("네 아이템 들어왔어요.");
             model.AddItem(itemSO, increaseValue);
             GameUIManager.Instance.ItemGetCompo.GetItem(itemSO, increaseValue);
         }
@@ -63,7 +62,6 @@ namespace JMT.UISystem.Inventory
         public void AddItem(ItemType itemType, int increaseValue)
         {
             ItemSO so = ItemListSystem.Instance.GetItemSO(itemType);
-            Debug.Log("네 아이템 들어왔어요.");
             model.AddItem(so, increaseValue);
             GameUIManager.Instance.ItemGetCompo.GetItem(so, increaseValue);
         }
