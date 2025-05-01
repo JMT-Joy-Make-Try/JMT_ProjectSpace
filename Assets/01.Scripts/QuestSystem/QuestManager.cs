@@ -1,22 +1,69 @@
-﻿using System;
+﻿using JMT.Core.Tool;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.QuestSystem
 {
-    public class QuestManager : MonoBehaviour
+    public class QuestManager : MonoSingleton<QuestManager>
     {
-        [SerializeField] private QuestListSO _questListSO;
+        [SerializeField] private QuestListSO questListSO;
 
-        private QuestSO _currentQuestSO;
+        private int currentQuestIndex = 0;
+        private List<IQuestTarget> currentQuestTargets = new List<IQuestTarget>();
+
+        private void Awake()
+        {
+            currentQuestTargets = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IQuestTarget>().ToList();
+        }
         private void Start()
         {
-            _questListSO = _questListSO.Clone() as QuestListSO;
+            Debug.Log(currentQuestTargets.Count);
+            StartQuest(questListSO.quests[currentQuestIndex]);
         }
 
-        // _questListSO를 사용해서 퀘스트를 진행
-        // _questListSO의 List 순서대로 진행된다.
-        // 퀘스트를 진행할 때마다 _currentQuestSO에 현재 퀘스트를 저장한다.
-        // 퀘스트를 완료하면 다음 퀘스트로 넘어간다.
+        public void CompleteQuest(QuestSO questData)
+        {
+            if (questData == null)
+            {
+                Debug.LogError("Quest data is null!");
+                return;
+            }
+            
+            var questTarget = currentQuestTargets.FirstOrDefault(target => target.QuestData == questData);
+            
+            if (questTarget != null)
+            {
+                Debug.Log($"Quest '{questData.questName}' completed!");
+                questTarget.SetState(QuestState.Completed);
+                currentQuestIndex++;
+                
+                if (currentQuestIndex < questListSO.quests.Count)
+                {
+                    StartQuest(questListSO.quests[currentQuestIndex]);
+                }
+                else
+                {
+                    Debug.Log("All quests completed!");
+                }
+            }
+        }
+
+        private void StartQuest(QuestSO questData)
+        {
+            Debug.Log($"Starting quest '{questData.questName}'");
+
+            foreach (var target in currentQuestTargets)
+            {
+                if (target.QuestData == questData)
+                {
+                    target.Enable();
+                }
+            }
+        }
     }
+
+
 }
