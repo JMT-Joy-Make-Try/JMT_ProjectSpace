@@ -12,6 +12,7 @@ namespace JMT.Planets.Tile
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }
+        [field: SerializeField] public QuestPing QuestPing { get; private set; }
         [SerializeField] private float _tileHeight;
 
         [SerializeField] public Fog Fog;
