@@ -1,6 +1,7 @@
 using DG.Tweening;
 using JMT.Agent;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using JMT.Planets.Tile;
 using TMPro;
 using UnityEngine;
@@ -39,7 +40,6 @@ namespace JMT.UISystem
 
         private void HandleHireButton()
         {
-            Debug.Log("<size=100>Hire Button Clicked</size>");
             // 고용하기 버튼
             var npc = AgentManager.Instance.GetAgent();
             if (npc == null)
@@ -47,7 +47,11 @@ namespace JMT.UISystem
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
                 return;
             }
-            AgentManager.Instance.SpawnNpc(new Vector3(10f, 0, 10f), Quaternion.identity);
+
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuilding;
+            if (lodgingBuilding == null) return;
+            var spawnPos = lodgingBuilding.transform.position;
+            AgentManager.Instance.SpawnNpc(spawnPos, Quaternion.identity);
             TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(npc);
 
             ActiveLockArea(false);

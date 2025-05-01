@@ -1,4 +1,5 @@
 using JMT.Agent.NPC;
+using JMT.Core.Manager;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.UISystem;
@@ -16,6 +17,16 @@ namespace JMT.Agent
 
         public void AddNpc()
         {
+            if (BuildingManager.Instance.LodgingBuilding == null)
+            {
+                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
+                return;
+            }
+            if (BuildingManager.Instance.LodgingBuilding.MaxNpcCount < UnemployedAgents.Count)
+            {
+                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 부족합니다.");
+                return;
+            }
             NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
             GameUIManager.Instance.ResourceCompo.AddNpc(1);
             agent.SetAgentType(AgentType.Base);

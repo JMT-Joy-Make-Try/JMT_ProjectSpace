@@ -23,6 +23,11 @@ namespace JMT.Planets.Tile
             LineRenderer = GetComponent<LineRenderer>();
             LineRenderer.enabled = false;
         }
+        
+        public void SetLineRenderer(bool isActive)
+        {
+            LineRenderer.enabled = isActive;
+        }
 
         public void SetTile(TileType tileType, Color color)
         {
