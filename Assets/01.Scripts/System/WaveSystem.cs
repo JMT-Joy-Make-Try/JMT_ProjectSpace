@@ -29,7 +29,8 @@ namespace JMT
         {
             if (spawnCoroutine != null)
                 StopCoroutine(spawnCoroutine);
-
+            if (GameUIManager.Instance == null) return;
+            
             if (GameUIManager.Instance.TimeCompo != null)
                 GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= EnemySpawn;
         }
