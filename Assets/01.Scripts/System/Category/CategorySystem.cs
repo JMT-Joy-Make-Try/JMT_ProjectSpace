@@ -1,33 +1,22 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace JMT
 {
     public static class CategorySystem
     {
-        public static List<T> FilteringCategory<T>(List<T> list, Enum category) where T : ICategorizable
+        public static List<TItem> FilteringCategory<TItem, TCategoryOwner>(List<TItem> list, Enum category, Func<TItem, TCategoryOwner> selector)
+            where TCategoryOwner : ICategorizable
         {
-            List<T> result = new();
-
-            for (int i = 0; i < list.Count; i++)
+            // selector : 리턴값이 있는 액션, 함수를 매개변수로 담은거임.
+            // Func<TItem, TCategoryOwner> : 여기서 TItem을 주면 TCategoryOwner형식으로 리턴 값이 돌아옴.
+            var result = new List<TItem>();
+            foreach (var item in list)
             {
-                if (category.Equals(list[i].Category))
-                    result.Add(list[i]);
+                var owner = selector(item);
+                if (owner.Category.Equals(category))
+                    result.Add(item);
             }
-            return result;
-        }
-
-        public static List<KeyValuePair<T, int>> FilteringCategory<T>(List<KeyValuePair<T, int>> list, Enum category) where T : ICategorizable
-        {
-            List<KeyValuePair<T, int>> result = new();
-
-            foreach (var pair in list)
-            {
-                if (category.Equals(pair.Key.Category))
-                    result.Add(pair);
-            }
-
             return result;
         }
     }

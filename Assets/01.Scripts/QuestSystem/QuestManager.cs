@@ -1,4 +1,4 @@
-﻿using JMT.Core.Tool;
+using JMT.Core.Tool;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,21 +7,34 @@ using UnityEngine;
 
 namespace JMT.QuestSystem
 {
+    [Serializable]
+    public struct PingData
+    {
+        public QuestSO so;
+        public GameObject pingTile;
+    }
     public class QuestManager : MonoSingleton<QuestManager>
     {
-        [SerializeField] private QuestListSO questListSO;
+        [SerializeField] private List<PingData> pingDatas = new List<PingData>();
 
         private int currentQuestIndex = 0;
         private List<IQuestTarget> currentQuestTargets = new List<IQuestTarget>();
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             currentQuestTargets = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IQuestTarget>().ToList();
         }
         private void Start()
         {
             Debug.Log(currentQuestTargets.Count);
-            StartQuest(questListSO.quests[currentQuestIndex]);
+            
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
+                StartQuest(pingDatas[currentQuestIndex].so);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -39,10 +52,12 @@ namespace JMT.QuestSystem
                 Debug.Log($"Quest '{questData.questName}' completed!");
                 questTarget.SetState(QuestState.Completed);
                 currentQuestIndex++;
+
+
                 
-                if (currentQuestIndex < questListSO.quests.Count)
+                if (currentQuestIndex < pingDatas.Count)
                 {
-                    StartQuest(questListSO.quests[currentQuestIndex]);
+                    StartQuest(pingDatas[currentQuestIndex].so);
                 }
                 else
                 {
