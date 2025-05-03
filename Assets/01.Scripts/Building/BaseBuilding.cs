@@ -1,11 +1,4 @@
-using JMT.Agent;
-using JMT.Agent.NPC;
 using JMT.Core.Manager;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
-using JMT.UISystem;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace JMT.Building
@@ -22,13 +15,7 @@ namespace JMT.Building
         {
             base.HandleCompleteEvent();
             FogManager.Instance.OffFogBaseBuilding();
-            
-            for (int i = 0; i < _agentSpawnCount; i++)
-            {
-                AgentManager.Instance.AddNpc();
-            }
             FixStation();
-            PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
         }
 
 

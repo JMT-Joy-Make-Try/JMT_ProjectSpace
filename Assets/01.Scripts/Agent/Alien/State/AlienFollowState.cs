@@ -1,9 +1,6 @@
 ﻿using JMT.Agent.Alien;
-using JMT.Core.Manager;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -54,19 +51,14 @@ namespace JMT.Agent.State
             if (IsPositionInFog(targetPosition))
             {
                 _targetPosition = targetPosition;
-                _wasFollowingTarget = false;
+                if (_alien.transform.position.IsNear(targetPosition, 10f))
+                {
+                    _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
+                }
             }
             else
             {
-                if (_wasFollowingTarget)
-                {
-                    _targetPosition = targetPosition;
-                }
-                else
-                {
-                    _targetPosition = targetPosition.GetRandomNearestPosition(ambushRange);
-                    _wasFollowingTarget = true;
-                }
+                _targetPosition = _alien.transform.position.GetRandomNearestPosition(10);
             }
         }
 

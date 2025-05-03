@@ -36,9 +36,9 @@ namespace JMT.UISystem
         public void PlayerControlActive(bool isActive)
         {
             if (isActive)
-                inputSO.ControlEnable();
+                inputSO.ControlEnable(true);
             else
-                inputSO.ControlDisable();
+                inputSO.ControlEnable(false);
         }
     }
 }

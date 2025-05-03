@@ -10,7 +10,7 @@ namespace JMT.Agent
         public void SetAnimationEnd()
         {
             OnAnimationEnd?.Invoke();
-            Debug.Log("Animation End Triggered" + gameObject.name);
+            Debug.Log("Animation End Triggered " + gameObject.name);
         }
     }
 }

@@ -46,5 +46,10 @@ namespace JMT.Core.Tool
 
             return new Vector3(x, vector.y, z);
         }
+        
+        public static bool IsNear(this Vector3 vector, Vector3 target, float distance)
+        {
+            return Vector3.Distance(vector, target) <= distance;
+        }
     }
 }
