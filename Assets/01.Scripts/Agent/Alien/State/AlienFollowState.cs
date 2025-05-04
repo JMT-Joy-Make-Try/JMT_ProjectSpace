@@ -27,24 +27,44 @@ namespace JMT.Agent.State
         {
             base.EnterState();
             _isAmbush = Random.Range(0f, 1f) < 0.5f;
-            Agent.MovementCompo.Stop(_isAmbush);
+
+            if (_isAmbush)
+            {
+                _isAmbush = false;
+                _stateMachine.ChangeState(AlienState.Idle);
+                return;
+            }
+
+            RandomMove();
         }
+
 
         public override void UpdateState()
         {
             var target = _alien.TargetFinder.Target;
 
-            if (target == null)
+            if (_alien.transform.position.IsNear(_targetPosition, 0.5f))
             {
-                RandomMove();
-            }
-            else
-            {
+                if (_isAmbush && !IsPositionInFog(_alien.transform.position))
+                {
+                    _isAmbush = false;
+                    //_stateMachine.ChangeState(AlienState.Idle);
+                    return;
+                }
+
+                if (!IsPositionInFog(_alien.transform.position) || target == null)
+                {
+                    _stateMachine.ChangeState(AlienState.Idle);
+                    return;
+                }
+
                 TargetMove(target.position);
             }
 
             Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
         }
+
+
 
         private void TargetMove(Vector3 targetPosition)
         {
@@ -67,22 +87,46 @@ namespace JMT.Agent.State
             if (_isAmbush)
             {
                 _targetPosition = _alien.transform.position;
+                return;
             }
-            else
+
+            Vector3 center = Vector3.zero;
+
+            if (IsPositionInFog(center))
             {
-                _targetPosition = _alien.transform.position.GetRandomNearestPosition(ambushRange);
+                _targetPosition = center;
+                return;
             }
+
+            for (int i = 0; i < 10; i++)
+            {
+                Vector3 toCenter = (center - _alien.transform.position).normalized;
+                Vector3 randomOffset = Random.insideUnitSphere * 3f;
+                randomOffset.y = 0;
+
+                Vector3 candidate = _alien.transform.position + toCenter * Random.Range(3f, 7f) + randomOffset;
+
+                if (IsPositionInFog(candidate))
+                {
+                    _targetPosition = candidate;
+                    return;
+                }
+            }
+
+            _targetPosition = _alien.transform.position + (center - _alien.transform.position).normalized * 5f;
         }
+
 
         private bool IsPositionInFog(Vector3 position)
         {
-            int cnt = Physics.OverlapSphereNonAlloc(position, 1f, _overlapResults); 
+            int cnt = Physics.OverlapSphereNonAlloc(position, 1f, _overlapResults);
             for (int i = 0; i < cnt; i++)
             {
                 var fog = _overlapResults[i].GetComponent<Fog>();
                 if (fog != null && fog.IsFogActive)
                     return true;
             }
+
             return false;
         }
     }
