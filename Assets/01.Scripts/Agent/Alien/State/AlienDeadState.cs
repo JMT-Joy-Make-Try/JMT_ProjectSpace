@@ -18,12 +18,6 @@ namespace JMT.Agent.State
             _alien = agent as Alien.Alien;
         }
 
-        public override void EnterState()
-        {
-            base.EnterState();
-            //Agent.MovementCompo.Stop(true);
-        }
-
         public override void OnAnimationEnd()
         {
             _alien.AlienRenderer.material.DOFloat(1f, "_DissolveValue", 1f);

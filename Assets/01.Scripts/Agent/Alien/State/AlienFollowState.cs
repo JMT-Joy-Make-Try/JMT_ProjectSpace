@@ -63,6 +63,7 @@ namespace JMT.Agent.State
             _targetPosition = targetPosition;
             if (_alien.transform.position.IsNear(targetPosition, 10f))
             {
+                _alien.TargetFinder.Target = null;
                 _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
             }
         }
@@ -74,7 +75,7 @@ namespace JMT.Agent.State
             for (int i = 0; i < 10; i++)
             {
                 Vector3 toCenter = (center - _alien.transform.position).normalized;
-                Vector3 randomOffset = Random.insideUnitSphere * 3f;
+                Vector3 randomOffset = Random.insideUnitSphere * 10f;
                 randomOffset.y = 0;
 
                 Vector3 candidate = _alien.transform.position + toCenter * Random.Range(3f, 7f) + randomOffset;
@@ -87,6 +88,7 @@ namespace JMT.Agent.State
             }
 
             _targetPosition = _alien.transform.position + (center - _alien.transform.position).normalized * 5f;
+            _targetPosition += _alien.transform.position.GetRandomNearestPosition(10f);
         }
 
 
