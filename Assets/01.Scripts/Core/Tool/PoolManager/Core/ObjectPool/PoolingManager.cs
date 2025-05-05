@@ -19,9 +19,6 @@ namespace JMT.Core.Tool.PoolManager.Core
             {
                 foreach (PoolingItemSO item in table.datas)
                 {
-                    Debug.Log(item.name);
-                    Debug.Log(item.prefab);
-                    Debug.Log($"[ Load Pools ] {item.prefab.type.ToString()}");
                     CreatePool(item);
                 }
             }

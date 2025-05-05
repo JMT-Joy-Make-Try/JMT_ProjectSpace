@@ -22,7 +22,6 @@ namespace JMT.Agent.Alien
         
         protected override void Awake()
         {
-            Debug.Log(AlienRenderer.material);
             AlienRenderer.material = Instantiate(AlienRenderer.material);
             base.Awake();
             OnDeath += HandleDeath;

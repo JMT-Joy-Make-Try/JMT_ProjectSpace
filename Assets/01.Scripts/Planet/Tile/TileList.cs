@@ -22,6 +22,27 @@ namespace JMT.Planets.Tile
             Tiles = GetComponentsInChildren<PlanetTile>().ToList();
             LineRenderer = GetComponent<LineRenderer>();
             LineRenderer.enabled = false;
+            SetLineY(1);
+            SetLineWidth(1);
+        }
+
+        public void SetLineY(float y)
+        {
+            Vector3[] positions = new Vector3[LineRenderer.positionCount];
+            LineRenderer.GetPositions(positions);
+
+            for (int i = 0; i < positions.Length; i++)
+            {
+                positions[i].y = y;
+            }
+
+            LineRenderer.SetPositions(positions);
+        }
+        
+        public void SetLineWidth(float width)
+        {
+            LineRenderer.startWidth = width;
+            LineRenderer.endWidth = width;
         }
         
         public void SetLineRenderer(bool isActive)
@@ -68,7 +89,6 @@ namespace JMT.Planets.Tile
                 Debug.LogWarning($"SpawnCo: Only spawned {spawnedCount}/{_maxVillageCount} villages due to limited valid tiles.");
             }
         }
-
     }
     
     public enum FogTier

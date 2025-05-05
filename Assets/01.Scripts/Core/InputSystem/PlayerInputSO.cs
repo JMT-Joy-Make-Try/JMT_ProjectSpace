@@ -14,10 +14,12 @@ namespace JMT
     [CreateAssetMenu(menuName = "SO/Input/PlayerInputSO")]
     public class PlayerInputSO : ScriptableObject, Controls.IPlayerActions
     {
+        #region Actions
         public event Action<Vector2> OnMoveEvent;
         public event Action<float> OnLookEvent;
         public event Action OnSecondaryStartEvent;
         public event Action OnSecondaryEndEvent;
+        #endregion
 
         private Controls controls;
         private TouchType touchType = TouchType.None;
@@ -28,20 +30,29 @@ namespace JMT
         private bool isFirst = false;
         private bool isSecond = false;
 
-        private void OnEnable() => ControlEnable();
-        private void OnDisable() => ControlDisable();
+        #region Control Enable
+        private void OnEnable() => ControlEnable(true);
+        private void OnDisable() => ControlEnable(false);
 
-        public void ControlEnable()
+        public void ControlEnable(bool isEnable)
         {
-            if (controls == null)
-                controls = new Controls();
+            if (isEnable)
+            {
+                if (controls == null)
+                    controls = new Controls();
 
-            controls.Player.AddCallbacks(this);
-            controls.Enable();
+                controls.Player.AddCallbacks(this);
+                controls.Enable();
+            }
+            else
+            {
+                controls.Disable();
+            }
         }
+        #endregion
 
-        public void ControlDisable() => controls.Disable();
 
+        #region Controls
         public void OnMove(InputAction.CallbackContext context)
         {
             if (context.started)
@@ -65,15 +76,9 @@ namespace JMT
                 OnLookEvent?.Invoke(delta.x);
             }
         }
-
-        public void OnAttack(InputAction.CallbackContext context) { }
-        public void OnInteract(InputAction.CallbackContext context) { }
-        public void OnCrouch(InputAction.CallbackContext context) { }
-        public void OnJump(InputAction.CallbackContext context) { }
-        public void OnPrevious(InputAction.CallbackContext context) { }
-        public void OnNext(InputAction.CallbackContext context) { }
-        public void OnSprint(InputAction.CallbackContext context) { }
-
+        #endregion
+        
+        #region Touch
         public void OnSecondary(InputAction.CallbackContext context)
         {
             switch (context.phase)
@@ -120,5 +125,16 @@ namespace JMT
                 isSecond = false;
             }
         }
+        #endregion
+
+        #region Not Used
+        public void OnAttack(InputAction.CallbackContext context) { }
+        public void OnInteract(InputAction.CallbackContext context) { }
+        public void OnCrouch(InputAction.CallbackContext context) { }
+        public void OnJump(InputAction.CallbackContext context) { }
+        public void OnPrevious(InputAction.CallbackContext context) { }
+        public void OnNext(InputAction.CallbackContext context) { }
+        public void OnSprint(InputAction.CallbackContext context) { }
+        #endregion
     }
 }

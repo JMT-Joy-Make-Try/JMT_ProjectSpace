@@ -3,6 +3,7 @@ using JMT.Planets.Tile.Items;
 using System.Text;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace JMT.Core.Tool
 {
@@ -36,6 +37,19 @@ namespace JMT.Core.Tool
             }
 
             return false;
+        }
+
+        public static Vector3 GetRandomNearestPosition(this Vector3 vector, float radius)
+        {
+            float x = UnityEngine.Random.Range(vector.x - radius, vector.x + radius);
+            float z = UnityEngine.Random.Range(vector.z - radius, vector.z + radius);
+
+            return new Vector3(x, vector.y, z);
+        }
+        
+        public static bool IsNear(this Vector3 vector, Vector3 target, float distance)
+        {
+            return Vector3.Distance(vector, target) <= distance;
         }
     }
 }
