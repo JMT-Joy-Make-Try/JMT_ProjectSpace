@@ -9,13 +9,11 @@ namespace JMT.Agent.State
 {
     public class AlienFollowState : State<AlienState>
     {
-        [SerializeField] private float ambushRange = 10f;
-        [SerializeField] private LayerMask fogLayerMask;
         private Alien.Alien _alien;
         private Vector3 _targetPosition;
-        private bool _wasFollowingTarget = false;
 
         private static readonly Collider[] _overlapResults = new Collider[10];
+        private Coroutine _moveCoroutine;
 
         public override void Initialize(AgentAI<AlienState> agent, string stateName)
         {
@@ -28,7 +26,7 @@ namespace JMT.Agent.State
             base.EnterState();
 
             RandomMove();
-            StartCoroutine(MoveCoroutine());
+            _moveCoroutine = StartCoroutine(MoveCoroutine());
         }
 
         private IEnumerator MoveCoroutine()
@@ -45,11 +43,6 @@ namespace JMT.Agent.State
                 else
                 {
                     TargetMove(target.position);
-                    if (_alien.transform.position.IsNear(target.position, 10f))
-                    {
-                        Debug.Log("AlienFollowState: Near target, starting attack.");
-                        _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
-                    }
                     Debug.Log("AlienFollowState: Following target.");
                 }
 
@@ -59,7 +52,7 @@ namespace JMT.Agent.State
                     Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
                 }
 
-                yield return new WaitUntil(() => Agent.MovementCompo.IsMoving);
+                yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
             }
         }
 
@@ -108,6 +101,12 @@ namespace JMT.Agent.State
             }
 
             return false;
+        }
+
+        public override void ExitState()
+        {
+            StopCoroutine(_moveCoroutine);
+            base.ExitState();
         }
     }
 }
