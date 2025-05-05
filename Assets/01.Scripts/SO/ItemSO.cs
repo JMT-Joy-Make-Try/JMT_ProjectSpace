@@ -22,8 +22,6 @@ namespace JMT.Item
         public string ItemDescription;
         public ItemData ItemData;
 
-        public string DisplayName => ItemName;
-
         Enum ICategorizable.Category => Category;
     }
 }

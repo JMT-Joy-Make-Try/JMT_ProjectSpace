@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.QuestSystem
 {
     public class QuestPing : MonoBehaviour
     {
@@ -23,6 +23,12 @@ namespace JMT
         public void DisablePing()
         {
             spriteCompo.DOFade(0f, duration);
+        }
+
+        public void SelectPingLocation(bool isDown)
+        {
+            Vector3 vec = new(0, isDown ? 0.57f : 1f, 0);
+            transform.localPosition = vec;
         }
     }
 }

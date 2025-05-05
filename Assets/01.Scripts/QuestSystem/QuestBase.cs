@@ -1,27 +1,27 @@
 using JMT;
 using JMT.Planets.Tile;
 using JMT.QuestSystem;
-using System;
 using UnityEngine;
 
-public class TestObj : MonoBehaviour, IQuestTarget
+public class QuestBase : MonoBehaviour, IQuestTarget
 {
-    [SerializeField] private PlanetTile tile;
+    [SerializeField] protected PlanetTile tile;
     [field: SerializeField] public QuestSO QuestData { get; private set; }
     public QuestState QuestState { get; private set; }
+    public QuestPing QuestPing => tile.QuestPing;
     public bool IsActive { get; private set; }
-
     public bool CanRunQuest => QuestState == QuestState.InProgress && IsActive;
 
-    public QuestPing QuestPing => tile.QuestPing;
+    protected bool isComplete;
 
-    public void RunQuest()
+    public virtual void RunQuest()
     {
+        Debug.Log("뭐야 찍어줘요");
         QuestPing.DisablePing();
         QuestManager.Instance.CompleteQuest(QuestData);
     }
 
-    public void Enable()
+    public virtual void Enable()
     {
         QuestState = QuestState.InProgress;
         IsActive = true;
@@ -30,11 +30,9 @@ public class TestObj : MonoBehaviour, IQuestTarget
     }
 
     public void SetState(QuestState state)
-    {
-        QuestState = state;
-    }
+        => QuestState = state;
 
-    private void Update()
+    /*private void Update()
     {
         Debug.Log("asdf");
         if (Input.GetKeyDown(KeyCode.Space))
@@ -43,5 +41,5 @@ public class TestObj : MonoBehaviour, IQuestTarget
             if (CanRunQuest)
                 RunQuest();
         }
-    }
+    }*/
 }

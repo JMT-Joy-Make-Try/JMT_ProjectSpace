@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 namespace JMT.QuestSystem
@@ -15,6 +16,9 @@ namespace JMT.QuestSystem
     }
     public class QuestManager : MonoSingleton<QuestManager>
     {
+        public event Action<QuestSO> OnQuestStartEvent;
+        public event Action OnQuestEndEvent;
+
         [SerializeField] private List<PingData> pingDatas = new List<PingData>();
 
         private int currentQuestIndex = 0;
@@ -50,19 +54,9 @@ namespace JMT.QuestSystem
             if (questTarget != null)
             {
                 Debug.Log($"Quest '{questData.questName}' completed!");
+                OnQuestEndEvent?.Invoke();
                 questTarget.SetState(QuestState.Completed);
-                currentQuestIndex++;
-
-
-                
-                if (currentQuestIndex < pingDatas.Count)
-                {
-                    StartQuest(pingDatas[currentQuestIndex].so);
-                }
-                else
-                {
-                    Debug.Log("All quests completed!");
-                }
+                StartCoroutine(DelayQuestRoutine());
             }
         }
 
@@ -74,11 +68,25 @@ namespace JMT.QuestSystem
             {
                 if (target.QuestData == questData)
                 {
+                    OnQuestStartEvent?.Invoke(questData);
                     target.Enable();
                 }
             }
         }
+
+        private IEnumerator DelayQuestRoutine()
+        {
+            currentQuestIndex++;
+
+            if (currentQuestIndex < pingDatas.Count)
+            {
+                yield return new WaitForSeconds(1f);
+                StartQuest(pingDatas[currentQuestIndex].so);
+            }
+            else
+                Debug.Log("All quests completed!");
+
+            yield return null;
+        }
     }
-
-
 }
