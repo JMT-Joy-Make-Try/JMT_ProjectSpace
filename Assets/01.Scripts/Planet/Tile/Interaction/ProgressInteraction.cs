@@ -11,11 +11,8 @@ namespace JMT
             BuildingBase building = GetComponentInChildren<BuildingBase>();
             Debug.Log(building);
 
-            if (!building.IsBuilding)
-            {
-                Debug.LogError("Dasddadjkadjlkdjl");
-                return;
-            }
+            if (!building.IsBuilding) return;
+            Debug.Log("완료되었사와요");
             building.OnCompleteEvent?.Invoke();
 
             TileManager.Instance.CurrentTile.RemoveInteraction();

@@ -1,19 +1,19 @@
+using JMT.QuestSystem;
+using TMPro;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.UISystem.Quest
 {
-    public class QuestView : MonoBehaviour
+    public class QuestView : PanelUI
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-        
-        }
+        [SerializeField] private TextMeshProUGUI questNameText;
+        [SerializeField] private TextMeshProUGUI questDescText;
 
-        // Update is called once per frame
-        void Update()
+        public void SetQuestView(QuestSO quest)
         {
-        
+            if(!IsOpen) OpenUI();
+            questNameText.text = quest.questName;
+            questDescText.text = quest.description;
         }
     }
 }

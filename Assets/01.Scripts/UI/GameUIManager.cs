@@ -4,9 +4,9 @@ using JMT.UISystem.Interact;
 using JMT.UISystem.Inventory;
 using JMT.UISystem.ItemGet;
 using JMT.UISystem.Popup;
+using JMT.UISystem.Quest;
 using JMT.UISystem.Resource;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace JMT.UISystem
 {
@@ -23,6 +23,7 @@ namespace JMT.UISystem
         [SerializeField] private ConstructController constructCompo;
         [SerializeField] private InteractController interactCompo;
         [SerializeField] private GameUIController gameUICompo;
+        [SerializeField] private QuestController questCompo;
         public TimeController TimeCompo => timeCompo;
         public GameSpeedController SpeedCompo => speedCompo;
         public ResourceController ResourceCompo => resourceCompo;
@@ -32,6 +33,7 @@ namespace JMT.UISystem
         public ConstructController ConstructCompo => constructCompo;
         public InteractController InteractCompo => interactCompo;
         public GameUIController GameUICompo => gameUICompo;
+        public QuestController QuestCompo => questCompo;
 
         public void PlayerControlActive(bool isActive)
         {
