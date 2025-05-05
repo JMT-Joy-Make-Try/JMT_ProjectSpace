@@ -1,6 +1,7 @@
 ﻿using JMT.Agent.Alien;
 using JMT.Core.Tool;
 using JMT.Planets.Tile;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,7 +9,6 @@ namespace JMT.Agent.State
 {
     public class AlienFollowState : State<AlienState>
     {
-        private bool _isAmbush;
         [SerializeField] private float ambushRange = 10f;
         [SerializeField] private LayerMask fogLayerMask;
         private Alien.Alien _alien;
@@ -26,77 +26,57 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            _isAmbush = Random.Range(0f, 1f) < 0.5f;
-
-            if (_isAmbush)
-            {
-                _isAmbush = false;
-                _stateMachine.ChangeState(AlienState.Idle);
-                return;
-            }
 
             RandomMove();
+            StartCoroutine(MoveCoroutine());
         }
 
-
-        public override void UpdateState()
+        private IEnumerator MoveCoroutine()
         {
-            var target = _alien.TargetFinder.Target;
-
-            if (_alien.transform.position.IsNear(_targetPosition, 0.5f))
+            while (true)
             {
-                if (_isAmbush && !IsPositionInFog(_alien.transform.position))
+                var target = _alien.TargetFinder.Target;
+
+                if (target == null)
                 {
-                    _isAmbush = false;
-                    //_stateMachine.ChangeState(AlienState.Idle);
-                    return;
+                    RandomMove();
+                    Debug.Log("AlienFollowState: No target found, moving randomly.");
+                }
+                else
+                {
+                    TargetMove(target.position);
+                    if (_alien.transform.position.IsNear(target.position, 10f))
+                    {
+                        Debug.Log("AlienFollowState: Near target, starting attack.");
+                        _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
+                    }
+                    Debug.Log("AlienFollowState: Following target.");
                 }
 
-                if (!IsPositionInFog(_alien.transform.position) || target == null)
+
+                if (IsPositionInFog(_targetPosition))
                 {
-                    _stateMachine.ChangeState(AlienState.Idle);
-                    return;
+                    Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
                 }
 
-                TargetMove(target.position);
+                yield return new WaitUntil(() => Agent.MovementCompo.IsMoving);
             }
-
-            Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
         }
 
 
 
         private void TargetMove(Vector3 targetPosition)
         {
-            if (IsPositionInFog(targetPosition))
+            _targetPosition = targetPosition;
+            if (_alien.transform.position.IsNear(targetPosition, 10f))
             {
-                _targetPosition = targetPosition;
-                if (_alien.transform.position.IsNear(targetPosition, 10f))
-                {
-                    _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
-                }
-            }
-            else
-            {
-                _targetPosition = _alien.transform.position.GetRandomNearestPosition(10);
+                _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
             }
         }
 
         private void RandomMove()
         {
-            if (_isAmbush)
-            {
-                _targetPosition = _alien.transform.position;
-                return;
-            }
-
             Vector3 center = Vector3.zero;
-
-            if (IsPositionInFog(center))
-            {
-                _targetPosition = center;
-                return;
-            }
 
             for (int i = 0; i < 10; i++)
             {
