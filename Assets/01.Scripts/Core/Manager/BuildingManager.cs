@@ -13,14 +13,9 @@ namespace JMT.Core.Manager
         
         [field: SerializeField] public HospitalBuilding HospitalBuilding { get; set; }
         [field: SerializeField] public OxygenBuilding OxygenBuilding { get; set; }
+        [field: SerializeField] public LodgingBuilding LodgingBuilding { get; set; }
 
         public BaseBuilding BaseBuilding => _baseBuilding;
         public List<BuildingDataSO> GetDictionary() => buildingDatas;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            //_baseBuilding.Build(new Vector3(0, 0, 0), transform);
-        }
     }
 }

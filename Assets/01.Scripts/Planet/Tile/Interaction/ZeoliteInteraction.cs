@@ -17,7 +17,6 @@ namespace JMT.Planets.Tile
         public override void Interaction()
         {
             TileList list = transform.parent.parent.GetComponent<TileList>();
-            Debug.Log(list.FogTier -1);
             if (!FogManager.Instance.IsAllFogOff(list.FogTier - 1))
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("전 단계의 안개가 모두 해금되지 않았습니다.");
@@ -25,6 +24,7 @@ namespace JMT.Planets.Tile
             }
             base.Interaction();
             list.Tiles.ForEach(tile => tile.Fog.SetFog(false));
+            list.SetLineRenderer(false);
             Destroy(_zeolitePrefab);
             TileManager.Instance.CurrentTile.RemoveInteraction();
             TileManager.Instance.CurrentTile.AddInteraction<NoneInteraction>();

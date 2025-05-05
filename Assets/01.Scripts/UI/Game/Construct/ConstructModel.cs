@@ -19,7 +19,7 @@ namespace JMT.UISystem.Interact
         {
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
             if (category != null)
-                list = CategorySystem.FilteringCategory(list, category);
+                list = CategorySystem.FilteringCategory(list, category, x => x);
 
             return list;
         }

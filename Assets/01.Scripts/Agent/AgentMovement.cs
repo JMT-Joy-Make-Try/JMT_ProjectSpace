@@ -70,10 +70,5 @@ namespace JMT.Agent
         {
             NavMeshAgentCompo.isStopped = isStop;
         }
-        
-        public bool IsNearestTarget(Vector3 targetPosition, float distance)
-        {
-            return Vector3.Distance(transform.position, targetPosition) < distance;
-        }
     }
 }

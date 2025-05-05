@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -92,7 +93,7 @@ namespace JMT.UISystem.Inventory
 
             var pairs = dic.ToList();
             if (category != null)
-                pairs = CategorySystem.FilteringCategory(pairs, category);
+                pairs = CategorySystem.FilteringCategory(pairs, category, x => x.Key);
 
             return pairs;
         }

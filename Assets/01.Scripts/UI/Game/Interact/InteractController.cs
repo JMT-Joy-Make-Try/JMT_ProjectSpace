@@ -92,7 +92,7 @@ namespace JMT.UISystem.Interact
             TileManager.Instance.GetInteraction().Interaction();
             isHold = true;
 
-            EndHold();
+            OnHoldEnd();
         }
 
         private void EndHold()

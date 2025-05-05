@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5930525723425534665}
   - component: {fileID: 5570043483655022857}
-  - component: {fileID: 7093283393367730463}
+  - component: {fileID: 1406816428436767846}
   - component: {fileID: 1143328055804512936}
   - component: {fileID: -6690988644369798371}
   - component: {fileID: -5677513717239788740}
@@ -56,7 +56,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 3, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &7093283393367730463
+--- !u!114 &1406816428436767846
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,9 +65,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 757544513331159649}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7185131fd82168b489476a30b599f018, type: 3}
+  m_Script: {fileID: 11500000, guid: cb3df57eeaa7455e921a88574b1ce2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxNpcCount: 3
 --- !u!114 &1143328055804512936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
 --- !u!114 &2060406321229094796
 MonoBehaviour:
   m_ObjectHideFlags: 0

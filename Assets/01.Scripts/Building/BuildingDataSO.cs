@@ -34,7 +34,6 @@ namespace JMT.Building
         [TextArea(4, 10)] public string BuildingDescription;
 
         public List<BuildingLevelData> buildingLevel;
-        public string DisplayName => BuildingName;
         Enum ICategorizable.Category => Category;
     }
 }

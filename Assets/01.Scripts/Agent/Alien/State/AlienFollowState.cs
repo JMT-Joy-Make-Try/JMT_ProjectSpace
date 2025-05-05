@@ -1,4 +1,5 @@
 ﻿using JMT.Agent.Alien;
+using JMT.Core.Tool;
 using JMT.Planets.Tile;
 using System.Collections;
 using UnityEngine;
@@ -8,15 +9,11 @@ namespace JMT.Agent.State
 {
     public class AlienFollowState : State<AlienState>
     {
-        private bool _isAmbush; 
-        [SerializeField] private float ambushRange = 10f;
-        [SerializeField] private LayerMask fogLayerMask;
         private Alien.Alien _alien;
         private Vector3 _targetPosition;
-        private Coroutine _randomTargetCoroutine;
-        private bool _wasFollowingTarget = false;
 
-        private static readonly Collider[] _overlapResults = new Collider[10]; 
+        private static readonly Collider[] _overlapResults = new Collider[10];
+        private Coroutine _moveCoroutine;
 
         public override void Initialize(AgentAI<AlienState> agent, string stateName)
         {
@@ -27,106 +24,91 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            _isAmbush = Random.Range(0f, 1f) < 0.5f;
-            Agent.MovementCompo.Stop(_isAmbush); 
 
-            if (_isAmbush)
-            {
-                _randomTargetCoroutine = null;
-            }
-            else
-            {
-                _targetPosition = Vector3.zero;
-                StartCoroutine(RandomTargetPosition());
-            }
+            RandomMove();
+            _moveCoroutine = StartCoroutine(MoveCoroutine());
         }
 
-        public override void UpdateState()
+        private IEnumerator MoveCoroutine()
         {
-            var target = _alien.TargetFinder.Target;
-
-            if (_isAmbush && (target == null || Vector3.Distance(target.position, Agent.transform.position) > ambushRange))
-                return;
-
-            if (target != null && IsPositionInFog(target.position))
-            {
-                _wasFollowingTarget = true;
-                Agent.MovementCompo.Stop(_isAmbush);
-                Agent.MovementCompo.Move(target.position, _alien.MoveSpeed);
-                if (Agent.MovementCompo.IsNearestTarget(target.position, 100f))
-                {
-                    Debug.LogError("이동 완료 후 상태 변경");
-                    _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
-                }
-                return;
-            }
-
-            if (_isAmbush && _wasFollowingTarget)
-            {
-                _wasFollowingTarget = false;
-                _isAmbush = false;  
-                _randomTargetCoroutine = StartCoroutine(RandomTargetPosition());
-            }
-
-            Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
-        }
-
-        private IEnumerator RandomTargetPosition()
-        {
-            var ws = new WaitForSeconds(2f);
-            Vector3 center = Vector3.zero;
-
             while (true)
             {
-                Vector3 bestPosition = Vector3.zero;
-                float bestDistance = float.MaxValue;
-                bool found = false;
+                var target = _alien.TargetFinder.Target;
 
-                for (int i = 0; i < 10; i++)
+                if (target == null)
                 {
-                    Vector3 randomOffset = new Vector3(
-                        Random.Range(-15f, 15f),
-                        0f,
-                        Random.Range(-15f, 15f)
-                    );
-                    Vector3 candidate = Vector3.Lerp(_alien.transform.position, center, 0.3f) + randomOffset;
-
-                    if (IsPositionInFog(candidate))
-                    {
-                        float distToCenter = Vector3.Distance(candidate, center);
-                        if (distToCenter < bestDistance)
-                        {
-                            bestDistance = distToCenter;
-                            bestPosition = candidate;
-                            found = true;
-                        }
-                    }
-                }
-
-                if (found)
-                {
-                    _targetPosition = bestPosition;
+                    RandomMove();
+                    Debug.Log("AlienFollowState: No target found, moving randomly.");
                 }
                 else
                 {
-                    Debug.Log("중앙 근처에 안개 위치 없음");
+                    TargetMove(target.position);
+                    Debug.Log("AlienFollowState: Following target.");
                 }
 
-                yield return ws;
+
+                if (IsPositionInFog(_targetPosition))
+                {
+                    Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
+                }
+
+                yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
             }
+        }
+
+
+
+        private void TargetMove(Vector3 targetPosition)
+        {
+            _targetPosition = targetPosition;
+            if (_alien.transform.position.IsNear(targetPosition, 10f))
+            {
+                _alien.TargetFinder.Target = null;
+                _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
+            }
+        }
+
+        private void RandomMove()
+        {
+            Vector3 center = Vector3.zero;
+
+            for (int i = 0; i < 10; i++)
+            {
+                Vector3 toCenter = (center - _alien.transform.position).normalized;
+                Vector3 randomOffset = Random.insideUnitSphere * 10f;
+                randomOffset.y = 0;
+
+                Vector3 candidate = _alien.transform.position + toCenter * Random.Range(3f, 7f) + randomOffset;
+
+                if (IsPositionInFog(candidate))
+                {
+                    _targetPosition = candidate;
+                    return;
+                }
+            }
+
+            _targetPosition = _alien.transform.position + (center - _alien.transform.position).normalized * 5f;
+            _targetPosition += _alien.transform.position.GetRandomNearestPosition(10f);
         }
 
 
         private bool IsPositionInFog(Vector3 position)
         {
-            int cnt = Physics.OverlapSphereNonAlloc(position, 1f, _overlapResults); 
+            int cnt = Physics.OverlapSphereNonAlloc(position, 1f, _overlapResults);
             for (int i = 0; i < cnt; i++)
             {
                 var fog = _overlapResults[i].GetComponent<Fog>();
                 if (fog != null && fog.IsFogActive)
                     return true;
             }
+
             return false;
+        }
+
+        public override void ExitState()
+        {
+            StopCoroutine(_moveCoroutine);
+            base.ExitState();
         }
     }
 }

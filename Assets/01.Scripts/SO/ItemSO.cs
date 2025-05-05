@@ -15,14 +15,12 @@ namespace JMT.Item
     [CreateAssetMenu(menuName = "SO/Data/ItemSO")]
     public class ItemSO : ScriptableObject, ICategorizable
     {
-        public Sprite Icon;
+        //public Sprite Icon;
         public ItemType ItemType;
         public InventoryCategory Category;
         public string ItemName;
         public string ItemDescription;
         public ItemData ItemData;
-
-        public string DisplayName => ItemName;
 
         Enum ICategorizable.Category => Category;
     }

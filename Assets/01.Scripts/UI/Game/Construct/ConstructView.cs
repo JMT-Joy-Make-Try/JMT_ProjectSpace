@@ -24,7 +24,9 @@ namespace JMT.UISystem.Interact
         [SerializeField] private IconButton itemCategory, facilityCategory, defenseCategory;
 
         private List<CellUI> cells = new();
-        
+
+        private CellUI currentValue = null;
+
         private void Awake()
         {
             cells = cellParent.GetComponentsInChildren<CellUI>().ToList();
@@ -61,14 +63,25 @@ namespace JMT.UISystem.Interact
 
                 if (value < list.Count)
                 {
-                    cells[value].SetCell(list[value].BuildingName);
-                    cellButton.onClick.AddListener(() => OnInfoEvent?.Invoke(list[value]));
+                    cells[value].SetCell(list[value].BuildingName, null, list[value].Icon);
+                    cellButton.onClick.AddListener(() => HandleCellButton(list, value));
                 }
             }
         }
 
+        private void HandleCellButton(List<BuildingDataSO> list, int value)
+        {
+            currentValue?.SetSelect(false);
+            currentValue = cells[value];
+            currentValue.SetSelect(true);
+
+            OnInfoEvent?.Invoke(list[value]);
+        }
+
         private void ResetCell()
         {
+            currentValue?.SetSelect(false);
+            currentValue = null;
             for (int i = 0; i < cells.Count; i++)
             {
                 int value = i;
