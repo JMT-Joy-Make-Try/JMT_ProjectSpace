@@ -4,28 +4,27 @@ using JMT.Building.Component;
 using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
+using JMT.QuestSystem;
 
 namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
+        public event Action OnBuild;
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }
         [field: SerializeField] public QuestPing QuestPing { get; private set; }
-        [SerializeField] private float _tileHeight;
 
         [SerializeField] public Fog Fog;
 
         [Space] [SerializeField] private List<Texture2D> _textures;
 
-        private bool canInteraction = true;
-
         private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
         public GameObject TileInteraction;
 
-        public event Action OnBuild;
+        private bool canInteraction = true;
         
         private TileList _tileList;
 
