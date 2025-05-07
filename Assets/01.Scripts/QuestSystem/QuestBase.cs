@@ -7,6 +7,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 {
     [SerializeField] protected PlanetTile tile;
     [field: SerializeField] public QuestSO QuestData { get; private set; }
+    public PlanetTile Tile => tile;
     public QuestState QuestState { get; private set; }
     public QuestPing QuestPing => tile.QuestPing;
     public bool IsActive { get; private set; }

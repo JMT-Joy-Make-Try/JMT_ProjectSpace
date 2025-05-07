@@ -1,4 +1,5 @@
 using JMT.Core.Tool;
+using JMT.UISystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,12 +17,12 @@ namespace JMT.QuestSystem
         [SerializeField] private List<QuestSO> pingDatas = new();
 
         private int currentQuestIndex = 0;
-        private List<IQuestTarget> currentQuestTargets = new List<IQuestTarget>();
+        private List<QuestBase> currentQuestTargets = new List<QuestBase>();
 
         protected override void Awake()
         {
             base.Awake();
-            currentQuestTargets = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IQuestTarget>().ToList();
+            currentQuestTargets = FindObjectsByType<QuestBase>(FindObjectsSortMode.None).ToList();
         }
         private void Start()
         {
@@ -38,7 +39,8 @@ namespace JMT.QuestSystem
             }
             
             var questTarget = currentQuestTargets.FirstOrDefault(target => target.QuestData == questData);
-            
+            GameUIManager.Instance.PointerCompo.ClosePointerUI();
+
             if (questTarget != null)
             {
                 Debug.Log($"Quest '{questData.questName}' completed!");
@@ -57,6 +59,7 @@ namespace JMT.QuestSystem
                 if (target.QuestData == questData)
                 {
                     OnQuestStartEvent?.Invoke(questData);
+                    GameUIManager.Instance.PointerCompo.SetPointer(target.Tile.Pivot);
                     target.Enable();
                 }
             }

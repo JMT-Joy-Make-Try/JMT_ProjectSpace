@@ -24,6 +24,7 @@ namespace JMT.UISystem
         [SerializeField] private InteractController interactCompo;
         [SerializeField] private GameUIController gameUICompo;
         [SerializeField] private QuestController questCompo;
+        [SerializeField] private PingPointerController pointerCompo;
         public TimeController TimeCompo => timeCompo;
         public GameSpeedController SpeedCompo => speedCompo;
         public ResourceController ResourceCompo => resourceCompo;
@@ -34,6 +35,7 @@ namespace JMT.UISystem
         public InteractController InteractCompo => interactCompo;
         public GameUIController GameUICompo => gameUICompo;
         public QuestController QuestCompo => questCompo;
+        public PingPointerController PointerCompo => pointerCompo;
 
         public void PlayerControlActive(bool isActive)
         {
@@ -42,5 +44,6 @@ namespace JMT.UISystem
             else
                 inputSO.ControlEnable(false);
         }
+
     }
 }
