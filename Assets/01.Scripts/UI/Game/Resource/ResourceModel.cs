@@ -26,6 +26,14 @@ namespace JMT.UISystem.Resource
         public void AddFuel(float increaseValue)
         {
             currentFuelValue += increaseValue;
+            if (currentFuelValue > MaxFuelValue)
+            {
+                currentFuelValue = MaxFuelValue;
+            }
+            else if (currentFuelValue < 0)
+            {
+                currentFuelValue = 0;
+            }
             OnFuelValueChanged?.Invoke(currentFuelValue, MaxFuelValue);
         }
 
