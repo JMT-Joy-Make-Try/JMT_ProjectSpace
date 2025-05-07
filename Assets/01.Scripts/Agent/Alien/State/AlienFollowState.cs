@@ -14,6 +14,7 @@ namespace JMT.Agent.State
 
         private static readonly Collider[] _overlapResults = new Collider[10];
         private Coroutine _moveCoroutine;
+        private bool _isAmbush = false;
 
         public override void Initialize(AgentAI<AlienState> agent, string stateName)
         {
@@ -24,6 +25,7 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
+            _isAmbush = Random.value > 0.5f;
 
             RandomMove();
             _moveCoroutine = StartCoroutine(MoveCoroutine());
@@ -35,6 +37,24 @@ namespace JMT.Agent.State
             {
                 var target = _alien.TargetFinder.Target;
 
+                if (target != null)
+                {
+                    if (_alien.transform.position.IsNear(target.position, 10f))
+                    {
+                        _alien.TargetFinder.Target = null;
+                        _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
+                    }
+                }
+
+                if (_isAmbush)
+                {
+                    Agent.MovementCompo.Stop(true);
+                }
+                else
+                {
+                    Agent.MovementCompo.Stop(false);
+                }
+
                 if (target == null)
                 {
                     RandomMove();
@@ -45,12 +65,7 @@ namespace JMT.Agent.State
                     TargetMove(target.position);
                     Debug.Log("AlienFollowState: Following target.");
                 }
-
-
-                if (IsPositionInFog(_targetPosition))
-                {
-                    Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
-                }
+                Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
 
                 yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
             }
@@ -61,34 +76,12 @@ namespace JMT.Agent.State
         private void TargetMove(Vector3 targetPosition)
         {
             _targetPosition = targetPosition;
-            if (_alien.transform.position.IsNear(targetPosition, 10f))
-            {
-                _alien.TargetFinder.Target = null;
-                _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
-            }
+            
         }
 
         private void RandomMove()
         {
-            Vector3 center = Vector3.zero;
-
-            for (int i = 0; i < 10; i++)
-            {
-                Vector3 toCenter = (center - _alien.transform.position).normalized;
-                Vector3 randomOffset = Random.insideUnitSphere * 10f;
-                randomOffset.y = 0;
-
-                Vector3 candidate = _alien.transform.position + toCenter * Random.Range(3f, 7f) + randomOffset;
-
-                if (IsPositionInFog(candidate))
-                {
-                    _targetPosition = candidate;
-                    return;
-                }
-            }
-
-            _targetPosition = _alien.transform.position + (center - _alien.transform.position).normalized * 5f;
-            _targetPosition += _alien.transform.position.GetRandomNearestPosition(10f);
+            _targetPosition = Vector3.zero;
         }
 
 
