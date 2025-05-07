@@ -34,9 +34,10 @@ namespace JMT.Building
 
         }
 
-        public override void RemoveWork()
+        public override void RemoveWork(bool isAddItem = true)
         {
-            base.RemoveWork();
+            base.RemoveWork(isAddItem);
+            if (!isAddItem) return;
             foreach (var createItem in CreateItemList)
             {
                 if (_buildingBase == null)
@@ -46,6 +47,11 @@ namespace JMT.Building
                 }
                 _buildingBase.GetBuildingComponent<BuildingData>().SetItem(createItem.ResultItem.ItemType, 1);
             }
+        }
+
+        public void RemoveWork(BuildingWork work)
+        {
+            Works.Remove(work);
         }
     }
 }

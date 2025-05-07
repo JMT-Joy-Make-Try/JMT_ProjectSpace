@@ -1,5 +1,6 @@
 using JMT.Building;
 using JMT.Core.Tool;
+using JMT.Item;
 using JMT.Planets.Tile;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,12 @@ namespace JMT.UISystem
             BuildingWork work = new(currentItemSO.ResultItem.ItemType, currentItemSO.CreateTime);
             workBuilding.data.AddWork(work);
             //InventoryManager.Instance.AddItem(currentItemSO.ResultItem, 1);
+        }
+
+        private void HandleRemoveButton(CreateItemSO itemSO)
+        {
+            BuildingWork work = new(itemSO.ResultItem.ItemType, itemSO.CreateTime);
+            workBuilding.data.RemoveWork(work);
         }
     }
 }
