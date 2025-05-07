@@ -41,7 +41,6 @@ namespace JMT.Agent.State
                 {
                     if (_alien.transform.position.IsNear(target.position, 10f))
                     {
-                        _alien.TargetFinder.Target = null;
                         _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
                     }
                 }
