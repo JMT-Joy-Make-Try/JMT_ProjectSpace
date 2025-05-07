@@ -1,5 +1,6 @@
 ﻿using JMT.Agent.NPC;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using JMT.Planets.Tile;
 using System;
 using System.Collections;
@@ -39,15 +40,41 @@ namespace JMT.Agent.State
         private void HandleTypeChanged(AgentType obj)
         {
             int multiplier = 1;
-            if (obj == AgentType.Base || obj == AgentType.Patient)
+
+            if (obj == AgentType.Patient || obj == AgentType.Base)
             {
                 multiplier = 1;
+                if (obj == AgentType.Patient)
+                {
+                    BuildingManager buildingManager = BuildingManager.Instance;
+                    if (buildingManager.HospitalBuilding != null)
+                    {
+                        _targetPosition = buildingManager.HospitalBuilding.transform.position;
+                    }
+                    else if (buildingManager.LodgingBuilding != null)
+                    {
+                        _targetPosition = buildingManager.LodgingBuilding.transform.position;
+                    }
+                    else
+                    {
+                        Debug.LogError("병원 건물이 없습니다.");
+                    }
+                }
+                
             }
             else
             {
                 multiplier = 2;
-                _targetPosition = _agent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
+                var curWorkingBuilding = _agent.CurrentWorkingBuilding;
+                if (curWorkingBuilding == null)
+                {
+                    Debug.LogError("현재 작업중인 건물이 없습니다.");
+                    return;
+                }
+                Vector3 pos = curWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
+                _targetPosition = pos;
             }
+            
             _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed * multiplier, () => EndMove(obj));
         }
 
