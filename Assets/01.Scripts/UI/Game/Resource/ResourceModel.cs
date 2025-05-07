@@ -37,7 +37,7 @@ namespace JMT.UISystem.Resource
 
         public void AddMaxNpc(int increaseValue)
         {
-            MaxNpcValue += increaseValue;
+            MaxNpcValue = increaseValue;
             OnNpcValueChanged?.Invoke(currentNpcValue, MaxNpcValue);
         }
     }
