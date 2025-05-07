@@ -16,7 +16,6 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public virtual void RunQuest()
     {
-        Debug.Log("뭐야 찍어줘요");
         QuestPing.DisablePing();
         QuestManager.Instance.CompleteQuest(QuestData);
     }
@@ -31,15 +30,4 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public void SetState(QuestState state)
         => QuestState = state;
-
-    /*private void Update()
-    {
-        Debug.Log("asdf");
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("CanRunQuest : " + CanRunQuest);
-            if (CanRunQuest)
-                RunQuest();
-        }
-    }*/
 }
