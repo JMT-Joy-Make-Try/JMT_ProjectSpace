@@ -26,13 +26,7 @@ namespace JMT.QuestSystem
         private void Start()
         {
             Debug.Log(currentQuestTargets.Count);
-            
-        }
-
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Tab))
-                StartQuest(pingDatas[currentQuestIndex]);
+            StartQuest(pingDatas[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
