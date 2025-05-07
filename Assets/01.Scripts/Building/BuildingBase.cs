@@ -1,5 +1,7 @@
+using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Planets.Tile;
+using JMT.UISystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +21,8 @@ namespace JMT.Building
         public bool IsBuilding { get; private set; }
         public Action OnCompleteEvent;
         
+        [SerializeField] private float _fuelAmount;
+        
         protected bool _isWorking;
         private PVCBuilding _pvc;
         
@@ -30,7 +34,26 @@ namespace JMT.Building
             
             OnCompleteEvent += HandleCompleteEvent;
         }
-        
+
+        private IEnumerator FuelRoutine()
+        {
+            while (true)
+            {
+                if (GameUIManager.Instance.ResourceCompo.CurrentFuelValue <= 0)
+                {
+                    StopWork();
+                    var npcList = GetBuildingComponent<BuildingNPC>();
+                    for (int i = 0; i < npcList._currentNpc.Count; i++)
+                    {
+                        npcList.RemoveNpc();
+                    }
+                    yield break;
+                }
+                GameUIManager.Instance.ResourceCompo.AddFuel(-_fuelAmount);
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
         private void OnDestroy()
         {
             OnCompleteEvent -= HandleCompleteEvent;
@@ -53,6 +76,7 @@ namespace JMT.Building
             visual.BuildingTransparent(1f);
             _pvc.PlayAnimation();
             visual.SetFloatProperty("_Alpha", 1f);
+            StartCoroutine(FuelRoutine());
         }
 
         public void Building()
