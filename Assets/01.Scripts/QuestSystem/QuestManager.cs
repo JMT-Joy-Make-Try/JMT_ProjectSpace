@@ -8,18 +8,12 @@ using UnityEngine;
 
 namespace JMT.QuestSystem
 {
-    [Serializable]
-    public struct PingData
-    {
-        public QuestSO so;
-        public GameObject pingTile;
-    }
     public class QuestManager : MonoSingleton<QuestManager>
     {
         public event Action<QuestSO> OnQuestStartEvent;
         public event Action OnQuestEndEvent;
 
-        [SerializeField] private List<PingData> pingDatas = new List<PingData>();
+        [SerializeField] private List<QuestSO> pingDatas = new();
 
         private int currentQuestIndex = 0;
         private List<IQuestTarget> currentQuestTargets = new List<IQuestTarget>();
@@ -38,7 +32,7 @@ namespace JMT.QuestSystem
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.Tab))
-                StartQuest(pingDatas[currentQuestIndex].so);
+                StartQuest(pingDatas[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -81,7 +75,7 @@ namespace JMT.QuestSystem
             if (currentQuestIndex < pingDatas.Count)
             {
                 yield return new WaitForSeconds(1f);
-                StartQuest(pingDatas[currentQuestIndex].so);
+                StartQuest(pingDatas[currentQuestIndex]);
             }
             else
                 Debug.Log("All quests completed!");
