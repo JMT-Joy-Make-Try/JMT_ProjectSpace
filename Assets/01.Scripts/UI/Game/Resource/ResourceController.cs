@@ -34,5 +34,11 @@ namespace JMT.UISystem.Resource
 
         public void AddFuel(float increaseValue) => model.AddFuel(increaseValue);
         public void AddNpc(int increaseValue) => model.AddNpc(increaseValue);
+
+        public void AddMaxNpc(int increaseValue)
+        {
+            model.AddMaxNpc(increaseValue);
+            view.SetNpcText(CurrentNpcValue, MaxNpcValue);
+        }
     }
 }

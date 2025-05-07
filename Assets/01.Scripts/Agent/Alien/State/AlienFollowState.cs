@@ -107,7 +107,8 @@ namespace JMT.Agent.State
 
         public override void ExitState()
         {
-            StopCoroutine(_moveCoroutine);
+            if (_moveCoroutine != null)
+                StopCoroutine(_moveCoroutine);
             base.ExitState();
         }
     }

@@ -11,6 +11,7 @@ namespace JMT.Planets.Tile
     public class PlanetTile : MonoBehaviour
     {
         public event Action OnBuild;
+        public event Action<TileInteraction> OnChangeInteraction;
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }
@@ -76,7 +77,8 @@ namespace JMT.Planets.Tile
 
         public void AddInteraction<T>() where T : TileInteraction
         {
-            TileInteraction.AddComponent<T>();
+            T instance = TileInteraction.AddComponent<T>();
+            OnChangeInteraction?.Invoke(instance);
         }
 
         public void RemoveInteraction()

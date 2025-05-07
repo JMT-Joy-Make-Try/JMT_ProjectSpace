@@ -42,7 +42,7 @@ namespace JMT.Building
             works.Enqueue(work);
         }
 
-        public virtual void RemoveWork()
+        public virtual void RemoveWork(bool isAddItem = true)
         {
             var work = works.Dequeue();
         }
