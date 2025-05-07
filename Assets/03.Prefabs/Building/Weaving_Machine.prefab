@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ff7e7e69a6f149b878ab3b1984034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fuelAmount: 0.1
   data:
     BuildingLevel: 1
     UseFuelValue: 0
@@ -77,6 +78,8 @@ MonoBehaviour:
         time:
           minute: 0
           second: 10
+    CreateItemList:
+      items: []
 --- !u!114 &3256613691646767259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73226e9d1da4e7f93e9a507fdbe9c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
 --- !u!114 &-7789252470425074139
 MonoBehaviour:
   m_ObjectHideFlags: 0
