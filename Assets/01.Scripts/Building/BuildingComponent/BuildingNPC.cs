@@ -1,6 +1,7 @@
-﻿using JMT.Agent;
+using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Agent.State;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace JMT.Building.Component
 {
     public class BuildingNPC : MonoBehaviour, IBuildingComponent
     {
+        public event Action OnChangeNpcEvent;
+
         [Header("NPCSetting")] [SerializeField]
         public List<NPCAgent> _currentNpc;
         [SerializeField] protected AgentType _agentType;
@@ -27,7 +30,7 @@ namespace JMT.Building.Component
             _currentNpc.Add(agent);
             agent.SetBuilding(Building);
             agent.SetAgentType(_agentType);
-            
+            OnChangeNpcEvent?.Invoke();
             Debug.Log(agent + " added to " + Building.name);
         }
         
@@ -38,6 +41,7 @@ namespace JMT.Building.Component
             _currentNpc[0].SetBuilding(null);
             _currentNpc[0].StateMachineCompo.ChangeState(NPCState.Move);
             _currentNpc.Remove(_currentNpc[0]);
+            OnChangeNpcEvent?.Invoke();
             if (_currentNpc.Count == 0)
             {
                 Building.SetWorking(false);
