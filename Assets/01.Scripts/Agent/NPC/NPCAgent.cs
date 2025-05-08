@@ -152,7 +152,6 @@ namespace JMT.Agent.NPC
 
         public void SetBuilding(BuildingBase building)
         {
-            if (building == null) return;
             CurrentWorkingBuilding = building;
         }
 

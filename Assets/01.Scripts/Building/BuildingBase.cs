@@ -43,10 +43,7 @@ namespace JMT.Building
                 {
                     StopWork();
                     var npcList = GetBuildingComponent<BuildingNPC>();
-                    for (int i = 0; i < npcList._currentNpc.Count; i++)
-                    {
-                        npcList.RemoveNpc();
-                    }
+                    npcList.RemoveAllNpc();
                     yield break;
                 }
                 GameUIManager.Instance.ResourceCompo.AddFuel(-_fuelAmount);
