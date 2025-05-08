@@ -105,9 +105,9 @@ namespace JMT.Player
             OnDeadEvent?.Invoke();
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out ICollectable collectable))
+            if (other.TryGetComponent(out ICollectable collectable))
             {
                 collectable.Collect();
             }

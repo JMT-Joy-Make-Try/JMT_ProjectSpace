@@ -1,5 +1,7 @@
 ﻿using JMT.Core;
+using JMT.Item;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Building.Component
