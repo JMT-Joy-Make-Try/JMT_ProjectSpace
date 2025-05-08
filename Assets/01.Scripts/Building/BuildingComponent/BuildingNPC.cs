@@ -47,5 +47,20 @@ namespace JMT.Building.Component
                 Building.SetWorking(false);
             }
         }
+
+        public void RemoveAllNpc()
+        {
+            for (int i = 0; i < _currentNpc.Count; i++)
+            {
+                _currentNpc[i].SetAgentType(AgentType.Base);
+                _currentNpc[i].ChangeCloth(AgentType.Base);
+                _currentNpc[i].SetBuilding(null);
+                _currentNpc[i].StateMachineCompo.ChangeState(NPCState.Move);
+            }
+
+            _currentNpc.Clear();
+            OnChangeNpcEvent?.Invoke();
+            Building.SetWorking(false);
+        }
     }
 }
