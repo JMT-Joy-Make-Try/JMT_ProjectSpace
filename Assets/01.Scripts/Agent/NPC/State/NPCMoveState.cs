@@ -1,11 +1,10 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Building;
 using JMT.Building.Component;
 using JMT.Core.Manager;
-using JMT.Planets.Tile;
-using System;
+using JMT.Core.Tool.PoolManager.Core;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
@@ -15,9 +14,9 @@ namespace JMT.Agent.State
         [SerializeField] private float _distance = 10f;
         private NPCAgent _agent;
         private Vector3 _targetPosition;
-        
+
         private Coroutine _moveCoroutine;
-        
+
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
             base.Initialize(agent, stateName);
@@ -44,23 +43,15 @@ namespace JMT.Agent.State
             if (obj == AgentType.Patient || obj == AgentType.Base)
             {
                 multiplier = 1;
-                if (obj == AgentType.Patient)
+                BuildingManager buildingManager = BuildingManager.Instance;
+                if (buildingManager.LodgingBuilding != null)
                 {
-                    BuildingManager buildingManager = BuildingManager.Instance;
-                    if (buildingManager.HospitalBuilding != null)
-                    {
-                        _targetPosition = buildingManager.HospitalBuilding.transform.position;
-                    }
-                    else if (buildingManager.LodgingBuilding != null)
-                    {
-                        _targetPosition = buildingManager.LodgingBuilding.transform.position;
-                    }
-                    else
-                    {
-                        Debug.LogError("병원 건물이 없습니다.");
-                    }
+                    _targetPosition = buildingManager.LodgingBuilding.transform.position;
                 }
-                
+                else if (buildingManager.HospitalBuilding != null)
+                {
+                    _targetPosition = buildingManager.HospitalBuilding.transform.position;
+                }
             }
             else
             {
@@ -71,16 +62,30 @@ namespace JMT.Agent.State
                     Debug.LogError("현재 작업중인 건물이 없습니다.");
                     return;
                 }
+
                 Vector3 pos = curWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
                 _targetPosition = pos;
             }
-            
+
             _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed * multiplier, () => EndMove(obj));
+        }
+
+        private IEnumerator LodgingBuildingRoutine()
+        {
+            yield return new WaitUntil(() => !_agent.MovementCompo.IsMoving);
+            PoolingManager.Instance.Push(_agent);
         }
 
         private void EndMove(AgentType type)
         {
-            if (type == AgentType.Patient) return;
+            if (type is AgentType.Base or AgentType.Patient)
+            {
+                if (_targetPosition == BuildingManager.Instance.LodgingBuilding.GetBuildingComponent<BuildingNPC>()
+                        .WorkPosition.position)
+                {
+                    StartCoroutine(LodgingBuildingRoutine());
+                }
+            }
             _agent.transform.rotation = Quaternion.identity;
             _agent.transform.localRotation = Quaternion.identity;
             if (type != AgentType.Base)
