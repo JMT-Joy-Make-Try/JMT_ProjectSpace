@@ -7,6 +7,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 {
     [SerializeField] protected PlanetTile tile;
     [field: SerializeField] public QuestSO QuestData { get; private set; }
+    public PlanetTile Tile => tile;
     public QuestState QuestState { get; private set; }
     public QuestPing QuestPing => tile.QuestPing;
     public bool IsActive { get; private set; }
@@ -24,7 +25,8 @@ public class QuestBase : MonoBehaviour, IQuestTarget
     {
         QuestState = QuestState.InProgress;
         IsActive = true;
-        QuestPing.EnablePing();
+        if (tile != null && tile.QuestPing != null)
+            QuestPing.EnablePing();
         Debug.Log("Quest enabled: " + QuestData.questName);
     }
 

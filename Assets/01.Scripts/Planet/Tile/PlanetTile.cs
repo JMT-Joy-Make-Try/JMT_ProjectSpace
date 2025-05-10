@@ -24,6 +24,7 @@ namespace JMT.Planets.Tile
         private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
         public GameObject TileInteraction;
+        public Transform Pivot { get; private set; }
 
         private bool canInteraction = true;
         
@@ -31,6 +32,7 @@ namespace JMT.Planets.Tile
 
         private void Awake()
         {
+            Pivot = transform.Find("Pivot");
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
             _tileList = GetComponentInParent<TileList>();
@@ -147,7 +149,7 @@ namespace JMT.Planets.Tile
         {
             DestroyBuilding();
             _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f);
+            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f, true);
         }
     }
 }

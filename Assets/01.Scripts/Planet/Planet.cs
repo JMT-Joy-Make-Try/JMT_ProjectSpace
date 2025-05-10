@@ -15,6 +15,7 @@ namespace JMT.Planets
         [SerializeField] private List<Event> events = new List<Event>();
         [SerializeField] private List<TileList> tileLists = new List<TileList>();
         [SerializeField] private NavMeshSurface navMeshSurface;
+        [SerializeField] private int _eventPlayDay = 0;
         
         public event Action EventWarning;
 
@@ -32,11 +33,11 @@ namespace JMT.Planets
 
         private void HandleChangeDay(int day)
         {
-            if (day % 3 == 2)
+            if (day % _eventPlayDay == 2)
             {
                 EventWarning?.Invoke();
             }
-            if (day % 3 == 0)
+            if (day % _eventPlayDay == 0)
             {
                 StartEvent();
             }
