@@ -25,7 +25,8 @@ public class QuestBase : MonoBehaviour, IQuestTarget
     {
         QuestState = QuestState.InProgress;
         IsActive = true;
-        QuestPing.EnablePing();
+        if (tile != null && tile.QuestPing != null)
+            QuestPing.EnablePing();
         Debug.Log("Quest enabled: " + QuestData.questName);
     }
 

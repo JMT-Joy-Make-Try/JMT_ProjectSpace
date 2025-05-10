@@ -149,7 +149,7 @@ namespace JMT.Planets.Tile
         {
             DestroyBuilding();
             _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f);
+            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f, true);
         }
     }
 }

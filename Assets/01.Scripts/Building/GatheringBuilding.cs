@@ -1,7 +1,14 @@
+using DG.Tweening;
+using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Building.Component;
+using JMT.Core.Tool;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
+using JMT.Object;
 using JMT.Planets.Tile;
+using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using System;
 using System.Collections;
@@ -19,14 +26,40 @@ namespace JMT.Building
         
         private IEnumerator _workCoroutine;
         
-
-        [Space] [Header("Debug")] [SerializeField]
-        private NPCAgent _npcAgent;
+        private bool _isAnimating;
 
         public void InventoryAdd()
         {
+            if (_isAnimating) return;
+            if (_currentProductionAmount <= 0) return;
             GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
+            
+
+            StartCoroutine(AnimateItem());
+        }
+
+        private IEnumerator AnimateItem()
+        {
+            _isAnimating = true;
+            for (int i = 0; i < _currentProductionAmount; i++)
+            {
+                var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
+                item.transform.position = transform.position + Vector3.up * 10f;
+                item.IsCollectable = false;
+                Vector3 targetPos = AgentManager.Instance.Player.transform.position;
+                
+                item.transform.DOMove(targetPos, 2f).OnComplete(() =>
+                {
+                    PoolingManager.Instance.Push(item);
+                }).SetEase(Ease.OutBounce);
+                item.SetItemType(ProductionItem);
+                
+                yield return new WaitForSeconds(0.2f);
+            }
+            
             _currentProductionAmount = 0;
+            GetBuildingComponent<BuildingData>().CurrentItems.Clear();
+            _isAnimating = false;
         }
 
         public override void Work()
@@ -57,8 +90,17 @@ namespace JMT.Building
                     continue;
                 }
                 _currentProductionAmount += GetBuildingComponent<BuildingLevel>().CurLevel;
-                InventoryAdd();
-                // 대충 연료 소모
+                var buildingData = GetBuildingComponent<BuildingData>();
+                if (buildingData.CurrentItems.Contains(ProductionItem.ItemType))
+                {
+                    buildingData.CurrentItems.Find(x => x.Item1 == ProductionItem.ItemType).Item2 += GetBuildingComponent<BuildingLevel>().CurLevel;;
+                }
+                else
+                {
+                    buildingData.CurrentItems.Add(
+                        new SerializeTuple<ItemType, int>(ProductionItem.ItemType, _currentProductionAmount));
+                }
+
                 yield return ws;
             }
         }
@@ -72,6 +114,11 @@ namespace JMT.Building
                 {
                     _productGauge = 0f;
                 }
+            }
+
+            if (transform.position.IsNear(AgentManager.Instance.Player.transform.position, 10f))
+            {
+                InventoryAdd();
             }
         }
     }
