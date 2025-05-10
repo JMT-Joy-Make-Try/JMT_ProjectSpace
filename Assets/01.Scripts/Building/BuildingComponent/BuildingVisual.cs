@@ -17,11 +17,26 @@ namespace JMT.Building.Component
         private void Start()
         {
             visualMat = Instantiate(visualMat);
+            for (byte i = 0; i < rendererList.Count; i++)
+            {
+                if (rendererList[i] != null)
+                {
+                    rendererList[i].material = Instantiate(rendererList[i].material);
+                }
+            }
         }
 
-        public void SetFloatProperty(string propertyName, float value)
+        public void SetFloatProperty(string propertyName, float value, bool isAllRendererChange = false)
         {
             visualMat.SetFloat(propertyName, value);
+            if (!isAllRendererChange) return;
+            for (byte i = 0; i < rendererList.Count; i++)
+            {
+                if (rendererList[i] != null)
+                {
+                    rendererList[i].material.SetFloat(propertyName, value);
+                }
+            }
         }
         
         public void SetShadowCastingMode(ShadowCastingMode mode)
@@ -46,9 +61,9 @@ namespace JMT.Building.Component
             }
         }
         
-        public void BuildingTransparent(float value)
+        public void BuildingTransparent(float value, bool isAllRendererChange = false)
         {
-            SetFloatProperty("_Alpha", value);
+            SetFloatProperty("_Alpha", value, isAllRendererChange);
             SetShadowCastingMode(value < 1f ? ShadowCastingMode.Off : ShadowCastingMode.On);
         }
 

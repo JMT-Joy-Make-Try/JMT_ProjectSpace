@@ -9,8 +9,9 @@ namespace JMT.Building
     public class LodgingBuilding : FacilityBuilding
     {
         [SerializeField] private int _npcCount;
-        private void Start()
+        protected override void HandleCompleteEvent()
         {
+            base.HandleCompleteEvent();
             BuildingManager.Instance.LodgingBuilding = this;
             AgentManager.Instance.AddMaxNpcCount(_npcCount);
             
