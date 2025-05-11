@@ -7,24 +7,19 @@ namespace JMT.Building
 {
     public class BuildingFogDetector : MonoBehaviour
     {
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         private Renderer _renderer;
         private Collider[] _collider;
 
         private void Awake()
         {
             _renderer = GetComponent<Renderer>();
+            _collider = new Collider[2];
         }
 
         private void Update()
         {
-            if (FogDetect())
-            {
-                _renderer.material.SetColor("_BaseColor", Color.black);
-            }
-            else
-            {
-                _renderer.material.SetColor("_BaseColor", Color.white);
-            }
+            _renderer.material.SetColor(BaseColor, FogDetect() ? Color.black : Color.white);
         }
         
         private bool FogDetect()
