@@ -50,28 +50,13 @@ namespace JMT.QuestSystem
             if (questTarget != null)
             {
                 Debug.Log($"Quest '{questData.questName}' completed!");
-                GetReward(questData);
                 OnQuestEndEvent?.Invoke();
                 questTarget.SetState(QuestState.Completed);
                 StartCoroutine(DelayQuestRoutine());
             }
         }
 
-        private void GetReward(QuestSO questData)
-        {
-            foreach (var rewardType in questData.questRewardTypes)
-            {
-                switch (rewardType)
-                {
-                    case QuestRewardType.NPC:
-                        AgentManager.Instance.AddNpc();
-                        break;
-                    default:
-                        Debug.LogError($"Unknown reward type: {rewardType}");
-                        break;
-                }
-            }
-        }
+        
 
         private void StartQuest(QuestSO questData)
         {
