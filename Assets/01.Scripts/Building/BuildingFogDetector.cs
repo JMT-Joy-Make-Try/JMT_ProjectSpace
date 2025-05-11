@@ -7,6 +7,9 @@ namespace JMT.Building
 {
     public class BuildingFogDetector : MonoBehaviour
     {
+        [SerializeField] private LayerMask fogLayerMask;
+        [SerializeField] private Color fogDetectColor = Color.black;
+        [SerializeField] private Color fogNotDetectColor = Color.white;
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         private Renderer _renderer;
         private Collider[] _collider;
@@ -19,16 +22,17 @@ namespace JMT.Building
 
         private void Update()
         {
-            _renderer.material.SetColor(BaseColor, FogDetect() ? Color.black : Color.white);
+            _renderer.material.SetColor(BaseColor, FogDetect() ? fogDetectColor : fogNotDetectColor);
         }
         
         private bool FogDetect()
         {
             int cnt = Physics.OverlapBoxNonAlloc(
-                transform.position, 
-                new Vector3(0.5f, 0.5f, 0.5f), 
-                _collider, 
-                Quaternion.identity);
+                transform.position,
+                new Vector3(0.5f, 0.5f, 0.5f),
+                _collider,
+                Quaternion.identity,
+                fogLayerMask);
 
             for (int i = 0; i < cnt; i++)
             {
