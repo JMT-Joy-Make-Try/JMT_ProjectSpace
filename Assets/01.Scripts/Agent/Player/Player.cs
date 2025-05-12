@@ -5,7 +5,7 @@ using JMT.UISystem;
 using System;
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     public class Player : MonoBehaviour, IDamageable, IOxygen
     {

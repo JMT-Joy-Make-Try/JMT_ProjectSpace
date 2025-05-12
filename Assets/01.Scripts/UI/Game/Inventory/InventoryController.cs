@@ -27,7 +27,7 @@ namespace JMT.UISystem.Inventory
 
         private void HandleEquip()
         {
-            Player.Player player = AgentManager.Instance.Player;
+            PlayerCharacter.Player player = AgentManager.Instance.Player;
             player.PlayerTool.SetCloth((_curItemSO as ToolSO).ToolType);
             Debug.Log(player.PlayerTool._curPlayerToolSO);
         }

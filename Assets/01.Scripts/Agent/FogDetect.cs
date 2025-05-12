@@ -42,7 +42,7 @@ namespace JMT.Agent
 
         private void HandleFogDetected(bool isInFog)
         {
-            Player.Player player = _agent as Player.Player;
+            PlayerCharacter.Player player = _agent as PlayerCharacter.Player;
             FogSpeed(player, isInFog);
             FogCamera(player, isInFog);
         }
@@ -64,7 +64,7 @@ namespace JMT.Agent
             }
         }
 
-        private void FogCamera(Player.Player player, bool isInFog)
+        private void FogCamera(PlayerCharacter.Player player, bool isInFog)
         {
             if (player == null) return;
             var vignettes = VolumeManager.Instance.GetAllVolume<Vignette>();
@@ -93,7 +93,7 @@ namespace JMT.Agent
             }
         }
 
-        private void FogSpeed(Player.Player player, bool isInFog)
+        private void FogSpeed(PlayerCharacter.Player player, bool isInFog)
         {
             if (isInFog)
             {

@@ -11,7 +11,7 @@ namespace JMT.Building
     public class OxygenBuilding : ItemBuilding
     {
         private BuildingData _data;
-        private Player.Player _player;
+        private PlayerCharacter.Player _player;
         
 
         [SerializeField] private float interactionDistance = 2.5f;
