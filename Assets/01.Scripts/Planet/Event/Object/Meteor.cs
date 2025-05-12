@@ -13,6 +13,7 @@ namespace JMT.Object
         [SerializeField] private int damage = 10;
         [SerializeField] private bool isPercentageDamage = false;
         [SerializeField] private float damagePercentage = 20f;
+        [SerializeField] private float duration = 5f;
         private Transform childTrm;     
         
         private CollisionDetector _detector;
@@ -34,7 +35,7 @@ namespace JMT.Object
 
         private void Start()
         {
-            childTrm.DOLocalMove(Vector3.zero, 5f).SetEase(Ease.Linear);
+            childTrm.DOLocalMove(Vector3.zero, duration).SetEase(Ease.Linear).OnComplete(() => Destroy(gameObject));
         }
 
         private void Update()
