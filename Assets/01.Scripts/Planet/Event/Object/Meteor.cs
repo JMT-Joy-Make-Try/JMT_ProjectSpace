@@ -1,7 +1,6 @@
 using DG.Tweening;
 using JMT.Android.Vibration;
-using JMT.PlayerCharacter;
-using System.Collections;
+using JMT.Core;
 using UnityEngine;
 
 namespace JMT.Object
@@ -9,26 +8,27 @@ namespace JMT.Object
     public class Meteor : MonoBehaviour
     {
         [SerializeField] private LayerMask layer;
+        [SerializeField] private int damage = 10;
         private Transform childTrm;
-        private Collider[] col = new Collider[10];
 
         private void Awake()
         {
             childTrm = transform.GetChild(0);
-            StartCoroutine(MeteorRoutine());
-            
             VibrationUtil.Vibrate(VibrationType.Pop);
         }
 
-        private IEnumerator MeteorRoutine()
+        private void Start()
         {
             childTrm.DOLocalMove(Vector3.zero, 3f).SetEase(Ease.Linear);
-            yield return new WaitForSeconds(3f);
-            Physics.OverlapSphereNonAlloc(childTrm.position, 4f, col, layer);
-            /*col[0].TryGetComponent<Player>(out Player player) {
+        }
 
-            }*/
-            Destroy(gameObject, 3f);
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out IDamageable damageable))
+            {
+                if (other.gameObject.layer == layer)
+                    damageable.TakeDamage(damage);
+            }
         }
     }
 }
