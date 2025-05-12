@@ -1,6 +1,6 @@
 using JMT.Building;
 using JMT.Item;
-using JMT.Player;
+using JMT.PlayerCharacter;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace JMT.UISystem.Laboratory
 
         [SerializeField] private LaboratoryView view;
         [SerializeField] private LaboratoryBottomView bottomView;
-        [SerializeField] private LaboratoryRightView rightView;
+        [SerializeField] private BuildingInfoView buildingView;
 
         public List<BuildingDataSO> LockBuildingList => lockBuildingList;
         public List<ToolSO> LockItemList => lockItemList;
@@ -29,14 +29,14 @@ namespace JMT.UISystem.Laboratory
         {
             view.OnChangedCategory += HandleChangedCategory;
             view.OnExitEvent += CloseUI;
-            rightView.OnItemCreateEvent += HandleItemCreateEvent;
+            buildingView.OnItemCreateEvent += HandleItemCreateEvent;
         }
 
         private void OnDestroy()
         {
             view.OnChangedCategory -= HandleChangedCategory;
             view.OnExitEvent -= CloseUI;
-            rightView.OnItemCreateEvent -= HandleItemCreateEvent;
+            buildingView.OnItemCreateEvent -= HandleItemCreateEvent;
         }
 
         public void OpenUI() => view.OpenUI();
@@ -51,7 +51,7 @@ namespace JMT.UISystem.Laboratory
             if(currentCategory != LaboratoryCategory.Upgrade)
             {
                 bottomView.OpenUI();
-                rightView.OpenInfoPanel();
+                buildingView.OpenInfoPanel();
             }
             currentBuildingData = null;
             currentItemData = null;
@@ -69,7 +69,7 @@ namespace JMT.UISystem.Laboratory
                     break;
                 case LaboratoryCategory.Upgrade:
                     bottomView.CloseUI();
-                    rightView.OpenUpgradePanel();
+                    buildingView.OpenUpgradePanel();
                     break;
             }
         }

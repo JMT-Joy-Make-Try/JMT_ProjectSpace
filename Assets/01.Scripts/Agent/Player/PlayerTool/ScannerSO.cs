@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     [CreateAssetMenu(fileName = "Scanner", menuName = "SO/Data/ToolSO/Scanner")]
     public class ScannerSO : ToolSO

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem.Laboratory
 {
-    public class LaboratoryRightView : MonoBehaviour
+    public class BuildingInfoView : MonoBehaviour
     {
         public Action OnItemCreateEvent;
         [SerializeField] private RectTransform infoPanel, upgradePanel;
