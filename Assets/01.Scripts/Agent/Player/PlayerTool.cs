@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     public class PlayerTool : AgentCloth<PlayerToolType>
     {

@@ -1,7 +1,7 @@
 using JMT.UISystem;
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     public class PlayerSystem : MonoBehaviour
     {
