@@ -9,25 +9,38 @@ namespace JMT.Object
     {
         [SerializeField] private LayerMask layer;
         [SerializeField] private int damage = 10;
-        private Transform childTrm;
+        private Transform childTrm;     
+        
+        private CollisionDetector _detector;
 
         private void Awake()
         {
             childTrm = transform.GetChild(0);
+            _detector = childTrm.GetComponent<CollisionDetector>();
             VibrationUtil.Vibrate(VibrationType.Pop);
+            
+            _detector.HandleTriggerEnter += HandleTriggerEnter;
+        }
+        
+        private void OnDestroy()
+        {
+            if (_detector != null)
+                _detector.HandleTriggerEnter -= HandleTriggerEnter;
         }
 
         private void Start()
         {
-            childTrm.DOLocalMove(Vector3.zero, 3f).SetEase(Ease.Linear);
+            childTrm.DOLocalMove(Vector3.zero, 5f).SetEase(Ease.Linear);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void HandleTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                if (other.gameObject.layer == layer)
+                if ((layer & (1 << other.gameObject.layer)) != 0)
+                {
                     damageable.TakeDamage(damage);
+                }
             }
         }
     }
