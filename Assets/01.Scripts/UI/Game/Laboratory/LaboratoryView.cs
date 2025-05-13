@@ -78,7 +78,5 @@ namespace JMT.UISystem.Laboratory
         {
             OnChangedCategory?.Invoke(category);
         }
-
-        
     }
 }
