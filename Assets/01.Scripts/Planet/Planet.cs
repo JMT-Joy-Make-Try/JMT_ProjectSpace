@@ -1,3 +1,4 @@
+using JMT.Android.Vibration;
 using System.Collections.Generic;
 using JMT.Building;
 using JMT.Planets.Tile;
@@ -22,6 +23,7 @@ namespace JMT.Planets
         protected virtual void Awake()
         {
             GameUIManager.Instance.TimeCompo.OnChangeDayCountEvent += HandleChangeDay;
+            VibrationUtil.Init();
         }
 
         private void OnDestroy()

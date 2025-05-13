@@ -1,4 +1,5 @@
 using JMT;
+using JMT.Android.Vibration;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.UISystem;
@@ -57,6 +58,7 @@ namespace Planets.Events
                 yield return new WaitForSeconds(0.2f);
             }
             
+            yield return new WaitForSeconds(4.5f);
             EndEvent();
         }
     }
