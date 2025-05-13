@@ -1,3 +1,4 @@
+using JMT;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.UISystem;
@@ -6,11 +7,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Event = JMT.Planets.Events.Event;
 
-namespace JMT
+namespace Planets.Events
 {
     public class MeteorEvent : Event
     {
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         [SerializeField] private Meteor meteorPrefab;
         [SerializeField] private int meteorCount = 5;
         [SerializeField] private float range = 10f;
@@ -19,8 +19,18 @@ namespace JMT
         
         public override void StartEvent()
         {
+            Debug.Log("MeteorEvent");
             StartCoroutine(MeteorRain());
-            
+        }
+
+        public override void EndEvent()
+        {
+            StopAllCoroutines();
+            foreach (var tile in tileList)
+            {
+                tile.SetColor(Color.white);
+            }
+            tileList.Clear();
         }
 
         private IEnumerator MeteorRain()
@@ -29,18 +39,17 @@ namespace JMT
             GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("운석이 떨어집니다!!!");
             for (int i = 0; i < meteorCount; i++)
             {
-                // 타일을 랜덤으로 선택
                 var tile = TileAreaManager.Instance.GetTile(range);
                 if (tile != null)
                 {
-                    tileList.Add(tile.GetComponent<PlanetTile>());
-                    tile.GetComponent<PlanetTile>().Renderer.material.SetColor(BaseColor, Color.red);
+                    PlanetTile planetTile = tile.GetComponent<PlanetTile>();
+                    tileList.Add(planetTile);
+                    planetTile.SetColor(Color.red);
                 }
 
                 yield return null;
             }
             
-            // 타일이 빨개져야함.
             yield return new WaitForSeconds(2f);
             foreach (var tile in tileList)
             {
@@ -48,11 +57,7 @@ namespace JMT
                 yield return new WaitForSeconds(0.2f);
             }
             
-            // 타일이 원래 색으로 돌아와야함.
-            foreach (var tile in tileList)
-            {
-                tile.Renderer.material.SetColor(BaseColor, Color.white);
-            }
+            EndEvent();
         }
     }
 }
