@@ -10,6 +10,7 @@ namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
         [field: SerializeField] public TileType TileType { get; set; }
@@ -150,6 +151,10 @@ namespace JMT.Planets.Tile
             DestroyBuilding();
             _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
             _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f, true);
+        }
+        public void SetColor(Color color)
+        {
+            Renderer.material.SetColor(BaseColor, color);
         }
     }
 }

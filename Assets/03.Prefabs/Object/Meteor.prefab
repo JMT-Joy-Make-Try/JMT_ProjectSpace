@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 5315874788898685522}
   - component: {fileID: 6443401514307017353}
   - component: {fileID: 208955266648951273}
-  m_Layer: 0
+  - component: {fileID: 5980206040134700979}
+  - component: {fileID: 5783402241475609932}
+  m_Layer: 12
   m_Name: Meteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,6 +88,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &5980206040134700979
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2498000833023449679}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.1631209
+  m_Height: 2.3029525
+  m_Direction: 1
+  m_Center: {x: -0.023673534, y: 0.011205676, z: 0.00000023841864}
+--- !u!114 &5783402241475609932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2498000833023449679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc64a994153488b9dc1ca1495a25222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isTrigger: 1
 --- !u!1 &5828171173316174485
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7056166856742370418}
   - component: {fileID: 2537009206383035425}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Meteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,3 +169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512ed7055cd26554b80776b415247d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 128
+  damage: 10
+  isPercentageDamage: 0
+  damagePercentage: 20
+  duration: 5
