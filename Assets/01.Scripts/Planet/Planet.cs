@@ -63,15 +63,25 @@ namespace JMT.Planets
 
         protected virtual void StartEvent()
         {
+            Event selected = null;
+
             foreach (var e in events)
             {
-                if (Random.Range(0f, 1f) < e.Probability)
+                if (Random.Range(0f, 100f) < e.Probability)
                 {
-                    e.StartEvent();
+                    selected = e;
                     break;
                 }
             }
+
+            if (selected == null)
+            {
+                selected = events[Random.Range(0, events.Count)];
+            }
+
+            selected?.StartEvent();
         }
+
         
         protected virtual void BakeNavMesh()
         {

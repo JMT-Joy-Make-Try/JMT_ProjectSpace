@@ -1,5 +1,6 @@
 using JMT.Agent;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using JMT.Planets.Tile;
 using JMT.UISystem;
 using System;
@@ -23,6 +24,12 @@ namespace JMT.Building
         
         [SerializeField] private float _fuelAmount;
         
+        public float FuelAmount
+        {
+            get => _fuelAmount;
+            set => _fuelAmount = value;
+        }
+        
         protected bool _isWorking;
         private PVCBuilding _pvc;
         
@@ -31,6 +38,7 @@ namespace JMT.Building
         protected virtual void Awake()
         {
             InitBuildingComponents();
+            BuildingManager.Instance.AddBuilding(this);
             
             OnCompleteEvent += HandleCompleteEvent;
         }
