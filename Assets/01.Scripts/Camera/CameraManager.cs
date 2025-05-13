@@ -8,22 +8,16 @@ namespace JMT.CameraSystem
 {
     public class CameraManager : MonoSingleton<CameraManager>
     {
+        [Header("Camera")]
         [SerializeField] private CinemachineCamera _mainCamera;
+        [Space]
         
-        [SerializeField] private Transform Test;
-
-
-        public void LookCamera(Transform target, float duration)
+        [Header("Extension")]
+        [SerializeField] private CinemachineImpulseSource _mainImpulseSource;
+        
+        public void ShakeCamera(float amplitude, float frequency, float duration)
         {
-            Debug.Log(target.position);
-            _mainCamera.transform.DOMove(target.position, duration, false, false, true);
-        }
-
-        public void ZoomCamera(float zoomValue, float duration)
-        {
-            float currentOrthographicSize = _mainCamera.Lens.OrthographicSize;
-            Debug.Log(currentOrthographicSize);
-            _mainCamera.DOZoom(currentOrthographicSize * (zoomValue / 10), duration);
+            _mainImpulseSource.GenerateImpulse(new Vector3(amplitude, frequency, duration));
         }
     }
 }
