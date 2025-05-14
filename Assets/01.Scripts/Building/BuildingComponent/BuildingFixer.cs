@@ -10,8 +10,8 @@ namespace JMT.Building.Component
     public class BuildingFixer : MonoBehaviour, IBuildingComponent
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> items;
+        [SerializeField] private float _repairTime = 5f;
         
-        private float _repairTime = 5f;
         private float _curRepairAmount;
         
         public BuildingBase Building { get; private set; }
@@ -61,6 +61,7 @@ namespace JMT.Building.Component
         private IEnumerator RepairRoutine()
         {
             float elapsedTime = 0f;
+            _curRepairAmount = 0f;
             while (elapsedTime < _repairTime)
             {
                 elapsedTime += Time.deltaTime;
