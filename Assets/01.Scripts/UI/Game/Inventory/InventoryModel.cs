@@ -97,5 +97,20 @@ namespace JMT.UISystem.Inventory
 
             return pairs;
         }
+
+        public bool HasItem(ItemSO item, int value)
+        {
+            if (inventorySO.ItemDictionary.ContainsKey(item))
+            {
+                if (inventorySO.ItemDictionary[item] >= value)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -77,6 +77,11 @@ namespace JMT.UISystem.Inventory
         }
 
         public void RemoveItem(ItemSO item, int value) => model.RemoveItem(item, value);
+        
+        public bool HasItem(ItemSO item, int value)
+        {
+            return model.HasItem(item, value);
+        }
 
         private void SelectCategory(InventoryCategory? category)
         {
