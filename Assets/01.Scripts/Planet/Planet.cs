@@ -1,3 +1,4 @@
+using JMT.Android.Vibration;
 using System.Collections.Generic;
 using JMT.Building;
 using JMT.Planets.Tile;
@@ -22,6 +23,7 @@ namespace JMT.Planets
         protected virtual void Awake()
         {
             GameUIManager.Instance.TimeCompo.OnChangeDayCountEvent += HandleChangeDay;
+            VibrationUtil.Init();
         }
 
         private void OnDestroy()
@@ -33,18 +35,17 @@ namespace JMT.Planets
 
         private void HandleChangeDay(int day)
         {
-            StartEvent();
-            /*if (day % _eventPlayDay == 2)
+            if (day % _eventPlayDay == 2)
             {
                 EventWarning?.Invoke();
             }
             if (day % _eventPlayDay == 0)
             {
                 StartEvent();
-            }*/
+            }
         }
 
-        protected virtual void GeneratePlanet(TilesSO tilesSO)
+        protected void GeneratePlanet(TilesSO tilesSO)
         {
             for (int i = 0; i < tileLists.Count; i++)
             {
@@ -83,10 +84,9 @@ namespace JMT.Planets
         }
 
         
-        protected virtual void BakeNavMesh()
+        private void BakeNavMesh()
         {
             navMeshSurface.BuildNavMesh();
-            
         }
     }
 }

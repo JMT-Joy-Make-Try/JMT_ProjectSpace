@@ -1,4 +1,6 @@
 using JMT;
+using JMT.Android.Vibration;
+using JMT.CameraSystem;
 using JMT.Object;
 using JMT.Planets.Tile;
 using JMT.UISystem;
@@ -21,6 +23,7 @@ namespace Planets.Events
         {
             Debug.Log("MeteorEvent");
             StartCoroutine(MeteorRain());
+            CameraManager.Instance.ShakeCamera(2, 5);
         }
 
         public override void EndEvent()
@@ -57,6 +60,7 @@ namespace Planets.Events
                 yield return new WaitForSeconds(0.2f);
             }
             
+            yield return new WaitForSeconds(4.5f);
             EndEvent();
         }
     }

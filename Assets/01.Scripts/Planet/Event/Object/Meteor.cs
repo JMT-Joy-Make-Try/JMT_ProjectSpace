@@ -1,5 +1,6 @@
 using DG.Tweening;
 using JMT.Android.Vibration;
+using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Tool;
 using System;
@@ -14,6 +15,10 @@ namespace JMT.Object
         [SerializeField] private bool isPercentageDamage = false;
         [SerializeField] private float damagePercentage = 20f;
         [SerializeField] private float duration = 5f;
+        
+        [Header("Vibration")]
+        [SerializeField] private VibrationType vibrationType = VibrationType.Pop;
+        [SerializeField] private float vibrationIntensity = 1f;
         private Transform childTrm;     
         
         private CollisionDetector _detector;
@@ -22,7 +27,6 @@ namespace JMT.Object
         {
             childTrm = transform.GetChild(0);
             _detector = childTrm.GetComponent<CollisionDetector>();
-            VibrationUtil.Vibrate(VibrationType.Pop);
             
             _detector.HandleTriggerEnter += HandleTriggerEnter;
         }
@@ -35,7 +39,10 @@ namespace JMT.Object
 
         private void Start()
         {
-            childTrm.DOLocalMove(Vector3.zero, duration).SetEase(Ease.Linear).OnComplete(() => Destroy(gameObject));
+            childTrm.DOLocalMove(Vector3.zero, duration).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
         }
 
         private void Update()
@@ -45,6 +52,8 @@ namespace JMT.Object
 
         private void HandleTriggerEnter(Collider other)
         {
+            VibrationUtil.Vibrate(vibrationType, vibrationIntensity);
+            CameraManager.Instance.ShakeCamera(5f);
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 if ((layer & (1 << other.gameObject.layer)) != 0)
