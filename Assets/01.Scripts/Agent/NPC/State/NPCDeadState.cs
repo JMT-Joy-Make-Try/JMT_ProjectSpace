@@ -1,6 +1,7 @@
 ﻿using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.Core.Tool.PoolManager.Core;
 using System.Collections;
 using UnityEngine;
 
@@ -43,9 +44,22 @@ namespace JMT.Agent.State
                     return;
                 }
             }
+
+            if (agent.CurrentWorkingBuilding == null && BuildingManager.Instance.LodgingBuilding != null)
+            {
+                agent.SetBuilding(BuildingManager.Instance.LodgingBuilding);
+                Debug.Log("Lodging Building Added!");
+                StartCoroutine(InLodgingBuilding());
+            }
             
 
             agent.MovementCompo.Move(agent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.MoveSpeed, Heal);
+        }
+
+        private IEnumerator InLodgingBuilding()
+        {
+            yield return new WaitUntil(() => agent.MovementCompo.IsMoving);
+            PoolingManager.Instance.Push(agent);
         }
 
         private void Heal()

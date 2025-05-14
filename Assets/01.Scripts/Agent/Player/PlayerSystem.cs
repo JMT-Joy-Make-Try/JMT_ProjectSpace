@@ -1,11 +1,12 @@
 using JMT.UISystem;
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     public class PlayerSystem : MonoBehaviour
     {
         [SerializeField] private Player player;
+
         [SerializeField] private FillBarUI playerHpUI;
         [SerializeField] private FillBarUI playerOxygenUI;
 

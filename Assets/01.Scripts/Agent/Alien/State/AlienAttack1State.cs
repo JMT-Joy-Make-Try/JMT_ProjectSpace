@@ -16,8 +16,10 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            Agent.MovementCompo.Stop(false);
-            _alien.transform.LookAt(_alien.TargetFinder.Target);
+            Agent.MovementCompo.Stop(true);
+            if (_alien.TargetFinder.Target == null) Debug.LogWarning("No target found");
+            Vector3 lookDirection = _alien.TargetFinder.Target.position - _alien.transform.position;
+            Agent.transform.rotation = Quaternion.LookRotation(lookDirection);
             
             _alien.Attacker.Attack();
         }

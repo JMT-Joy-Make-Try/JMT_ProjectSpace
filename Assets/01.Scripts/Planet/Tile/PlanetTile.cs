@@ -10,7 +10,9 @@ namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         public event Action OnBuild;
+        public event Action<TileInteraction> OnChangeInteraction;
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }
@@ -23,6 +25,7 @@ namespace JMT.Planets.Tile
         private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
         public GameObject TileInteraction;
+        public Transform Pivot { get; private set; }
 
         private bool canInteraction = true;
         
@@ -30,6 +33,7 @@ namespace JMT.Planets.Tile
 
         private void Awake()
         {
+            Pivot = transform.Find("Pivot");
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
             _tileList = GetComponentInParent<TileList>();
@@ -76,7 +80,8 @@ namespace JMT.Planets.Tile
 
         public void AddInteraction<T>() where T : TileInteraction
         {
-            TileInteraction.AddComponent<T>();
+            T instance = TileInteraction.AddComponent<T>();
+            OnChangeInteraction?.Invoke(instance);
         }
 
         public void RemoveInteraction()
@@ -145,7 +150,11 @@ namespace JMT.Planets.Tile
         {
             DestroyBuilding();
             _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f);
+            _currentBuilding.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.5f, true);
+        }
+        public void SetColor(Color color)
+        {
+            Renderer.material.SetColor(BaseColor, color);
         }
     }
 }

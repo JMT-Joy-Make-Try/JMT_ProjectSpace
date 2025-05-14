@@ -22,6 +22,7 @@ namespace JMT.Object
         
         private MeshRenderer _meshRenderer;
         private ItemSO _itemSO;
+        public bool IsCollectable { get; set; } = true;
 
         private void Awake()
         {
@@ -45,10 +46,12 @@ namespace JMT.Object
 
         public void ResetItem()
         {
+            IsCollectable = true;
         }
 
         public void Collect()
         {
+            if (!IsCollectable) return;
             GameUIManager.Instance.InventoryCompo.AddItem(_itemSO, 1);
             Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);

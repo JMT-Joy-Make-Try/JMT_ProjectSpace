@@ -13,7 +13,7 @@ namespace JMT.Agent
     public class AgentManager : MonoSingleton<AgentManager>
     {
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
-        [field: SerializeField] public Player.Player Player { get; private set; }
+        [field: SerializeField] public PlayerCharacter.Player Player { get; private set; }
 
         public void AddNpc()
         {
@@ -22,7 +22,7 @@ namespace JMT.Agent
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
                 return;
             }
-            if (BuildingManager.Instance.LodgingBuilding.MaxNpcCount < UnemployedAgents.Count)
+            if (GameUIManager.Instance.ResourceCompo.MaxNpcValue <= GameUIManager.Instance.ResourceCompo.CurrentNpcValue)
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 부족합니다.");
                 return;
@@ -77,5 +77,12 @@ namespace JMT.Agent
             }
             UnemployedAgents.Remove(agent);
         }
+
+        public void AddMaxNpcCount(int count)
+        {
+            GameUIManager.Instance.ResourceCompo.AddMaxNpc(count);
+        }
+        
+        
     }
 }

@@ -1,5 +1,5 @@
 using JMT.Building;
-using JMT.Player;
+using JMT.PlayerCharacter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +78,5 @@ namespace JMT.UISystem.Laboratory
         {
             OnChangedCategory?.Invoke(category);
         }
-
-        
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace JMT.Planets
+﻿namespace JMT.Planets.Events
 {
     public interface IEventDetectable
     {

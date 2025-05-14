@@ -5,7 +5,7 @@ using JMT.UISystem;
 using System;
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     public class Player : MonoBehaviour, IDamageable, IOxygen
     {
@@ -105,9 +105,9 @@ namespace JMT.Player
             OnDeadEvent?.Invoke();
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out ICollectable collectable))
+            if (other.TryGetComponent(out ICollectable collectable))
             {
                 collectable.Collect();
             }
