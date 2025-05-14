@@ -3,7 +3,7 @@ using JMT.UISystem;
 using JMT.UISystem.Interact;
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     public class PlayerTileFinding : MonoBehaviour
     {

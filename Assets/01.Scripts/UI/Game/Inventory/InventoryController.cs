@@ -27,7 +27,7 @@ namespace JMT.UISystem.Inventory
 
         private void HandleEquip()
         {
-            Player.Player player = AgentManager.Instance.Player;
+            PlayerCharacter.Player player = AgentManager.Instance.Player;
             player.PlayerTool.SetCloth((_curItemSO as ToolSO).ToolType);
             Debug.Log(player.PlayerTool._curPlayerToolSO);
         }
@@ -77,6 +77,11 @@ namespace JMT.UISystem.Inventory
         }
 
         public void RemoveItem(ItemSO item, int value) => model.RemoveItem(item, value);
+        
+        public bool HasItem(ItemSO item, int value)
+        {
+            return model.HasItem(item, value);
+        }
 
         private void SelectCategory(InventoryCategory? category)
         {

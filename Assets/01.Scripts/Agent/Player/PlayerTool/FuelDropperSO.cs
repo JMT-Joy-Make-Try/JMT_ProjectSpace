@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     [CreateAssetMenu(fileName = "FuelDropper", menuName = "SO/Data/ToolSO/FuelDropper")]
     public class FuelDropperSO : ToolSO

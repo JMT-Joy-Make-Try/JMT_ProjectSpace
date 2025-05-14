@@ -1,5 +1,6 @@
 using JMT.Agent;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using JMT.Planets.Tile;
 using JMT.UISystem;
 using System;
@@ -23,6 +24,12 @@ namespace JMT.Building
         
         [SerializeField] private float _fuelAmount;
         
+        public float FuelAmount
+        {
+            get => _fuelAmount;
+            set => _fuelAmount = value;
+        }
+        
         protected bool _isWorking;
         private PVCBuilding _pvc;
         
@@ -31,8 +38,15 @@ namespace JMT.Building
         protected virtual void Awake()
         {
             InitBuildingComponents();
+            BuildingManager.Instance.AddBuilding(this);
             
             OnCompleteEvent += HandleCompleteEvent;
+            GetBuildingComponent<BuildingHealth>().OnBuildingBroken += HandleBroken;
+        }
+
+        private void HandleBroken()
+        {
+            
         }
 
         private IEnumerator FuelRoutine()
@@ -54,6 +68,7 @@ namespace JMT.Building
         private void OnDestroy()
         {
             OnCompleteEvent -= HandleCompleteEvent;
+            GetBuildingComponent<BuildingHealth>().OnBuildingBroken -= HandleBroken;
         }
 
 
@@ -147,6 +162,21 @@ namespace JMT.Building
 
             Debug.LogError($"Component of type {typeof(T)} not found in {gameObject.name}");
             return default;
+        }
+
+        public void SetLayer(string layerName)
+        {
+            int layer = LayerMask.NameToLayer(layerName);
+            if (layer == -1)
+            {
+                Debug.LogError($"Layer '{layerName}' not found.");
+                return;
+            }
+
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = layer;
+            }
         }
 
     }

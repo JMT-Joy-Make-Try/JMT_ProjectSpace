@@ -1,7 +1,5 @@
 ﻿using JMT.Core;
-using JMT.Item;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Building.Component
@@ -9,11 +7,10 @@ namespace JMT.Building.Component
     public class BuildingHealth : MonoBehaviour, IDamageable, IBuildingComponent
     {
         [field: SerializeField] public int Health { get; protected set; } = 100;
-        
-        protected event Action OnBuildingBroken;
-        public BuildingBase Building { get; private set; }
-        
         private int _curHealth;
+        
+        public event Action OnBuildingBroken;
+        public BuildingBase Building { get; private set; }
         
         public void InitStat()
         {
@@ -37,6 +34,7 @@ namespace JMT.Building.Component
         public void Init(BuildingBase building)
         {
             Building = building;
+            InitStat();
         }
     }
 }

@@ -27,19 +27,6 @@ namespace JMT.UISystem.Laboratory
             needItemList = needItemContent.GetComponentsInChildren<CellUI>().ToList();
             studyButton.onClick.AddListener(() => OnBuildingStudyEvent?.Invoke(currentData));
         }
-        public void SetData(BuildingDataSO data)
-        {
-            currentData = data;
-            nameText.text = data.BuildingName;
-            descText.text = data.BuildingDescription;
-            var level1Data = data.buildingLevel[0].NeedItems.ToList();
-            for(int i = 0; i < needItemList.Count; ++i) 
-            {
-                if (level1Data.Count > i)
-                    needItemList[i].SetCell(level1Data[i].Key);
-                else
-                    needItemList[i].ResetCell();
-            }
-        }
+        
     }
 }

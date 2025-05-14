@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     [CreateAssetMenu(fileName = "Hammer", menuName = "SO/Data/ToolSO/Hammer")]
     public class HammerSO : ToolSO

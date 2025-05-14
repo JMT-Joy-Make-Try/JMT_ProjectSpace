@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     [CreateAssetMenu(fileName = "Vacuum", menuName = "SO/Data/ToolSO/Vacuum")]
     public class VacuumSO : ToolSO

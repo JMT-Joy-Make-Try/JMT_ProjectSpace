@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JMT.Player
+namespace JMT.PlayerCharacter
 {
     [CreateAssetMenu(fileName = "FilterMaskSO", menuName = "SO/Data/ToolSO/FilterMaskSO")]
     public class FilterMaskSO : ToolSO

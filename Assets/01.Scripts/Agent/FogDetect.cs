@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
@@ -42,7 +43,7 @@ namespace JMT.Agent
 
         private void HandleFogDetected(bool isInFog)
         {
-            Player.Player player = _agent as Player.Player;
+            PlayerCharacter.Player player = _agent as PlayerCharacter.Player;
             FogSpeed(player, isInFog);
             FogCamera(player, isInFog);
         }
@@ -64,7 +65,7 @@ namespace JMT.Agent
             }
         }
 
-        private void FogCamera(Player.Player player, bool isInFog)
+        private void FogCamera(PlayerCharacter.Player player, bool isInFog)
         {
             if (player == null) return;
             var vignettes = VolumeManager.Instance.GetAllVolume<Vignette>();
@@ -78,7 +79,7 @@ namespace JMT.Agent
                     }
                 });
 
-                Camera.main.DOZoom(8f, 0.7f, Ease.OutQuad);
+                CameraManager.Instance.MainCamera.DOZoom(8f, 0.7f, Ease.OutQuad);
             }
             else
             {
@@ -89,11 +90,11 @@ namespace JMT.Agent
                         vignettes[i].intensity.value = x;
                     }
                 });
-                Camera.main.DOZoom(12f, 0.5f, Ease.InQuad);
+                CameraManager.Instance.MainCamera.DOZoom(12f, 0.5f, Ease.InQuad);
             }
         }
 
-        private void FogSpeed(Player.Player player, bool isInFog)
+        private void FogSpeed(PlayerCharacter.Player player, bool isInFog)
         {
             if (isInFog)
             {

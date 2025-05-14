@@ -121,7 +121,7 @@ namespace JMT.Core.Tool
         /// <param name="value">체크할 값</param>
         /// <param name="percentage">목표 퍼센트</param>
         /// <returns>퍼센트 값에 해당하는 값</returns>
-       public static  float GetPercentageValue(this float value, float percentage)
+       public static float GetPercentageValue(this float value, float percentage)
         {
             return value * (percentage / 100f);
         }

@@ -51,7 +51,7 @@ namespace JMT.Agent.Alien
             int agentCount = Physics.OverlapSphereNonAlloc(transform.position, AgentAttackRange, _colliders, WhatIsAttackable);
             for (int i = 0; i < agentCount; i++)
             {
-                if (_colliders[i].TryGetComponent(out Player.Player player))
+                if (_colliders[i].TryGetComponent(out PlayerCharacter.Player player))
                 {
                     return player.transform;
                 }

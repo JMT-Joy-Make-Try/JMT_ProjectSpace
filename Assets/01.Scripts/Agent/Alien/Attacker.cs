@@ -25,22 +25,50 @@ namespace JMT.Agent.Alien
             {
                 for (int i = 0; i < count; i++)
                 {
-                    if (_colliders[i].TryGetComponent(out IDamageable damageable))
-                    {
-                        damageable.TakeDamage(AttackDamage);
-                    }
-
-                    if (_colliders[i].TryGetComponent(out IKnockbackable knockbackable))
-                    {
-                        Vector3 direction = (_colliders[i].transform.position - transform.position).normalized;
-                        knockbackable.Knockback(direction, KnockbackDamage);
-                    }
-
-                    if (_colliders[i].TryGetComponent(out IStunable stunable))
-                    {
-                        stunable.Stun(1f);
-                    }
+                    CheckComponent(i);
+                    CheckParentComponent(i);
                 }
+            }
+        }
+
+        private void CheckParentComponent(int index)
+        {
+            var parent = _colliders[index].transform.parent;
+            if (parent == null) return;
+            if (parent.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(AttackDamage);
+            }
+
+            if (parent.TryGetComponent(out IKnockbackable knockbackable))
+            {
+                Vector3 direction = (_colliders[index].transform.position - transform.position).normalized;
+                knockbackable.Knockback(direction, KnockbackDamage);
+            }
+
+            if (parent.TryGetComponent(out IStunable stunable))
+            {
+                stunable.Stun(1f);
+            }
+        }
+
+        private void CheckComponent(int index)
+        {
+            if (_colliders[index] == null) return;
+            if (_colliders[index].TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(AttackDamage);
+            }
+
+            if (_colliders[index].TryGetComponent(out IKnockbackable knockbackable))
+            {
+                Vector3 direction = (_colliders[index].transform.position - transform.position).normalized;
+                knockbackable.Knockback(direction, KnockbackDamage);
+            }
+
+            if (_colliders[index].TryGetComponent(out IStunable stunable))
+            {
+                stunable.Stun(1f);
             }
         }
 
