@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
@@ -78,7 +79,7 @@ namespace JMT.Agent
                     }
                 });
 
-                Camera.main.DOZoom(8f, 0.7f, Ease.OutQuad);
+                CameraManager.Instance.MainCamera.DOZoom(8f, 0.7f, Ease.OutQuad);
             }
             else
             {
@@ -89,7 +90,7 @@ namespace JMT.Agent
                         vignettes[i].intensity.value = x;
                     }
                 });
-                Camera.main.DOZoom(12f, 0.5f, Ease.InQuad);
+                CameraManager.Instance.MainCamera.DOZoom(12f, 0.5f, Ease.InQuad);
             }
         }
 

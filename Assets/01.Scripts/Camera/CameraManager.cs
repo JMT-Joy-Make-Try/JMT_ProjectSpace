@@ -16,6 +16,8 @@ namespace JMT.CameraSystem
         [Header("Extension")]
         [SerializeField] private CinemachineImpulseSource _mainImpulseSource;
         
+        public CinemachineCamera MainCamera => _mainCamera;
+        
         public void ShakeCamera(float strength)
         {
             if (_mainImpulseSource != null)
