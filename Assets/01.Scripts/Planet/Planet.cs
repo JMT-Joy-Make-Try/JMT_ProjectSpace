@@ -35,14 +35,15 @@ namespace JMT.Planets
 
         private void HandleChangeDay(int day)
         {
-            if (day % _eventPlayDay == 2)
-            {
-                EventWarning?.Invoke();
-            }
-            if (day % _eventPlayDay == 0)
-            {
-                StartEvent();
-            }
+            StartEvent();
+            // if (day % _eventPlayDay == 2)
+            // {
+            //     EventWarning?.Invoke();
+            // }
+            // if (day % _eventPlayDay == 0)
+            // {
+            //     StartEvent();
+            // }
         }
 
         protected void GeneratePlanet(TilesSO tilesSO)

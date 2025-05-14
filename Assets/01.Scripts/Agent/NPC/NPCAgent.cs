@@ -13,6 +13,7 @@ namespace JMT.Agent.NPC
     public class NPCAgent : AgentAI<NPCState>
     {
         [field: SerializeField] public NPCOxygen OxygenCompo { get; private set; }
+        [field: SerializeField] public NPCWorkData WorkData { get; private set; }
         [Header("Unlock NPC")]
         [field: SerializeField] public NPCData Data { get; set; }
         public bool IsActive { get; private set; }
