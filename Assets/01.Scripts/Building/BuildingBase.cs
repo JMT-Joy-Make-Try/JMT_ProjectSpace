@@ -46,6 +46,7 @@ namespace JMT.Building
 
         private void HandleBroken()
         {
+            Debug.Log($"Broken Building: {gameObject.name}");
             // 건물 파괴됨
             GetBuildingComponent<BuildingNPC>().RemoveAllNpc();
             StopWork();
