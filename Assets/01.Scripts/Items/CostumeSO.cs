@@ -1,5 +1,5 @@
 using JMT.Item;
-using JMT.Player;
+using JMT.PlayerCharacter;
 using UnityEngine;
 
 namespace JMT

@@ -1,6 +1,6 @@
 using JMT.Building;
 using JMT.Item;
-using JMT.Player;
+using JMT.PlayerCharacter;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,13 +15,16 @@ namespace JMT.UISystem.Laboratory
 
         [SerializeField] private LaboratoryView view;
         [SerializeField] private LaboratoryBottomView bottomView;
-        [SerializeField] private LaboratoryRightView rightView;
+        [SerializeField] private StudyView studyView;
+        [SerializeField] private ToolView toolView;
+        [SerializeField] private UpgradeView upgradeView;
 
         public List<BuildingDataSO> LockBuildingList => lockBuildingList;
         public List<ToolSO> LockItemList => lockItemList;
 
         private LaboratoryCategory currentCategory;
 
+        private PanelUI currentUI;
         private BuildingDataSO currentBuildingData;
         private ToolSO currentItemData;
 
@@ -29,17 +32,21 @@ namespace JMT.UISystem.Laboratory
         {
             view.OnChangedCategory += HandleChangedCategory;
             view.OnExitEvent += CloseUI;
-            rightView.OnItemCreateEvent += HandleItemCreateEvent;
+            studyView.OnStudyButtonEvent += HandleItemCreateEvent;
         }
 
         private void OnDestroy()
         {
             view.OnChangedCategory -= HandleChangedCategory;
             view.OnExitEvent -= CloseUI;
-            rightView.OnItemCreateEvent -= HandleItemCreateEvent;
+            studyView.OnStudyButtonEvent -= HandleItemCreateEvent;
         }
 
-        public void OpenUI() => view.OpenUI();
+        public void OpenUI()
+        {
+            view.OpenUI();
+            ChangeCurrentUI(studyView);
+        }
         public void CloseUI() => view.CloseUI();
 
         private void HandleChangedCategory(LaboratoryCategory category)
@@ -51,7 +58,7 @@ namespace JMT.UISystem.Laboratory
             if(currentCategory != LaboratoryCategory.Upgrade)
             {
                 bottomView.OpenUI();
-                rightView.OpenInfoPanel();
+                //buildingInfoView.OpenUI();
             }
             currentBuildingData = null;
             currentItemData = null;
@@ -60,18 +67,29 @@ namespace JMT.UISystem.Laboratory
             {
                 case LaboratoryCategory.Study:
                     view.SetCell(LockBuildingList, HandleSetInfo);
+                    ChangeCurrentUI(studyView);
                     break;
                 case LaboratoryCategory.Equipment:
                     view.SetCell(LockItemList, HandleSetInfo);
+                    ChangeCurrentUI(toolView);
                     break;
                 case LaboratoryCategory.Worker:
                     Debug.Log("일꾼 관리 창입니다.");
+                    //view.SetCell(LockItemList, HandleSetInfo);
+
                     break;
                 case LaboratoryCategory.Upgrade:
                     bottomView.CloseUI();
-                    rightView.OpenUpgradePanel();
+                    ChangeCurrentUI(upgradeView);
                     break;
             }
+        }
+
+        private void ChangeCurrentUI(PanelUI panel)
+        {
+            currentUI?.CloseUI();
+            currentUI = panel;
+            currentUI?.OpenUI();
         }
 
         private void HandleItemCreateEvent()
@@ -88,11 +106,13 @@ namespace JMT.UISystem.Laboratory
         private void HandleSetInfo(BuildingDataSO data)
         {
             currentBuildingData = data;
+            // studyView.SetInfo();
         }
 
         private void HandleSetInfo(ToolSO data)
         {
             currentItemData = data;
+            toolView.SetInfo(data);
         }
     }
 }

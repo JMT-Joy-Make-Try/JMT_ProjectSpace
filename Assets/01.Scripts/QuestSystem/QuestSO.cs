@@ -9,6 +9,11 @@ namespace JMT.QuestSystem
     {
         public string questName;
         public string description;
-        public bool requiresObjectSpawn;
+        public List<QuestRewardType> questRewardTypes;
+    }
+
+    public enum QuestRewardType
+    {
+        NPC,
     }
 }

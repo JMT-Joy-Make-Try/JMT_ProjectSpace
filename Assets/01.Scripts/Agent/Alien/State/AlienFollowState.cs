@@ -13,7 +13,6 @@ namespace JMT.Agent.State
         private Vector3 _targetPosition;
 
         private static readonly Collider[] _overlapResults = new Collider[10];
-        private Coroutine _moveCoroutine;
         private bool _isAmbush = false;
 
         public override void Initialize(AgentAI<AlienState> agent, string stateName)
@@ -28,48 +27,36 @@ namespace JMT.Agent.State
             _isAmbush = Random.value > 0.5f;
 
             RandomMove();
-            _moveCoroutine = StartCoroutine(MoveCoroutine());
         }
 
-        private IEnumerator MoveCoroutine()
+        public override void UpdateState()
         {
-            while (true)
+            var target = _alien.TargetFinder.Target;
+
+            if (target != null)
             {
-                var target = _alien.TargetFinder.Target;
-
-                if (target != null)
+                if (_alien.transform.position.IsNear(target.position, 10f))
                 {
-                    if (_alien.transform.position.IsNear(target.position, 10f))
-                    {
-                        _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
-                    }
+                    _stateMachine.ChangeState((AlienState)Random.Range(2, 5));
                 }
-
-                if (_isAmbush)
-                {
-                    Agent.MovementCompo.Stop(true);
-                }
-                else
-                {
-                    Agent.MovementCompo.Stop(false);
-                }
-
-                if (target == null)
-                {
-                    RandomMove();
-                    Debug.Log("AlienFollowState: No target found, moving randomly.");
-                }
-                else
-                {
-                    TargetMove(target.position);
-                    Debug.Log("AlienFollowState: Following target.");
-                }
-                Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
-
-                yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
             }
-        }
 
+            Agent.MovementCompo.Stop(_isAmbush);
+
+            if (target == null)
+            {
+                RandomMove();
+                Debug.Log("AlienFollowState: No target found, moving randomly.");
+            }
+            else
+            {
+                TargetMove(target.position);
+                Debug.Log("AlienFollowState: Following target.");
+            }
+            Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
+
+            //yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
+        }
 
 
         private void TargetMove(Vector3 targetPosition)
@@ -95,13 +82,6 @@ namespace JMT.Agent.State
             }
 
             return false;
-        }
-
-        public override void ExitState()
-        {
-            if (_moveCoroutine != null)
-                StopCoroutine(_moveCoroutine);
-            base.ExitState();
         }
     }
 }

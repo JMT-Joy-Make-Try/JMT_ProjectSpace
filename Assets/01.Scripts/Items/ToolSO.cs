@@ -1,7 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile.Items;
-using JMT.Player;
+using JMT.PlayerCharacter;
 using UnityEngine;
 
 namespace JMT
@@ -12,12 +12,12 @@ namespace JMT
         public SerializedDictionary<ItemSO, int> NeedItems;
         public PlayerToolType ToolType;
         
-        public virtual void Equip(Player.Player player)
+        public virtual void Equip(PlayerCharacter.Player player)
         {
             
         }
         
-        public virtual void UnEquip(Player.Player player)
+        public virtual void UnEquip(PlayerCharacter.Player player)
         {
             
         }

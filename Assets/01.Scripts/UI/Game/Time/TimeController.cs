@@ -29,7 +29,7 @@ namespace JMT.UISystem.DayTime
         private readonly TimeModel model = new();
 
 
-        private void Awake()
+        private void Start()
         {
             model.OnChangeTimeEvent += view.ChangeTimeText;
             model.OnChangeDaytimeEvent += view.ChangeDayTime;
@@ -48,6 +48,7 @@ namespace JMT.UISystem.DayTime
         public void StartDayTime()
         {
             model.SetTime(timeSO.repeatDayTime);
+            model.AddDayCount();
             model.ChangeDayTime(DaytimeType.Day);
             StartCoroutine(TimeRoutine());
         }

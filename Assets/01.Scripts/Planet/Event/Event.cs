@@ -6,5 +6,7 @@ namespace JMT.Planets.Events
     {
         [field: SerializeField] public float Probability { get; protected set; }
         public abstract void StartEvent();
+
+        public abstract void EndEvent();
     }
 }

@@ -10,7 +10,7 @@ namespace JMT.Building.Component
     {
         [field: SerializeField] public int Health { get; protected set; } = 100;
         
-        protected event Action OnBuildingBroken;
+        public event Action OnBuildingBroken;
         public BuildingBase Building { get; private set; }
         
         private int _curHealth;
@@ -37,6 +37,7 @@ namespace JMT.Building.Component
         public void Init(BuildingBase building)
         {
             Building = building;
+            InitStat();
         }
     }
 }

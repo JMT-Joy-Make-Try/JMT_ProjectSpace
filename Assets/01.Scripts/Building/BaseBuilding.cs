@@ -5,11 +5,7 @@ namespace JMT.Building
 {
     public class BaseBuilding : BuildingBase
     {
-        [SerializeField] private float _radius;
-        [SerializeField] private LayerMask _whatIsAgent;
         [SerializeField] private Transform visual, brokenVisual;
-        [SerializeField] private int _agentSpawnCount;
-
 
         protected override void HandleCompleteEvent()
         {
