@@ -20,11 +20,11 @@ namespace JMT.Core.Tool
             return DOTween.To(() => target.Lens.OrthographicSize, x => target.Lens.OrthographicSize = x, endValue, duration);
         }
 
-        public static void DOZoom(this Camera camera, float endValue, float duration, Ease ease = Ease.Linear)
+        public static void DOZoom(this CinemachineCamera camera, float endValue, float duration, Ease ease = Ease.Linear)
         {
-            DOVirtual.Float(camera.orthographicSize, endValue, duration, value =>
+            DOVirtual.Float(camera.Lens.OrthographicSize, endValue, duration, value =>
             {
-                camera.orthographicSize = value;
+                camera.Lens.OrthographicSize = value;
             }).SetEase(ease);
         }
 
