@@ -21,10 +21,13 @@ namespace JMT.UISystem
 
         public void SetCell(ItemSO itemSO = null, string count = null)
         {
-            if(icon != null)
+            if (itemSO != null)
             {
-                if (itemSO.ItemData.Icon != null)
-                    icon.sprite = itemSO.ItemData.Icon;
+                if (icon != null)
+                {
+                    if (itemSO.ItemData.Icon != null)
+                        icon.sprite = itemSO.ItemData.Icon;
+                }
             }
             if(nameText != null) nameText.text = itemSO.ItemName;
             if (countText != null) countText.text = count;
