@@ -35,9 +35,9 @@ namespace JMT.UISystem
             if(isTimeStop)
                 Time.timeScale = 0;
 
+            panelGroup.blocksRaycasts = true;
             if (!isInteractable) return;
             panelGroup.interactable = true;
-            panelGroup.blocksRaycasts = true;
         }
 
         public virtual void CloseUI()
@@ -47,9 +47,9 @@ namespace JMT.UISystem
             if(isTimeStop)
                 Time.timeScale = GameUIManager.Instance.SpeedCompo.TimeScale;
 
+            panelGroup.blocksRaycasts = false;
             if (!isInteractable) return;
             panelGroup.interactable = false;
-            panelGroup.blocksRaycasts = false;
         }
     }
 }
