@@ -1,6 +1,7 @@
 using DG.Tweening;
 using JMT.Core.Tool;
 using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -15,9 +16,28 @@ namespace JMT.CameraSystem
         [Header("Extension")]
         [SerializeField] private CinemachineImpulseSource _mainImpulseSource;
         
-        public void ShakeCamera(float amplitude, float frequency, float duration)
+        public void ShakeCamera(float strength)
         {
-            _mainImpulseSource.GenerateImpulse(new Vector3(amplitude, frequency, duration));
+            if (_mainImpulseSource != null)
+            {
+                _mainImpulseSource.GenerateImpulse(strength);
+            }
+        }
+        
+        public void ShakeCamera(float strength, float duration)
+        {
+            StartCoroutine(ImpulseCoroutine(strength, duration));
+        }
+
+        private IEnumerator ImpulseCoroutine(float strength, float duration)
+        {
+            float elapsedTime = 0;
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                _mainImpulseSource.GenerateImpulse(strength);
+                yield return null;
+            }
         }
     }
 }

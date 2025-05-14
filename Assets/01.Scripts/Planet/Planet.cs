@@ -35,18 +35,17 @@ namespace JMT.Planets
 
         private void HandleChangeDay(int day)
         {
-            StartEvent();
-            /*if (day % _eventPlayDay == 2)
+            if (day % _eventPlayDay == 2)
             {
                 EventWarning?.Invoke();
             }
             if (day % _eventPlayDay == 0)
             {
                 StartEvent();
-            }*/
+            }
         }
 
-        protected virtual void GeneratePlanet(TilesSO tilesSO)
+        protected void GeneratePlanet(TilesSO tilesSO)
         {
             for (int i = 0; i < tileLists.Count; i++)
             {
@@ -85,10 +84,9 @@ namespace JMT.Planets
         }
 
         
-        protected virtual void BakeNavMesh()
+        private void BakeNavMesh()
         {
             navMeshSurface.BuildNavMesh();
-            
         }
     }
 }

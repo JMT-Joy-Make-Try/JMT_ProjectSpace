@@ -41,6 +41,14 @@ namespace JMT.Building
             BuildingManager.Instance.AddBuilding(this);
             
             OnCompleteEvent += HandleCompleteEvent;
+            GetBuildingComponent<BuildingHealth>().OnBuildingBroken += HandleBroken;
+        }
+
+        private void HandleBroken()
+        {
+            // 건물 파괴됨
+            GetBuildingComponent<BuildingNPC>().RemoveAllNpc();
+            StopWork();
         }
 
         private IEnumerator FuelRoutine()
@@ -62,6 +70,7 @@ namespace JMT.Building
         private void OnDestroy()
         {
             OnCompleteEvent -= HandleCompleteEvent;
+            GetBuildingComponent<BuildingHealth>().OnBuildingBroken -= HandleBroken;
         }
 
 

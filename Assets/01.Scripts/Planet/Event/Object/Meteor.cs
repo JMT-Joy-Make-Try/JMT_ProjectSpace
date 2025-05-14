@@ -1,5 +1,6 @@
 using DG.Tweening;
 using JMT.Android.Vibration;
+using JMT.CameraSystem;
 using JMT.Core;
 using JMT.Core.Tool;
 using System;
@@ -52,6 +53,7 @@ namespace JMT.Object
         private void HandleTriggerEnter(Collider other)
         {
             VibrationUtil.Vibrate(vibrationType, vibrationIntensity);
+            CameraManager.Instance.ShakeCamera(5f);
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 if ((layer & (1 << other.gameObject.layer)) != 0)
