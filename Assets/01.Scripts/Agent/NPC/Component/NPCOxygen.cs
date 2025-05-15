@@ -6,8 +6,9 @@ using System.Collections;
 
 namespace JMT.Agent.NPC
 {
-    public class NPCOxygen : MonoBehaviour, IOxygen
+    public class NPCOxygen : MonoBehaviour, IOxygen, INPCComponent
     {
+        public NPCAgent Agent { get; private set; }
         [field: SerializeField] public int Oxygen { get; private set; }
         [SerializeField] private float _decreaseTime = 1f;
         public event Action<bool> OnOxygenWarningEvent;
@@ -54,6 +55,11 @@ namespace JMT.Agent.NPC
             _currentOxygen = Oxygen;
             _isOxygenLow = false;
             StartCoroutine(OxygenDecreaseCoroutine());
+        }
+
+        public void Initialize(NPCAgent agent)
+        {
+            Agent = agent;
         }
     }
 }

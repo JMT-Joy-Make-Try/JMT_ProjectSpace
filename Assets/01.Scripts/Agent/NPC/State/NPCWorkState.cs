@@ -2,6 +2,7 @@
 using JMT.Building;
 using JMT.Building.Component;
 using JMT.Core.Tool;
+using JMT.Item;
 using System.Collections;
 using UnityEngine;
 
@@ -22,14 +23,14 @@ namespace JMT.Agent.State
             npcAgent.MovementCompo.Stop(true);
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            npcAgent.CurrentWorkingBuilding.Work();
+            npcAgent.WorkCompo.CurrentWorkingBuilding.Work();
             StartCoroutine(Work());
             
         }
 
         private IEnumerator Work()
         {
-            ItemBuilding building = npcAgent.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
+            ItemBuilding building = npcAgent.WorkCompo.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
             if (building == null)
             {
                 Debug.Log("Building is null");
@@ -38,12 +39,15 @@ namespace JMT.Agent.State
             
             while (true)
             {
-                if (building.data.GetFirstCreateItem() == null || building.data.CreateItemList.Count <= 0)
+                CreateItemSO item = building.data.GetFirstCreateItem();
+                npcAgent.WorkData.SetData(item, item.CreateTime);
+                if (item == null || building.data.CreateItemList.Count <= 0)
                 {
                     Debug.Log("Building Data is null");
                     yield break;
                 }
-                int timeMinute = building.data.GetFirstCreateItem().CreateTime.minute * 60 + building.data.GetFirstCreateItem().CreateTime.second;
+
+                int timeMinute = item.CreateTime.GetSecond();
                 yield return new WaitForSeconds(timeMinute);
                 building.data.RemoveWork();
             }
@@ -51,7 +55,7 @@ namespace JMT.Agent.State
 
         public override void UpdateState()
         {
-            npcAgent.transform.position = npcAgent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
+            npcAgent.transform.position = npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             base.UpdateState();
             npcAgent.transform.rotation = Quaternion.Euler(0, 180, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 180, 0);
