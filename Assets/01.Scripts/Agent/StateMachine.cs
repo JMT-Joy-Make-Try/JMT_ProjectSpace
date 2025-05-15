@@ -30,7 +30,7 @@ namespace JMT.Agent
         /// <param name="force">강제로 바꿀지 여부</param>
         public void ChangeState(T state, bool force = false)
         {
-            if (_agent.IsDead && force == false) return;
+            if (_agent.HealthCompo.IsDead && force == false) return;
             if (_currentState != null)
             {
                 _currentState.Agent.AnimationEndTrigger.OnAnimationEnd -= _currentState.OnAnimationEnd;
@@ -44,7 +44,7 @@ namespace JMT.Agent
 
         public void ChangeStateDelay(T state, float delayTime)
         {
-            if (_agent.IsDead) return;
+            if (_agent.HealthCompo.IsDead) return;
             StartCoroutine(Change(delayTime, state));
         }
 
@@ -62,7 +62,7 @@ namespace JMT.Agent
         
         public void ChangeStateWait(T state, bool waitUntil)
         {
-            if (_agent.IsDead) return;
+            if (_agent.HealthCompo.IsDead) return;
             StartCoroutine(Wait(waitUntil, state));
         }
 

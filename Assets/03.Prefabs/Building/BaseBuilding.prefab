@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -7530790579196831620}
   - component: {fileID: 1803942897513044938}
   - component: {fileID: 2485610459160599335}
+  - component: {fileID: 3893291102584006744}
   m_Layer: 8
   m_Name: BaseBuilding
   m_TagString: Untagged
@@ -157,6 +158,23 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3893291102584006744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2355515503679851719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b269f4042c4a41ceb602166ba26dc7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 9caf9ab1b7bb29140925e584211df642, type: 2}
+      Value: 0
+  _repairTime: 5
 --- !u!1 &7352149742048260845
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +527,7 @@ Animator:
   m_GameObject: {fileID: 4093811863499516754}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: c34ad8d8a42f45c4f97b02398b86df0d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

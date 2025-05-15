@@ -6997,6 +6997,9 @@ GameObject:
   - component: {fileID: 2776019099999613404}
   - component: {fileID: 7958708845597066041}
   - component: {fileID: 3665823496337250747}
+  - component: {fileID: 1167230757263764177}
+  - component: {fileID: 7414430557519137666}
+  - component: {fileID: 7848541300416251941}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -7041,39 +7044,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <StateMachineCompo>k__BackingField: {fileID: 2805633489195981530}
-  <AnimatorCompo>k__BackingField: {fileID: 0}
-  <MovementCompo>k__BackingField: {fileID: 0}
-  <ClothCompo>k__BackingField: {fileID: 0}
+  <AnimatorCompo>k__BackingField: {fileID: 1191274181813866938}
+  <MovementCompo>k__BackingField: {fileID: 8550061002388687951}
+  <ClothCompo>k__BackingField: {fileID: 7958708845597066041}
   <AnimationEndTrigger>k__BackingField: {fileID: 6062460446107766387}
-  <Health>k__BackingField: 10
+  <HealthCompo>k__BackingField: {fileID: 7848541300416251941}
   <type>k__BackingField: 3
-  <OxygenCompo>k__BackingField: {fileID: 0}
-  needItems:
-    _serializedList:
-    - Key: 0
-      Value: 10
-  <Data>k__BackingField:
-    MaxStamina: 30
-    Stamina: 0
-    MaxFuel: 0
-    FuelAmount: 0
-  <CurrentWorkingBuilding>k__BackingField: {fileID: 0}
-  <CurrentWorkingPlanetTile>k__BackingField: {fileID: 0}
-  _healthRange:
-  - Min: 80
-    Max: 100
-    ReturnValue: 120
-  - Min: 40
-    Max: 79
-    ReturnValue: 100
-  - Min: 1
-    Max: 39
-    ReturnValue: 50
-  - Min: 0
-    Max: 0
-    ReturnValue: 0
-  MoveSpeed: 1
-  WorkSpeed: 50
+  <OxygenCompo>k__BackingField: {fileID: 2776019099999613404}
+  <WorkData>k__BackingField: {fileID: 1167230757263764177}
+  <WorkCompo>k__BackingField: {fileID: 7414430557519137666}
+  <Health>k__BackingField: {fileID: 7848541300416251941}
   <AgentType>k__BackingField: 0
 --- !u!114 &2805633489195981530
 MonoBehaviour:
@@ -7227,6 +7207,53 @@ MonoBehaviour:
   isPlayerLook: 1
   health: {fileID: 708384309667714526}
   oxygen: {fileID: 5153987581474701173}
+--- !u!114 &1167230757263764177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2753d74d4af64284180b6449a1adb745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7414430557519137666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd78023f7894ad2b7ab0e9640dcc774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentWorkingBuilding>k__BackingField: {fileID: 0}
+  <CurrentWorkingPlanetTile>k__BackingField: {fileID: 0}
+--- !u!114 &7848541300416251941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def758cf91b14a6d949bb17f1f323149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField: 100
+  <Data>k__BackingField:
+    MaxStamina: 30
+    Stamina: 0
+    MaxFuel: 0
+    FuelAmount: 0
+  _healthRange: []
+  MoveSpeed: 10
+  WorkSpeed: 10
 --- !u!1001 &1607172668893142597
 PrefabInstance:
   m_ObjectHideFlags: 0

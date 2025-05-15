@@ -46,10 +46,7 @@ namespace JMT.Building
 
         private void HandleBroken()
         {
-            Debug.Log($"Broken Building: {gameObject.name}");
-            // 건물 파괴됨
-            GetBuildingComponent<BuildingNPC>().RemoveAllNpc();
-            StopWork();
+            
         }
 
         private IEnumerator FuelRoutine()
@@ -165,6 +162,21 @@ namespace JMT.Building
 
             Debug.LogError($"Component of type {typeof(T)} not found in {gameObject.name}");
             return default;
+        }
+
+        public void SetLayer(string layerName)
+        {
+            int layer = LayerMask.NameToLayer(layerName);
+            if (layer == -1)
+            {
+                Debug.LogError($"Layer '{layerName}' not found.");
+                return;
+            }
+
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = layer;
+            }
         }
 
     }
