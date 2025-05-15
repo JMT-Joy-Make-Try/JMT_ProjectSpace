@@ -56,7 +56,7 @@ namespace JMT.Agent.State
             else
             {
                 multiplier = 2;
-                var curWorkingBuilding = _agent.CurrentWorkingBuilding;
+                var curWorkingBuilding = _agent.WorkCompo.CurrentWorkingBuilding;
                 if (curWorkingBuilding == null)
                 {
                     Debug.LogError("현재 작업중인 건물이 없습니다.");
@@ -67,7 +67,7 @@ namespace JMT.Agent.State
                 _targetPosition = pos;
             }
 
-            _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed * multiplier, () => EndMove(obj));
+            _agent.MovementCompo.Move(_targetPosition, _agent.Health.MoveSpeed * multiplier, () => EndMove(obj));
         }
 
         private IEnumerator LodgingBuildingRoutine()
@@ -92,7 +92,7 @@ namespace JMT.Agent.State
             {
                 _agent.StateMachineCompo.ChangeState(NPCState.Work);
                 Debug.Log("일해라 인간아");
-                _agent.ChangeCloth(type);
+                _agent.ClothCompo.ChangeCloth(type);
             }
         }
     }

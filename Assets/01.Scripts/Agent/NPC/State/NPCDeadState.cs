@@ -20,13 +20,13 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            agent.ChangeCloth(AgentType.Patient);
-            if (agent.IsDead)
+            agent.ClothCompo.ChangeCloth(AgentType.Patient);
+            if (agent.HealthCompo.IsDead)
             {
-                agent.SetBuilding(BuildingManager.Instance.HospitalBuilding);
+                agent.WorkCompo.SetBuilding(BuildingManager.Instance.HospitalBuilding);
                 Debug.Log("Hospital Building Added!");
-                if (agent.CurrentWorkingBuilding == null ||
-                    agent.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding || BuildingManager.Instance.HospitalBuilding == null)
+                if (agent.WorkCompo.CurrentWorkingBuilding == null ||
+                    agent.WorkCompo.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding || BuildingManager.Instance.HospitalBuilding == null)
                 {
                     agent.OxygenCompo.AddOxygen(2);
                     _stateMachine.ChangeState(NPCState.Move);
@@ -35,9 +35,10 @@ namespace JMT.Agent.State
             }
             if (agent.OxygenCompo.IsOxygenLow)
             {
-                agent.SetBuilding(BuildingManager.Instance.OxygenBuilding);
+                agent.WorkCompo.SetBuilding(BuildingManager.Instance.OxygenBuilding);
                 Debug.Log("Oxygen Building Added!");
-                if (agent.CurrentWorkingBuilding == null || agent.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding || BuildingManager.Instance.OxygenBuilding == null)
+                if (agent.WorkCompo.CurrentWorkingBuilding == null || 
+                    agent.WorkCompo.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding || BuildingManager.Instance.OxygenBuilding == null)
                 {
                     agent.OxygenCompo.AddOxygen(2);
                     _stateMachine.ChangeState(NPCState.Move);
@@ -45,15 +46,15 @@ namespace JMT.Agent.State
                 }
             }
 
-            if (agent.CurrentWorkingBuilding == null && BuildingManager.Instance.LodgingBuilding != null)
+            if (agent.WorkCompo.CurrentWorkingBuilding == null && BuildingManager.Instance.LodgingBuilding != null)
             {
-                agent.SetBuilding(BuildingManager.Instance.LodgingBuilding);
+                agent.WorkCompo.SetBuilding(BuildingManager.Instance.LodgingBuilding);
                 Debug.Log("Lodging Building Added!");
                 StartCoroutine(InLodgingBuilding());
             }
             
 
-            agent.MovementCompo.Move(agent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.MoveSpeed, Heal);
+            agent.MovementCompo.Move(agent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.Health.MoveSpeed, Heal);
         }
 
         private IEnumerator InLodgingBuilding()
@@ -64,7 +65,7 @@ namespace JMT.Agent.State
 
         private void Heal()
         {
-            if (agent.IsDead)
+            if (agent.HealthCompo.IsDead)
             {
                 if (BuildingManager.Instance.HospitalBuilding != null)
                 {
@@ -97,7 +98,7 @@ namespace JMT.Agent.State
                 yield return ws;
             }
             agent.OxygenCompo.InitOxygen();
-            agent.ChangeCloth(AgentType.Base);
+            agent.ClothCompo.ChangeCloth(AgentType.Base);
             _stateMachine.ChangeState(NPCState.Idle);
         }
 
@@ -105,7 +106,7 @@ namespace JMT.Agent.State
         {
             yield return new WaitForSeconds(BuildingManager.Instance.HospitalBuilding.HealingTime);
             agent.Init();
-            agent.ChangeCloth(AgentType.Base);
+            agent.ClothCompo.ChangeCloth(AgentType.Base);
         }
     }
 }
