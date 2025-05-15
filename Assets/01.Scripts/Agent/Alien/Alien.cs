@@ -1,5 +1,6 @@
+using JMT.Core.Tool;
+using System;
 using System.Collections;
-using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
@@ -11,88 +12,116 @@ namespace JMT.Agent.Alien
     {
         [field: SerializeField] public AgentMovement Movement { get; private set; }
         [field: SerializeField] public Attacker Attacker { get; private set; }
+        [field: SerializeField] public AgentHealth Health { get; private set; }
         [field: SerializeField] public float Speed { get; private set; } = 1.5f;
 
         private bool _isAttackSuccess;
-        private bool _hasApproachedPlayer;
         private Transform _playerTransform;
+        private Coroutine _moveRoutine;
+
+        private void Start()
+        {
+            _playerTransform = AgentManager.Instance.Player.transform;
+            Health.OnDeath += HandleDeath;
+        }
+
+        private void OnDestroy()
+        {
+            if (Health != null)
+                Health.OnDeath -= HandleDeath;
+
+            if (_moveRoutine != null)
+                StopCoroutine(_moveRoutine);
+        }
+
+        private void HandleDeath()
+        {
+            if (_moveRoutine != null)
+                StopCoroutine(_moveRoutine);
+
+            SetReward(-1f);
+            EndEpisode();
+        }
 
         public override void OnEpisodeBegin()
         {
+            _isAttackSuccess = false;
+            Health.InitStat();
+
             int spawnIndex = Random.Range(0, WaveSystem.Instance.SpawnPoints.Count);
             transform.position = WaveSystem.Instance.SpawnPoints[spawnIndex].transform.position;
 
-            _playerTransform = AgentManager.Instance.Player.transform;
-
-            _isAttackSuccess = false;
-            _hasApproachedPlayer = false;
-
-            Movement.Stop(false); // 이동 가능 상태로 설정
-
-            StartCoroutine(TargetNotFound());
+            StopAllCoroutines();
+            _moveRoutine = StartCoroutine(FollowPlayerContinuously());
         }
 
-        private IEnumerator TargetNotFound()
+        private IEnumerator FollowPlayerContinuously()
         {
-            yield return new WaitForSeconds(8f);
-
-            if (!_isAttackSuccess)
+            while (!_isAttackSuccess)
             {
-                if (_hasApproachedPlayer)
-                    SetReward(-0.3f);
-                else
-                    SetReward(-1f);
-
-                EndEpisode();
+                Movement.Move(_playerTransform.position, Speed);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            Vector3 toPlayer = _playerTransform.position - transform.position;
+            Vector3 toPlayer = (_playerTransform.position - transform.position).normalized;
 
-            sensor.AddObservation(transform.position);             // 3
-            sensor.AddObservation(transform.forward);              // 3
-            sensor.AddObservation(_playerTransform.position);      // 3
-            sensor.AddObservation(toPlayer.normalized);            // 3
-            sensor.AddObservation(toPlayer.magnitude);             // 1
+            sensor.AddObservation(transform.position);                    // 3
+            sensor.AddObservation(transform.rotation.eulerAngles / 360f); // 3
+            sensor.AddObservation(_playerTransform.position);            // 3
+            sensor.AddObservation(toPlayer);                             // 3
+
+            // 총 12개
         }
 
         public override void OnActionReceived(ActionBuffers actions)
         {
-            float x = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
-            float z = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
-
-            Vector3 moveDir = new Vector3(x, 0, z);
-            Vector3 targetPos = transform.position + moveDir.normalized * 2f; // 너무 멀리 잡지 않도록
-            Movement.Move(targetPos, Speed);
+            // 플레이어 방향 바라보기
+            Vector3 dirToPlayer = _playerTransform.position - transform.position;
+            if (dirToPlayer.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(dirToPlayer.normalized);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.2f);
+            }
 
             float distance = Vector3.Distance(transform.position, _playerTransform.position);
 
-            if (distance < 3.5f && !_hasApproachedPlayer)
+            if (distance < 4f)
             {
-                _hasApproachedPlayer = true;
-                AddReward(+0.2f);
+                AddReward(+0.2f); // 접근 보상
             }
 
-            if (distance < 2f && !_isAttackSuccess)
-            {
-                if (Attacker.Attack())
-                {
-                    _isAttackSuccess = true;
-                    SetReward(+1.0f);
-                    EndEpisode();
-                }
-            }
+            TryAttack(distance);
 
             AddReward(-0.001f); // 시간 패널티
         }
 
-        private void FixedUpdate()
+        private void TryAttack(float distance)
         {
-            float dist = Vector3.Distance(transform.position, _playerTransform.position);
-            float distanceReward = Mathf.Clamp01(1f - dist / 10f);
-            AddReward(0.05f * distanceReward);
+            if (_isAttackSuccess) return;
+
+            if (distance < 2f)
+            {
+                if (Attacker.Attack())
+                {
+                    _isAttackSuccess = true;
+                    SetReward(+1f); // 공격 성공
+                }
+                else
+                {
+                    SetReward(-0.5f); // 공격 실패
+                }
+            }
+        }
+
+        private void Update()
+        {
+            if (!Health.IsDead)
+            {
+                AddReward(0.001f); // 생존 중 보상 (너무 크지 않게 조절됨)
+            }
         }
     }
 }

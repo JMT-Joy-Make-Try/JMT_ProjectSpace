@@ -37143,7 +37143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1764776039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50160,7 +50160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9c6ab8d0d649d2b6326b6642d76b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 2
 --- !u!1 &6138909736846368424
 GameObject:
   m_ObjectHideFlags: 0
@@ -50271,6 +50271,8 @@ GameObject:
   - component: {fileID: 7511575792891182997}
   - component: {fileID: 4490061637318221671}
   - component: {fileID: 6131545755488114458}
+  - component: {fileID: 8330076944879494523}
+  - component: {fileID: 8330076944879494524}
   m_Layer: 9
   m_Name: Alien
   m_TagString: Untagged
@@ -50572,30 +50574,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32e168fbada440b8b8f3643b51658ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StateMachineCompo>k__BackingField: {fileID: 0}
-  <AnimatorCompo>k__BackingField: {fileID: 525843819504884654}
-  <MovementCompo>k__BackingField: {fileID: 8330076944879494522}
-  <ClothCompo>k__BackingField: {fileID: 0}
-  <AnimationEndTrigger>k__BackingField: {fileID: 6351214030883137694}
-  <HealthCompo>k__BackingField: {fileID: 6131545755488114458}
-  <type>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 10
-  <TargetFinder>k__BackingField: {fileID: 0}
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 5000
+  <Movement>k__BackingField: {fileID: 8330076944879494522}
   <Attacker>k__BackingField: {fileID: 2628461619759941523}
-  <StateColor>k__BackingField:
-  - state: 0
-    color: {r: 11.984315, g: 11.984315, b: 11.984315, a: 0}
-  - state: 1
-    color: {r: 0, g: 4.069543, b: 11.984315, a: 0}
-  - state: 2
-    color: {r: 11.984315, g: 0, b: 0, a: 0}
-  - state: 3
-    color: {r: 11.984315, g: 0, b: 0, a: 0}
-  - state: 4
-    color: {r: 11.984315, g: 0, b: 0, a: 0}
-  - state: 5
-    color: {r: 0, g: 0, b: 0, a: 0}
-  AlienRenderer: {fileID: 829491117244414135}
+  <Health>k__BackingField: {fileID: 6131545755488114458}
+  <Speed>k__BackingField: 1.5
 --- !u!1 &8084402956166430084
 GameObject:
   m_ObjectHideFlags: 0
@@ -50642,6 +50628,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NavMeshAgentCompo>k__BackingField: {fileID: 4092098518362196956}
   _remainDistance: 0.5
+--- !u!114 &8330076944879494523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6577693785356289344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 12
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 2
+      BranchSizes: 
+    VectorActionSize: 02000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 1
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 5022602860645237092, guid: fa5bac340da220e499da070964f762b8, type: 3}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: Alien
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_DeterministicInference: 0
+  m_ObservableAttributeHandling: 0
+--- !u!114 &8330076944879494524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6577693785356289344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &8458643720458112173
 MonoBehaviour:
   m_ObjectHideFlags: 0

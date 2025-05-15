@@ -25,17 +25,17 @@ namespace JMT
         protected override void Awake()
         {
             base.Awake();
-            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += EnemySpawn;
+            //GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += EnemySpawn;
         }
 
         private void OnDestroy()
         {
-            if (spawnCoroutine != null)
-                StopCoroutine(spawnCoroutine);
-            if (GameUIManager.Instance == null) return;
-            
-            if (GameUIManager.Instance.TimeCompo != null)
-                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= EnemySpawn;
+            // if (spawnCoroutine != null)
+            //     StopCoroutine(spawnCoroutine);
+            // if (GameUIManager.Instance == null) return;
+            //
+            // if (GameUIManager.Instance.TimeCompo != null)
+            //     GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= EnemySpawn;
         }
 
         public void EnemySpawn(DaytimeType type)
