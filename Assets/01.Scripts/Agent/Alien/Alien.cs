@@ -1,86 +1,98 @@
-using DG.Tweening;
-using JMT.Core;
-using JMT.UISystem.Interact;
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.Alien
 {
-    public class Alien : AgentAI<AlienState>, IKnockbackable, IStunable
+    public class Alien : Unity.MLAgents.Agent
     {
-        [field: SerializeField] public float MoveSpeed { get; private set; }
-        [field: SerializeField] public AlienTargetFinder TargetFinder { get; private set; }
+        [field: SerializeField] public AgentMovement Movement { get; private set; }
         [field: SerializeField] public Attacker Attacker { get; private set; }
-        
-        [field: SerializeField] public List<StateColor> StateColor { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; } = 1.5f;
 
-        public Rigidbody RbCompo => GetComponent<Rigidbody>();
+        private bool _isAttackSuccess;
+        private bool _hasApproachedPlayer;
+        private Transform _playerTransform;
 
-        [SerializeField] public SkinnedMeshRenderer AlienRenderer;
-        
-        protected override void Awake()
+        public override void OnEpisodeBegin()
         {
-            AlienRenderer.material = Instantiate(AlienRenderer.material);
-            base.Awake();
-           
-            StateMachineCompo.ChangeState(AlienState.Idle);
-            DOTween.SetTweensCapacity(500, 50);
+            int spawnIndex = Random.Range(0, WaveSystem.Instance.SpawnPoints.Count);
+            transform.position = WaveSystem.Instance.SpawnPoints[spawnIndex].transform.position;
+
+            _playerTransform = AgentManager.Instance.Player.transform;
+
+            _isAttackSuccess = false;
+            _hasApproachedPlayer = false;
+
+            Movement.Stop(false); // 이동 가능 상태로 설정
+
+            StartCoroutine(TargetNotFound());
         }
 
-        private void Start()
+        private IEnumerator TargetNotFound()
         {
-            HealthCompo.OnDeath += HandleDeath;
+            yield return new WaitForSeconds(8f);
+
+            if (!_isAttackSuccess)
+            {
+                if (_hasApproachedPlayer)
+                    SetReward(-0.3f);
+                else
+                    SetReward(-1f);
+
+                EndEpisode();
+            }
         }
 
-        protected void OnDestroy()
+        public override void CollectObservations(VectorSensor sensor)
         {
-            HealthCompo.OnDeath -= HandleDeath;
+            Vector3 toPlayer = _playerTransform.position - transform.position;
+
+            sensor.AddObservation(transform.position);             // 3
+            sensor.AddObservation(transform.forward);              // 3
+            sensor.AddObservation(_playerTransform.position);      // 3
+            sensor.AddObservation(toPlayer.normalized);            // 3
+            sensor.AddObservation(toPlayer.magnitude);             // 1
         }
 
-        private void HandleDeath()
+        public override void OnActionReceived(ActionBuffers actions)
         {
-            StateMachineCompo.ChangeState(AlienState.Dead, true);
+            float x = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+            float z = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+
+            Vector3 moveDir = new Vector3(x, 0, z);
+            Vector3 targetPos = transform.position + moveDir.normalized * 2f; // 너무 멀리 잡지 않도록
+            Movement.Move(targetPos, Speed);
+
+            float distance = Vector3.Distance(transform.position, _playerTransform.position);
+
+            if (distance < 3.5f && !_hasApproachedPlayer)
+            {
+                _hasApproachedPlayer = true;
+                AddReward(+0.2f);
+            }
+
+            if (distance < 2f && !_isAttackSuccess)
+            {
+                if (Attacker.Attack())
+                {
+                    _isAttackSuccess = true;
+                    SetReward(+1.0f);
+                    EndEpisode();
+                }
+            }
+
+            AddReward(-0.001f); // 시간 패널티
         }
 
-        public override void Init()
+        private void FixedUpdate()
         {
-            base.Init();
-            StateMachineCompo.ChangeState(AlienState.Idle);
-            MovementCompo.Stop(false);
-            AlienRenderer.material.SetFloat("_DissolveValue", -1);
+            float dist = Vector3.Distance(transform.position, _playerTransform.position);
+            float distanceReward = Mathf.Clamp01(1f - dist / 10f);
+            AddReward(0.05f * distanceReward);
         }
-        
-        public void ChangeColor(AlienState state)
-        {
-            var color = StateColor.Find(x => x.state == state).color;
-            AlienRenderer.material.DOColor(color, "_Color", 0.2f);
-        }
-
-        public void Knockback(Vector3 direction, float force)
-        {
-            RbCompo.AddForce(direction * force, ForceMode.Impulse);
-        }
-
-        public void Stun(float stunTime)
-        {
-            StartCoroutine(StunCoroutine(stunTime));
-        }
-
-        private IEnumerator StunCoroutine(float stunTime)
-        {
-            MovementCompo.Stop(true);
-            yield return new WaitForSeconds(stunTime);
-            MovementCompo.Stop(false);
-        }
-    }
-
-    [Serializable]
-    public struct StateColor
-    {
-        public AlienState state;
-        [ColorUsage(true, true)]
-        public Color color;
     }
 }

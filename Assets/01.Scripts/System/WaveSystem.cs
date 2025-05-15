@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace JMT
 {
-    public class WaveSystem : MonoBehaviour
+    public class WaveSystem : MonoSingleton<WaveSystem>
     {
         [SerializeField] private List<GameObject> spawnPoints = new();
         [SerializeField] private int _increaseEnemyCount = 5;
@@ -19,9 +19,12 @@ namespace JMT
 
         private Coroutine spawnCoroutine;
         private int enemyCount = 1;
+        
+        public List<GameObject> SpawnPoints => spawnPoints;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += EnemySpawn;
         }
 

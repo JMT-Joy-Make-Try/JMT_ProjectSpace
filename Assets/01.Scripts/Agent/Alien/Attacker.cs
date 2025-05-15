@@ -18,7 +18,7 @@ namespace JMT.Agent.Alien
             _colliders = new Collider[10];
         }
 
-        public void Attack()
+        public bool Attack()
         {
             int count = Physics.OverlapSphereNonAlloc(transform.position, AttackRange, _colliders, WhatIsAttackable);
             if (count > 0)
@@ -28,7 +28,11 @@ namespace JMT.Agent.Alien
                     CheckComponent(i);
                     CheckParentComponent(i);
                 }
+                
+                return true;
             }
+            
+            return false;
         }
 
         private void CheckParentComponent(int index)
