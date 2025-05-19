@@ -28,6 +28,10 @@ namespace JMT.UISystem.Building
                 bool isTrue =  i < npcAgents.Count;
                 Debug.Log("Workers isTrue : " + isTrue);
                 workers[i].ActiveLockArea(!isTrue);
+                if (isTrue)
+                {
+                    workers[i].SetWorkerPanel(npcAgents[i]);
+                }
             }
         }
 
