@@ -26,6 +26,11 @@ namespace JMT
                 TileManager.Instance.CurrentTile.AddInteraction<LaboratoryInteraction>();
                 return;
             }
+            if (building is OxygenBuilding)
+            {
+                TileManager.Instance.CurrentTile.AddInteraction<SupplyOxygenInteraction>();
+                return;
+            }
             TileManager.Instance.CurrentTile.AddInteraction<BuildingInteraction>();
         }
     }
