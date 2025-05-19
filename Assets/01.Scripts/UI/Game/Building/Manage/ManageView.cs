@@ -14,7 +14,7 @@ namespace JMT.UISystem.Building
         [SerializeField] private Transform createItemContent;
         [SerializeField] private CellUI cellPrefab;
         private List<WorkerManageUI> workers;
-        private Queue<CellUI> itemQueue = new();
+        
 
         private void Awake()
         {
@@ -45,18 +45,20 @@ namespace JMT.UISystem.Building
         {
             CellUI cell = Instantiate(cellPrefab, createItemContent);
             cell.SetCell(itemSO, $"X {count}");
-            itemQueue.Enqueue(cell);
+            //itemQueue.Enqueue(cell);
             Debug.Log("제작할 아이템을 대기열에 추가했습니다.");
         }
-
+        
         public void RemoveItem()
         {
-            if (itemQueue.Count > 0)
-            {
-                Destroy(itemQueue.Dequeue().gameObject);
-                Debug.Log("제작할 아이템을 대기열에서 제거합니다.");
-            }
-            else Debug.Log("대기열에 아이템이 존재하지 않습니다.");
+            // if (itemQueue.Count > 0)
+            // {
+            //     Destroy(itemQueue.Dequeue().gameObject);
+            //     Debug.Log("제작할 아이템을 대기열에서 제거합니다.");
+            // }
+            //else Debug.Log("대기열에 아이템이 존재하지 않습니다.");
         }
+
+        
     }
 }
