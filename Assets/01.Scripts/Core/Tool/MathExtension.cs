@@ -104,6 +104,7 @@ namespace JMT.Core.Tool
         {
             return Mathf.RoundToInt(value * 100 / max);
         }
+        
         /// <summary>
         /// 체크할 값의 퍼센트를 반환합니다.
         /// </summary>

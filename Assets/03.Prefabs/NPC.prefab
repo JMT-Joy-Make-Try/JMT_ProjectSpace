@@ -7251,7 +7251,16 @@ MonoBehaviour:
     Stamina: 0
     MaxFuel: 0
     FuelAmount: 0
-  _healthRange: []
+  _healthRange:
+  - Min: 100
+    Max: 60
+    ReturnValue: 0
+  - Min: 59
+    Max: 30
+    ReturnValue: 1
+  - Min: 29
+    Max: 0
+    ReturnValue: 2
   MoveSpeed: 10
   WorkSpeed: 10
 --- !u!1001 &1607172668893142597
