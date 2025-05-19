@@ -132,6 +132,9 @@ namespace JMT.Planets.Tile
                 case LaboratoryInteraction:
                     interaction.SetType(InteractType.Laboratory);
                     break;
+                case SupplyOxygenInteraction:
+                    interaction.SetType(InteractType.SupplyOxygen);
+                    break;
             }
 
             return interaction;
