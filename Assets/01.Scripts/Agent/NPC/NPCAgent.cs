@@ -12,16 +12,10 @@ namespace JMT.Agent.NPC
         [field: SerializeField] public NPCWork WorkCompo { get; private set; }
         [field: SerializeField] public NPCHealth Health { get; private set; }
         
-        
-        [Header("Working")]
-        
-        
         [field:SerializeField] public AgentType AgentType { get; private set; }
         private NPCStatUI npcStatUI;
         
         public event Action<AgentType> OnTypeChanged;
-        
-        
         
         public void SetAgentType(AgentType agentType)
         {

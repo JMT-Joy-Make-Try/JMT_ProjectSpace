@@ -13,6 +13,8 @@ namespace JMT.Agent
         protected int _curHealth;
         private FillBarUI hpFillBarUI;
         
+        public int CurHealth => _curHealth;
+        
         public event Action OnDeath;
 
         private void Awake()
