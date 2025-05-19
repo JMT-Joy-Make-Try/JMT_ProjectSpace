@@ -17,25 +17,6 @@ namespace JMT.Core.Tool
         {
             return value >= min && value <= max;
         }
-
-        /// <summary>
-        /// 체크할 값이 최소값과 최대값 사이에 있는지 확인한 후, 사이에 있으면 반환값을 반환합니다.
-        /// </summary>
-        /// <param name="value">체크할 값</param>
-        /// <param name="ranges">인식 범위</param>
-        /// <returns>인식범위의 반환값</returns>
-        public static float GetRangeValue(this float value, Range[] ranges)
-        {
-            for (int i = 0; i < ranges.Length; i++)
-            {
-                if (ranges[i].IsInRange(value))
-                {
-                    return ranges[i].ReturnValue;
-                }
-            }
-
-            return -1;
-        }
         
         /// <summary>
         /// 체크할 값이 최소값과 최대값 사이에 있는지 확인한 후, 사이에 있으면 반환값을 반환합니다.
@@ -46,25 +27,6 @@ namespace JMT.Core.Tool
         public static float GetRangeValue(this float value, List<Range> ranges)
         {
             for (int i = 0; i < ranges.Count; i++)
-            {
-                if (ranges[i].IsInRange(value))
-                {
-                    return ranges[i].ReturnValue;
-                }
-            }
-
-            return -1;
-        }
-        
-        /// <summary>
-        /// 체크할 값이 최소값과 최대값 사이에 있는지 확인한 후, 사이에 있으면 반환값을 반환합니다.
-        /// </summary>
-        /// <param name="value">체크할 값</param>
-        /// <param name="ranges">인식 범위</param>
-        /// <returns>인식범위의 반환값</returns>
-        public static int GetRangeValue(this int value, Range[] ranges)
-        {
-            for (int i = 0; i < ranges.Length; i++)
             {
                 if (ranges[i].IsInRange(value))
                 {
@@ -180,6 +142,7 @@ namespace JMT.Core.Tool
 
         public bool IsInRange(float value)
         {
+            Debug.Log($"{value} >= {Min} && {value} <= {Max}");
             return value >= Min && value <= Max;
         }
     }

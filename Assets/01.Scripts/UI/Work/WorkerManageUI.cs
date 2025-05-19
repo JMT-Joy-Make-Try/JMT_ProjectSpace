@@ -55,7 +55,7 @@ namespace JMT.UISystem
             SetWorkerPanel(npc);
         }
 
-        private void SetWorkerPanel(NPCAgent npc)
+        public void SetWorkerPanel(NPCAgent npc)
         {
             NPCWorkData workData = npc.WorkData;
             NPCHealth healthData = npc.Health;
@@ -65,13 +65,14 @@ namespace JMT.UISystem
             // workData.TimeData;로 시간 접근
 
             // 현재 제작하고 있는 아이템과 그 갯수
-            workValueCell.SetCell(workData.CurrentItem.ResultItem.ItemName, workData.ItemCount);
+            workValueCell.SetCell(workData.CurrentItem?.ResultItem, "X1");
 
             // 현재 NPC의 스탯(건강, 산소)
 
             // 0번 = 건강 좋음
             // 1번 = 건강 중간
             // 2번 = 건강 나쁨
+            Debug.Log(healthData.GetStatus());
             workerHealthImage.sprite = healthIcons[healthData.GetStatus()];
             // 현재 산소
             workerOxygenValueText.text = oxygenData.Oxygen.ToString();
