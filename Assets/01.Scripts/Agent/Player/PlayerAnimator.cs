@@ -58,6 +58,7 @@ namespace JMT.PlayerCharacter
             isAttack = true;
             saveState = curState;
             player.Attacker.Attack();
+            player.SoundPlayer.PlaySound("Player_Attack");
             ChangeState(PlayerState.Attack);
         }
 

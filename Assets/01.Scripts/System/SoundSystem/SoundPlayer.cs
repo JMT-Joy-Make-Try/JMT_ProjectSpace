@@ -38,16 +38,34 @@ namespace JMT.Sound
 
             availableSource.pitch = sound.pitch;
             availableSource.volume = sound.volume;
+            availableSource.clip = sound.audioClip;
 
             if (soundType == SoundType.SFX)
             {
-                availableSource.PlayOneShot(sound.audioClip);
+                availableSource.loop = false;
             }
             else if (soundType == SoundType.BGM)
             {
                 availableSource.loop = true;
-                availableSource.clip = sound.audioClip;
-                availableSource.Play();
+            }
+            availableSource.Play();
+        }
+        
+        public void StopSound(string key)
+        {
+            if (!soundData.sounds.TryGetValue(key, out var sound))
+            {
+                Debug.LogWarning($"Sound with key {key} not found.");
+                return;
+            }
+
+            foreach (var source in _audioSources)
+            {
+                if (source.clip == sound.audioClip)
+                {
+                    source.Stop();
+                    break;
+                }
             }
         }
 
