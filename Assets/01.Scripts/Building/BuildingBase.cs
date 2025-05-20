@@ -1,6 +1,8 @@
+using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.Item;
 using JMT.Planets.Tile;
 using JMT.UISystem;
 using System;
@@ -23,6 +25,9 @@ namespace JMT.Building
         public Action OnCompleteEvent;
         
         [SerializeField] private float _fuelAmount;
+        
+        [Header("Destroy Building")]
+        [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
         
         public float FuelAmount
         {
@@ -177,6 +182,17 @@ namespace JMT.Building
             {
                 child.gameObject.layer = layer;
             }
+        }
+
+        public void DestroyBuilding()
+        {
+            foreach (var items in _destroyBuildingItems)
+            {
+                GameUIManager.Instance.InventoryCompo.AddItem(items.Key, items.Value);
+            }
+            GetPlanetTile().RemoveInteraction();
+            GetPlanetTile().AddInteraction<NoneInteraction>();
+            Destroy(gameObject);
         }
 
     }
