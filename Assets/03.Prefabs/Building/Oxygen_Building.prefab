@@ -38,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 2356477293731884676}
   - {fileID: 1664384574102451752}
+  - {fileID: 6470711965214405128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &94794387616571235
@@ -52,7 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6704d394fd7285b43a9bf0b597f8cbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <SoundPlayer>k__BackingField: {fileID: 5650092856193505250}
   _fuelAmount: 0.1
+  _destroyBuildingItems:
+    _serializedList: []
   data:
     BuildingLevel: 1
     UseFuelValue: 0
@@ -149,6 +153,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentItems: []
+--- !u!1 &4507027390083661689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470711965214405128}
+  - component: {fileID: 5650092856193505250}
+  m_Layer: 6
+  m_Name: Sound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470711965214405128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507027390083661689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6438078358172703228}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5650092856193505250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507027390083661689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e93a07aa46664143ad9814658ec64d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundData: {fileID: 11400000, guid: 21752342c66272942a0ecf15af44d8b5, type: 2}
+  audioSourcePoolSize: 2
 --- !u!1 &5708634991250265493
 GameObject:
   m_ObjectHideFlags: 0

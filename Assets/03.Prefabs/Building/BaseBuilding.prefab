@@ -40,6 +40,7 @@ Transform:
   m_Children:
   - {fileID: 3718834884141871592}
   - {fileID: 1258881537266473363}
+  - {fileID: 3183393375830974059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7285556136520950692
@@ -54,7 +55,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c63bf298404f96862431d245781c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <SoundPlayer>k__BackingField: {fileID: 4983154082209646682}
   _fuelAmount: 0.1
+  _destroyBuildingItems:
+    _serializedList: []
   visual: {fileID: 3718834884141871592}
   brokenVisual: {fileID: 1258881537266473363}
 --- !u!114 &-223258796078900158
@@ -284,6 +288,52 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7657141645492131248, guid: 21230f80896d49845aea338f3ab741a9, type: 3}
+--- !u!1 &7563403549754737826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3183393375830974059}
+  - component: {fileID: 4983154082209646682}
+  m_Layer: 8
+  m_Name: Sound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3183393375830974059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563403549754737826}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9007371612958132267}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4983154082209646682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563403549754737826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e93a07aa46664143ad9814658ec64d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundData: {fileID: 11400000, guid: 21752342c66272942a0ecf15af44d8b5, type: 2}
+  audioSourcePoolSize: 2
 --- !u!1001 &1653607677473701496
 PrefabInstance:
   m_ObjectHideFlags: 0

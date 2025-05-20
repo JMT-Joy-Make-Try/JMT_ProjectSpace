@@ -4,6 +4,7 @@ using JMT.Building.Component;
 using JMT.Core.Manager;
 using JMT.Item;
 using JMT.Planets.Tile;
+using JMT.Sound;
 using JMT.UISystem;
 using System;
 using System.Collections;
@@ -19,6 +20,8 @@ namespace JMT.Building
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
+        
+        [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
         #endregion
         
         public bool IsBuilding { get; private set; }
@@ -94,6 +97,8 @@ namespace JMT.Building
             _pvc.PlayAnimation();
             visual.SetFloatProperty("_Alpha", 1f);
             StartCoroutine(FuelRoutine());
+            SoundPlayer.StopSound("Building_Sound");
+            SoundPlayer.PlaySound("Building_Complete");
         }
 
         public void Building()
@@ -103,6 +108,7 @@ namespace JMT.Building
 
             var buildingData = GetBuildingComponent<BuildingData>().Data;
             StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
+            SoundPlayer.PlaySound("Building_Sound");
         }
 
         private IEnumerator BuildingRoutine(int time)
