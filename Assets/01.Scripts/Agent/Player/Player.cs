@@ -42,6 +42,8 @@ namespace JMT.PlayerCharacter
         private bool isOxygenArea;
         private bool isTimeChanged;
         
+        private bool _isDead;
+        
         private List<Vignette> _vignetteList = new();
         private List<Color> _vignetteColorList = new();
         
@@ -118,6 +120,7 @@ namespace JMT.PlayerCharacter
 
         public void TakeDamage(int damage, bool isHeal = false)
         {
+            if (_isDead) return;
             _curHealth += isHeal ? damage : -damage;
             OnDamageEvent?.Invoke(_curHealth, Health);
             if (_curHealth <= 0)
@@ -136,6 +139,7 @@ namespace JMT.PlayerCharacter
         public void Dead()
         {
             OnDeadEvent?.Invoke();
+            _isDead = true;
         }
 
         private void OnTriggerEnter(Collider other)
