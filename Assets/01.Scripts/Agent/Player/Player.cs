@@ -3,6 +3,7 @@ using JMT.Agent.Alien;
 using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
+using JMT.Sound;
 using JMT.UISystem;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace JMT.PlayerCharacter
         public PlayerInputSO InputSO => inputSO;
         public FogDetect FogDetect { get; private set; }
         public PlayerTool PlayerTool { get; private set; }
+        public SoundPlayer SoundPlayer { get; private set; }
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
@@ -58,6 +60,7 @@ namespace JMT.PlayerCharacter
             Movement = GetComponent<PlayerMovement>();
             FogDetect = GetComponent<FogDetect>();
             PlayerTool = GetComponent<PlayerTool>();
+            SoundPlayer = GetComponentInChildren<SoundPlayer>();
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
             OnDamageEvent += HandleDamaged;
@@ -98,6 +101,8 @@ namespace JMT.PlayerCharacter
 
                 vignette.color.value = Color.Lerp(damageColor, originalColor, percent);
             }
+            
+            SoundPlayer.PlaySound("Player_Damaged");
         }
 
         public void InitStat()
