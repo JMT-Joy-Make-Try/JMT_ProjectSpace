@@ -10,6 +10,7 @@ namespace JMT.UISystem.SupplyOxygen
         [SerializeField] private OxygenWorkView workView;
         [SerializeField] private OxygenWorkerView workerView;
         [SerializeField] private OxygenUpgradeView upgradeView;
+        [SerializeField] private OxygenWorkSideView sideView;
 
         private PanelUI currentPanel;
 
@@ -54,7 +55,8 @@ namespace JMT.UISystem.SupplyOxygen
 
         public void SetCurrentPanel(PanelUI panel)
         {
-            //if (currentPanel == panel) return;
+            if (currentPanel == panel) return;
+            sideView.CloseUI();
             currentPanel?.CloseUI();
             currentPanel = panel;
             currentPanel?.OpenUI();

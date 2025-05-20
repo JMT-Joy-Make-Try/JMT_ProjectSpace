@@ -1,4 +1,3 @@
-using JMT.Item;
 using JMT.UISystem;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace JMT.Building
     public class ItemBuilding : BuildingBase
     {
         public ItemBuildingData data;
-        public Queue<CellUI> ItemQueue { get; private set; } = new();
+        public Queue<CreateItemSO> ItemQueue { get; private set; } = new();
 
         protected override void Awake()
         {
@@ -16,14 +15,15 @@ namespace JMT.Building
             data.Init(this);
         }
 
-        public void MakeItem(CreateItemSO createItemSO)
+        public void MakeItem(CreateItemSO item)
         {
-            if (createItemSO.UseFuelCount > GameUIManager.Instance.ResourceCompo.CurrentFuelValue) return;
+            if (item.UseFuelCount > GameUIManager.Instance.ResourceCompo.CurrentFuelValue) return;
             if (data.Works.IsFull()) return;
 
-            GameUIManager.Instance.ResourceCompo.AddFuel(-createItemSO.UseFuelCount);
-            Debug.Log("작업을 시작합니다~!~! 대기열 리스트에 넣었습니당");
-            BuildingWork work = new(createItemSO.ResultItem.ItemType, createItemSO.CreateTime);
+            GameUIManager.Instance.ResourceCompo.AddFuel(-item.UseFuelCount);
+            Debug.Log("대기열 리스트에 작업을 추가했습니다.");
+            ItemQueue.Enqueue(item);
+            BuildingWork work = new(item.ResultItem.ItemType, item.CreateTime);
             data.AddWork(work);
         }
         

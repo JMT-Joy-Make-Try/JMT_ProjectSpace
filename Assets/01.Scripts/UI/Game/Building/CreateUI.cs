@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
-    public class CreateUI : PanelUI
+    public class CreateUI : PanelUI, IOpenablePanel
     {
         private List<CellUI> itemCells;
         private Button createButton;

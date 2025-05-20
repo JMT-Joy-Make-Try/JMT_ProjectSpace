@@ -21,13 +21,7 @@ namespace JMT.UISystem.SupplyOxygen
         {
             var workBuilding = TileManager.Instance.CurrentTile.CurrentBuilding as OxygenBuilding;
 
-            if (item.UseFuelCount > GameUIManager.Instance.ResourceCompo.CurrentFuelValue) return;
-            if (workBuilding.data.Works.IsFull()) return;
-
-            GameUIManager.Instance.ResourceCompo.AddFuel(-item.UseFuelCount);
-            Debug.Log("작업을 시작합니다.");
-            BuildingWork work = new(item.ResultItem.ItemType, item.CreateTime);
-            workBuilding.data.AddWork(work);
+            workBuilding.MakeItem(item);
         }
     }
 }
