@@ -1,9 +1,13 @@
 using JMT.Agent;
 using JMT.Agent.Alien;
 using JMT.Core;
+using JMT.Core.Manager;
+using JMT.Core.Tool;
 using JMT.UISystem;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace JMT.PlayerCharacter
 {
@@ -38,6 +42,9 @@ namespace JMT.PlayerCharacter
         private bool isOxygenArea;
         private bool isTimeChanged;
         
+        private List<Vignette> _vignetteList = new();
+        private List<Color> _vignetteColorList = new();
+        
         private void Awake()
         {
             VisualTrm = transform.Find("Visual");
@@ -51,6 +58,7 @@ namespace JMT.PlayerCharacter
             PlayerTool = GetComponent<PlayerTool>();
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
+            OnDamageEvent += HandleDamaged;
 
             InitStat();
             FogDetect.Init(this);
@@ -62,8 +70,33 @@ namespace JMT.PlayerCharacter
             if (GameUIManager.Instance == null) return;
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            OnDamageEvent -= HandleDamaged;
         }
 
+        private void HandleDamaged(int cur, int max)
+        {
+            if (_vignetteList.Count <= 0)
+            {
+                _vignetteList = VolumeManager.Instance.GetAllVolume<Vignette>();
+                _vignetteColorList.Clear();
+
+                foreach (var vignette in _vignetteList)
+                {
+                    _vignetteColorList.Add(vignette.color.value);
+                }
+            }
+
+            float percent = cur.GetPercent(max) / 100f;
+            Color damageColor = Color.red;
+
+            for (int i = 0; i < _vignetteList.Count; i++)
+            {
+                var vignette = _vignetteList[i];
+                var originalColor = _vignetteColorList[i];
+
+                vignette.color.value = Color.Lerp(damageColor, originalColor, percent);
+            }
+        }
 
         public void InitStat()
         {
