@@ -1,3 +1,4 @@
+using JMT.Item;
 using System;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace JMT.UISystem.SupplyOxygen
         [SerializeField] private OxygenWorkView workView;
         [SerializeField] private OxygenWorkerView workerView;
         [SerializeField] private OxygenUpgradeView upgradeView;
-        [SerializeField] private SidePanelUI workItemPanel;
+        [SerializeField] private OxygenWorkSideView sideView;
 
         private PanelUI currentPanel;
 
@@ -18,14 +19,7 @@ namespace JMT.UISystem.SupplyOxygen
             view.OnWorkButtonEvent += HandleWorkEvent;
             view.OnWorkerButtonEvent += HandleWorkerEvent;
             view.OnUpgradeButtonEvent += HandleUpgradeEvent;
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-                OpenPanel();
-            if (Input.GetKeyDown(KeyCode.Tab))
-                ClosePanel();
+            view.OnExitButtonEvent += ClosePanel;
         }
 
         public void OpenPanel()
@@ -38,9 +32,9 @@ namespace JMT.UISystem.SupplyOxygen
 
         public void ClosePanel()
         {
-            view.CloseUI();
             GameUIManager.Instance.GameUICompo.OpenUI();
             GameUIManager.Instance.PlayerControlActive(true);
+            view.CloseUI();
             SetCurrentPanel(null);
         }
 
@@ -61,8 +55,8 @@ namespace JMT.UISystem.SupplyOxygen
 
         public void SetCurrentPanel(PanelUI panel)
         {
-            //if (currentPanel == panel) return;
-            workItemPanel.CloseUI();
+            if (currentPanel == panel) return;
+            sideView.CloseUI();
             currentPanel?.CloseUI();
             currentPanel = panel;
             currentPanel?.OpenUI();

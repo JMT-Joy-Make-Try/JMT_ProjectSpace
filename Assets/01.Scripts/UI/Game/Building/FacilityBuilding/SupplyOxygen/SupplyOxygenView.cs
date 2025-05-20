@@ -9,6 +9,7 @@ namespace JMT.UISystem.SupplyOxygen
         public event Action OnWorkButtonEvent;
         public event Action OnWorkerButtonEvent;
         public event Action OnUpgradeButtonEvent;
+        public event Action OnExitButtonEvent;
 
         [SerializeField] private Button workButton, workerButton, upgradeButton;
         [SerializeField] private Button exitButton;
@@ -18,7 +19,7 @@ namespace JMT.UISystem.SupplyOxygen
             workButton.onClick.AddListener(HandleWorkButton);
             workerButton.onClick.AddListener(HandleWorkerButton);
             upgradeButton.onClick.AddListener(HandleUpgradeButton);
-            exitButton.onClick.AddListener(CloseUI);
+            exitButton.onClick.AddListener(HandleExitButton);
         }
 
         private void OnDestroy()
@@ -26,7 +27,12 @@ namespace JMT.UISystem.SupplyOxygen
             workButton.onClick.RemoveListener(HandleWorkButton);
             workerButton.onClick.RemoveListener(HandleWorkerButton);
             upgradeButton.onClick.RemoveListener(HandleUpgradeButton);
-            exitButton.onClick.RemoveListener(CloseUI);
+            exitButton.onClick.AddListener(HandleExitButton);
+        }
+
+        private void HandleExitButton()
+        {
+            OnExitButtonEvent?.Invoke();
         }
 
         private void HandleWorkButton()
