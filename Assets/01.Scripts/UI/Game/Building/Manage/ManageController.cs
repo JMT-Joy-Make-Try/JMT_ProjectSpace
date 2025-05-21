@@ -12,17 +12,13 @@ namespace JMT.UISystem.Building
         public void OpenUI()
         {
             var curBuilding = TileManager.Instance.CurrentTile.CurrentBuilding;
-            if (curBuilding is not ItemBuilding)
-            {
-                Debug.LogError("Current building is not an ItemBuilding.");
-                return;
-            }
-            var building = curBuilding as ItemBuilding;
-            var workers = building.GetBuildingComponent<BuildingNPC>()._currentNpc;
+            var workers = curBuilding.GetBuildingComponent<BuildingNPC>()._currentNpc;
 
             view.OpenUI();
             view.SetWorkers(workers);
-            view.SetItem(building.ItemQueue);
+            
+            if (curBuilding is ItemBuilding itemBuilding)
+                view.SetItem(itemBuilding.ItemQueue);
         }
 
         public void CloseUI()
