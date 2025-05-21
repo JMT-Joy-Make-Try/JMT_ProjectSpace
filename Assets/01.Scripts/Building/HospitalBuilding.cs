@@ -11,7 +11,7 @@ namespace JMT.Building
 
         private void Start()
         {
-            BuildingManager.Instance.HospitalBuilding = this;
+            BuildingManager.Instance.HospitalBuildings.Add(this);
         }
         
         

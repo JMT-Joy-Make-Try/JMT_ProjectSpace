@@ -23,22 +23,30 @@ namespace JMT.Agent.State
             base.EnterState();
 
             agent.ClothCompo.ChangeCloth(AgentType.Patient);
+            
+            var hospitals = BuildingManager.Instance.HospitalBuildings;
+            var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
+            var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
+            
+            var hospitalBuilding = hospitals[Random.Range(0, hospitals.Count)];
+            var oxygenBuilding = oxygenBuildings[Random.Range(0, oxygenBuildings.Count)];
+            var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
 
             if (TryAssignAndMoveToBuilding(
                 condition: agent.HealthCompo.IsDead,
-                building: BuildingManager.Instance.HospitalBuilding,
+                building: hospitalBuilding,
                 onComplete: StartHealingCoroutine))
                 return;
 
             if (TryAssignAndMoveToBuilding(
                 condition: agent.OxygenCompo.IsOxygenLow,
-                building: BuildingManager.Instance.OxygenBuilding,
+                building: oxygenBuilding,
                 onComplete: StartOxygenCoroutine))
                 return;
 
             if (TryAssignAndMoveToBuilding(
                 condition: true,
-                building: BuildingManager.Instance.LodgingBuilding,
+                building: lodgingBuilding,
                 onComplete: StartLodgingCoroutine))
                 return;
 
@@ -81,7 +89,8 @@ namespace JMT.Agent.State
         private IEnumerator OxygenRoutine()
         {
             var wait = new WaitForSeconds(1f);
-            var oxygenBuilding = BuildingManager.Instance.OxygenBuilding;
+            var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
+            var oxygenBuilding = oxygenBuildings[Random.Range(0, oxygenBuildings.Count)];
 
             while (!oxygenBuilding.GetOxygen())
                 yield return wait;
@@ -98,7 +107,8 @@ namespace JMT.Agent.State
 
         private IEnumerator HealingRoutine()
         {
-            var hospital = BuildingManager.Instance.HospitalBuilding;
+            var hospitals = BuildingManager.Instance.HospitalBuildings;
+            var hospital = hospitals[Random.Range(0, hospitals.Count)];
             yield return new WaitForSeconds(hospital.HealingTime);
 
             agent.Init();

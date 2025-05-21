@@ -44,13 +44,15 @@ namespace JMT.Agent.State
             {
                 multiplier = 1;
                 BuildingManager buildingManager = BuildingManager.Instance;
-                if (buildingManager.LodgingBuilding != null)
+                var lodgingBuilding = buildingManager.LodgingBuildings[Random.Range(0, buildingManager.LodgingBuildings.Count)];
+                var hospitalBuilding = buildingManager.HospitalBuildings[Random.Range(0, buildingManager.HospitalBuildings.Count)];
+                if (lodgingBuilding != null)
                 {
-                    _targetPosition = buildingManager.LodgingBuilding.transform.position;
+                    _targetPosition = lodgingBuilding.transform.position;
                 }
-                else if (buildingManager.HospitalBuilding != null)
+                else if (hospitalBuilding != null)
                 {
-                    _targetPosition = buildingManager.HospitalBuilding.transform.position;
+                    _targetPosition = hospitalBuilding.transform.position;
                 }
             }
             else
@@ -78,14 +80,15 @@ namespace JMT.Agent.State
 
         private void EndMove(AgentType type)
         {
-            if (type is AgentType.Base or AgentType.Patient)
-            {
-                if (_targetPosition == BuildingManager.Instance.LodgingBuilding.GetBuildingComponent<BuildingNPC>()
-                        .WorkPosition.position)
-                {
-                    StartCoroutine(LodgingBuildingRoutine());
-                }
-            }
+            // todo : fix this
+            // if (type is AgentType.Base or AgentType.Patient)
+            // {
+            //     if (_targetPosition == BuildingManager.Instance.LodgingBuilding.GetBuildingComponent<BuildingNPC>()
+            //             .WorkPosition.position)
+            //     {
+            //         StartCoroutine(LodgingBuildingRoutine());
+            //     }
+            // }
             _agent.transform.rotation = Quaternion.identity;
             _agent.transform.localRotation = Quaternion.identity;
             if (type != AgentType.Base)

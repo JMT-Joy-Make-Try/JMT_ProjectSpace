@@ -22,7 +22,7 @@ namespace JMT.Building
 
         private void Start()
         {
-            BuildingManager.Instance.OxygenBuilding = this;
+            BuildingManager.Instance.OxygenBuildings.Add(this);
             _data = GetBuildingComponent<BuildingData>();
             _player = AgentManager.Instance.Player;
 

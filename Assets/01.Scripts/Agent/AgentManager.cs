@@ -17,7 +17,7 @@ namespace JMT.Agent
 
         public void AddNpc()
         {
-            if (BuildingManager.Instance.LodgingBuilding == null)
+            if (BuildingManager.Instance.LodgingBuildings.Count <= 0)
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
                 return;
