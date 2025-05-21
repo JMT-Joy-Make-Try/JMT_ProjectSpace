@@ -62,7 +62,7 @@ namespace JMT.UISystem
             NPCOxygen oxygenData = npc.OxygenCompo;
             // 몇 초 뒤에 완료 대충 이런텍스트 띄우는 친구
             if(completeText != null)
-            completeText.text = workData.TimeData.GetTimeString();
+                completeText.text = workData.TimeData.GetTimeString();
             // workData.TimeData;로 시간 접근
 
             // 현재 제작하고 있는 아이템과 그 갯수
@@ -77,7 +77,7 @@ namespace JMT.UISystem
             workerHealthImage.sprite = healthIcons[healthData.GetStatus()];
             // 현재 산소
             if (workerOxygenValueText != null) 
-            workerOxygenValueText.text = oxygenData.Oxygen.ToString();
+                workerOxygenValueText.text = oxygenData.Oxygen.ToString();
         }
 
         public void ActiveLockArea(bool isActive)

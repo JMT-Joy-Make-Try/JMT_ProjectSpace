@@ -54,6 +54,11 @@ namespace JMT.Building
         
         public void GiveItem(ItemSO item, int amount)
         {
+            if (AgentManager.Instance.IsBuildingNotEnough())
+            {
+                Debug.LogError("Building 부족");
+                return;
+            }
             if (!_needItems.ContainsKey(item))
             {
                 Debug.LogError($"Item {item} not found in need items.");
