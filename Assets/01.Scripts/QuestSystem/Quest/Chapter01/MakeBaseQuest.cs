@@ -7,14 +7,14 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tile.OnBuild += HandleBuildEvent;
+            tile.OnBuild += RunQuest;
         }
 
         private void OnDestroy()
         {
             if (tile == null) return;
-            tile.OnBuild -= HandleBuildEvent;
-            tile.CurrentBuilding.OnCompleteEvent -= RunQuest;
+            tile.OnBuild -= RunQuest;
+            //tile.CurrentBuilding.OnCompleteEvent -= RunQuest;
         }
 
         private void HandleBuildEvent()
