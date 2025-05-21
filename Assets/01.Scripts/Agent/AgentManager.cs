@@ -22,7 +22,7 @@ namespace JMT.Agent
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
                 return;
             }
-            if (GameUIManager.Instance.ResourceCompo.MaxNpcValue <= GameUIManager.Instance.ResourceCompo.CurrentNpcValue)
+            if (IsBuildingNotEnough())
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 부족합니다.");
                 return;
@@ -81,6 +81,12 @@ namespace JMT.Agent
         public void AddMaxNpcCount(int count)
         {
             GameUIManager.Instance.ResourceCompo.AddMaxNpc(count);
+        }
+
+        public bool IsBuildingNotEnough()
+        {
+            return GameUIManager.Instance.ResourceCompo.MaxNpcValue <=
+                   GameUIManager.Instance.ResourceCompo.CurrentNpcValue;
         }
         
         
