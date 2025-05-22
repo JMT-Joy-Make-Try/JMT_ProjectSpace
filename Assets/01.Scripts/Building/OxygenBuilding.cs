@@ -75,7 +75,6 @@ namespace JMT.Building
             while (true)
             {
                 var createItem = data.GetFirstCreateItem();
-                Debug.Log(createItem);
 
                 if (createItem == null || data.CreateItemList.Count <= 0 || data.Works.Count <= 0)
                 {

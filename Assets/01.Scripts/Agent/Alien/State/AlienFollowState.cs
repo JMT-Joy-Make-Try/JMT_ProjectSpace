@@ -46,16 +46,12 @@ namespace JMT.Agent.State
             if (target == null)
             {
                 RandomMove();
-                Debug.Log("AlienFollowState: No target found, moving randomly.");
             }
             else
             {
                 TargetMove(target.position);
-                Debug.Log("AlienFollowState: Following target.");
             }
             Agent.MovementCompo.Move(_targetPosition, _alien.MoveSpeed);
-
-            //yield return new WaitUntil(() => !Agent.MovementCompo.IsMoving);
         }
 
 

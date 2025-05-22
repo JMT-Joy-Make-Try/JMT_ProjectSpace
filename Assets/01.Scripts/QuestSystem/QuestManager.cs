@@ -31,7 +31,6 @@ namespace JMT.QuestSystem
         }
         private void Start()
         {
-            Debug.Log(currentQuestTargets.Count);
             StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
         }
 

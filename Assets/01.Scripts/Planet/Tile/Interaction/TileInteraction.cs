@@ -26,7 +26,6 @@ namespace JMT.Planets.Tile
 
         public virtual void Interaction()
         {
-            Debug.Log(planetTile == null);
             planetTile.EdgeEnable(true);
         }
 

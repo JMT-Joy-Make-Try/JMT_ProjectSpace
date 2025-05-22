@@ -132,7 +132,6 @@ namespace JMT.Agent
                 if (_curPlayerInFogTime >= _playerInFogDamageTime)
                 {
                     _agent.TakeDamage(_damage);
-                    Debug.Log(_damage);
                     _curPlayerInFogTime = 0f;
                 }
             }
