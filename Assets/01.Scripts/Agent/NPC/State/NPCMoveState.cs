@@ -44,15 +44,21 @@ namespace JMT.Agent.State
             {
                 multiplier = 1;
                 BuildingManager buildingManager = BuildingManager.Instance;
-                var lodgingBuilding = buildingManager.LodgingBuildings[Random.Range(0, buildingManager.LodgingBuildings.Count)];
-                var hospitalBuilding = buildingManager.HospitalBuildings[Random.Range(0, buildingManager.HospitalBuildings.Count)];
-                if (lodgingBuilding != null)
+                if (buildingManager.LodgingBuildings.Count > 0)
                 {
-                    _targetPosition = lodgingBuilding.transform.position;
+                    var lodgingBuilding = buildingManager.LodgingBuildings[Random.Range(0, buildingManager.LodgingBuildings.Count)];
+                    if (lodgingBuilding != null)
+                    {
+                        _targetPosition = lodgingBuilding.transform.position;
+                    }
                 }
-                else if (hospitalBuilding != null)
+                else if (buildingManager.HospitalBuildings.Count > 0)
                 {
-                    _targetPosition = hospitalBuilding.transform.position;
+                    var hospitalBuilding = buildingManager.HospitalBuildings[Random.Range(0, buildingManager.HospitalBuildings.Count)];
+                    if (hospitalBuilding != null)
+                    {
+                        _targetPosition = hospitalBuilding.transform.position;
+                    }
                 }
             }
             else
@@ -81,14 +87,13 @@ namespace JMT.Agent.State
         private void EndMove(AgentType type)
         {
             // todo : fix this
-            // if (type is AgentType.Base or AgentType.Patient)
-            // {
-            //     if (_targetPosition == BuildingManager.Instance.LodgingBuilding.GetBuildingComponent<BuildingNPC>()
-            //             .WorkPosition.position)
-            //     {
-            //         StartCoroutine(LodgingBuildingRoutine());
-            //     }
-            // }
+            if (type is AgentType.Base or AgentType.Patient)
+            {
+                if (_targetPosition == ((NPCMovement)_agent.MovementCompo).Building.GetComponent<BuildingNPC>().WorkPosition.position)
+                {
+                    StartCoroutine(LodgingBuildingRoutine());
+                }
+            }
             _agent.transform.rotation = Quaternion.identity;
             _agent.transform.localRotation = Quaternion.identity;
             if (type != AgentType.Base)
