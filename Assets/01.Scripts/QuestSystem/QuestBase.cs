@@ -1,26 +1,32 @@
-using JMT;
 using JMT.Agent;
 using JMT.Planets.Tile;
 using JMT.QuestSystem;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class QuestBase : MonoBehaviour, IQuestTarget
 {
-    [SerializeField] protected PlanetTile tile;
-    [field: SerializeField] public QuestSO QuestData { get; private set; }
-    public PlanetTile Tile => tile;
+    [SerializeField] protected List<PlanetTile> tiles;
+    [SerializeField] private QuestSO questData;
+    public QuestSO QuestData => questData;
+    public List<PlanetTile> Tiles => tiles;
+    public List<QuestPing> QuestPing => tiles.Select(t => t.QuestPing).ToList();
     public QuestState QuestState { get; private set; }
-    public QuestPing QuestPing => tile.QuestPing;
+
     public bool IsActive { get; private set; }
     public bool CanRunQuest => QuestState == QuestState.InProgress && IsActive;
+    public bool IsComplete => tiles.All(t => !t.QuestPing.IsEnable);
 
-    protected bool isComplete;
-
-    public virtual void RunQuest()
+    public virtual void RunQuest(int num)
     {
-        QuestPing.DisablePing();
-        QuestManager.Instance.CompleteQuest(QuestData);
-        GetReward(QuestData);
+        QuestPing[num].DisablePing();
+
+        if(IsComplete)
+        {
+            QuestManager.Instance.CompleteQuest(QuestData);
+            GetReward(QuestData);
+        }
     }
     
     private void GetReward(QuestSO questData)
@@ -43,8 +49,12 @@ public class QuestBase : MonoBehaviour, IQuestTarget
     {
         QuestState = QuestState.InProgress;
         IsActive = true;
-        if (tile != null && tile.QuestPing != null)
-            QuestPing.EnablePing();
+        for(int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles != null && tiles[i].QuestPing != null)
+                QuestPing[i].EnablePing();
+        }
+        
         Debug.Log("Quest enabled: " + QuestData.questName);
     }
 

@@ -6,18 +6,18 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tile.OnChangeInteraction += HandleChangeInteraction;
+            tiles[0].OnChangeInteraction += HandleChangeInteraction;
         }
 
         private void OnDestroy()
         {
-            tile.OnChangeInteraction -= HandleChangeInteraction;
+            tiles[0].OnChangeInteraction -= HandleChangeInteraction;
         }
 
         private void HandleChangeInteraction(TileInteraction interaction)
         {
             if(interaction.GetType() == typeof(NoneInteraction))
-                RunQuest();
+                RunQuest(0);
         }
     }
 }
