@@ -12,7 +12,7 @@ namespace JMT.Building
         protected override void HandleCompleteEvent()
         {
             base.HandleCompleteEvent();
-            BuildingManager.Instance.LodgingBuilding = this;
+            BuildingManager.Instance.LodgingBuildings.Add(this);
             AgentManager.Instance.AddMaxNpcCount(_npcCount);
             
             for (int i = 0; i < 3; i++)

@@ -45,7 +45,7 @@ namespace JMT.UISystem
                 return;
             }
 
-            var lodgingBuilding = BuildingManager.Instance.LodgingBuilding;
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
             if (lodgingBuilding == null) return;
             var spawnPos = lodgingBuilding.transform.position;
             AgentManager.Instance.SpawnNpc(spawnPos, Quaternion.identity);

@@ -1,4 +1,5 @@
 ﻿using JMT.Agent.NPC;
+using JMT.Building;
 using JMT.Building.Component;
 using JMT.Core.Manager;
 using JMT.Core.Tool.PoolManager.Core;
@@ -10,103 +11,108 @@ namespace JMT.Agent.State
     public class NPCDeadState : State<NPCState>
     {
         private NPCAgent agent;
+        private NPCMovement movementCompo;
 
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
             base.Initialize(agent, stateName);
             this.agent = agent as NPCAgent;
+            movementCompo = agent.MovementCompo as NPCMovement;
         }
 
         public override void EnterState()
         {
             base.EnterState();
+
             agent.ClothCompo.ChangeCloth(AgentType.Patient);
-            if (agent.HealthCompo.IsDead)
-            {
-                agent.WorkCompo.SetBuilding(BuildingManager.Instance.HospitalBuilding);
-                Debug.Log("Hospital Building Added!");
-                if (agent.WorkCompo.CurrentWorkingBuilding == null ||
-                    agent.WorkCompo.CurrentWorkingBuilding != BuildingManager.Instance.HospitalBuilding || BuildingManager.Instance.HospitalBuilding == null)
-                {
-                    agent.OxygenCompo.AddOxygen(2);
-                    _stateMachine.ChangeState(NPCState.Move);
-                    return;
-                }
-            }
-            if (agent.OxygenCompo.IsOxygenLow)
-            {
-                agent.WorkCompo.SetBuilding(BuildingManager.Instance.OxygenBuilding);
-                Debug.Log("Oxygen Building Added!");
-                if (agent.WorkCompo.CurrentWorkingBuilding == null || 
-                    agent.WorkCompo.CurrentWorkingBuilding != BuildingManager.Instance.OxygenBuilding || BuildingManager.Instance.OxygenBuilding == null)
-                {
-                    agent.OxygenCompo.AddOxygen(2);
-                    _stateMachine.ChangeState(NPCState.Move);
-                    return;
-                }
-            }
-
-            if (agent.WorkCompo.CurrentWorkingBuilding == null && BuildingManager.Instance.LodgingBuilding != null)
-            {
-                agent.WorkCompo.SetBuilding(BuildingManager.Instance.LodgingBuilding);
-                Debug.Log("Lodging Building Added!");
-                StartCoroutine(InLodgingBuilding());
-            }
             
+            var hospitals = BuildingManager.Instance.HospitalBuildings;
+            var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
+            var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
+            
+            var hospitalBuilding = hospitals[Random.Range(0, hospitals.Count)];
+            var oxygenBuilding = oxygenBuildings[Random.Range(0, oxygenBuildings.Count)];
+            var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
 
-            agent.MovementCompo.Move(agent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.Health.MoveSpeed, Heal);
+            if (TryAssignAndMoveToBuilding(
+                condition: agent.HealthCompo.IsDead,
+                building: hospitalBuilding,
+                onComplete: StartHealingCoroutine))
+                return;
+
+            if (TryAssignAndMoveToBuilding(
+                condition: agent.OxygenCompo.IsOxygenLow,
+                building: oxygenBuilding,
+                onComplete: StartOxygenCoroutine))
+                return;
+
+            if (TryAssignAndMoveToBuilding(
+                condition: true,
+                building: lodgingBuilding,
+                onComplete: StartLodgingCoroutine))
+                return;
+
+            _stateMachine.ChangeState(NPCState.Move);
         }
 
-        private IEnumerator InLodgingBuilding()
+        private bool TryAssignAndMoveToBuilding(bool condition, BuildingBase building, System.Action<BuildingBase> onComplete)
+        {
+            if (!condition || building == null)
+                return false;
+
+            if (agent.WorkCompo.CurrentWorkingBuilding != building)
+            {
+                agent.WorkCompo.SetBuilding(building);
+                Debug.Log($"{building.name} Assigned");
+            }
+
+            var targetPos = building.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
+            movementCompo.SetBuilding(building);
+            movementCompo.Move(targetPos, agent.Health.MoveSpeed, onComplete);
+
+            return true;
+        }
+
+        private void StartLodgingCoroutine(BuildingBase building)
+        {
+            StartCoroutine(LodgingRoutine(building as LodgingBuilding));
+        }
+
+        private IEnumerator LodgingRoutine(LodgingBuilding building)
         {
             yield return new WaitUntil(() => agent.MovementCompo.IsMoving);
             PoolingManager.Instance.Push(agent);
         }
 
-        private void Heal()
+        private void StartOxygenCoroutine(BuildingBase building)
         {
-            if (agent.HealthCompo.IsDead)
-            {
-                if (BuildingManager.Instance.HospitalBuilding != null)
-                {
-                    StartCoroutine(HealCoroutine());
-                }
-                else
-                {
-                    _stateMachine.ChangeState(NPCState.Move, true);
-                }
-            }
-            else if (agent.OxygenCompo.IsOxygenLow)
-            {
-                if (BuildingManager.Instance.OxygenBuilding != null)
-                {
-                    StartCoroutine(OxygenRestore());
-                }
-                else
-                {
-                    _stateMachine.ChangeState(NPCState.Move);
-                }
-            }
-            
+            StartCoroutine(OxygenRoutine(building as OxygenBuilding));
         }
 
-        private IEnumerator OxygenRestore()
+        private IEnumerator OxygenRoutine(OxygenBuilding building)
         {
-            var ws = new WaitForSeconds(1f);
-            while (!BuildingManager.Instance.OxygenBuilding.GetOxygen())
-            {
-                yield return ws;
-            }
+            var wait = new WaitForSeconds(1f);
+
+            while (!building.GetOxygen())
+                yield return wait;
+
             agent.OxygenCompo.InitOxygen();
             agent.ClothCompo.ChangeCloth(AgentType.Base);
             _stateMachine.ChangeState(NPCState.Idle);
         }
 
-        private IEnumerator HealCoroutine()
+        private void StartHealingCoroutine(BuildingBase building)
         {
-            yield return new WaitForSeconds(BuildingManager.Instance.HospitalBuilding.HealingTime);
+            StartCoroutine(HealingRoutine(building as HospitalBuilding));
+        }
+
+        private IEnumerator HealingRoutine(HospitalBuilding building)
+        {
+            yield return new WaitForSeconds(building.HealingTime);
+
             agent.Init();
             agent.ClothCompo.ChangeCloth(AgentType.Base);
+            _stateMachine.ChangeState(NPCState.Idle);
         }
     }
 }
