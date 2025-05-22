@@ -2,6 +2,8 @@
 using JMT.Core.Manager;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.UISystem;
+using System.Collections;
 using UnityEngine;
 
 namespace JMT.Building
@@ -15,11 +17,12 @@ namespace JMT.Building
             BuildingManager.Instance.LodgingBuildings.Add(this);
             AgentManager.Instance.AddMaxNpcCount(_npcCount);
             
-            for (int i = 0; i < 3; i++)
+            Debug.Log(GameUIManager.Instance.ResourceCompo.MaxNpcValue);
+            for (int i = 0; i < GameUIManager.Instance.ResourceCompo.MaxNpcValue; i++)
             {
-                AgentManager.Instance.AddNpc();
+                var agent = AgentManager.Instance.AddNpc();
             }
-                
+
             PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
         }
     }
