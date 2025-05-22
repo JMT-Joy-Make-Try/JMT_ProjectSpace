@@ -70,9 +70,10 @@ namespace JMT.QuestSystem
                 if (target.QuestData == questData)
                 {
                     OnQuestStartEvent?.Invoke(questData);
-                    if (target.Tile != null)
+                    if (target.Tiles != null)
                     {
-                        GameUIManager.Instance.PointerCompo.SetPointer(target.Tile.Pivot);
+                        Debug.Log("핑...");
+                        //GameUIManager.Instance.PointerCompo.SetPointer(target.Tiles.Pivot);
                     }
 
                     target.Enable();

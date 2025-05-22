@@ -7,24 +7,23 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tile.OnBuild += RunQuest;
+            tiles[0].OnBuild += HandleRunQuest;
         }
 
         private void OnDestroy()
         {
-            if (tile == null) return;
-            tile.OnBuild -= RunQuest;
-            //tile.CurrentBuilding.OnCompleteEvent -= RunQuest;
+            if (tiles == null) return;
+            tiles[0].OnBuild -= HandleRunQuest;
         }
 
-        private void HandleBuildEvent()
+        private void HandleRunQuest()
         {
-            tile.CurrentBuilding.OnCompleteEvent += RunQuest;
+            RunQuest(0);
         }
 
         public override void Enable()
         {
-            tile.QuestPing.SelectPingLocation(true);
+            tiles[0].QuestPing.SelectPingLocation(true);
             base.Enable();
         }
     }

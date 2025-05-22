@@ -32,9 +32,9 @@ namespace JMT.QuestSystem
         private IEnumerator DelayRoutine()
         {
             yield return new WaitForSeconds(0.2f);
-            int chidlCount = tile.TileInteraction.transform.childCount;
+            int chidlCount = tiles[0].TileInteraction.transform.childCount;
             if (chidlCount <= 0)
-                RunQuest();
+                RunQuest(0);
         }
     }
 }

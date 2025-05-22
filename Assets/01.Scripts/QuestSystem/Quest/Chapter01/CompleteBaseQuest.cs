@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace JMT
@@ -6,24 +7,29 @@ namespace JMT
     {
         private void Start()
         {
-            tile.OnBuild += HandleBuildEvent;
+            tiles[0].OnBuild += HandleBuildEvent;
         }
 
         private void OnDestroy()
         {
-            if (tile == null) return;
-            tile.OnBuild -= HandleBuildEvent;
-            tile.CurrentBuilding.OnCompleteEvent -= RunQuest;
+            if (tiles == null) return;
+            tiles[0].OnBuild -= HandleBuildEvent;
+            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
         }
 
         private void HandleBuildEvent()
         {
-            tile.CurrentBuilding.OnCompleteEvent += RunQuest;
+            tiles[0].CurrentBuilding.OnCompleteEvent += HandleRunQuest;
+        }
+
+        private void HandleRunQuest()
+        {
+            RunQuest(0);
         }
 
         public override void Enable()
         {
-            tile.QuestPing.SelectPingLocation(true);
+            tiles[0].QuestPing.SelectPingLocation(true);
             base.Enable();
         }
     }

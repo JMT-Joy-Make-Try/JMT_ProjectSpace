@@ -1,4 +1,5 @@
 using JMT.Building.Component;
+using System;
 
 namespace JMT.QuestSystem
 {
@@ -6,27 +7,32 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tile.OnBuild += HandleBuildEvent;
+            tiles[0].OnBuild += HandleBuildEvent;
         }
 
         private void OnDestroy()
         {
-            tile.OnBuild -= HandleBuildEvent;
+            tiles[0].OnBuild -= HandleBuildEvent;
 
-            if (tile.CurrentBuilding == null) return;
-            BuildingNPC npc = tile.CurrentBuilding.GetBuildingComponent<BuildingNPC>();
-            npc.OnChangeNpcEvent -= RunQuest;
+            if (tiles[0].CurrentBuilding == null) return;
+            BuildingNPC npc = tiles[0].CurrentBuilding.GetBuildingComponent<BuildingNPC>();
+            npc.OnChangeNpcEvent -= HandleRunQuest;
+        }
+
+        private void HandleRunQuest()
+        {
+            RunQuest(0);
         }
 
         private void HandleBuildEvent()
         {
-            BuildingNPC npc = tile.CurrentBuilding.GetBuildingComponent<BuildingNPC>();
-            npc.OnChangeNpcEvent += RunQuest;
+            BuildingNPC npc = tiles[0].CurrentBuilding.GetBuildingComponent<BuildingNPC>();
+            npc.OnChangeNpcEvent += HandleRunQuest;
         }
 
         public override void Enable()
         {
-            tile.QuestPing.SelectPingLocation(false);
+            tiles[0].QuestPing.SelectPingLocation(false);
             base.Enable();
         }
     }

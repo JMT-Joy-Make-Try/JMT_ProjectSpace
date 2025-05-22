@@ -6,24 +6,24 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tile.OnBuild += HandleBuildEvent;
+            tiles[0].OnBuild += HandleBuildEvent;
         }
 
         private void OnDestroy()
         {
-            if (tile == null) return;
-            tile.OnBuild -= HandleBuildEvent;
-            tile.CurrentBuilding.OnCompleteEvent -= RunQuest;
+            if (tiles[0] == null) return;
+            tiles[0].OnBuild -= HandleBuildEvent;
+            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
         }
 
         private void HandleBuildEvent()
         {
-            tile.CurrentBuilding.OnCompleteEvent += RunQuest;
+            tiles[0].CurrentBuilding.OnCompleteEvent += HandleRunQuest;
         }
 
-        public override void Enable()
+        private void HandleRunQuest()
         {
-            base.Enable();
+            RunQuest(0);
         }
     }
 }
