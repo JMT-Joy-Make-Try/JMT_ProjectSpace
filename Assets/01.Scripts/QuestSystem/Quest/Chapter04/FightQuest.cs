@@ -16,6 +16,7 @@ namespace JMT.QuestSystem
         private void HandleSpawnEvent()
         {
             RunQuest(0);
+            Debug.Log("FightQuest: HandleSpawnEvent called, running quest.");
         }
     }
 }

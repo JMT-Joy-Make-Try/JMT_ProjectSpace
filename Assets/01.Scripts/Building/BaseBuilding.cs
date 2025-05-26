@@ -1,3 +1,4 @@
+using JMT.Building.Component;
 using JMT.Core.Manager;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace JMT.Building
             base.HandleCompleteEvent();
             FogManager.Instance.OffFogBaseBuilding();
             FixStation();
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(true);
         }
 
 
