@@ -27,6 +27,7 @@ namespace JMT.UISystem.DayTime
         [SerializeField] private DayTimeSO timeSO;
         [SerializeField] private TimeView view;
         private readonly TimeModel model = new();
+        private Coroutine timeCoroutine;
 
 
         private void Start()
@@ -50,13 +51,17 @@ namespace JMT.UISystem.DayTime
             model.SetTime(timeSO.repeatDayTime);
             model.AddDayCount();
             model.ChangeDayTime(DaytimeType.Day);
-            StartCoroutine(TimeRoutine());
+            if (timeCoroutine != null)
+                StopCoroutine(timeCoroutine);
+            timeCoroutine = StartCoroutine(TimeRoutine());
         }
 
         public void StartNightTime()
         {
             model.SetTime(timeSO.repeatNightTime);
             model.ChangeDayTime(DaytimeType.Night);
+            if (timeCoroutine != null)
+                StopCoroutine(timeCoroutine);
             StartCoroutine(TimeRoutine());
         }
 

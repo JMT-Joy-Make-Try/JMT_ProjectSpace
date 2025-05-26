@@ -1,4 +1,4 @@
-﻿using JMT.Agent.NPC;
+using JMT.Agent.NPC;
 using JMT.Building;
 using JMT.Building.Component;
 using JMT.Core.Tool;

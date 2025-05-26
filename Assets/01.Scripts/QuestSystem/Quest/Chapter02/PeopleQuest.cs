@@ -13,10 +13,8 @@ namespace JMT.QuestSystem
         private void OnDestroy()
         {
             tiles[0].OnBuild -= HandleBuildEvent;
-
-            if (tiles[0].CurrentBuilding == null) return;
-            BuildingNPC npc = tiles[0].CurrentBuilding.GetBuildingComponent<BuildingNPC>();
-            npc.OnChangeNpcEvent -= HandleRunQuest;
+            if (tiles[0].CurrentBuilding != null) 
+            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
         }
 
         private void HandleRunQuest()
@@ -26,8 +24,7 @@ namespace JMT.QuestSystem
 
         private void HandleBuildEvent()
         {
-            BuildingNPC npc = tiles[0].CurrentBuilding.GetBuildingComponent<BuildingNPC>();
-            npc.OnChangeNpcEvent += HandleRunQuest;
+            tiles[0].CurrentBuilding.OnCompleteEvent += HandleRunQuest;
         }
 
         public override void Enable()
