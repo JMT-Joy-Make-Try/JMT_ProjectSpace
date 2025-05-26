@@ -10,9 +10,11 @@ namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        [Tooltip("건물이 건설되기 시작했을 때 일어나는 액션입니다.")]
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
+
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }

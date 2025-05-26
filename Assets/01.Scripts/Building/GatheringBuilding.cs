@@ -18,6 +18,7 @@ namespace JMT.Building
 {
     public class GatheringBuilding : BuildingBase
     {
+        public event Action OnAddItemEvent;
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
         [SerializeField] private float _productionTime;
         [SerializeField] private int _maxProductionAmount;
@@ -33,7 +34,7 @@ namespace JMT.Building
             if (_isAnimating) return;
             if (_currentProductionAmount <= 0) return;
             GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
-            
+            OnAddItemEvent?.Invoke();
 
             StartCoroutine(AnimateItem());
         }
