@@ -31,6 +31,11 @@ namespace JMT.Planets.Tile
             DefaultFogCount = _fogParticleSystem.GetFloat("FogCount");
         }
 
+        private void Start()
+        {
+            _fogParticleSystem.Play();
+        }
+
         public void SetFog(bool active, bool lightActive = false)
         {
             if (active)

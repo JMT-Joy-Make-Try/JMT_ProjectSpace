@@ -23,6 +23,7 @@ namespace JMT.QuestSystem
         private bool _isDelayRunning = false;
 
         private bool _isAllQuestCompleted;
+        private bool _isStaringQuest = false;
 
         protected override void Awake()
         {
@@ -62,6 +63,11 @@ namespace JMT.QuestSystem
         {
             if (_isAllQuestCompleted) 
                 return;
+            if (_isStaringQuest)
+            {
+                Debug.LogWarning("Quest is already starting!");
+                return;
+            }
             Debug.Log($"Starting quest '{questData.questName}'");
 
             foreach (var target in currentQuestTargets)
@@ -74,7 +80,7 @@ namespace JMT.QuestSystem
                         Debug.Log("핑...");
                         //GameUIManager.Instance.PointerCompo.SetPointer(target.Tiles.Pivot);
                     }
-
+                    _isStaringQuest = true;
                     target.Enable();
                 }
             }
@@ -86,6 +92,7 @@ namespace JMT.QuestSystem
                 yield break;
 
             _isDelayRunning = true;
+            _isStaringQuest = false;
             
             if (currentChapterIndex >= chapterSO.Count)
             {
@@ -100,7 +107,7 @@ namespace JMT.QuestSystem
                 currentChapterIndex++;
             }
 
-            if (currentChapterIndex < chapterSO.Count &&currentQuestIndex < chapterSO[currentChapterIndex].quests.Count )
+            if (currentChapterIndex < chapterSO.Count && currentQuestIndex < chapterSO[currentChapterIndex].quests.Count )
             {
                 yield return new WaitForSeconds(1f);
                 StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
