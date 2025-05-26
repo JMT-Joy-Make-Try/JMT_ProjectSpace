@@ -1,9 +1,5 @@
 ﻿using JMT.Agent;
 using JMT.Core.Manager;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
-using JMT.UISystem;
-using System.Collections;
 using UnityEngine;
 
 namespace JMT.Building
