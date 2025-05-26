@@ -9,10 +9,8 @@ namespace JMT
         public override void Interaction()
         {
             BuildingBase building = GetComponentInChildren<BuildingBase>();
-            Debug.Log(building);
 
             if (!building.IsBuilding) return;
-            Debug.Log("완료되었사와요");
             building.OnCompleteEvent?.Invoke();
 
             TileManager.Instance.CurrentTile.RemoveInteraction();

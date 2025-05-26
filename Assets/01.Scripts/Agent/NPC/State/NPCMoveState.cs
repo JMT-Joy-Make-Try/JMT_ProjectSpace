@@ -89,7 +89,10 @@ namespace JMT.Agent.State
             // todo : fix this
             if (type is AgentType.Base or AgentType.Patient)
             {
-                if (_targetPosition == ((NPCMovement)_agent.MovementCompo).Building.GetComponent<BuildingNPC>().WorkPosition.position)
+                var movement = _agent?.MovementCompo as NPCMovement;
+                var building = movement?.Building;
+                var buildingPos = building?.GetBuildingComponent<BuildingNPC>()?.WorkPosition.position;
+                if (_targetPosition == buildingPos)
                 {
                     StartCoroutine(LodgingBuildingRoutine());
                 }

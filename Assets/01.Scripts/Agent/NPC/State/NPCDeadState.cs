@@ -29,29 +29,34 @@ namespace JMT.Agent.State
             var hospitals = BuildingManager.Instance.HospitalBuildings;
             var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
             var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
-            
-            var hospitalBuilding = hospitals[Random.Range(0, hospitals.Count)];
-            var oxygenBuilding = oxygenBuildings[Random.Range(0, oxygenBuildings.Count)];
-            var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
 
-            if (TryAssignAndMoveToBuilding(
-                condition: agent.HealthCompo.IsDead,
-                building: hospitalBuilding,
-                onComplete: StartHealingCoroutine))
-                return;
-
-            if (TryAssignAndMoveToBuilding(
-                condition: agent.OxygenCompo.IsOxygenLow,
-                building: oxygenBuilding,
-                onComplete: StartOxygenCoroutine))
-                return;
-
-            if (TryAssignAndMoveToBuilding(
-                condition: true,
-                building: lodgingBuilding,
-                onComplete: StartLodgingCoroutine))
-                return;
-
+            if (hospitals.Count > 0)
+            {
+                var hospitalBuilding = hospitals[Random.Range(0, hospitals.Count)];
+                if (TryAssignAndMoveToBuilding(
+                        condition: agent.HealthCompo.IsDead,
+                        building: hospitalBuilding,
+                        onComplete: StartHealingCoroutine))
+                    return;
+            }
+            if (oxygenBuildings.Count > 0)
+            {
+                var oxygenBuilding = oxygenBuildings[Random.Range(0, oxygenBuildings.Count)];
+                if (TryAssignAndMoveToBuilding(
+                        condition: agent.OxygenCompo.IsOxygenLow,
+                        building: oxygenBuilding,
+                        onComplete: StartOxygenCoroutine))
+                    return;
+            }
+            if (lodgingBuildings.Count > 0)
+            {
+                var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
+                if (TryAssignAndMoveToBuilding(
+                        condition: true,
+                        building: lodgingBuilding,
+                        onComplete: StartLodgingCoroutine))
+                    return;
+            }
             _stateMachine.ChangeState(NPCState.Move);
         }
 
@@ -111,8 +116,10 @@ namespace JMT.Agent.State
             yield return new WaitForSeconds(building.HealingTime);
 
             agent.Init();
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
+            agent.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.Health.MoveSpeed);
             agent.ClothCompo.ChangeCloth(AgentType.Base);
-            _stateMachine.ChangeState(NPCState.Idle);
+            _stateMachine.ChangeState(NPCState.Move);
         }
     }
 }

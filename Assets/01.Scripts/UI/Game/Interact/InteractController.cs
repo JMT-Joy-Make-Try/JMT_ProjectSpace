@@ -57,7 +57,6 @@ namespace JMT.UISystem.Interact
         {
             InteractType type = model.InteractType;
 
-            Debug.Log("type : " + type);
             if (type.Equals(InteractType.Attack))
                 OnAttackEvent?.Invoke();
 
