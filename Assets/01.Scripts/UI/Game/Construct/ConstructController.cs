@@ -61,7 +61,7 @@ namespace JMT.UISystem.Interact
             GameUIManager.Instance.PlayerControlActive(false);
             view.OpenUI();
 
-            HandleChangeCategory(BuildingCategory.ItemBuilding);
+            HandleChangeCategory(BuildingCategory.FacilityBuilding);
         }
 
         public void CloseUI()

@@ -10,7 +10,7 @@ namespace JMT.Agent.Alien
         [field: SerializeField] public LayerMask WhatIsAttackable { get; private set; }
 
         private Collider[] _colliders;
-        private int KnockbackDamage = 10;
+        private int KnockbackDamage = 3;
         
 
         private void Awake()

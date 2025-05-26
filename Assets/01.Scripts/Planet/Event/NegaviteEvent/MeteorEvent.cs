@@ -23,7 +23,7 @@ namespace Planets.Events
         {
             Debug.Log("MeteorEvent");
             StartCoroutine(MeteorRain());
-            CameraManager.Instance.ShakeCamera(2, 5);
+            //CameraManager.Instance.ShakeCamera(2, 5);
         }
 
         public override void EndEvent()

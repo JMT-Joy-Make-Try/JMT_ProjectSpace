@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.VFX;
 
 namespace JMT.Planets.Tile
 {
@@ -16,21 +17,35 @@ namespace JMT.Planets.Tile
         [SerializeField] private GameObject _fogLightObject;
         [field: SerializeField] public int DamageAmount { get; private set; } = 1;
         
-        private ParticleSystem _fogParticleSystem;
-        private Renderer _fogRenderer;
-        
-        private Material _fogMaterial;
-        
-        private Vector3 playerPos;
-        
+        private VisualEffect _fogParticleSystem;
+        private BoxCollider _fogCollider;
 
-        public bool IsFogActive { get; private set; } 
+        private float DefaultFogCount;
+
+        public bool IsFogActive { get; private set; }
+
+        private void Awake()
+        {
+            _fogParticleSystem = GetComponent<VisualEffect>();
+            _fogCollider = GetComponent<BoxCollider>();
+            DefaultFogCount = _fogParticleSystem.GetFloat("FogCount");
+        }
 
         public void SetFog(bool active, bool lightActive = false)
         {
-            gameObject.SetActive(active);
+            if (active)
+            {
+                _fogParticleSystem.SetFloat("FogCount", DefaultFogCount);
+                _fogParticleSystem.playRate = 1f;
+            }
+            else
+            {
+                _fogParticleSystem.SetFloat("FogCount", 0);
+                _fogParticleSystem.playRate = 10f;
+            }
             _fogLightObject.SetActive(lightActive);
             IsFogActive = active;
+            _fogCollider.enabled = active;
         }
     }
 }

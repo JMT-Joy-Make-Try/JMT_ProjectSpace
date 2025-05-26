@@ -44,13 +44,21 @@ namespace JMT.Agent.State
             {
                 multiplier = 1;
                 BuildingManager buildingManager = BuildingManager.Instance;
-                if (buildingManager.LodgingBuilding != null)
+                if (buildingManager.LodgingBuildings.Count > 0)
                 {
-                    _targetPosition = buildingManager.LodgingBuilding.transform.position;
+                    var lodgingBuilding = buildingManager.LodgingBuildings[Random.Range(0, buildingManager.LodgingBuildings.Count)];
+                    if (lodgingBuilding != null)
+                    {
+                        _targetPosition = lodgingBuilding.transform.position;
+                    }
                 }
-                else if (buildingManager.HospitalBuilding != null)
+                else if (buildingManager.HospitalBuildings.Count > 0)
                 {
-                    _targetPosition = buildingManager.HospitalBuilding.transform.position;
+                    var hospitalBuilding = buildingManager.HospitalBuildings[Random.Range(0, buildingManager.HospitalBuildings.Count)];
+                    if (hospitalBuilding != null)
+                    {
+                        _targetPosition = hospitalBuilding.transform.position;
+                    }
                 }
             }
             else
@@ -78,10 +86,13 @@ namespace JMT.Agent.State
 
         private void EndMove(AgentType type)
         {
+            // todo : fix this
             if (type is AgentType.Base or AgentType.Patient)
             {
-                if (_targetPosition == BuildingManager.Instance.LodgingBuilding.GetBuildingComponent<BuildingNPC>()
-                        .WorkPosition.position)
+                var movement = _agent?.MovementCompo as NPCMovement;
+                var building = movement?.Building;
+                var buildingPos = building?.GetBuildingComponent<BuildingNPC>()?.WorkPosition.position;
+                if (_targetPosition == buildingPos)
                 {
                     StartCoroutine(LodgingBuildingRoutine());
                 }

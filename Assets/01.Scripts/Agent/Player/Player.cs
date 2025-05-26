@@ -1,9 +1,14 @@
 using JMT.Agent;
 using JMT.Agent.Alien;
 using JMT.Core;
+using JMT.Core.Manager;
+using JMT.Core.Tool;
+using JMT.Sound;
 using JMT.UISystem;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace JMT.PlayerCharacter
 {
@@ -26,6 +31,7 @@ namespace JMT.PlayerCharacter
         public PlayerInputSO InputSO => inputSO;
         public FogDetect FogDetect { get; private set; }
         public PlayerTool PlayerTool { get; private set; }
+        public SoundPlayer SoundPlayer { get; private set; }
         public LayerMask GroundLayer => groundLayer;
 
         [field:SerializeField] public int Health { get; private set; }
@@ -38,6 +44,11 @@ namespace JMT.PlayerCharacter
         private bool isOxygenArea;
         private bool isTimeChanged;
         
+        private bool _isDead;
+        
+        private List<Vignette> _vignetteList = new();
+        private List<Color> _vignetteColorList = new();
+        
         private void Awake()
         {
             VisualTrm = transform.Find("Visual");
@@ -49,8 +60,10 @@ namespace JMT.PlayerCharacter
             Movement = GetComponent<PlayerMovement>();
             FogDetect = GetComponent<FogDetect>();
             PlayerTool = GetComponent<PlayerTool>();
+            SoundPlayer = GetComponentInChildren<SoundPlayer>();
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
+            OnDamageEvent += HandleDamaged;
 
             InitStat();
             FogDetect.Init(this);
@@ -62,8 +75,35 @@ namespace JMT.PlayerCharacter
             if (GameUIManager.Instance == null) return;
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            OnDamageEvent -= HandleDamaged;
         }
 
+        private void HandleDamaged(int cur, int max)
+        {
+            if (_vignetteList.Count <= 0)
+            {
+                _vignetteList = VolumeManager.Instance.GetAllVolume<Vignette>();
+                _vignetteColorList.Clear();
+
+                foreach (var vignette in _vignetteList)
+                {
+                    _vignetteColorList.Add(vignette.color.value);
+                }
+            }
+
+            float percent = cur.GetPercent(max) / 100f;
+            Color damageColor = Color.red;
+
+            for (int i = 0; i < _vignetteList.Count; i++)
+            {
+                var vignette = _vignetteList[i];
+                var originalColor = _vignetteColorList[i];
+
+                vignette.color.value = Color.Lerp(damageColor, originalColor, percent);
+            }
+            
+            SoundPlayer.PlaySound("Player_Damaged");
+        }
 
         public void InitStat()
         {
@@ -85,6 +125,7 @@ namespace JMT.PlayerCharacter
 
         public void TakeDamage(int damage, bool isHeal = false)
         {
+            if (_isDead) return;
             _curHealth += isHeal ? damage : -damage;
             OnDamageEvent?.Invoke(_curHealth, Health);
             if (_curHealth <= 0)
@@ -103,6 +144,7 @@ namespace JMT.PlayerCharacter
         public void Dead()
         {
             OnDeadEvent?.Invoke();
+            _isDead = true;
         }
 
         private void OnTriggerEnter(Collider other)

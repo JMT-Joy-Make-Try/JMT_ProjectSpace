@@ -45,7 +45,7 @@ namespace JMT.UISystem
                 return;
             }
 
-            var lodgingBuilding = BuildingManager.Instance.LodgingBuilding;
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
             if (lodgingBuilding == null) return;
             var spawnPos = lodgingBuilding.transform.position;
             AgentManager.Instance.SpawnNpc(spawnPos, Quaternion.identity);
@@ -55,23 +55,29 @@ namespace JMT.UISystem
             SetWorkerPanel(npc);
         }
 
-        private void SetWorkerPanel(NPCAgent npc)
+        public void SetWorkerPanel(NPCAgent npc)
         {
+            NPCWorkData workData = npc.WorkData;
+            NPCHealth healthData = npc.Health;
+            NPCOxygen oxygenData = npc.OxygenCompo;
             // 몇 초 뒤에 완료 대충 이런텍스트 띄우는 친구
-            completeText.text = "99:99 완료";
+            if(completeText != null)
+                completeText.text = workData.TimeData.GetTimeString();
+            // workData.TimeData;로 시간 접근
 
             // 현재 제작하고 있는 아이템과 그 갯수
-            // workValueCell.SetCell(아이템SO, 아이템 갯수);
+            workValueCell?.SetCell(workData.CurrentItem?.ResultItem, "X1");
 
             // 현재 NPC의 스탯(건강, 산소)
 
             // 0번 = 건강 좋음
             // 1번 = 건강 중간
             // 2번 = 건강 나쁨
-            // 이거 리턴해주는거 있으면 쏘땡큐
-            workerHealthImage.sprite = healthIcons[0];
+            Debug.Log(healthData.GetStatus());
+            workerHealthImage.sprite = healthIcons[healthData.GetStatus()];
             // 현재 산소
-            workerOxygenValueText.text = 10 + "";
+            if (workerOxygenValueText != null) 
+                workerOxygenValueText.text = oxygenData.Oxygen.ToString();
         }
 
         public void ActiveLockArea(bool isActive)

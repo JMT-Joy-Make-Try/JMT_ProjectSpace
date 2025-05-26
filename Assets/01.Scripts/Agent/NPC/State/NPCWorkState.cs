@@ -4,6 +4,7 @@ using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Item;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.Agent.State
@@ -40,7 +41,8 @@ namespace JMT.Agent.State
             while (true)
             {
                 CreateItemSO item = building.data.GetFirstCreateItem();
-                npcAgent.WorkData.SetData(item, item.CreateTime);
+                int itemCount = building.data.CreateItemList.Select(s => s.ResultItem.ItemType).Count();
+                npcAgent.WorkData.SetData(item, item.CreateTime, itemCount);
                 if (item == null || building.data.CreateItemList.Count <= 0)
                 {
                     Debug.Log("Building Data is null");

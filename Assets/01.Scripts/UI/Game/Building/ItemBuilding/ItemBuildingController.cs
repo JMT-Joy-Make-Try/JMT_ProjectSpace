@@ -11,7 +11,7 @@ namespace JMT.UISystem.Building
         [SerializeField] private CreateUI createUI;
         [SerializeField] private ManageController manageUI;
         [SerializeField] private UpgradeUI upgradeUI;
-        private PanelUI currentPanel;
+        private IOpenablePanel currentPanel;
 
         private void Awake()
         {
@@ -44,10 +44,9 @@ namespace JMT.UISystem.Building
         private void HandleCreateButton() => ChangePanel(createUI);
 
         private void HandleWorkerButton() => ChangePanel(manageUI);
-
         private void HandleUpgradeButton() => ChangePanel(upgradeUI);
 
-        private void ChangePanel(PanelUI panel = null)
+        private void ChangePanel(IOpenablePanel panel = null)
         {
             currentPanel?.CloseUI();
             if (panel == null) return;

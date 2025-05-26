@@ -52,7 +52,6 @@ namespace JMT.Planets.Tile
         {
             if (CanBuild())
             {
-                Debug.Log("Build");
                 OnBuild?.Invoke();
                 PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
                 if (_currentBuilding == null)
@@ -131,6 +130,9 @@ namespace JMT.Planets.Tile
                     break;
                 case LaboratoryInteraction:
                     interaction.SetType(InteractType.Laboratory);
+                    break;
+                case SupplyOxygenInteraction:
+                    interaction.SetType(InteractType.SupplyOxygen);
                     break;
             }
 

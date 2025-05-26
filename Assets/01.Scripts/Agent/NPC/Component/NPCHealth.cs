@@ -33,31 +33,14 @@ namespace JMT.Agent
             else
                 OnHealthWarningEvent?.Invoke(true);
         }
-        
-        protected void SetSpeed()
-        {
-            WorkSpeed = GetPercent(_curHealth);
-            MoveSpeed = MathExtension.GetPercentageValue(MoveSpeed, GetPercent(_curHealth));
-
-            if (WorkSpeed <= 0)
-            {
-                Agent.ClothCompo.ChangeCloth(AgentType.Patient);
-            }
-        }
 
         
 
-        protected int GetPercent(float health)
+        public int GetStatus()
         {
-            int healthPercent = Mathf.RoundToInt(health * 100 / Health);
+            int healthPercent = Mathf.RoundToInt(_curHealth * 100 / Health);
             int rangeValue = healthPercent.GetRangeValue(_healthRange);
-            var findRange = _healthRange.Find(s => s.ReturnValue == rangeValue);
-            var rangeIndex = _healthRange.IndexOf(findRange);
-
-            if (rangeIndex == 2)
-                OnHealthWarningEvent?.Invoke(true);
-            else
-                OnHealthWarningEvent?.Invoke(true);
+            
             return rangeValue;
         }
         

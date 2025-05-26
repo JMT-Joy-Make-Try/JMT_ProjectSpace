@@ -59,5 +59,13 @@ namespace JMT.Core.Tool
                 target = value;
             }).SetEase(ease);
         }
+
+        public static void DOColor(this Color target, Color endValue, float duration, Ease ease = Ease.Unset)
+        {
+            DOVirtual.Color(target, endValue, duration, value =>
+            {
+                target = value;
+            }).SetEase(ease);
+        }
     }
 }

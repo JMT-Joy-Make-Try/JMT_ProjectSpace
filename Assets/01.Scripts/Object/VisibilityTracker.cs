@@ -9,7 +9,6 @@ namespace JMT.Object
 
         private void OnBecameInvisible()
         {
-            Debug.LogWarning("dadds");
             OnInvisibleCallback?.Invoke();
         }
     }

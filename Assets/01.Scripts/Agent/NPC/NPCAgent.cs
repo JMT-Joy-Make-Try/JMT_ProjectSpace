@@ -73,15 +73,25 @@ namespace JMT.Agent.NPC
             StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
         
+        public void RegisterAgent(NPCAgent agent)
+        {
+            AgentManager.Instance.RegisterAgent(agent);
+        }
+        
+        public void UnregisterAgent(NPCAgent agent)
+        {
+            AgentManager.Instance.UnregisterAgent(agent);
+        }
+        
         private void HandleTypeChanged(AgentType type)
         {
             if (type == AgentType.Base)
             {
-                AgentManager.Instance.RegisterAgent(this);
+                RegisterAgent(this);
             }
             else
             {
-                AgentManager.Instance.UnregisterAgent(this);
+                UnregisterAgent(this);
             }
             
         }

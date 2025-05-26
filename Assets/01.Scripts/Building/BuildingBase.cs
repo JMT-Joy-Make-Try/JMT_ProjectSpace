@@ -1,7 +1,10 @@
+using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.Item;
 using JMT.Planets.Tile;
+using JMT.Sound;
 using JMT.UISystem;
 using System;
 using System.Collections;
@@ -17,12 +20,17 @@ namespace JMT.Building
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
+        
+        [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
         #endregion
         
         public bool IsBuilding { get; private set; }
         public Action OnCompleteEvent;
         
         [SerializeField] private float _fuelAmount;
+        
+        [Header("Destroy Building")]
+        [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
         
         public float FuelAmount
         {
@@ -89,6 +97,8 @@ namespace JMT.Building
             _pvc.PlayAnimation();
             visual.SetFloatProperty("_Alpha", 1f);
             StartCoroutine(FuelRoutine());
+            SoundPlayer.StopSound("Building_Sound");
+            SoundPlayer.PlaySound("Building_Complete");
         }
 
         public void Building()
@@ -98,6 +108,7 @@ namespace JMT.Building
 
             var buildingData = GetBuildingComponent<BuildingData>().Data;
             StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
+            SoundPlayer.PlaySound("Building_Sound");
         }
 
         private IEnumerator BuildingRoutine(int time)
@@ -177,6 +188,17 @@ namespace JMT.Building
             {
                 child.gameObject.layer = layer;
             }
+        }
+
+        public void DestroyBuilding()
+        {
+            foreach (var items in _destroyBuildingItems)
+            {
+                GameUIManager.Instance.InventoryCompo.AddItem(items.Key, items.Value);
+            }
+            GetPlanetTile().RemoveInteraction();
+            GetPlanetTile().AddInteraction<NoneInteraction>();
+            Destroy(gameObject);
         }
 
     }
