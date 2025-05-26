@@ -16,14 +16,6 @@ namespace JMT.Building
             base.HandleCompleteEvent();
             BuildingManager.Instance.LodgingBuildings.Add(this);
             AgentManager.Instance.AddMaxNpcCount(_npcCount);
-            
-            Debug.Log(GameUIManager.Instance.ResourceCompo.MaxNpcValue);
-            for (int i = 0; i < GameUIManager.Instance.ResourceCompo.MaxNpcValue; i++)
-            {
-                var agent = AgentManager.Instance.AddNpc();
-            }
-
-            PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
         }
     }
 }
