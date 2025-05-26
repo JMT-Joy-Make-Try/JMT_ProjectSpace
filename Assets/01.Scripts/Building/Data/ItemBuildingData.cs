@@ -35,6 +35,11 @@ namespace JMT.Building
         {
             base.RemoveWork(isAddItem);
             if (!isAddItem) return;
+            AddItem();
+        }
+
+        public void AddItem()
+        {
             foreach (var createItem in CreateItemList)
             {
                 if (_buildingBase == null)
