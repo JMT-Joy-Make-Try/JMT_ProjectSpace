@@ -2,6 +2,7 @@ using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.DayTime;
 using JMT.UISystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,18 +10,20 @@ using Random = UnityEngine.Random;
 
 namespace JMT
 {
-    public class WaveSystem : MonoBehaviour
+    public class WaveSystem : MonoSingleton<WaveSystem>
     {
+        public event Action<List<GameObject>> OnCompleteSpawnEvent;
+        public event Action OnClearEvent;
         [SerializeField] private List<GameObject> spawnPoints = new();
-        [SerializeField] private int _increaseEnemyCount = 5;
+        [SerializeField] private int _startEnemyCount = 4;
+        [SerializeField] private int _increaseEnemyCount = 1;
         [SerializeField] private int _maxEnemyCount = 10;
 
-        private List<GameObject> _enemies = new();
+        public List<GameObject> Enemies { get; private set; } = new();
 
         private Coroutine spawnCoroutine;
-        private int enemyCount = 1;
 
-        private void Awake()
+        protected override void Awake()
         {
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += EnemySpawn;
         }
@@ -49,23 +52,30 @@ namespace JMT
             }
         }
 
+        public void EnemyRemove(GameObject obj)
+        {
+            Enemies.Remove(obj);
+            if(Enemies.Count <= 0)
+                OnClearEvent?.Invoke();
+        }
+
         private IEnumerator SpawnCoroutine(float coolTime)
         {
-            if (_enemies.Count >= _maxEnemyCount)
+            if (Enemies.Count >= _maxEnemyCount)
             {
                 yield break;
             }
             var waitTime = new WaitForSeconds(coolTime);
-            for (int i = 0; i < enemyCount; i++)
+            for (int i = 0; i < _startEnemyCount; i++)
             {
                 yield return waitTime;
                 int randomValue = Random.Range(0, spawnPoints.Count);
                 var obj = PoolingManager.Instance.Pop(PoolingType.Enemy_Ailen);
                 obj.ObjectPrefab.transform.position = spawnPoints[randomValue].transform.position;
-                _enemies.Add(obj.ObjectPrefab);
+                Enemies.Add(obj.ObjectPrefab);
             }
-
-            enemyCount += _increaseEnemyCount;
+            OnCompleteSpawnEvent?.Invoke(Enemies);
+            _startEnemyCount += _increaseEnemyCount;
             yield return null;
         }
     }
