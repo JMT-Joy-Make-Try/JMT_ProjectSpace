@@ -13,6 +13,7 @@ namespace JMT.Agent.State
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private float _distance = 10f;
         private NPCAgent _agent;
+        private NPCMovement _movement;
         private Vector3 _targetPosition;
 
         private Coroutine _moveCoroutine;
@@ -21,6 +22,7 @@ namespace JMT.Agent.State
         {
             base.Initialize(agent, stateName);
             this._agent = (NPCAgent)agent;
+            this._movement = _agent.MovementCompo as NPCMovement;
             this._agent.OnTypeChanged += HandleTypeChanged;
             _agent.OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
         }
@@ -50,6 +52,7 @@ namespace JMT.Agent.State
                     if (lodgingBuilding != null)
                     {
                         _targetPosition = lodgingBuilding.transform.position;
+                        _movement.SetBuilding(lodgingBuilding);
                     }
                 }
                 else if (buildingManager.HospitalBuildings.Count > 0)
@@ -58,6 +61,7 @@ namespace JMT.Agent.State
                     if (hospitalBuilding != null)
                     {
                         _targetPosition = hospitalBuilding.transform.position;
+                        _movement.SetBuilding(hospitalBuilding);
                     }
                 }
             }

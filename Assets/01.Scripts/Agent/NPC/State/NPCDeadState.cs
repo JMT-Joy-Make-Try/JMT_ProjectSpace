@@ -29,6 +29,8 @@ namespace JMT.Agent.State
             var hospitals = BuildingManager.Instance.HospitalBuildings;
             var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
             var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
+            
+            Debug.Log($"NPC Is Dead: {agent.HealthCompo.IsDead}");
 
             if (hospitals.Count > 0)
             {
@@ -38,6 +40,7 @@ namespace JMT.Agent.State
                         building: hospitalBuilding,
                         onComplete: StartHealingCoroutine))
                     return;
+                Debug.Log("Hospital building Assignment Failed");
             }
             if (oxygenBuildings.Count > 0)
             {
@@ -47,6 +50,7 @@ namespace JMT.Agent.State
                         building: oxygenBuilding,
                         onComplete: StartOxygenCoroutine))
                     return;
+                Debug.Log("Oxygen building Assignment Failed");
             }
             if (lodgingBuildings.Count > 0)
             {
@@ -56,6 +60,7 @@ namespace JMT.Agent.State
                         building: lodgingBuilding,
                         onComplete: StartLodgingCoroutine))
                     return;
+                Debug.Log("Lodging building Assignment Failed");
             }
             _stateMachine.ChangeState(NPCState.Move);
         }
@@ -63,7 +68,11 @@ namespace JMT.Agent.State
         private bool TryAssignAndMoveToBuilding(bool condition, BuildingBase building, System.Action<BuildingBase> onComplete)
         {
             if (!condition || building == null)
+            {
+                Debug.Log(condition);
+                Debug.Log(building);
                 return false;
+            }
 
             if (agent.WorkCompo.CurrentWorkingBuilding != building)
             {
@@ -80,10 +89,10 @@ namespace JMT.Agent.State
 
         private void StartLodgingCoroutine(BuildingBase building)
         {
-            StartCoroutine(LodgingRoutine(building as LodgingBuilding));
+            StartCoroutine(LodgingRoutine());
         }
 
-        private IEnumerator LodgingRoutine(LodgingBuilding building)
+        private IEnumerator LodgingRoutine()
         {
             yield return new WaitUntil(() => agent.MovementCompo.IsMoving);
             PoolingManager.Instance.Push(agent);
@@ -116,7 +125,8 @@ namespace JMT.Agent.State
             yield return new WaitForSeconds(building.HealingTime);
 
             agent.Init();
-            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
+            var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
+            var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
             agent.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.Health.MoveSpeed);
             agent.ClothCompo.ChangeCloth(AgentType.Base);
             _stateMachine.ChangeState(NPCState.Move);

@@ -70,6 +70,7 @@ namespace JMT.Agent.NPC
         private void HandleDeath()
         {
             Debug.Log("Dead");
+            WorkCompo.CurrentWorkingBuilding?.StopWork();
             StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
         

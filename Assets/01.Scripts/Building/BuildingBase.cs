@@ -203,5 +203,12 @@ namespace JMT.Building
             Destroy(gameObject);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                DestroyBuilding();
+            }
+        }
     }
 }
