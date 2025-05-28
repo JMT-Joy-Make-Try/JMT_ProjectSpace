@@ -8,17 +8,14 @@ namespace JMT.PlayerCharacter
         public override void Equip(Player player)
         {
             if (player.FogDetect.IsPlayerInFog)
-                player.SetOxygenMultiplier(2);
+                player.HealthCompo.SetOxygenMultiplier(2);
             else
-                player.SetOxygenMultiplier(1);
-            
-            Debug.Log("a");
+                player.HealthCompo.SetOxygenMultiplier(1);
         }
 
         public override void UnEquip(Player player)
         {
-            player.SetOxygenMultiplier(1);
-            Debug.Log("b");
+            player.HealthCompo.SetOxygenMultiplier(1);
         }
     }
 }

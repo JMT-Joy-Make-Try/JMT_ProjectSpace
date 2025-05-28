@@ -29,8 +29,6 @@ namespace JMT.Agent.State
             var hospitals = BuildingManager.Instance.HospitalBuildings;
             var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
             var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
-            
-            Debug.Log($"NPC Is Dead: {agent.HealthCompo.IsDead}");
 
             if (hospitals.Count > 0)
             {
