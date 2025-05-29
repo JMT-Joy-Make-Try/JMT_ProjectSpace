@@ -107,35 +107,23 @@ namespace JMT.Planets.Tile
         {
             canInteraction = true;
             var interaction = TileInteraction.GetComponent<T>();
-            switch (interaction)
+
+            if (interaction == null)
             {
-                case BuildingInteraction:
-                    interaction.SetType(InteractType.Building);
-                    break;
-                case ItemInteraction:
-                    interaction.SetType(InteractType.Item);
-                    break;
-                case StationInteraction:
-                    interaction.SetType(InteractType.Station);
-                    break;
-                case NoneInteraction:
-                    interaction.SetType(InteractType.None);
-                    break;
-                case ProgressInteraction:
-                    interaction.SetType(InteractType.Progress);
-                    break;
-                case ZeoliteInteraction:
-                    interaction.SetType(InteractType.Zeolite);
-                    break;
-                case VillageInteraction:
-                    interaction.SetType(InteractType.Village);
-                    break;
-                case LaboratoryInteraction:
-                    interaction.SetType(InteractType.Laboratory);
-                    break;
-                case SupplyOxygenInteraction:
-                    interaction.SetType(InteractType.SupplyOxygen);
-                    break;
+                Debug.LogError($"Can't find interaction of type {typeof(T)}");
+                return null;
+            }
+            
+            string interactionName = interaction.GetType().Name.Replace("Interaction", "");
+
+            if (Enum.TryParse<InteractType>(interactionName, out var interactType))
+            {
+                interaction.SetType(interactType);
+            }
+            else
+            {
+                Debug.LogError($"Interaction type {interactionName} is not defined in InteractType enum.");
+                interaction.SetType(InteractType.None);
             }
 
             return interaction;
