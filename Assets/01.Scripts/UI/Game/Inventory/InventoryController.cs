@@ -29,7 +29,7 @@ namespace JMT.UISystem.Inventory
         {
             PlayerCharacter.Player player = AgentManager.Instance.Player;
             player.PlayerToolCompo.SetCloth((_curItemSO as ToolSO).ToolType);
-            Debug.Log(player.PlayerToolCompo._curPlayerToolSO);
+            Debug.Log(player.PlayerToolCompo.CurPlayerToolSO);
         }
 
         private void HandleItemAdded(ItemSO so)

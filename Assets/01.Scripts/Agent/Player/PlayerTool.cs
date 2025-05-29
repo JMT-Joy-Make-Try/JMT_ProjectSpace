@@ -3,28 +3,29 @@ using JMT.Agent;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JMT.PlayerCharacter
 {
     public class PlayerTool : AgentCloth<PlayerToolType>, IPlayerComponent
     {
-        [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
-        public ToolSO _curPlayerToolSO;
         public Player Player { get; private set; }
+        [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
+        public ToolSO CurPlayerToolSO { get; private set; }
         
         public void Init(Player player)
         {
             Player = player;
-            _curPlayerToolSO = _playerToolSOs.First().Value;
+            CurPlayerToolSO = _playerToolSOs.First().Value;
         }
 
         public override void SetCloth(PlayerToolType type)
         {
             base.SetCloth(type);
             Debug.Log(type.ToString());
-            _curPlayerToolSO.UnEquip(Player);
-            _curPlayerToolSO = _playerToolSOs[type];
-            _curPlayerToolSO.Equip(Player);
+            CurPlayerToolSO.UnEquip(Player);
+            CurPlayerToolSO = _playerToolSOs[type];
+            CurPlayerToolSO.Equip(Player);
         }
     }
     
@@ -35,5 +36,6 @@ namespace JMT.PlayerCharacter
         FuelDropper, // 액체연료채집기
         FilterMask, // 필터마스크
         Hammer, // 망치
+        Farmer, // 농기구
     }
 }

@@ -41,9 +41,10 @@ namespace JMT.Building
             {
                 if (_player.InventoryCompo.PlayerInventoryData.count > 0 && _player.InventoryCompo.PlayerInventoryData.item != null)
                 {
-                    var item = _player.InventoryCompo.RemoveItem();
-                    if (item == null) return;
-                    GameUIManager.Instance.InventoryCompo.AddItem(item, 1);
+                    var item = _player.InventoryCompo.PlayerInventoryData.item;
+                    int itemCount = _player.InventoryCompo.PlayerInventoryData.count;
+                    GameUIManager.Instance.InventoryCompo.AddItem(item, itemCount);
+                    _player.InventoryCompo.RemoveItem(item, itemCount);
                 }
             }
         }

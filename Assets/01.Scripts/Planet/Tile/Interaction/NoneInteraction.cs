@@ -1,3 +1,5 @@
+using JMT.Agent;
+using JMT.PlayerCharacter;
 using JMT.UISystem;
 using UnityEngine;
 
@@ -7,12 +9,29 @@ namespace JMT.Planets.Tile
     {
         public override void Interaction()
         {
-            if (TileManager.Instance.CurrentTile.Fog.IsFogActive)
+            if (!IsPlayerHaveTool())
             {
-                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("건설할 수 없는 구역입니다.");
-                return;
+                if (TileManager.Instance.CurrentTile.Fog.IsFogActive)
+                {
+                    GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("건설할 수 없는 구역입니다.");
+                    return;
+                }
+
+                GameUIManager.Instance.ConstructCompo.OpenUI();
             }
-            GameUIManager.Instance.ConstructCompo.OpenUI();
+        }
+
+        private bool IsPlayerHaveTool()
+        {
+            Player player = AgentManager.Instance.Player;
+            if (player == null) return false;
+            
+            var playerToolCompo = player.PlayerToolCompo;
+            
+            if (playerToolCompo.CurPlayerToolSO?.ToolType == PlayerToolType.Farmer)
+                return true;
+            
+            return false;
         }
     }
 }
