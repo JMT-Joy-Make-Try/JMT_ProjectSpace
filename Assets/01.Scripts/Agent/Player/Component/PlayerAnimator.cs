@@ -41,7 +41,7 @@ namespace JMT.PlayerCharacter
         private void OnDestroy()
         {
             Player.InputSO.OnMoveEvent -= HandleMoveAnimation;
-            if (GameUIManager.Instance.InteractCompo != null)
+            if (GameUIManager.Instance != null && GameUIManager.Instance.InteractCompo != null)
                 GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
         }
 
