@@ -42,6 +42,8 @@ namespace JMT.Building
         private PVCBuilding _pvc;
         
         public PVCBuilding PVC => _pvc;
+
+        protected bool IsBuildingComplete = false;
         
         protected virtual void Awake()
         {
@@ -99,6 +101,7 @@ namespace JMT.Building
             StartCoroutine(FuelRoutine());
             SoundPlayer.StopSound("Building_Sound");
             SoundPlayer.PlaySound("Building_Complete");
+            IsBuildingComplete = true;
         }
 
         public void Building()

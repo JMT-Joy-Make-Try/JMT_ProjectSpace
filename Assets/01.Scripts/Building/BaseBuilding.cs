@@ -34,6 +34,7 @@ namespace JMT.Building
 
         private void Update()
         {
+            if (!IsBuildingComplete) return;
             _player = AgentManager.Instance.Player;
             _playerPos = _player.transform.position;
             if (_playerPos.IsNear(transform.position, 10f))
