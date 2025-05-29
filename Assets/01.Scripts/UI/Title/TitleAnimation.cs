@@ -15,7 +15,7 @@ namespace JMT.UISystem.Title
         [SerializeField] private float fadeDuration;
 
         private Vector3 upScale = Vector3.one * 1.8f;
-        private Vector3 originScale = Vector3.one;
+        private Vector3 originScale = Vector3.one * 1.3f;
         private Vector3 upPivot = new(0.5f, 1f);
 
         private Sequence seq;
