@@ -11,36 +11,6 @@ namespace JMT.PlayerCharacter
         
         [SerializeField] private int _maxInventorySize = 3;
         [SerializeField] private PlayerInventoryData _playerInventoryData;
-        
-        [Header("Debug")]
-        [SerializeField] private ItemSO _debugItem;
-        [SerializeField] private ItemSO _debugItem2;
-
-        private void Update()
-        {
-            #if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                AddItem(_debugItem);
-            }
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                AddItem(_debugItem2);
-            }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                AddItem(_debugItem, -1);
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                AddItem(_debugItem2, -1);
-            }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                Debug.Log($"Item: {_playerInventoryData.item?.name}, Count: {_playerInventoryData.count}");
-            }
-            #endif
-        }
 
         public void Init(Player player)
         {
