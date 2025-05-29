@@ -202,13 +202,5 @@ namespace JMT.Building
             // 대충 잔해로 바꿀 예정
             Destroy(gameObject);
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                DestroyBuilding();
-            }
-        }
     }
 }

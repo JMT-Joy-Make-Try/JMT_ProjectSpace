@@ -7,6 +7,7 @@ namespace JMT.PlayerCharacter
     public class PlayerInventory : MonoBehaviour, IPlayerComponent
     {
         public Player Player { get; private set; }
+        public PlayerInventoryData PlayerInventoryData => _playerInventoryData;
         
         [SerializeField] private int _maxInventorySize = 3;
         [SerializeField] private PlayerInventoryData _playerInventoryData;
@@ -17,6 +18,7 @@ namespace JMT.PlayerCharacter
 
         private void Update()
         {
+            #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 AddItem(_debugItem);
@@ -37,6 +39,7 @@ namespace JMT.PlayerCharacter
             {
                 Debug.Log($"Item: {_playerInventoryData.item?.name}, Count: {_playerInventoryData.count}");
             }
+            #endif
         }
 
         public void Init(Player player)
@@ -55,16 +58,31 @@ namespace JMT.PlayerCharacter
             {
                 _playerInventoryData.count += count;
                 _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, _maxInventorySize);
-                
-                if (_playerInventoryData.count <= 0)
-                {
-                    _playerInventoryData.item = null;
-                }
             }
             else
             {
                 Debug.LogWarning("Inventory is full or item type mismatch.");
             }
+        }
+        
+        public ItemSO RemoveItem(ItemSO item = null, int count = 1)
+        {
+            if (item == null) item = _playerInventoryData.item;
+            if (_playerInventoryData.item == item)
+            {
+                _playerInventoryData.count -= count;
+                if (_playerInventoryData.count <= 0)
+                {
+                    _playerInventoryData.item = null;
+                    _playerInventoryData.count = 0;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Item not found in inventory.");
+            }
+            
+            return _playerInventoryData.item;
         }
     }
 
