@@ -1,13 +1,11 @@
 using DG.Tweening;
 using JMT.Agent;
-using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
 using JMT.Object;
-using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using System;

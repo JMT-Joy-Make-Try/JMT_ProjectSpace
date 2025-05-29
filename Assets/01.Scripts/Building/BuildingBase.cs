@@ -42,6 +42,8 @@ namespace JMT.Building
         private PVCBuilding _pvc;
         
         public PVCBuilding PVC => _pvc;
+
+        protected bool IsBuildingComplete = false;
         
         protected virtual void Awake()
         {
@@ -99,6 +101,7 @@ namespace JMT.Building
             StartCoroutine(FuelRoutine());
             SoundPlayer.StopSound("Building_Sound");
             SoundPlayer.PlaySound("Building_Complete");
+            IsBuildingComplete = true;
         }
 
         public void Building()
@@ -201,14 +204,6 @@ namespace JMT.Building
             
             // 대충 잔해로 바꿀 예정
             Destroy(gameObject);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                DestroyBuilding();
-            }
         }
     }
 }

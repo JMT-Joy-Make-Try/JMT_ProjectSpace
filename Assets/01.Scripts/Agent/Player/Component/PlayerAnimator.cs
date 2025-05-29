@@ -34,14 +34,15 @@ namespace JMT.PlayerCharacter
 
         private void Start()
         {
-            GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
             Player.InputSO.OnMoveEvent += HandleMoveAnimation;
+            GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
         }
 
         private void OnDestroy()
         {
-            GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
             Player.InputSO.OnMoveEvent -= HandleMoveAnimation;
+            if (GameUIManager.Instance.InteractCompo != null)
+                GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
         }
 
         private void InitState()
