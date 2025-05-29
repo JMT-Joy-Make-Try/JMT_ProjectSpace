@@ -1,16 +1,15 @@
-using JMT.Agent.NPC;
-using JMT.Building;
 using JMT.Building.Component;
+using JMT.Agent.NPC;
 using JMT.Core.Tool;
-using JMT.Item;
-using System.Collections;
-using System.Linq;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
     public class NPCWorkState : State<NPCState>
     {
+        [SerializeField] private NPCWorkAnimationData[] animationData;
         private NPCAgent npcAgent;
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
@@ -25,35 +24,18 @@ namespace JMT.Agent.State
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
             npcAgent.WorkCompo.CurrentWorkingBuilding.Work();
-            //StartCoroutine(Work());
             
+            int index = Random.Range(0, animationData.Length);
+            //ChangeAnimations(animationData[index]);
         }
 
-        // private IEnumerator Work()
-        // {
-        //     ItemBuilding building = npcAgent.WorkCompo.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
-        //     if (building == null)
-        //     {
-        //         Debug.Log("Building is null");
-        //         yield break;
-        //     }
-        //     
-        //     while (true)
-        //     {
-        //         CreateItemSO item = building.data.GetFirstCreateItem();
-        //         int itemCount = building.data.CreateItemList.Select(s => s.ResultItem.ItemType).Count();
-        //         npcAgent.WorkData.SetData(item, item.CreateTime, itemCount);
-        //         if (item == null || building.data.CreateItemList.Count <= 0)
-        //         {
-        //             Debug.Log("Building Data is null");
-        //             yield break;
-        //         }
-        //
-        //         int timeMinute = item.CreateTime.GetSecond();
-        //         yield return new WaitForSeconds(timeMinute);
-        //         building.data.RemoveWork();
-        //     }
-        // }
+        private void ChangeAnimations(NPCWorkAnimationData npcWorkAnimationData)
+        {
+            var animator = npcAgent.AnimatorCompo;
+            animator.ChangeAnimation("InWork", npcWorkAnimationData.InClip);
+            animator.ChangeAnimation("OutWork", npcWorkAnimationData.OutClip);
+            animator.ChangeAnimation("Work", npcWorkAnimationData.WorkClip);
+        }
 
         public override void UpdateState()
         {
@@ -68,5 +50,14 @@ namespace JMT.Agent.State
             npcAgent.MovementCompo.Stop(false);
             base.ExitState();
         }
+    }
+
+
+    [Serializable]
+    public struct NPCWorkAnimationData
+    {
+        public AnimationClip InClip;
+        public AnimationClip OutClip;
+        public AnimationClip WorkClip;
     }
 }
