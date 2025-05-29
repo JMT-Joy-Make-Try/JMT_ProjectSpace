@@ -54,6 +54,11 @@ namespace JMT.PlayerCharacter
             
             return _playerInventoryData.item;
         }
+        
+        public bool IsMaxInventorySizeReached()
+        {
+            return _playerInventoryData.count >= _maxInventorySize;
+        }
     }
 
     [Serializable]
