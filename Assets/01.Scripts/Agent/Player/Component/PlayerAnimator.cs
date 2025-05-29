@@ -1,8 +1,8 @@
-using JMT.Agent;
-using JMT.UISystem;
-using System;
 using System.Collections.Generic;
+using JMT.UISystem;
 using UnityEngine;
+using JMT.Agent;
+using System;
 
 namespace JMT.PlayerCharacter
 {
@@ -54,15 +54,12 @@ namespace JMT.PlayerCharacter
 
         private void HandleMoveAnimation(Vector2 vector)
         {
-            if (vector.sqrMagnitude > 0)
-                ChangeState(PlayerState.Walk);
-            else
-                ChangeState(PlayerState.Idle);
+            ChangeState(vector.sqrMagnitude > 0 ? PlayerState.Walk : PlayerState.Idle);
         }
 
-        private void HandleHoldEvent(bool isTrue)
+        private void HandleHoldEvent(bool isHold)
         {
-            if (isTrue) ChangeState(PlayerState.Interact);
+            if (isHold) ChangeState(PlayerState.Interact);
             else ChangeState(PlayerState.Idle);
         }
 
@@ -72,9 +69,6 @@ namespace JMT.PlayerCharacter
             curState = state;
             AnimCompo.SetBool(stateHash[curState], true);
         }
-
-        
-        
     }
 
     public enum PlayerState

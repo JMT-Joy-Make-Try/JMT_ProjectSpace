@@ -1,14 +1,12 @@
-using JMT.Agent;
-using JMT.Agent.Alien;
-using JMT.Core;
+using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
-using JMT.Sound;
 using JMT.UISystem;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+using JMT.Sound;
+using JMT.Agent;
+using JMT.Core;
 
 namespace JMT.PlayerCharacter
 {
@@ -23,20 +21,14 @@ namespace JMT.PlayerCharacter
         public PlayerMovement MovementCompo { get; private set; }
         public PlayerTool PlayerToolCompo { get; private set; }
         public FogDetect FogDetect { get; private set; }
-        
-
         public Transform VisualTrm { get; private set; }
+        public SoundPlayer SoundPlayer { get; private set; }
         
         public PlayerInputSO InputSO => inputSO;
-        
-        public SoundPlayer SoundPlayer { get; private set; }
         public LayerMask GroundLayer => groundLayer;
-
         
         private bool isOxygenArea;
         private bool isTimeChanged;
-        
-        
         
         private List<Vignette> _vignetteList = new();
         private List<Color> _vignetteColorList = new();
