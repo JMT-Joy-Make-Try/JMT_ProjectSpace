@@ -1,3 +1,4 @@
+using JMT.Item;
 using JMT.UISystem;
 using UnityEngine;
 
@@ -16,6 +17,12 @@ namespace JMT.Planets.Tile
             TileManager.Instance.CurrentTile.RemoveInteraction();
             TileManager.Instance.CurrentTile.AddInteraction<NoneInteraction>();
             //UIManager.Instance.ItemUI.OpenUI();
+        }
+        
+        public void SetItem(ItemSO item, int count)
+        {
+            itemType = item;
+            itemCount = count;
         }
     }
 }

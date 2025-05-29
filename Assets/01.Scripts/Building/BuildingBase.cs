@@ -192,14 +192,23 @@ namespace JMT.Building
 
         public void DestroyBuilding()
         {
+            GetPlanetTile().RemoveInteraction();
+            GetPlanetTile().AddInteraction<ItemInteraction>();
             foreach (var items in _destroyBuildingItems)
             {
-                GameUIManager.Instance.InventoryCompo.AddItem(items.Key, items.Value);
+                GetPlanetTile().GetInteraction<ItemInteraction>().SetItem(items.Key, items.Value);
             }
-            GetPlanetTile().RemoveInteraction();
-            GetPlanetTile().AddInteraction<NoneInteraction>();
+            
+            // 대충 잔해로 바꿀 예정
             Destroy(gameObject);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                DestroyBuilding();
+            }
+        }
     }
 }

@@ -12,14 +12,14 @@ namespace JMT.PlayerCharacter
 
         private void Awake()
         {
-            player.OnDamageEvent += playerHpUI.SetHpBar;
-            player.OnOxygenEvent += playerOxygenUI.SetHpBar;
+            player.HealthCompo.OnDamageEvent += playerHpUI.SetHpBar;
+            player.HealthCompo.OnOxygenEvent += playerOxygenUI.SetHpBar;
         }
         
         private void OnDestroy()
         {
-            player.OnDamageEvent -= playerHpUI.SetHpBar;
-            player.OnOxygenEvent -= playerOxygenUI.SetHpBar;
+            player.HealthCompo.OnDamageEvent -= playerHpUI.SetHpBar;
+            player.HealthCompo.OnOxygenEvent -= playerOxygenUI.SetHpBar;
         }
     }
 }

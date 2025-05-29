@@ -5,7 +5,7 @@
         Idle,
         Move,
         Work,
-        Fight,
+        Night,
         Dead
     }
 }

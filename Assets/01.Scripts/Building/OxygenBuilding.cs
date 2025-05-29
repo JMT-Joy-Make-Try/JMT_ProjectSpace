@@ -62,7 +62,7 @@ namespace JMT.Building
             {
                 if (GetOxygen())
                 {
-                    _player.AddOxygen(_oxygenAmount);
+                    _player.HealthCompo.AddOxygen(_oxygenAmount);
                     Debug.Log("Player Get Oxygen");
                 }
 

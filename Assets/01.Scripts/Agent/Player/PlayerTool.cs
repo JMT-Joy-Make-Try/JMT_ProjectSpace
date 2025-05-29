@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace JMT.PlayerCharacter
 {
-    public class PlayerTool : AgentCloth<PlayerToolType>
+    public class PlayerTool : AgentCloth<PlayerToolType>, IPlayerComponent
     {
         [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
         public ToolSO _curPlayerToolSO;
-        private Player _player;
+        public Player Player { get; private set; }
         
         public void Init(Player player)
         {
-            _player = player;
+            Player = player;
             _curPlayerToolSO = _playerToolSOs.First().Value;
         }
 
@@ -22,9 +22,9 @@ namespace JMT.PlayerCharacter
         {
             base.SetCloth(type);
             Debug.Log(type.ToString());
-            _curPlayerToolSO.UnEquip(_player);
+            _curPlayerToolSO.UnEquip(Player);
             _curPlayerToolSO = _playerToolSOs[type];
-            _curPlayerToolSO.Equip(_player);
+            _curPlayerToolSO.Equip(Player);
         }
     }
     

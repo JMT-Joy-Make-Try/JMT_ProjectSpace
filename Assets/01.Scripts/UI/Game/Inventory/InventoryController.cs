@@ -28,8 +28,8 @@ namespace JMT.UISystem.Inventory
         private void HandleEquip()
         {
             PlayerCharacter.Player player = AgentManager.Instance.Player;
-            player.PlayerTool.SetCloth((_curItemSO as ToolSO).ToolType);
-            Debug.Log(player.PlayerTool._curPlayerToolSO);
+            player.PlayerToolCompo.SetCloth((_curItemSO as ToolSO).ToolType);
+            Debug.Log(player.PlayerToolCompo._curPlayerToolSO);
         }
 
         private void HandleItemAdded(ItemSO so)

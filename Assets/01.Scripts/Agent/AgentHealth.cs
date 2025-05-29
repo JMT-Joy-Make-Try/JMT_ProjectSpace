@@ -22,7 +22,7 @@ namespace JMT.Agent
             hpFillBarUI = GetComponent<FillBarUI>();
         }
 
-        public void InitStat()
+        public virtual void InitStat()
         {
             _curHealth = Health;
             IsDead = false;
