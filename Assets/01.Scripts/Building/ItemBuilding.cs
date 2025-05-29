@@ -1,7 +1,9 @@
 using JMT.Item;
 using JMT.UISystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.Building
@@ -12,6 +14,8 @@ namespace JMT.Building
 
         public ItemBuildingData data;
         public Queue<CreateItemSO> ItemQueue { get; private set; } = new();
+
+        public float GaugeValue { get; private set; }
 
         protected override void Awake()
         {
@@ -31,7 +35,44 @@ namespace JMT.Building
             BuildingWork work = new(item.ResultItem.ItemType, item.CreateTime);
             data.AddWork(work);
         }
-        
-        
+
+        public override void Work()
+        {
+            base.Work();
+            StartCoroutine(WorkCoroutine());
+            
+        }
+
+        private IEnumerator WorkCoroutine()
+        {
+            while (_isWorking)
+            {
+                GaugeValue = 0f;
+                CreateItemSO item = data.GetFirstCreateItem();
+                int itemCount = data.CreateItemList.Select(s => s.ResultItem.ItemType).Count();
+                //npcAgent.WorkData.SetData(item, item.CreateTime, itemCount);
+                if (item == null || data.CreateItemList.Count <= 0)
+                {
+                    Debug.Log("Building Data is null");
+                    yield break;
+                }
+
+                int timeMinute = item.CreateTime.GetSecond();
+                yield return StartCoroutine(Gauge(timeMinute));
+                data.RemoveWork();
+            }
+        }
+
+        private IEnumerator Gauge(int timeMinute)
+        {
+            float gaugeSpeed = 1f / timeMinute;
+
+            while (GaugeValue < 1f)
+            {
+                GaugeValue += Time.deltaTime * gaugeSpeed;
+                yield return null;
+            }
+            GaugeValue = 1f;
+        }
     }
 }

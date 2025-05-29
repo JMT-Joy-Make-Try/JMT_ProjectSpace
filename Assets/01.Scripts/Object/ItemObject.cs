@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using DG.Tweening;
+using JMT.Agent;
 using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
@@ -52,7 +53,13 @@ namespace JMT.Object
         public void Collect()
         {
             if (!IsCollectable) return;
-            GameUIManager.Instance.InventoryCompo.AddItem(_itemSO, 1);
+            var inventory = AgentManager.Instance.Player.InventoryCompo;
+            if (inventory.IsMaxInventorySizeReached())
+            {
+                Debug.LogWarning("Inventory is full. Cannot collect item: " + _itemSO);;
+                return;
+            }
+            AgentManager.Instance.Player.InventoryCompo.AddItem(_itemSO);
             Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);
         }

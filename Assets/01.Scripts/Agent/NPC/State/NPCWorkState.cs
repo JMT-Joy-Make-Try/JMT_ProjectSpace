@@ -25,35 +25,35 @@ namespace JMT.Agent.State
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
             npcAgent.WorkCompo.CurrentWorkingBuilding.Work();
-            StartCoroutine(Work());
+            //StartCoroutine(Work());
             
         }
 
-        private IEnumerator Work()
-        {
-            ItemBuilding building = npcAgent.WorkCompo.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
-            if (building == null)
-            {
-                Debug.Log("Building is null");
-                yield break;
-            }
-            
-            while (true)
-            {
-                CreateItemSO item = building.data.GetFirstCreateItem();
-                int itemCount = building.data.CreateItemList.Select(s => s.ResultItem.ItemType).Count();
-                npcAgent.WorkData.SetData(item, item.CreateTime, itemCount);
-                if (item == null || building.data.CreateItemList.Count <= 0)
-                {
-                    Debug.Log("Building Data is null");
-                    yield break;
-                }
-
-                int timeMinute = item.CreateTime.GetSecond();
-                yield return new WaitForSeconds(timeMinute);
-                building.data.RemoveWork();
-            }
-        }
+        // private IEnumerator Work()
+        // {
+        //     ItemBuilding building = npcAgent.WorkCompo.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
+        //     if (building == null)
+        //     {
+        //         Debug.Log("Building is null");
+        //         yield break;
+        //     }
+        //     
+        //     while (true)
+        //     {
+        //         CreateItemSO item = building.data.GetFirstCreateItem();
+        //         int itemCount = building.data.CreateItemList.Select(s => s.ResultItem.ItemType).Count();
+        //         npcAgent.WorkData.SetData(item, item.CreateTime, itemCount);
+        //         if (item == null || building.data.CreateItemList.Count <= 0)
+        //         {
+        //             Debug.Log("Building Data is null");
+        //             yield break;
+        //         }
+        //
+        //         int timeMinute = item.CreateTime.GetSecond();
+        //         yield return new WaitForSeconds(timeMinute);
+        //         building.data.RemoveWork();
+        //     }
+        // }
 
         public override void UpdateState()
         {

@@ -23,22 +23,22 @@ namespace JMT.Agent
             _timeData = time;
             _itemCount = itemCount;
             
-            StartCoroutine(SetTimeData());
+            //StartCoroutine(SetTimeData());
         }
 
-        private IEnumerator SetTimeData()
-        {
-            while (_timeData.GetSecond() != 0)
-            {
-                _timeData.second--;
-                if (_timeData.second < 0)
-                {
-                    _timeData.second = 59;
-                    _timeData.minute--;
-                }
-                yield return new WaitForSeconds(1);
-            }
-        }
+        // private IEnumerator SetTimeData()
+        // {
+        //     while (_timeData.GetSecond() != 0)
+        //     {
+        //         _timeData.second--;
+        //         if (_timeData.second < 0)
+        //         {
+        //             _timeData.second = 59;
+        //             _timeData.minute--;
+        //         }
+        //         yield return new WaitForSeconds(1);
+        //     }
+        // }
 
         public void Initialize(NPCAgent agent)
         {
