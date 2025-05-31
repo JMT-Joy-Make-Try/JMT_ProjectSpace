@@ -7,19 +7,23 @@ using UnityEngine;
 namespace JMT
 {
     [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/Items/ToolSO")]
-    public class ToolSO : ItemSO
+    public abstract class ToolSO : ItemSO
     {
         public SerializedDictionary<ItemSO, int> NeedItems;
         public PlayerToolType ToolType;
-        
-        public virtual void Equip(PlayerCharacter.Player player)
+        protected Player _player;
+        public virtual void Init(IPlayer player)
         {
             
+            _player = player as Player;
+            if (_player == null)
+            {
+                Debug.LogError("Player is not initialized correctly.");
+            }
         }
-        
-        public virtual void UnEquip(PlayerCharacter.Player player)
-        {
-            
-        }
+
+        public abstract void Equip();
+
+        public abstract void UnEquip();
     }
 }
