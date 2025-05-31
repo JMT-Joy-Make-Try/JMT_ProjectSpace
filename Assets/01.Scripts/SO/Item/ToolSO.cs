@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace JMT
 {
-    [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/ToolSO")]
+    [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/Items/ToolSO")]
     public class ToolSO : ItemSO
     {
         public SerializedDictionary<ItemSO, int> NeedItems;

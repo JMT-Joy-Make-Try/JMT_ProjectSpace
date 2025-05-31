@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JMT
 {
-    [CreateAssetMenu(fileName = "CreateItemSO", menuName = "SO/Data/CreateItemSO")]
+    [CreateAssetMenu(fileName = "CreateItemSO", menuName = "SO/Data/Items/CreateItemSO")]
     public class CreateItemSO : ScriptableObject
     {
         public ItemSO ResultItem;

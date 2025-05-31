@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JMT
 {
-    [CreateAssetMenu(fileName = "Costume", menuName = "SO/Data/CostumeSO")]
+    [CreateAssetMenu(fileName = "Costume", menuName = "SO/Data/Items/CostumeSO")]
     public class CostumeSO : ToolSO
     {
         // public ItemType ItemType;
