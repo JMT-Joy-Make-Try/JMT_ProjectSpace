@@ -30,9 +30,9 @@ namespace JMT.Agent
         
         private Collider[] _colliders;
         
-        public void Init(Player player)
+        public void Init(IPlayer player)
         {
-            Player = player;
+            Player = player as Player;
             _colliders = new Collider[10];
             OnFogDetected += HandleFogDetected;
         }

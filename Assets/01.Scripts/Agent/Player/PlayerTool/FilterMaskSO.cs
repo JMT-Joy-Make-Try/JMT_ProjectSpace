@@ -5,17 +5,17 @@ namespace JMT.PlayerCharacter
     [CreateAssetMenu(fileName = "FilterMaskSO", menuName = "SO/Data/ToolSO/FilterMaskSO")]
     public class FilterMaskSO : ToolSO
     {
-        public override void Equip(Player player)
+        public override void Equip()
         {
-            if (player.FogDetect.IsPlayerInFog)
-                player.HealthCompo.SetOxygenMultiplier(2);
+            if (_player.FogDetect.IsPlayerInFog)
+                _player.HealthCompo.SetOxygenMultiplier(2);
             else
-                player.HealthCompo.SetOxygenMultiplier(1);
+                _player.HealthCompo.SetOxygenMultiplier(1);
         }
 
-        public override void UnEquip(Player player)
+        public override void UnEquip()
         {
-            player.HealthCompo.SetOxygenMultiplier(1);
+            _player.HealthCompo.SetOxygenMultiplier(1);
         }
     }
 }

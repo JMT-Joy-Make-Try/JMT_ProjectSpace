@@ -23,9 +23,9 @@ namespace JMT.PlayerCharacter
             stateHash = new Dictionary<PlayerState, int>();
         }
         
-        public void Init(Player player)
+        public void Init(IPlayer player)
         {
-            Player = player;
+            Player = player as Player;
             AnimCompo = Player.VisualTrm.GetComponent<Animator>();
             EndTrigger = Player.VisualTrm.GetComponent<AnimationEndTrigger>();
 

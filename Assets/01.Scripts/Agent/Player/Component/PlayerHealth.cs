@@ -6,7 +6,6 @@ namespace JMT.PlayerCharacter
 {
     public class PlayerHealth : MonoBehaviour, IPlayerComponent, IDamageable, IOxygen
     {
-        public Player Player { get; private set; }
         
         public event Action<int, int> OnOxygenEvent;
         public event Action<int, int> OnDamageEvent;
@@ -21,9 +20,8 @@ namespace JMT.PlayerCharacter
         
         private bool _isDead;
         
-        public void Init(Player player)
+        public void Init(IPlayer player)
         {
-            Player = player;
             InitStat();
         }
         

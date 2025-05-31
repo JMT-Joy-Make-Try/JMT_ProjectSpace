@@ -8,5 +8,14 @@ namespace JMT
     public class CostumeSO : ToolSO
     {
         // public ItemType ItemType;
+        public override void Equip()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void UnEquip()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

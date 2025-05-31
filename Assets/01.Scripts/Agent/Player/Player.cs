@@ -10,7 +10,7 @@ using JMT.Core;
 
 namespace JMT.PlayerCharacter
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IPlayer
     {
         [SerializeField] private PlayerInputSO inputSO;
         [SerializeField] private LayerMask groundLayer;

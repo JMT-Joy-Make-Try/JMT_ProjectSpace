@@ -4,8 +4,6 @@ using JMT.Core.Manager;
 using JMT.Core.Tool;
 using JMT.PlayerCharacter;
 using JMT.UISystem;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Building

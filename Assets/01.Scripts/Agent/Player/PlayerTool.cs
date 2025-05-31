@@ -13,9 +13,13 @@ namespace JMT.PlayerCharacter
         [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
         public ToolSO CurPlayerToolSO { get; private set; }
         
-        public void Init(Player player)
+        public void Init(IPlayer player)
         {
-            Player = player;
+            Player = player as Player;
+            foreach (var tool in _playerToolSOs.Values)
+            {
+                tool.Init(player);
+            }
             CurPlayerToolSO = _playerToolSOs.First().Value;
         }
 
@@ -23,9 +27,9 @@ namespace JMT.PlayerCharacter
         {
             base.SetCloth(type);
             Debug.Log(type.ToString());
-            CurPlayerToolSO.UnEquip(Player);
+            CurPlayerToolSO.UnEquip();
             CurPlayerToolSO = _playerToolSOs[type];
-            CurPlayerToolSO.Equip(Player);
+            CurPlayerToolSO.Equip();
         }
     }
     

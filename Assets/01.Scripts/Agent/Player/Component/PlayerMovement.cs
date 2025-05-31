@@ -16,9 +16,9 @@ namespace JMT.PlayerCharacter
 
         private float _defaultMoveSpeed;
 
-        public void Init(Player player)
+        public void Init(IPlayer player)
         {
-            Player = player;
+            Player = player as Player;
             
             CameraTrm = transform.Find("Camera");
             RigidCompo = GetComponent<Rigidbody>();

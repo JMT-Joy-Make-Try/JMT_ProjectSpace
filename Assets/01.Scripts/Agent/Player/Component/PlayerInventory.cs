@@ -6,15 +6,13 @@ namespace JMT.PlayerCharacter
 {
     public class PlayerInventory : MonoBehaviour, IPlayerComponent
     {
-        public Player Player { get; private set; }
         public PlayerInventoryData PlayerInventoryData => _playerInventoryData;
         
         [SerializeField] private int _maxInventorySize = 3;
         [SerializeField] private PlayerInventoryData _playerInventoryData;
 
-        public void Init(Player player)
+        public void Init(IPlayer player)
         {
-            Player = player;
         }
         
         public void AddItem(ItemSO item, int count = 1)
