@@ -1,4 +1,6 @@
-﻿using JMT.Item;
+﻿using AYellowpaper.SerializedCollections;
+using JMT.Item;
+using System;
 using UnityEngine;
 
 namespace JMT.Planets.Field
@@ -6,11 +8,13 @@ namespace JMT.Planets.Field
     [CreateAssetMenu(fileName = "SeedSO", menuName = "SO/Field/SeedSO")]
     public class SeedSO : ItemSO
     {
-        public SeedType SeedType;
-    }
-
-    public enum SeedType
-    {
+        [Header("Seed Properties")]
+        public int MaxGrowthStage;
+        public GameObject[] SeedObjects;
         
+
+        [Space]
+        [Header("Get Item Properties")]
+        public SerializedDictionary<ItemSO, int> Items;
     }
 }

@@ -19,6 +19,10 @@ namespace JMT.Planets.Tile
 
                 GameUIManager.Instance.ConstructCompo.OpenUI();
             }
+            else
+            {
+                //planetTile.TileInteraction.
+            }
         }
 
         private bool IsPlayerHaveTool()
