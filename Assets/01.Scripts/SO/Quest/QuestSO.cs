@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JMT.QuestSystem
 {
-    [CreateAssetMenu(fileName = "NewQuest", menuName = "Quests/Quest")]
+    [CreateAssetMenu(fileName = "NewQuest", menuName = "SO/Data/Quests/QuestSO")]
     public class QuestSO : ScriptableObject
     {
         public string questName;
