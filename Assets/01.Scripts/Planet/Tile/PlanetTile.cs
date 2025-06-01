@@ -90,6 +90,12 @@ namespace JMT.Planets.Tile
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
+        public void ChangeInteraction<T>() where T : TileInteraction
+        {
+            RemoveInteraction();
+            AddInteraction<T>();
+        }
+        
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
         {
             interaction = TileInteraction.GetComponent<T>();

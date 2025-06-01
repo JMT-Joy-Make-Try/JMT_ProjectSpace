@@ -2,12 +2,14 @@
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Object;
 using JMT.Planets.Field;
+using System;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
     public class FieldInteraction : TileInteraction
     {
+        [SerializeField] private SeedSO debugSeed;
         private SeedSO _seed;
         private int _growthStage = 1;
         
@@ -16,26 +18,28 @@ namespace JMT.Planets.Tile
         public override void Interaction()
         {
             base.Interaction();
-            if (_seed == null) return;
-            
-            if (_growthStage > _seed.MaxGrowthStage)
-            {
-                Debug.Log("Plant is fully grown.");
-                return;
-            }
         }
         
         public void SetSeed(SeedSO seed)
         {
             _seed = seed;
-            AddObject(seed.SeedObjects[0]);
+            _plantObject = AddObject(seed.SeedObjects[0]);
         }
 
         private void GrowSeed()
         {
             if (_seed == null) return;
-            _growthStage = Mathf.Clamp(_growthStage++, 1, _seed.MaxGrowthStage);
+            _growthStage++;
+            if (_growthStage > _seed.MaxGrowthStage)
+            {
+                Debug.Log("Plant is fully grown.");
+                DropItem();
+                Destroy(_plantObject);
+                return;
+            }
             ChangePlantObject();
+            
+            
         }
 
         private void ChangePlantObject()
@@ -47,7 +51,7 @@ namespace JMT.Planets.Tile
 
             if (_seed != null && _seed.SeedObjects.Length >= _growthStage)
             {
-                AddObject(_seed.SeedObjects[_growthStage - 1]);
+                _plantObject = AddObject(_seed.SeedObjects[_growthStage - 1]);
             }
         }
 
@@ -64,6 +68,18 @@ namespace JMT.Planets.Tile
                     itemObj.IsCollectable = true;
                     itemObj.SetItemType(item.Key);
                 }
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                GrowSeed();
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                SetSeed(debugSeed);
             }
         }
     }

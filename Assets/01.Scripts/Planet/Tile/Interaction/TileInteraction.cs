@@ -27,9 +27,9 @@ namespace JMT.Planets.Tile
             InteractType = interactType;
         }
 
-        public void AddObject(GameObject obj)
+        public GameObject AddObject(GameObject obj)
         {
-            Instantiate(obj, transform);
+            return Instantiate(obj, transform);
         }
 
         public void RemoveObject() => Destroy(gameObject);
