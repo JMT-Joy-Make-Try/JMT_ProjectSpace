@@ -53,7 +53,7 @@ namespace JMT.Object
         private void HandleTriggerEnter(Collider other)
         {
             VibrationUtil.Vibrate(vibrationType, vibrationIntensity);
-            CameraManager.Instance.ShakeCamera(5f);
+            //CameraManager.Instance.ShakeCamera(5f);
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 if ((layer & (1 << other.gameObject.layer)) != 0)

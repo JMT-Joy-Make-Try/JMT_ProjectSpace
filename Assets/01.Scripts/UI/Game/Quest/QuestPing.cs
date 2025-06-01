@@ -9,6 +9,8 @@ namespace JMT.QuestSystem
         private float duration = 0.3f;
         private Vector3 maxScale = new Vector3(0.05f, 0.05f, 0.05f);
         private Vector3 curScale = new Vector3(0.03f, 0.03f, 0.03f);
+
+        public bool IsEnable { get; private set; }
         private void Awake()
         {
             spriteCompo = GetComponent<SpriteRenderer>();
@@ -19,10 +21,12 @@ namespace JMT.QuestSystem
             spriteCompo.DOFade(1f, duration);
             transform.localScale = maxScale;
             transform.DOScale(curScale, duration);
+            IsEnable = true;
         }
         public void DisablePing()
         {
             spriteCompo.DOFade(0f, duration);
+            IsEnable = false;
         }
 
         public void SelectPingLocation(bool isDown)

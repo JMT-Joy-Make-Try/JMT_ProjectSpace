@@ -6,7 +6,6 @@ namespace JMT.Planets.Tile
 {
     public class TileInteraction : MonoBehaviour
     {
-        //[field: SerializeField] protected InteractionTileType interactionTileType;
         [field: SerializeField] protected ItemSO itemType;
         [field: SerializeField] public InteractType InteractType { get; private set; }
         [SerializeField] protected int itemCount;
@@ -16,17 +15,10 @@ namespace JMT.Planets.Tile
         protected virtual void Awake()
         {
             planetTile = transform.parent.GetComponent<PlanetTile>();
-            //planetTile.OnClick += Interaction;
-        }
-
-        private void OnDestroy()
-        {
-            //planetTile.OnClick -= Interaction;
         }
 
         public virtual void Interaction()
         {
-            Debug.Log(planetTile == null);
             planetTile.EdgeEnable(true);
         }
 
@@ -35,9 +27,9 @@ namespace JMT.Planets.Tile
             InteractType = interactType;
         }
 
-        public void AddObject(GameObject obj)
+        public GameObject AddObject(GameObject obj)
         {
-            Instantiate(obj, transform);
+            return Instantiate(obj, transform);
         }
 
         public void RemoveObject() => Destroy(gameObject);

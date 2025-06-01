@@ -15,21 +15,18 @@ namespace JMT.Agent
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
         [field: SerializeField] public PlayerCharacter.Player Player { get; private set; }
 
-        public void AddNpc()
+        public NPCAgent AddNpc()
         {
-            if (BuildingManager.Instance.LodgingBuilding == null)
+            if (BuildingManager.Instance.LodgingBuildings.Count <= 0)
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
-                return;
-            }
-            if (GameUIManager.Instance.ResourceCompo.MaxNpcValue <= GameUIManager.Instance.ResourceCompo.CurrentNpcValue)
-            {
-                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 부족합니다.");
-                return;
+                return null;
             }
             NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
-            GameUIManager.Instance.ResourceCompo.AddNpc(1);
+            
             agent.SetAgentType(AgentType.Base);
+            
+            return agent;
         }
         
         public void SpawnNpc(Vector3 position, Quaternion rotation)
@@ -66,6 +63,7 @@ namespace JMT.Agent
                 return;
             }
             UnemployedAgents.Add(agent);
+            GameUIManager.Instance.ResourceCompo.AddNpc(1);
         }
 
         public void UnregisterAgent(NPCAgent agent)
@@ -82,7 +80,17 @@ namespace JMT.Agent
         {
             GameUIManager.Instance.ResourceCompo.AddMaxNpc(count);
         }
+
+        public bool IsBuildingNotEnough()
+        {
+            return GameUIManager.Instance.ResourceCompo.MaxNpcValue <=
+                   GameUIManager.Instance.ResourceCompo.CurrentNpcValue;
+        }
         
+        public bool IsContainAgent(NPCAgent agent)
+        {
+            return UnemployedAgents.Contains(agent);
+        }
         
     }
 }

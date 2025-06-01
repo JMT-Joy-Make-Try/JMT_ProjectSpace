@@ -24,14 +24,19 @@ namespace JMT.Agent.Alien
         {
             AlienRenderer.material = Instantiate(AlienRenderer.material);
             base.Awake();
-            OnDeath += HandleDeath;
+           
             StateMachineCompo.ChangeState(AlienState.Idle);
             DOTween.SetTweensCapacity(500, 50);
         }
 
+        private void Start()
+        {
+            HealthCompo.OnDeath += HandleDeath;
+        }
+
         protected void OnDestroy()
         {
-            OnDeath -= HandleDeath;
+            HealthCompo.OnDeath -= HandleDeath;
         }
 
         private void HandleDeath()

@@ -1,60 +1,66 @@
-using JMT.Agent;
-using JMT.Agent.Alien;
-using JMT.Core;
+using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
+using JMT.Core.Manager;
+using JMT.Core.Tool;
 using JMT.UISystem;
-using System;
 using UnityEngine;
+using JMT.Sound;
+using JMT.Agent;
+using JMT.Core;
 
 namespace JMT.PlayerCharacter
 {
-    public class Player : MonoBehaviour, IDamageable, IOxygen
+    public class Player : MonoBehaviour, IPlayer
     {
         [SerializeField] private PlayerInputSO inputSO;
         [SerializeField] private LayerMask groundLayer;
 
-        public event Action<int, int> OnDamageEvent;
-        public event Action<int, int> OnOxygenEvent;
-        public event Action OnDeadEvent;
-
-        public Transform VisualTrm { get; private set; }
-        public Transform CameraTrm { get; private set; }
-        public Rigidbody RigidCompo { get; private set; }
-        public Animator AnimCompo { get; private set; }
-        public AnimationEndTrigger EndTrigger { get; private set; }
-        public Attacker Attacker { get; private set; }
-        public PlayerMovement Movement { get; private set; }
-        public PlayerInputSO InputSO => inputSO;
+        public PlayerHealth HealthCompo { get; private set; }
+        public PlayerInventory InventoryCompo { get; private set; }
+        public PlayerAnimator AnimatorCompo { get; private set; }
+        public PlayerMovement MovementCompo { get; private set; }
+        public PlayerTool PlayerToolCompo { get; private set; }
         public FogDetect FogDetect { get; private set; }
-        public PlayerTool PlayerTool { get; private set; }
-        public LayerMask GroundLayer => groundLayer;
-
-        [field:SerializeField] public int Health { get; private set; }
-        [field:SerializeField] public int Oxygen { get; private set; }
+        public Transform VisualTrm { get; private set; }
+        public SoundPlayer SoundPlayer { get; private set; }
         
-        public int OxygenMultiplier { get; private set; } = 1;
-
-        private int _curHealth;
-        private int _curOxygen;
+        public PlayerInputSO InputSO => inputSO;
+        public LayerMask GroundLayer => groundLayer;
+        
         private bool isOxygenArea;
         private bool isTimeChanged;
+        
+        private List<Vignette> _vignetteList = new();
+        private List<Color> _vignetteColorList = new();
         
         private void Awake()
         {
             VisualTrm = transform.Find("Visual");
-            CameraTrm = transform.Find("Camera");
-            RigidCompo = GetComponent<Rigidbody>();
-            Attacker = GetComponent<Attacker>();
-            AnimCompo = VisualTrm.GetComponent<Animator>();
-            EndTrigger = VisualTrm.GetComponent<AnimationEndTrigger>();
-            Movement = GetComponent<PlayerMovement>();
+            
+            
+            HealthCompo = GetComponent<PlayerHealth>();
+            InventoryCompo = GetComponent<PlayerInventory>();
+            AnimatorCompo = GetComponent<PlayerAnimator>();
+            MovementCompo = GetComponent<PlayerMovement>();
+            PlayerToolCompo = GetComponent<PlayerTool>();
+            
+            
             FogDetect = GetComponent<FogDetect>();
-            PlayerTool = GetComponent<PlayerTool>();
+            SoundPlayer = GetComponentInChildren<SoundPlayer>();
+            
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
+            HealthCompo.OnDamageEvent += HandleDamaged;
+        }
 
-            InitStat();
+        private void Start()
+        {
+            HealthCompo.Init(this);
+            PlayerToolCompo.Init(this);
+            InventoryCompo.Init(this);
+            AnimatorCompo.Init(this);
+            MovementCompo.Init(this);
             FogDetect.Init(this);
-            PlayerTool.Init(this);
         }
 
         private void OnDestroy()
@@ -62,13 +68,34 @@ namespace JMT.PlayerCharacter
             if (GameUIManager.Instance == null) return;
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            HealthCompo.OnDamageEvent -= HandleDamaged;
         }
 
-
-        public void InitStat()
+        private void HandleDamaged(int cur, int max)
         {
-            _curHealth = Health;
-            _curOxygen = Oxygen;
+            if (_vignetteList.Count <= 0)
+            {
+                _vignetteList = VolumeManager.Instance.GetAllVolume<Vignette>();
+                _vignetteColorList.Clear();
+
+                foreach (var vignette in _vignetteList)
+                {
+                    _vignetteColorList.Add(vignette.color.value);
+                }
+            }
+
+            float percent = cur.GetPercent(max) / 100f;
+            Color damageColor = Color.red;
+
+            for (int i = 0; i < _vignetteList.Count; i++)
+            {
+                var vignette = _vignetteList[i];
+                var originalColor = _vignetteColorList[i];
+
+                vignette.color.value = Color.Lerp(damageColor, originalColor, percent);
+            }
+            
+            SoundPlayer.PlaySound("Player_Damaged");
         }
 
         private void HandleChangeTimeEvent(int m, int s)
@@ -76,33 +103,11 @@ namespace JMT.PlayerCharacter
             if (isOxygenArea) return;
             if (isTimeChanged)
             {
-                AddOxygen(-1 * OxygenMultiplier);
+                HealthCompo.AddOxygen(-1 * HealthCompo.OxygenMultiplier);
                 isTimeChanged = false;
             }
             else
                 isTimeChanged = true;
-        }
-
-        public void TakeDamage(int damage, bool isHeal = false)
-        {
-            _curHealth += isHeal ? damage : -damage;
-            OnDamageEvent?.Invoke(_curHealth, Health);
-            if (_curHealth <= 0)
-            {
-                Dead();
-            }
-        }
-
-        public void AddOxygen(int value)
-        {
-            _curOxygen += value;
-            _curOxygen = Mathf.Clamp(_curOxygen, 0, Oxygen);
-            OnOxygenEvent?.Invoke(_curOxygen, Oxygen);
-        }
-
-        public void Dead()
-        {
-            OnDeadEvent?.Invoke();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -111,11 +116,6 @@ namespace JMT.PlayerCharacter
             {
                 collectable.Collect();
             }
-        }
-        
-        public void SetOxygenMultiplier(int multiplier)
-        {
-            OxygenMultiplier = multiplier;
         }
     }
 }

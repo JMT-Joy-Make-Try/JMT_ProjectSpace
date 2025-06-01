@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JMT.QuestSystem
 {
@@ -14,13 +15,15 @@ namespace JMT.QuestSystem
         public event Action<QuestSO> OnQuestStartEvent;
         public event Action OnQuestEndEvent;
 
-        [SerializeField] private List<QuestSO> pingDatas = new();
+        [SerializeField] private List<ChapterSO> chapterSO = new();
 
         private int currentQuestIndex = 0;
+        private int currentChapterIndex = 0;
         private List<QuestBase> currentQuestTargets = new();
         private bool _isDelayRunning = false;
 
         private bool _isAllQuestCompleted;
+        private bool _isStaringQuest = false;
 
         protected override void Awake()
         {
@@ -29,8 +32,7 @@ namespace JMT.QuestSystem
         }
         private void Start()
         {
-            Debug.Log(currentQuestTargets.Count);
-            StartQuest(pingDatas[currentQuestIndex]);
+            StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -61,6 +63,11 @@ namespace JMT.QuestSystem
         {
             if (_isAllQuestCompleted) 
                 return;
+            if (_isStaringQuest)
+            {
+                Debug.LogWarning("Quest is already starting!");
+                return;
+            }
             Debug.Log($"Starting quest '{questData.questName}'");
 
             foreach (var target in currentQuestTargets)
@@ -68,11 +75,12 @@ namespace JMT.QuestSystem
                 if (target.QuestData == questData)
                 {
                     OnQuestStartEvent?.Invoke(questData);
-                    if (target.Tile != null)
+                    if (target.Tiles != null)
                     {
-                        GameUIManager.Instance.PointerCompo.SetPointer(target.Tile.Pivot);
+                        Debug.Log("핑...");
+                        //GameUIManager.Instance.PointerCompo.SetPointer(target.Tiles.Pivot);
                     }
-
+                    _isStaringQuest = true;
                     target.Enable();
                 }
             }
@@ -84,19 +92,27 @@ namespace JMT.QuestSystem
                 yield break;
 
             _isDelayRunning = true;
-
-            currentQuestIndex++;
-
-            if (currentQuestIndex < pingDatas.Count)
-            {
-                yield return new WaitForSeconds(1f);
-                StartQuest(pingDatas[currentQuestIndex]);
-            }
-            else
+            _isStaringQuest = false;
+            
+            if (currentChapterIndex >= chapterSO.Count)
             {
                 _isAllQuestCompleted = true;
                 Debug.Log("All quests completed!");
             }
+
+            currentQuestIndex++;
+            if (currentQuestIndex >= chapterSO[currentChapterIndex].quests.Count)
+            {
+                currentQuestIndex = 0;
+                currentChapterIndex++;
+            }
+
+            if (currentChapterIndex < chapterSO.Count && currentQuestIndex < chapterSO[currentChapterIndex].quests.Count )
+            {
+                yield return new WaitForSeconds(1f);
+                StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
+            }
+            
 
             _isDelayRunning = false;
             yield return null;

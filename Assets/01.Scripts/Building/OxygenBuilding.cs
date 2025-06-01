@@ -4,6 +4,7 @@ using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Planets.Tile.Items;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.Building
@@ -17,12 +18,13 @@ namespace JMT.Building
         [SerializeField] private float interactionDistance = 2.5f;
         [SerializeField] private Transform _visualTransform;
         [SerializeField] private int _oxygenAmount = 50;
+        [SerializeField] private int _purificationContainerAmount = 4;
         private float _interactionDistanceSqr;
         private bool _isPlayerGetOxygen = false;
 
         private void Start()
         {
-            BuildingManager.Instance.OxygenBuilding = this;
+            BuildingManager.Instance.OxygenBuildings.Add(this);
             _data = GetBuildingComponent<BuildingData>();
             _player = AgentManager.Instance.Player;
 
@@ -60,7 +62,7 @@ namespace JMT.Building
             {
                 if (GetOxygen())
                 {
-                    _player.AddOxygen(_oxygenAmount);
+                    _player.HealthCompo.AddOxygen(_oxygenAmount);
                     Debug.Log("Player Get Oxygen");
                 }
 
@@ -72,26 +74,19 @@ namespace JMT.Building
         {
             var ws = new WaitForSeconds(0.1f);
 
+            var createItem = data.GetFirstCreateItem();
             while (true)
             {
-                var createItem = data.GetFirstCreateItem();
-                Debug.Log(createItem);
-
                 if (createItem == null || data.CreateItemList.Count <= 0 || data.Works.Count <= 0)
                 {
                     yield return ws;
                     continue;
                 }
 
-                int timeSec = createItem.CreateTime.minute * 60 + createItem.CreateTime.second;
-                var purificationItem = _data.CurrentItems.Find(x => x.Item1 == ItemType.PurificationContainer);
-                if (purificationItem == null)
-                {
-                    yield return new WaitForSeconds(timeSec);
-
-                    data.RemoveWork();
-                }
-                if (purificationItem?.Item2 >= 3)
+                int timeSec = createItem.CreateTime.GetSecond();
+                //var purificationItem = _data.CurrentItems.Find(x => x.Item1 == ItemType.PurificationContainer);
+                var purificationItem = _data.CurrentItems.FirstOrDefault(x => x.Item1 == ItemType.PurificationContainer);
+                if (purificationItem?.Item2 >= _purificationContainerAmount)
                 {
                     yield return ws;
                     continue;
@@ -99,7 +94,7 @@ namespace JMT.Building
                 
                 yield return new WaitForSeconds(timeSec);
 
-                data.RemoveWork();
+                data.AddItem();
             }
         }
 

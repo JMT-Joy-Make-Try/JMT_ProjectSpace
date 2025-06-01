@@ -9,7 +9,7 @@ namespace JMT.Building.Component
         
         public BuildingBase Building { get; private set; }
         
-        public void SetAnimation(bool isWalking)
+        public void SetAnimation(bool isWorking)
         {
             if (buildingAnimator == null)
             {
@@ -19,7 +19,7 @@ namespace JMT.Building.Component
 
             if (buildingParticle != null)
             {
-                if (isWalking)
+                if (isWorking)
                 {
                     buildingParticle.Play();
                 }
@@ -29,7 +29,7 @@ namespace JMT.Building.Component
                 }
             }
 
-            buildingAnimator.SetBool("IsWalking", isWalking);
+            buildingAnimator.SetBool("IsWorking", isWorking);
         }
 
         public void Init(BuildingBase building)

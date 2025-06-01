@@ -10,6 +10,12 @@ namespace JMT.DayTime
         public int second;
 
         public int GetSecond() => minute * 60 + second;
+        public string GetTimeString()
+        {
+            string minuteString = minute.ToString("00");
+            string secondString = second.ToString("00");
+            return $"{minuteString}:{secondString}";
+        }
     }
 
     public enum DaytimeType

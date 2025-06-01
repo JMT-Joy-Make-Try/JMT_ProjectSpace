@@ -1,7 +1,5 @@
 ﻿using JMT.Agent;
 using JMT.Core.Manager;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
 using UnityEngine;
 
 namespace JMT.Building
@@ -12,15 +10,8 @@ namespace JMT.Building
         protected override void HandleCompleteEvent()
         {
             base.HandleCompleteEvent();
-            BuildingManager.Instance.LodgingBuilding = this;
+            BuildingManager.Instance.LodgingBuildings.Add(this);
             AgentManager.Instance.AddMaxNpcCount(_npcCount);
-            
-            for (int i = 0; i < 3; i++)
-            {
-                AgentManager.Instance.AddNpc();
-            }
-                
-            PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
         }
     }
 }

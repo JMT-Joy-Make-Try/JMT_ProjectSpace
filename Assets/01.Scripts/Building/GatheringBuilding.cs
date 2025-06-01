@@ -1,13 +1,11 @@
 using DG.Tweening;
 using JMT.Agent;
-using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
 using JMT.Object;
-using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using System;
@@ -18,6 +16,7 @@ namespace JMT.Building
 {
     public class GatheringBuilding : BuildingBase
     {
+        public event Action OnAddItemEvent;
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
         [SerializeField] private float _productionTime;
         [SerializeField] private int _maxProductionAmount;
@@ -33,7 +32,7 @@ namespace JMT.Building
             if (_isAnimating) return;
             if (_currentProductionAmount <= 0) return;
             GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
-            
+            OnAddItemEvent?.Invoke();
 
             StartCoroutine(AnimateItem());
         }

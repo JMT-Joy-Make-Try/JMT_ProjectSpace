@@ -20,6 +20,7 @@ namespace JMT.Agent.State
 
         public override void OnAnimationEnd()
         {
+            WaveSystem.Instance.EnemyRemove(_alien.gameObject);
             _alien.AlienRenderer.material.DOFloat(1f, "_DissolveValue", 1f);
             var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
             item.transform.position = Agent.transform.position;

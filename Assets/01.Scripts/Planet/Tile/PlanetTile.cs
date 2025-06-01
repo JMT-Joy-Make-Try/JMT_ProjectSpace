@@ -10,9 +10,11 @@ namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        [Tooltip("건물이 건설되기 시작했을 때 일어나는 액션입니다.")]
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
+
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }
@@ -52,7 +54,6 @@ namespace JMT.Planets.Tile
         {
             if (CanBuild())
             {
-                Debug.Log("Build");
                 OnBuild?.Invoke();
                 PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
                 if (_currentBuilding == null)
@@ -89,6 +90,12 @@ namespace JMT.Planets.Tile
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
+        public void ChangeInteraction<T>() where T : TileInteraction
+        {
+            RemoveInteraction();
+            AddInteraction<T>();
+        }
+        
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
         {
             interaction = TileInteraction.GetComponent<T>();
@@ -106,32 +113,23 @@ namespace JMT.Planets.Tile
         {
             canInteraction = true;
             var interaction = TileInteraction.GetComponent<T>();
-            switch (interaction)
+
+            if (interaction == null)
             {
-                case BuildingInteraction:
-                    interaction.SetType(InteractType.Building);
-                    break;
-                case ItemInteraction:
-                    interaction.SetType(InteractType.Item);
-                    break;
-                case StationInteraction:
-                    interaction.SetType(InteractType.Station);
-                    break;
-                case NoneInteraction:
-                    interaction.SetType(InteractType.None);
-                    break;
-                case ProgressInteraction:
-                    interaction.SetType(InteractType.Progress);
-                    break;
-                case ZeoliteInteraction:
-                    interaction.SetType(InteractType.Zeolite);
-                    break;
-                case VillageInteraction:
-                    interaction.SetType(InteractType.Village);
-                    break;
-                case LaboratoryInteraction:
-                    interaction.SetType(InteractType.Laboratory);
-                    break;
+                Debug.LogError($"Can't find interaction of type {typeof(T)}");
+                return null;
+            }
+            
+            string interactionName = interaction.GetType().Name.Replace("Interaction", "");
+
+            if (Enum.TryParse<InteractType>(interactionName, out var interactType))
+            {
+                interaction.SetType(interactType);
+            }
+            else
+            {
+                Debug.LogError($"Interaction type {interactionName} is not defined in InteractType enum.");
+                interaction.SetType(InteractType.None);
             }
 
             return interaction;

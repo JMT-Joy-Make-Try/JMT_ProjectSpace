@@ -9,10 +9,8 @@ namespace JMT
         public override void Interaction()
         {
             BuildingBase building = GetComponentInChildren<BuildingBase>();
-            Debug.Log(building);
 
             if (!building.IsBuilding) return;
-            Debug.Log("완료되었사와요");
             building.OnCompleteEvent?.Invoke();
 
             TileManager.Instance.CurrentTile.RemoveInteraction();
@@ -24,6 +22,11 @@ namespace JMT
             if (building is LaboratoryBuilding)
             {
                 TileManager.Instance.CurrentTile.AddInteraction<LaboratoryInteraction>();
+                return;
+            }
+            if (building is OxygenBuilding)
+            {
+                TileManager.Instance.CurrentTile.AddInteraction<SupplyOxygenInteraction>();
                 return;
             }
             TileManager.Instance.CurrentTile.AddInteraction<BuildingInteraction>();

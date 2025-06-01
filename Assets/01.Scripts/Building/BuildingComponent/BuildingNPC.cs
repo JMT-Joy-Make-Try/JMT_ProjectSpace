@@ -28,7 +28,7 @@ namespace JMT.Building.Component
         public virtual void AddNpc(NPCAgent agent)
         {
             _currentNpc.Add(agent);
-            agent.SetBuilding(Building);
+            agent.WorkCompo.SetBuilding(Building);
             agent.SetAgentType(_agentType);
             OnChangeNpcEvent?.Invoke();
             Debug.Log(agent + " added to " + Building.name);
@@ -36,15 +36,12 @@ namespace JMT.Building.Component
         
         public virtual void RemoveNpc()
         {
-            _currentNpc[0].SetAgentType(AgentType.Base);
-            _currentNpc[0].ChangeCloth(AgentType.Base);
-            _currentNpc[0].SetBuilding(null);
-            _currentNpc[0].StateMachineCompo.ChangeState(NPCState.Move);
+            _currentNpc[0].SetBase();
             _currentNpc.Remove(_currentNpc[0]);
             OnChangeNpcEvent?.Invoke();
             if (_currentNpc.Count == 0)
             {
-                Building.SetWorking(false);
+                Building.StopWork();
             }
         }
 
@@ -52,15 +49,12 @@ namespace JMT.Building.Component
         {
             for (int i = 0; i < _currentNpc.Count; i++)
             {
-                _currentNpc[i].SetAgentType(AgentType.Base);
-                _currentNpc[i].ChangeCloth(AgentType.Base);
-                _currentNpc[i].SetBuilding(null);
-                _currentNpc[i].StateMachineCompo.ChangeState(NPCState.Move);
+                _currentNpc[i].SetBase();
             }
 
             _currentNpc.Clear();
             OnChangeNpcEvent?.Invoke();
-            Building.SetWorking(false);
+            Building.StopWork();
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace JMT.UISystem
 {
-    public class UpgradeUI : PanelUI
+    public class UpgradeUI : PanelUI, IOpenablePanel
     {
         
     }

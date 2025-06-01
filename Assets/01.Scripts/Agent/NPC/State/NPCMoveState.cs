@@ -13,6 +13,7 @@ namespace JMT.Agent.State
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private float _distance = 10f;
         private NPCAgent _agent;
+        private NPCMovement _movement;
         private Vector3 _targetPosition;
 
         private Coroutine _moveCoroutine;
@@ -21,6 +22,7 @@ namespace JMT.Agent.State
         {
             base.Initialize(agent, stateName);
             this._agent = (NPCAgent)agent;
+            this._movement = _agent.MovementCompo as NPCMovement;
             this._agent.OnTypeChanged += HandleTypeChanged;
             _agent.OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
         }
@@ -44,19 +46,29 @@ namespace JMT.Agent.State
             {
                 multiplier = 1;
                 BuildingManager buildingManager = BuildingManager.Instance;
-                if (buildingManager.LodgingBuilding != null)
+                if (buildingManager.LodgingBuildings.Count > 0)
                 {
-                    _targetPosition = buildingManager.LodgingBuilding.transform.position;
+                    var lodgingBuilding = buildingManager.LodgingBuildings[Random.Range(0, buildingManager.LodgingBuildings.Count)];
+                    if (lodgingBuilding != null)
+                    {
+                        _targetPosition = lodgingBuilding.transform.position;
+                        _movement.SetBuilding(lodgingBuilding);
+                    }
                 }
-                else if (buildingManager.HospitalBuilding != null)
+                else if (buildingManager.HospitalBuildings.Count > 0)
                 {
-                    _targetPosition = buildingManager.HospitalBuilding.transform.position;
+                    var hospitalBuilding = buildingManager.HospitalBuildings[Random.Range(0, buildingManager.HospitalBuildings.Count)];
+                    if (hospitalBuilding != null)
+                    {
+                        _targetPosition = hospitalBuilding.transform.position;
+                        _movement.SetBuilding(hospitalBuilding);
+                    }
                 }
             }
             else
             {
                 multiplier = 2;
-                var curWorkingBuilding = _agent.CurrentWorkingBuilding;
+                var curWorkingBuilding = _agent.WorkCompo.CurrentWorkingBuilding;
                 if (curWorkingBuilding == null)
                 {
                     Debug.LogError("현재 작업중인 건물이 없습니다.");
@@ -67,7 +79,7 @@ namespace JMT.Agent.State
                 _targetPosition = pos;
             }
 
-            _agent.MovementCompo.Move(_targetPosition, _agent.MoveSpeed * multiplier, () => EndMove(obj));
+            _agent.MovementCompo.Move(_targetPosition, _agent.Health.MoveSpeed * multiplier, () => EndMove(obj));
         }
 
         private IEnumerator LodgingBuildingRoutine()
@@ -78,10 +90,13 @@ namespace JMT.Agent.State
 
         private void EndMove(AgentType type)
         {
+            // todo : fix this
             if (type is AgentType.Base or AgentType.Patient)
             {
-                if (_targetPosition == BuildingManager.Instance.LodgingBuilding.GetBuildingComponent<BuildingNPC>()
-                        .WorkPosition.position)
+                var movement = _agent?.MovementCompo as NPCMovement;
+                var building = movement?.Building;
+                var buildingPos = building?.GetBuildingComponent<BuildingNPC>()?.WorkPosition.position;
+                if (_targetPosition == buildingPos)
                 {
                     StartCoroutine(LodgingBuildingRoutine());
                 }
@@ -92,7 +107,7 @@ namespace JMT.Agent.State
             {
                 _agent.StateMachineCompo.ChangeState(NPCState.Work);
                 Debug.Log("일해라 인간아");
-                _agent.ChangeCloth(type);
+                _agent.ClothCompo.ChangeCloth(type);
             }
         }
     }
