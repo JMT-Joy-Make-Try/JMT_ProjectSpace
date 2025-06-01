@@ -21,7 +21,7 @@ namespace JMT.Planets.Tile
             }
             else
             {
-                //planetTile.TileInteraction.
+                planetTile.ChangeInteraction<FieldInteraction>();
             }
         }
 
