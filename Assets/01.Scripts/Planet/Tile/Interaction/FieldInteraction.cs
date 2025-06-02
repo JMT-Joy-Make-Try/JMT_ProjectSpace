@@ -1,5 +1,7 @@
-﻿using JMT.Core.Tool.PoolManager;
+﻿using JMT.Core;
+using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Item;
 using JMT.Object;
 using JMT.Planets.Field;
 using System;
@@ -8,7 +10,7 @@ using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
-    public class FieldInteraction : TileInteraction
+    public class FieldInteraction : TileInteraction, IItemReceivable
     {
         private SeedSO[] _seed = new SeedSO[4];
         private Plant[] _plantObject = new Plant[4];
@@ -42,10 +44,11 @@ namespace JMT.Planets.Tile
             }
         }
 
-        private void Update()
+        public void ReceiveItem(ItemSO item, int amount)
         {
-            if (Input.GetKeyDown(KeyCode.G))
+            if (item is SeedSO seed)
             {
+                SetSeed(seed);
             }
         }
     }
