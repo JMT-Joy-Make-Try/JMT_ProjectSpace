@@ -22,6 +22,7 @@ namespace JMT.Planets.Tile
             else
             {
                 planetTile.ChangeInteraction<FieldInteraction>();
+                transform.parent.gameObject.layer = LayerMask.NameToLayer("Field");
             }
         }
 

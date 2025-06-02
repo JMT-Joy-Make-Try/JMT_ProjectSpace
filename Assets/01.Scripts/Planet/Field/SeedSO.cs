@@ -8,8 +8,7 @@ namespace JMT.Planets.Field
     public class SeedSO : ItemSO
     {
         [Header("Seed Properties")]
-        public int MaxGrowthStage;
-        public GameObject[] SeedObjects;
+        public Plant plantObject;
         
 
         [Space]

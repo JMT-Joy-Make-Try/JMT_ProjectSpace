@@ -1,4 +1,6 @@
-﻿using JMT.Item;
+﻿using JMT.Core;
+using JMT.Core.Tool;
+using JMT.Item;
 using System;
 using UnityEngine;
 
@@ -10,6 +12,9 @@ namespace JMT.PlayerCharacter
         
         [SerializeField] private int _maxInventorySize = 3;
         [SerializeField] private PlayerInventoryData _playerInventoryData;
+        [SerializeField] private LayerMask _whatIsBuilding;
+        
+        private Collider[] _colliders = new Collider[10];
 
         public void Init(IPlayer player)
         {
@@ -56,6 +61,24 @@ namespace JMT.PlayerCharacter
         public bool IsMaxInventorySizeReached()
         {
             return _playerInventoryData.count >= _maxInventorySize;
+        }
+
+        private void Update()
+        {
+            int cnt = Physics.OverlapSphereNonAlloc(transform.position, 5f, _colliders, _whatIsBuilding);
+            
+            for (int i = 0; i < cnt; i++)
+            {
+                var building = _colliders[i].FindComponent<IItemReceivable>();
+                if (building != null)
+                {
+                    if (_playerInventoryData.item != null && _playerInventoryData.count > 0)
+                    {
+                        building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count);
+                        RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
+                    }
+                }
+            }
         }
     }
 

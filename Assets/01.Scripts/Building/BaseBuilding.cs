@@ -1,14 +1,16 @@
 using JMT.Agent;
 using JMT.Building.Component;
+using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
+using JMT.Item;
 using JMT.PlayerCharacter;
 using JMT.UISystem;
 using UnityEngine;
 
 namespace JMT.Building
 {
-    public class BaseBuilding : BuildingBase
+    public class BaseBuilding : BuildingBase, IItemReceivable
     {
         [SerializeField] private Transform visual, brokenVisual;
 
@@ -30,21 +32,9 @@ namespace JMT.Building
             brokenVisual.gameObject.SetActive(false);
         }
 
-        private void Update()
+        public void ReceiveItem(ItemSO item, int amount)
         {
-            if (!IsBuildingComplete) return;
-            _player = AgentManager.Instance.Player;
-            _playerPos = _player.transform.position;
-            if (_playerPos.IsNear(transform.position, 10f))
-            {
-                if (_player.InventoryCompo.PlayerInventoryData.count > 0 && _player.InventoryCompo.PlayerInventoryData.item != null)
-                {
-                    var item = _player.InventoryCompo.PlayerInventoryData.item;
-                    int itemCount = _player.InventoryCompo.PlayerInventoryData.count;
-                    GameUIManager.Instance.InventoryCompo.AddItem(item, itemCount);
-                    _player.InventoryCompo.RemoveItem(item, itemCount);
-                }
-            }
+            GameUIManager.Instance.InventoryCompo.AddItem(item, amount);
         }
     }
 }

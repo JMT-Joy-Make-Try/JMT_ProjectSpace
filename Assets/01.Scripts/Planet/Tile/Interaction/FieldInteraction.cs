@@ -1,65 +1,38 @@
-﻿using JMT.Core.Tool.PoolManager;
+﻿using JMT.Core;
+using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Item;
 using JMT.Object;
 using JMT.Planets.Field;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
-    public class FieldInteraction : TileInteraction
+    public class FieldInteraction : TileInteraction, IItemReceivable
     {
-        [SerializeField] private SeedSO debugSeed;
-        private SeedSO _seed;
+        private SeedSO[] _seed = new SeedSO[4];
+        private Plant[] _plantObject = new Plant[4];
         private int _growthStage = 1;
-        
-        private GameObject _plantObject;
-        
-        public override void Interaction()
-        {
-            base.Interaction();
-        }
         
         public void SetSeed(SeedSO seed)
         {
-            _seed = seed;
-            _plantObject = AddObject(seed.SeedObjects[0]);
-        }
-
-        private void GrowSeed()
-        {
-            if (_seed == null) return;
-            _growthStage++;
-            if (_growthStage > _seed.MaxGrowthStage)
+            int idx = Array.FindIndex(_seed, s => s == null);
+            if (idx != -1)
             {
-                Debug.Log("Plant is fully grown.");
-                DropItem();
-                Destroy(_plantObject);
-                return;
-            }
-            ChangePlantObject();
-            
-            
-        }
-
-        private void ChangePlantObject()
-        {
-            if (_plantObject != null)
-            {
-                Destroy(_plantObject);
-            }
-
-            if (_seed != null && _seed.SeedObjects.Length >= _growthStage)
-            {
-                _plantObject = AddObject(_seed.SeedObjects[_growthStage - 1]);
+                _seed[idx] = seed;
+                _plantObject[idx] = AddObject(seed.plantObject);
             }
         }
 
-        public void DropItem()
-        {
-            if (_seed == null) return;
 
-            foreach (var item in _seed.Items)
+        public void DropItem(int index)
+        {
+            if (_seed[index] == null) return;
+            if (!_plantObject[index].IsGrowEnd) return;
+
+            foreach (var item in _seed[index].Items)
             {
                 for (int i = 0; i < item.Value; i++)
                 {
@@ -71,15 +44,11 @@ namespace JMT.Planets.Tile
             }
         }
 
-        private void Update()
+        public void ReceiveItem(ItemSO item, int amount)
         {
-            if (Input.GetKeyDown(KeyCode.G))
+            if (item is SeedSO seed)
             {
-                GrowSeed();
-            }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                SetSeed(debugSeed);
+                SetSeed(seed);
             }
         }
     }

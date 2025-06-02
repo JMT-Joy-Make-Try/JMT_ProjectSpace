@@ -11,6 +11,7 @@ namespace JMT.Agent.NPC
         [field: SerializeField] public NPCWorkData WorkData { get; private set; }
         [field: SerializeField] public NPCWork WorkCompo { get; private set; }
         [field: SerializeField] public NPCHealth Health { get; private set; }
+        [field: SerializeField] public NPCStat StatCompo { get; private set; }
         
         [field:SerializeField] public AgentType AgentType { get; private set; }
         private NPCStatUI npcStatUI;
@@ -35,6 +36,8 @@ namespace JMT.Agent.NPC
             OxygenCompo = GetComponent<NPCOxygen>();
             npcStatUI = GetComponent<NPCStatUI>();
             Health = HealthCompo as NPCHealth;
+            StatCompo = GetComponent<NPCStat>();
+            
             StateMachineCompo.ChangeState(NPCState.Idle);
             OnTypeChanged += HandleTypeChanged;
         }
@@ -45,6 +48,7 @@ namespace JMT.Agent.NPC
             WorkCompo.Initialize(this);
             Health.Initialize(this);
             ClothCompo.Initialize(this);
+            StatCompo.Initialize(this);
             
             HealthCompo.OnDeath += HandleDeath;
             Health.OnHealthWarningEvent += npcStatUI.SetHealthStat;
