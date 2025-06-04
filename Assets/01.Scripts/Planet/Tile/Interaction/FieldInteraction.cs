@@ -5,7 +5,6 @@ using JMT.Item;
 using JMT.Object;
 using JMT.Planets.Field;
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace JMT.Planets.Tile

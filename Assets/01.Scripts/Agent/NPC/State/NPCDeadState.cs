@@ -1,9 +1,10 @@
-﻿using JMT.Agent.NPC;
-using JMT.Building;
+﻿using JMT.Core.Tool.PoolManager.Core;
 using JMT.Building.Component;
-using JMT.Core.Manager;
-using JMT.Core.Tool.PoolManager.Core;
 using System.Collections;
+using JMT.Core.Manager;
+using JMT.Agent.NPC;
+using JMT.Building;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Agent.State
@@ -12,6 +13,10 @@ namespace JMT.Agent.State
     {
         private NPCAgent agent;
         private NPCMovement movementCompo;
+        
+        private HospitalBuilding hospital;
+        private OxygenBuilding oxygen;
+        private LodgingBuilding lodging;
 
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
@@ -20,46 +25,33 @@ namespace JMT.Agent.State
             movementCompo = agent.MovementCompo as NPCMovement;
         }
 
-        public override void EnterState()
+        public override async void EnterState()
         {
             base.EnterState();
-
-            agent.ClothCompo.ChangeCloth(AgentType.Patient);
             
-            var hospitals = BuildingManager.Instance.HospitalBuildings;
-            var oxygenBuildings = BuildingManager.Instance.OxygenBuildings;
-            var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
+            agent.ClothCompo.ChangeCloth(AgentType.Patient);
 
-            if (hospitals.Count > 0)
-            {
-                var hospitalBuilding = hospitals[Random.Range(0, hospitals.Count)];
-                if (TryAssignAndMoveToBuilding(
-                        condition: agent.HealthCompo.IsDead,
-                        building: hospitalBuilding,
-                        onComplete: StartHealingCoroutine))
-                    return;
-                Debug.Log("Hospital building Assignment Failed");
-            }
-            if (oxygenBuildings.Count > 0)
-            {
-                var oxygenBuilding = oxygenBuildings[Random.Range(0, oxygenBuildings.Count)];
-                if (TryAssignAndMoveToBuilding(
-                        condition: agent.OxygenCompo.IsOxygenLow,
-                        building: oxygenBuilding,
-                        onComplete: StartOxygenCoroutine))
-                    return;
-                Debug.Log("Oxygen building Assignment Failed");
-            }
-            if (lodgingBuildings.Count > 0)
-            {
-                var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
-                if (TryAssignAndMoveToBuilding(
-                        condition: true,
-                        building: lodgingBuilding,
-                        onComplete: StartLodgingCoroutine))
-                    return;
-                Debug.Log("Lodging building Assignment Failed");
-            }
+            hospital = await FindNearbyBuilding<HospitalBuilding>();
+            oxygen = await FindNearbyBuilding<OxygenBuilding>();
+            lodging = await FindNearbyBuilding<LodgingBuilding>();
+            
+            if (TryAssignAndMoveToBuilding(
+                    condition: agent.HealthCompo.IsDead,
+                    building: hospital,
+                    onComplete: StartHealingCoroutine))
+                return;
+            
+            if (TryAssignAndMoveToBuilding(
+                    condition: agent.OxygenCompo.IsOxygenLow,
+                    building: oxygen,
+                    onComplete: StartOxygenCoroutine))
+                return;
+            
+            if (TryAssignAndMoveToBuilding(
+                    condition: true,
+                    building: lodging,
+                    onComplete: StartLodgingCoroutine))
+                return;
             _stateMachine.ChangeState(NPCState.Move);
         }
 
@@ -129,5 +121,52 @@ namespace JMT.Agent.State
             agent.ClothCompo.ChangeCloth(AgentType.Base);
             _stateMachine.ChangeState(NPCState.Move);
         }
+
+        private async Awaitable<T> FindNearbyBuilding<T>() where T : BuildingBase
+        {
+            List<T> buildings = null;
+            if (typeof(T) == typeof(HospitalBuilding))
+                buildings = BuildingManager.Instance.HospitalBuildings as List<T>;
+            else if (typeof(T) == typeof(OxygenBuilding))
+                buildings = BuildingManager.Instance.OxygenBuildings as List<T>;
+            else if (typeof(T) == typeof(LodgingBuilding))
+                buildings = BuildingManager.Instance.LodgingBuildings as List<T>;
+        
+            if (buildings == null || buildings.Count == 0)
+                return null;
+        
+            Vector3 agentPos = agent.transform.position;
+            T nearest = null;
+            float minDist = float.MaxValue;
+        
+            int count = buildings.Count;
+            if (count < 10)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    float dist = Vector3.Distance(agentPos, buildings[i].transform.position);
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        nearest = buildings[i];
+                    }
+                }
+                return nearest;
+            }
+        
+            await Awaitable.BackgroundThreadAsync();
+            for (int i = 0; i < count; i++)
+            {
+                float dist = Vector3.Distance(agentPos, buildings[i].transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    nearest = buildings[i];
+                }
+            }
+            await Awaitable.MainThreadAsync();
+            return nearest;
+        }
+
     }
 }

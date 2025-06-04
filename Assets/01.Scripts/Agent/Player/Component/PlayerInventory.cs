@@ -1,6 +1,7 @@
 ﻿using JMT.Core;
 using JMT.Core.Tool;
 using JMT.Item;
+using JMT.Object;
 using System;
 using UnityEngine;
 
@@ -13,11 +14,14 @@ namespace JMT.PlayerCharacter
         [SerializeField] private int _maxInventorySize = 3;
         [SerializeField] private PlayerInventoryData _playerInventoryData;
         [SerializeField] private LayerMask _whatIsBuilding;
+        [SerializeField] private ItemObject _itemObject;
         
         private Collider[] _colliders = new Collider[10];
 
         public void Init(IPlayer player)
         {
+            _itemObject.IsCollectable = false;
+            _itemObject.gameObject.SetActive(false);
         }
         
         public void AddItem(ItemSO item, int count = 1)
@@ -36,6 +40,9 @@ namespace JMT.PlayerCharacter
             {
                 Debug.LogWarning("Inventory is full or item type mismatch.");
             }
+            
+            _itemObject.gameObject.SetActive(true);
+            _itemObject.SetItemType(item);
         }
         
         public ItemSO RemoveItem(ItemSO item = null, int count = 1)
@@ -48,6 +55,7 @@ namespace JMT.PlayerCharacter
                 {
                     _playerInventoryData.item = null;
                     _playerInventoryData.count = 0;
+                    _itemObject.gameObject.SetActive(false);
                 }
             }
             else
