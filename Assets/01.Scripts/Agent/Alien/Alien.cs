@@ -24,7 +24,7 @@ namespace JMT.Agent.Alien
         {
             AlienRenderer.material = Instantiate(AlienRenderer.material);
             base.Awake();
-           
+            
             StateMachineCompo.ChangeState(AlienState.Idle);
             DOTween.SetTweensCapacity(500, 50);
         }

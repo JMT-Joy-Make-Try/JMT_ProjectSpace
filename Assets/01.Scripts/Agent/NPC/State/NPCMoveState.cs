@@ -26,6 +26,9 @@ namespace JMT.Agent.State
             this._agent = (NPCAgent)agent;
             this._movement = _agent.MovementCompo as NPCMovement;
             this._agent.OnTypeChanged += HandleTypeChanged;
+            
+            Debug.Log(_agent);
+            Debug.Log(_agent.StatCompo);
             _agent.StatCompo.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
         }
 

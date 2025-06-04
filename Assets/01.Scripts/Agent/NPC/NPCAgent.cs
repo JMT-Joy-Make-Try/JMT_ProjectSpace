@@ -30,25 +30,29 @@ namespace JMT.Agent.NPC
 
         protected override void Awake()
         {
-            base.Awake();
-            npcStatUI = GetComponent<NPCStatUI>();
             StatCompo = GetComponent<NPCStat>();
+            npcStatUI = GetComponent<NPCStatUI>();
+            StatCompo?.Initialize(this);
+            base.Awake();
             
-            StateMachineCompo.ChangeState(NPCState.Idle);
+            
             OnTypeChanged += HandleTypeChanged;
         }
 
         private void Start()
         {
+            
             WorkData?.Initialize(this);
             WorkCompo?.Initialize(this);
             ClothCompo?.Initialize(this);
-            StatCompo?.Initialize(this);
             
             StatCompo?.AddListener<Action>(NPCStatEventType.OnDeath, HandleDeath);
             StatCompo?.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
+            
+            StateMachineCompo.InitAllState(this);
+            StateMachineCompo.ChangeState(NPCState.Idle);
         }
         
         protected void OnDestroy()

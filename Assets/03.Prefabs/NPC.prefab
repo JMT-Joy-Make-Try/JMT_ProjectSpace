@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent: {fileID: 0}
   StateName: 
+  animationData: []
 --- !u!1 &450962604703693709
 GameObject:
   m_ObjectHideFlags: 0
@@ -6990,9 +6991,6 @@ GameObject:
   - component: {fileID: 1578209478650098069}
   - component: {fileID: 2104577051494362838}
   - component: {fileID: 2805633489195981530}
-  - component: {fileID: 2257528561566081894}
-  - component: {fileID: 6062460446107766387}
-  - component: {fileID: 5775183926257423185}
   - component: {fileID: 2776019099999613404}
   - component: {fileID: 7958708845597066041}
   - component: {fileID: 3665823496337250747}
@@ -7000,6 +6998,10 @@ GameObject:
   - component: {fileID: 7414430557519137666}
   - component: {fileID: 7848541300416251941}
   - component: {fileID: -7210755273777283792}
+  - component: {fileID: 6062460446107766387}
+  - component: {fileID: 5312617829722433091}
+  - component: {fileID: 2257528561566081894}
+  - component: {fileID: 5775183926257423185}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -7050,10 +7052,9 @@ MonoBehaviour:
   <AnimationEndTrigger>k__BackingField: {fileID: 6062460446107766387}
   <HealthCompo>k__BackingField: {fileID: 7848541300416251941}
   <type>k__BackingField: 3
-  <OxygenCompo>k__BackingField: {fileID: 2776019099999613404}
   <WorkData>k__BackingField: {fileID: 1167230757263764177}
   <WorkCompo>k__BackingField: {fileID: 7414430557519137666}
-  <Health>k__BackingField: {fileID: 7848541300416251941}
+  <StatCompo>k__BackingField: {fileID: 0}
   <AgentType>k__BackingField: 0
 --- !u!114 &2805633489195981530
 MonoBehaviour:
@@ -7080,63 +7081,6 @@ MonoBehaviour:
       Value: {fileID: 1373684708054157604}
     - Key: 4
       Value: {fileID: 1371251449049089302}
---- !u!195 &2257528561566081894
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9208675050051364842}
-  m_Enabled: 1
-  m_AgentTypeID: -1372625422
-  m_Radius: 1.2
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 10
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &6062460446107766387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9208675050051364842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8e84dbcc1414321b041a52139610d0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!136 &5775183926257423185
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9208675050051364842}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.2129822
-  m_Height: 9.735687
-  m_Direction: 1
-  m_Center: {x: 0.113198854, y: 4.1227603, z: 0.59248966}
 --- !u!114 &2776019099999613404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7247,8 +7191,6 @@ MonoBehaviour:
   - Min: 0
     Max: 29
     ReturnValue: 2
-  MoveSpeed: 2
-  WorkSpeed: 10
 --- !u!114 &-7210755273777283792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7263,6 +7205,77 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NavMeshAgentCompo>k__BackingField: {fileID: 2257528561566081894}
   _remainDistance: 0.5
+--- !u!114 &6062460446107766387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e84dbcc1414321b041a52139610d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5312617829722433091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733ecbd9bbe9c544b96d767ef3a94f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  WorkSpeed: 2
+--- !u!195 &2257528561566081894
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 1.2
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 10
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!136 &5775183926257423185
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.2129822
+  m_Height: 9.735687
+  m_Direction: 1
+  m_Center: {x: 0.113198854, y: 4.1227603, z: 0.59248966}
 --- !u!1001 &1607172668893142597
 PrefabInstance:
   m_ObjectHideFlags: 0
