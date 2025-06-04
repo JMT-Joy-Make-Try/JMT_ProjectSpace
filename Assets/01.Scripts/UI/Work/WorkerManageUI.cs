@@ -3,6 +3,7 @@ using JMT.Agent;
 using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.DataSystem;
 using JMT.Planets.Tile;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,6 @@ namespace JMT.UISystem
 {
     public class WorkerManageUI : MonoBehaviour
     {
-        [SerializeField] private List<Sprite> healthIcons;
         [SerializeField] private Image workerHealthImage;
         [SerializeField] private TextMeshProUGUI workerOxygenValueText;
         [SerializeField] private TextMeshProUGUI completeText;
@@ -74,7 +74,7 @@ namespace JMT.UISystem
             // 1번 = 건강 중간
             // 2번 = 건강 나쁨
             Debug.Log(healthData.GetStatus());
-            workerHealthImage.sprite = healthIcons[healthData.GetStatus()];
+            workerHealthImage.sprite = NPCSpriteSystem.Instance.GetHealthIcon(healthData.GetStatus());
             // 현재 산소
             if (workerOxygenValueText != null) 
                 workerOxygenValueText.text = oxygenData.Oxygen.ToString();
