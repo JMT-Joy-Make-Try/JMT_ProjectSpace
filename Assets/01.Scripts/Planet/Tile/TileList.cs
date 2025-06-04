@@ -24,6 +24,7 @@ namespace JMT.Planets.Tile
             LineRenderer.enabled = false;
             SetLineY(1);
             SetLineWidth(1);
+            StartCoroutine(SpawnCo());
         }
 
         public void SetLineY(float y)
@@ -57,7 +58,7 @@ namespace JMT.Planets.Tile
                 tile.TileType = tileType;
                 tile.Renderer.material.SetColor("_BaseColor", color);
             }
-            StartCoroutine(SpawnCo());
+            
         }
 
         private IEnumerator SpawnCo()
