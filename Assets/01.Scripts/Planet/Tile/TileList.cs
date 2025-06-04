@@ -1,4 +1,5 @@
 ﻿using JMT.Building;
+using JMT.Core.Tool;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,16 +50,6 @@ namespace JMT.Planets.Tile
         public void SetLineRenderer(bool isActive)
         {
             LineRenderer.enabled = isActive;
-        }
-
-        public void SetTile(TileType tileType, Color color)
-        {
-            foreach (var tile in Tiles)
-            {
-                tile.TileType = tileType;
-                tile.Renderer.material.SetColor("_BaseColor", color);
-            }
-            
         }
 
         private IEnumerator SpawnCo()
