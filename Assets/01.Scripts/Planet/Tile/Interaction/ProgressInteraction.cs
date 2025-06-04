@@ -1,4 +1,5 @@
 using JMT.Building;
+using JMT.Planets;
 using JMT.Planets.Tile;
 using UnityEngine;
 
@@ -29,6 +30,11 @@ namespace JMT
                 TileManager.Instance.CurrentTile.AddInteraction<SupplyOxygenInteraction>();
                 return;
             }
+            if(building is HospitalBuilding)
+            {
+                TileManager.Instance.CurrentTile.AddInteraction<HospitalInteraction>();
+            }
+
             TileManager.Instance.CurrentTile.AddInteraction<BuildingInteraction>();
         }
     }
