@@ -51,8 +51,8 @@ namespace JMT.UISystem
         public void SetWorkerPanel(NPCAgent npc)
         {
             NPCWorkData workData = npc.WorkData;
-            NPCHealth healthData = npc.Health;
-            NPCOxygen oxygenData = npc.OxygenCompo;
+            NPCHealth healthData = npc.StatCompo.HealthCompo;
+            NPCOxygen oxygenData = npc.StatCompo.OxygenCompo;
             // 몇 초 뒤에 완료 대충 이런텍스트 띄우는 친구
             if (completeText != null)
                 completeText.text = workData.TimeData.GetTimeString();

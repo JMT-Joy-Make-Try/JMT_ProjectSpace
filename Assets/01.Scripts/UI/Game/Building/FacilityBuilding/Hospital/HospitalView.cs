@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem.Hospital
 {
-    public class HospitalView : MonoBehaviour
+    public class HospitalView : PanelUI
     {
         public event Action OnWorkerButtonEvent;
         public event Action OnPatientButtonEvent;

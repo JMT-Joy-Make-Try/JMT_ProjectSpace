@@ -16,6 +16,7 @@ namespace JMT.UISystem.Interact
         Laboratory = 8,
         SupplyOxygen = 9,
         Field = 10,
+        Hospital = 11,
     }
 
     public class InteractModel
