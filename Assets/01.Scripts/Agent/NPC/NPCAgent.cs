@@ -1,3 +1,4 @@
+using EditorAttributes;
 using JMT.Agent.State;
 using JMT.UISystem;
 using System;
@@ -112,6 +113,20 @@ namespace JMT.Agent.NPC
             ClothCompo.ChangeCloth(AgentType.Base);
             WorkCompo.SetBuilding(null);
             StateMachineCompo.ChangeState(NPCState.Move);
+        }
+        
+        public void KillNPC()
+        {
+            StatCompo.HealthCompo.TakeDamage(1000, false);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                KillNPC();
+            }
         }
     }
 }

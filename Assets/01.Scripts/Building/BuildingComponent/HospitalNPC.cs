@@ -20,7 +20,9 @@ namespace JMT.Building.Component
         
         public void AddPatient(NPCAgent patient)
         {
-            if (_hospitalNPCData.Count == 0) return;
+            //if (_hospitalNPCData.Count == 0) return;
+            _hospitalNPCData.Add(new(null, patient));
+            return;
             int index = _hospitalNPCData.FindIndex(data => data.patient == null);
             if (index != -1)
             {
