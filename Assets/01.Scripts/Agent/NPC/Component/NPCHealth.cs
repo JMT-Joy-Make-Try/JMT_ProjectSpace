@@ -14,8 +14,7 @@ namespace JMT.Agent
         
         [Space]
         [SerializeField] private List<Range> _healthRange;
-        [field:SerializeField] public int MoveSpeed;
-        [field:SerializeField] public int WorkSpeed;
+        
         
         public event Action<bool> OnHealthWarningEvent;
 

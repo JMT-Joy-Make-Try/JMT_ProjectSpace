@@ -42,7 +42,7 @@ namespace JMT.Agent.State
                 return;
             
             if (TryAssignAndMoveToBuilding(
-                    condition: agent.OxygenCompo.IsOxygenLow,
+                    condition: agent.StatCompo.OxygenCompo.IsOxygenLow,
                     building: oxygen,
                     onComplete: StartOxygenCoroutine))
                 return;
@@ -72,7 +72,7 @@ namespace JMT.Agent.State
 
             var targetPos = building.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             movementCompo.SetBuilding(building);
-            movementCompo.Move(targetPos, agent.Health.MoveSpeed, onComplete);
+            movementCompo.Move(targetPos, agent.StatCompo.MoveSpeed, onComplete);
 
             return true;
         }
@@ -100,7 +100,7 @@ namespace JMT.Agent.State
             while (!building.GetOxygen())
                 yield return wait;
 
-            agent.OxygenCompo.InitOxygen();
+            agent.StatCompo.OxygenCompo.InitOxygen();
             agent.ClothCompo.ChangeCloth(AgentType.Base);
             _stateMachine.ChangeState(NPCState.Idle);
         }
@@ -117,7 +117,7 @@ namespace JMT.Agent.State
             agent.Init();
             var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
             var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
-            agent.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.Health.MoveSpeed);
+            agent.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.StatCompo.MoveSpeed);
             agent.ClothCompo.ChangeCloth(AgentType.Base);
             _stateMachine.ChangeState(NPCState.Move);
         }

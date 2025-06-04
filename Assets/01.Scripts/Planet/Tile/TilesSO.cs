@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 namespace JMT.Planets.Tile
@@ -28,6 +27,7 @@ namespace JMT.Planets.Tile
     public class TileData
     {
         public TileType TileType;
+        [ColorUsage(true, true)]
         public Color Color;
         public int Count;
     }

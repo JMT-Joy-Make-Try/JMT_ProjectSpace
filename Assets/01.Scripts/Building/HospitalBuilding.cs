@@ -30,7 +30,7 @@ namespace JMT.Building
             patient.Init();
             var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
             var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
-            patient.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, patient.Health.MoveSpeed);
+            patient.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, patient.StatCompo.MoveSpeed);
             patient.ClothCompo.ChangeCloth(AgentType.Base);
             patient.StateMachineCompo.ChangeState(NPCState.Move);
         }
