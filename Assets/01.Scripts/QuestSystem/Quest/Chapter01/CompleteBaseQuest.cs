@@ -12,7 +12,7 @@ namespace JMT
 
         private void OnDestroy()
         {
-            if (tiles == null) return;
+            if (tiles == null || tiles[0] == null || tiles[0].CurrentBuilding == null) return;
             tiles[0].OnBuild -= HandleBuildEvent;
             tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
         }

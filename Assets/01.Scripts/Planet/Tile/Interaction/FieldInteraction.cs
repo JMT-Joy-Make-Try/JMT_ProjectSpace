@@ -14,7 +14,7 @@ namespace JMT.Planets.Tile
         private SeedSO[] _seed = new SeedSO[4];
         private Plant[] _plantObject = new Plant[4];
         private int _growthStage = 1;
-        
+
         public void SetSeed(SeedSO seed)
         {
             int idx = Array.FindIndex(_seed, s => s == null);
