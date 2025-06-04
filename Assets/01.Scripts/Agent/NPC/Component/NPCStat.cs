@@ -11,6 +11,9 @@ namespace JMT.Agent
 
         public NPCOxygen OxygenCompo { get; private set; }
         public NPCHealth HealthCompo { get; private set; }
+        
+        [field:SerializeField] public int MoveSpeed;
+        [field:SerializeField] public int WorkSpeed;
 
         private float _satisfaction; // NPC의 만족도
         
