@@ -32,9 +32,11 @@ namespace JMT.Building
             brokenVisual.gameObject.SetActive(false);
         }
 
-        public void ReceiveItem(ItemSO item, int amount)
+        public bool ReceiveItem(ItemSO item, int amount)
         {
+            if (!IsBuildingComplete) return false;
             GameUIManager.Instance.InventoryCompo.AddItem(item, amount);
+            return true;
         }
     }
 }

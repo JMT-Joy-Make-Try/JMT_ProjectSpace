@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using JMT.Agent.NPC;
+using JMT.Core.Tool;
+using UnityEngine;
 
 namespace JMT.Building.Component
 {
@@ -20,14 +22,15 @@ namespace JMT.Building.Component
         
         public void AddPatient(NPCAgent patient)
         {
-            //if (_hospitalNPCData.Count == 0) return;
-            _hospitalNPCData.Add(new(null, patient));
-            return;
+            if (_hospitalNPCData.Count == 0) return;
             int index = _hospitalNPCData.FindIndex(data => data.patient == null);
             if (index != -1)
             {
                 _hospitalNPCData[index].patient = patient;
-                patient.WorkCompo.SetBuilding(Building);
+            }
+            else
+            {
+                DebugExtension.LogWithClassName("No available slot for patient in hospital NPC data.");
             }
         }
     }
