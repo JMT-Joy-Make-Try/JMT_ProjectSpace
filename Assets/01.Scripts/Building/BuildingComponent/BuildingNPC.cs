@@ -19,7 +19,7 @@ namespace JMT.Building.Component
         public BuildingBase Building { get; private set; }
         [field: SerializeField] public Transform WorkPosition { get; protected set; }
         
-        public void Init(BuildingBase building)
+        public virtual void Init(BuildingBase building)
         {
             Building = building;
             _currentNpc = new List<NPCAgent>();

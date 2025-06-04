@@ -21,7 +21,9 @@ namespace JMT.Planets.Tile
             }
             else
             {
+                AddObject(TileManager.Instance.FieldPrefab);
                 planetTile.ChangeInteraction<FieldInteraction>();
+                transform.parent.gameObject.layer = LayerMask.NameToLayer("Field");
             }
         }
 

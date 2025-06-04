@@ -1,4 +1,5 @@
 using JMT.UISystem.Building;
+using JMT.UISystem.Hospital;
 using JMT.UISystem.Laboratory;
 using JMT.UISystem.SupplyOxygen;
 using UnityEngine;
@@ -11,10 +12,12 @@ namespace JMT.UISystem
         [SerializeField] private StationController stationCompo;
         [SerializeField] private LaboratoryController laboratoryCompo;
         [SerializeField] private SupplyOxygenController oxygenCompo;
+        [SerializeField] private HospitalController hospitalCompo;
 
         public ItemBuildingController ItemBuildingCompo => itemBuildingCompo;
         public StationController StationCompo => stationCompo;
         public LaboratoryController LaboratoryCompo => laboratoryCompo;
         public SupplyOxygenController OxygenCompo => oxygenCompo;
+        public HospitalController HospitalCompo => hospitalCompo;
     }
 }

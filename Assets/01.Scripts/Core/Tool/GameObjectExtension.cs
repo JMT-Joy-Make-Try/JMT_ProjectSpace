@@ -54,5 +54,25 @@ namespace JMT.Core.Tool
 
             return component;
         }
+        
+        public static T FindComponent<T>(this Component gameObject)
+        {
+            T component = gameObject.GetComponent<T>();
+            if (component == null)
+            {
+                component = gameObject.GetComponentInParent<T>();
+                if (component == null)
+                {
+                    component = gameObject.GetComponentInChildren<T>();
+                    if (component == null)
+                    {
+                        Debug.LogError($"There is no {typeof(T).Name} component in {gameObject.name}");
+                        return default;
+                    }
+                }
+            }
+            
+            return component;
+        }
     }
 }

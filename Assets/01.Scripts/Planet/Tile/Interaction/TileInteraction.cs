@@ -27,11 +27,11 @@ namespace JMT.Planets.Tile
             InteractType = interactType;
         }
 
-        public GameObject AddObject(GameObject obj)
+        public void RemoveObject() => Destroy(gameObject);
+
+        public T AddObject<T>(T obj) where T : UnityEngine.Object
         {
             return Instantiate(obj, transform);
         }
-
-        public void RemoveObject() => Destroy(gameObject);
     }
 }

@@ -3,8 +3,10 @@ using JMT.Building;
 using JMT.Building.Component;
 using JMT.Core.Manager;
 using JMT.Core.Tool.PoolManager.Core;
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
@@ -24,13 +26,16 @@ namespace JMT.Agent.State
             this._agent = (NPCAgent)agent;
             this._movement = _agent.MovementCompo as NPCMovement;
             this._agent.OnTypeChanged += HandleTypeChanged;
-            _agent.OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
+            
+            Debug.Log(_agent);
+            Debug.Log(_agent.StatCompo);
+            _agent.StatCompo.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
         }
 
         private void OnDestroy()
         {
             _agent.OnTypeChanged -= HandleTypeChanged;
-            _agent.OxygenCompo.OnOxygenLowEvent -= HandleOxygenLow;
+            _agent.StatCompo.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
         }
 
         private void HandleOxygenLow()
@@ -79,7 +84,7 @@ namespace JMT.Agent.State
                 _targetPosition = pos;
             }
 
-            _agent.MovementCompo.Move(_targetPosition, _agent.Health.MoveSpeed * multiplier, () => EndMove(obj));
+            _agent.MovementCompo.Move(_targetPosition, _agent.StatCompo.MoveSpeed * multiplier, () => EndMove(obj));
         }
 
         private IEnumerator LodgingBuildingRoutine()

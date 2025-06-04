@@ -70,6 +70,18 @@ namespace JMT.PlayerCharacter
             curState = state;
             AnimCompo.SetBool(stateHash[curState], true);
         }
+
+        public void SetBool(PlayerState stateName, bool value)
+        {
+            if (stateHash.TryGetValue(stateName, out int hash))
+            {
+                AnimCompo.SetBool(hash, value);
+            }
+            else
+            {
+                Debug.LogWarning($"State {curState} not found in stateHash.");
+            }
+        }
     }
 
     public enum PlayerState
@@ -77,6 +89,7 @@ namespace JMT.PlayerCharacter
         Idle,
         Walk,
         Interact,
+        Carring,
         Hit,
         Dead,
     }

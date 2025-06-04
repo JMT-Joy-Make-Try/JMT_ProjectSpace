@@ -7,10 +7,9 @@ namespace JMT.Agent.NPC
 {
     public class NPCAgent : AgentAI<NPCState>
     {
-        [field: SerializeField] public NPCOxygen OxygenCompo { get; private set; }
         [field: SerializeField] public NPCWorkData WorkData { get; private set; }
         [field: SerializeField] public NPCWork WorkCompo { get; private set; }
-        [field: SerializeField] public NPCHealth Health { get; private set; }
+        [field: SerializeField] public NPCStat StatCompo { get; private set; }
         
         [field:SerializeField] public AgentType AgentType { get; private set; }
         private NPCStatUI npcStatUI;
@@ -31,34 +30,38 @@ namespace JMT.Agent.NPC
 
         protected override void Awake()
         {
-            base.Awake();
-            OxygenCompo = GetComponent<NPCOxygen>();
+            StatCompo = GetComponent<NPCStat>();
             npcStatUI = GetComponent<NPCStatUI>();
-            Health = HealthCompo as NPCHealth;
-            StateMachineCompo.ChangeState(NPCState.Idle);
+            StatCompo?.Initialize(this);
+            base.Awake();
+            
+            
             OnTypeChanged += HandleTypeChanged;
         }
 
         private void Start()
         {
-            WorkData.Initialize(this);
-            WorkCompo.Initialize(this);
-            Health.Initialize(this);
-            ClothCompo.Initialize(this);
             
-            HealthCompo.OnDeath += HandleDeath;
-            Health.OnHealthWarningEvent += npcStatUI.SetHealthStat;
-            OxygenCompo.OnOxygenLowEvent += HandleOxygenLow;
-            OxygenCompo.OnOxygenWarningEvent += npcStatUI.SetOxygenStat;
+            WorkData?.Initialize(this);
+            WorkCompo?.Initialize(this);
+            ClothCompo?.Initialize(this);
+            
+            StatCompo?.AddListener<Action>(NPCStatEventType.OnDeath, HandleDeath);
+            StatCompo?.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
+            StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
+            StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
+            
+            StateMachineCompo.InitAllState(this);
+            StateMachineCompo.ChangeState(NPCState.Idle);
         }
         
         protected void OnDestroy()
         {
             OnTypeChanged -= HandleTypeChanged;
-            HealthCompo.OnDeath -= HandleDeath;
-            OxygenCompo.OnOxygenLowEvent -= HandleOxygenLow;
-            Health.OnHealthWarningEvent -= npcStatUI.SetHealthStat;
-            OxygenCompo.OnOxygenWarningEvent -= npcStatUI.SetOxygenStat;
+            StatCompo?.RemoveListener<Action>(NPCStatEventType.OnDeath, HandleDeath);
+            StatCompo?.RemoveListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
+            StatCompo?.RemoveListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
+            StatCompo?.RemoveListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
         }
 
         private void HandleOxygenLow()

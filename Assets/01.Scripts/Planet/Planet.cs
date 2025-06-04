@@ -45,23 +45,6 @@ namespace JMT.Planets
             }
         }
 
-        protected void GeneratePlanet(TilesSO tilesSO)
-        {
-            for (int i = 0; i < tileLists.Count; i++)
-            {
-                if (i < tilesSO.tiles[i].Count)
-                {
-                    tileLists[i].SetTile(tilesSO.tiles[i].TileType, tilesSO.tiles[i].Color);
-                }
-                else
-                {
-                    tileLists[i].SetTile(TileType.Dead, Color.black);
-                }
-            }
-            
-            BakeNavMesh();
-        }
-
         protected virtual void StartEvent()
         {
             Event selected = null;
