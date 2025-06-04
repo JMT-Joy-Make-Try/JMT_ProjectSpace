@@ -15,6 +15,7 @@ namespace JMT.PlayerCharacter
         [SerializeField] private PlayerInventoryData _playerInventoryData;
         [SerializeField] private LayerMask _whatIsBuilding;
         [SerializeField] private ItemObject _itemObject;
+        private Player _player;
         
         private Collider[] _colliders = new Collider[10];
 
@@ -22,6 +23,7 @@ namespace JMT.PlayerCharacter
         {
             _itemObject.IsCollectable = false;
             _itemObject.gameObject.SetActive(false);
+            _player = player as Player;
         }
         
         public void AddItem(ItemSO item, int count = 1)
@@ -43,6 +45,7 @@ namespace JMT.PlayerCharacter
             
             _itemObject.gameObject.SetActive(true);
             _itemObject.SetItemType(item);
+            _player.AnimatorCompo.SetBool(PlayerState.Carring, true);
         }
         
         public ItemSO RemoveItem(ItemSO item = null, int count = 1)
@@ -56,6 +59,7 @@ namespace JMT.PlayerCharacter
                     _playerInventoryData.item = null;
                     _playerInventoryData.count = 0;
                     _itemObject.gameObject.SetActive(false);
+                    _player.AnimatorCompo.SetBool(PlayerState.Carring, false);
                 }
             }
             else
