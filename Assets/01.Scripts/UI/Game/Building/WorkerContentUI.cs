@@ -1,58 +1,51 @@
 using DG.Tweening;
-using JMT.Agent;
 using JMT.Agent.NPC;
-using JMT.Building.Component;
-using JMT.Core.Manager;
-using JMT.DataSystem;
-using JMT.Planets.Tile;
+using JMT.Agent;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace JMT.UISystem
 {
-    public class WorkerManageUI : MonoBehaviour
+    public class WorkerContentUI : MonoBehaviour
     {
+        public event Action OnAddEvent;
+        public event Action OnQuitEvent;
+
+        [Header("Health Settings")]
+        [SerializeField] private List<Sprite> healthIcons;
         [SerializeField] private Image workerHealthImage;
-        [SerializeField] private TextMeshProUGUI workerOxygenValueText;
-        [SerializeField] private TextMeshProUGUI completeText;
+
+        [Header("Work Settings")]
         [SerializeField] private CellUI workValueCell;
+        [SerializeField] private TextMeshProUGUI completeText;
         [SerializeField] private Button quitButton;
-        [SerializeField] private CanvasGroup lockArea;
         [SerializeField] private Button hireButton;
+        [SerializeField] private TextMeshProUGUI workerOxygenValueText;
+        [SerializeField] private CanvasGroup lockArea;
 
         private void Awake()
         {
-            quitButton.onClick.AddListener(HandleQuitButton);
             hireButton.onClick.AddListener(HandleHireButton);
+            quitButton.onClick.AddListener(HandleQuitButton);
         }
 
-        private void HandleQuitButton()
+        private void OnDestroy()
         {
-            // 퇴사시키기 버튼
-            ActiveLockArea(true);
-            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().RemoveNpc();
+            hireButton.onClick.RemoveListener(HandleHireButton);
+            quitButton.onClick.RemoveListener(HandleQuitButton);
         }
 
         private void HandleHireButton()
         {
-            // 고용하기 버튼
-            var npc = AgentManager.Instance.GetAgent();
-            if (npc == null)
-            {
-                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
-                return;
-            }
+            OnAddEvent?.Invoke();
+        }
 
-            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
-            if (lodgingBuilding == null) return;
-            var spawnPos = lodgingBuilding.transform.position;
-            AgentManager.Instance.SpawnNpc(spawnPos, Quaternion.identity);
-            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(npc);
-
-            ActiveLockArea(false);
-            SetWorkerPanel(npc);
+        private void HandleQuitButton()
+        {
+            OnQuitEvent?.Invoke();
         }
 
         public void SetWorkerPanel(NPCAgent npc)
@@ -61,7 +54,7 @@ namespace JMT.UISystem
             NPCHealth healthData = npc.Health;
             NPCOxygen oxygenData = npc.OxygenCompo;
             // 몇 초 뒤에 완료 대충 이런텍스트 띄우는 친구
-            if(completeText != null)
+            if (completeText != null)
                 completeText.text = workData.TimeData.GetTimeString();
             // workData.TimeData;로 시간 접근
 
@@ -74,9 +67,9 @@ namespace JMT.UISystem
             // 1번 = 건강 중간
             // 2번 = 건강 나쁨
             Debug.Log(healthData.GetStatus());
-            workerHealthImage.sprite = NPCSpriteSystem.Instance.GetHealthIcon(healthData.GetStatus());
+            workerHealthImage.sprite = healthIcons[healthData.GetStatus()];
             // 현재 산소
-            if (workerOxygenValueText != null) 
+            if (workerOxygenValueText != null)
                 workerOxygenValueText.text = oxygenData.Oxygen.ToString();
         }
 

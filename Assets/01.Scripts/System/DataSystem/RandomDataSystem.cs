@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace JMT.RandomSystem
+namespace JMT.DataSystem
 {
     public class RandomDataSystem : MonoSingleton<RandomDataSystem>
     {
