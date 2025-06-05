@@ -99,12 +99,7 @@ namespace JMT.UISystem.Hospital
             if (agent == null) return;
 
             Debug.Log("여기 수정해주세요.");
-            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
-            if (lodgingBuilding == null) return;
-            var spawnPos = lodgingBuilding.transform.position;
-
-            AgentManager.Instance.SpawnNpc(spawnPos, Quaternion.identity);
-            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(agent);
+            AgentManager.Instance.SpawnNpc(agent);
             selectView.CloseUI();
         }
 

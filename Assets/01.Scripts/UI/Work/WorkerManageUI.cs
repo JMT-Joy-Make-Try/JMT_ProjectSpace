@@ -44,12 +44,7 @@ namespace JMT.UISystem
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("일꾼이 부족합니다.");
                 return;
             }
-
-            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
-            if (lodgingBuilding == null) return;
-            var spawnPos = lodgingBuilding.transform.position;
-            AgentManager.Instance.SpawnNpc(spawnPos, Quaternion.identity);
-            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(npc);
+            AgentManager.Instance.SpawnNpc(npc);
 
             ActiveLockArea(false);
             SetWorkerPanel(npc);

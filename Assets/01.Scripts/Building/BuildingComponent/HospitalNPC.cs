@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using JMT.Agent.NPC;
 using JMT.Core.Tool;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.Building.Component
 {
     public class HospitalNPC : BuildingNPC
     {
+        public event Action<HospitalNPCData> OnPatientAdded;
         private List<HospitalNPCData> _hospitalNPCData;
+        
+        public int PatientCount => _hospitalNPCData.Count(data => data.patient != null);
         public override void Init(BuildingBase building)
         {
             base.Init(building);
@@ -27,6 +32,7 @@ namespace JMT.Building.Component
             if (index != -1)
             {
                 _hospitalNPCData[index].patient = patient;
+                OnPatientAdded?.Invoke(_hospitalNPCData[index]);
             }
             else
             {

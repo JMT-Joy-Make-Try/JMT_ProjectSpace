@@ -1,14 +1,17 @@
 using JMT.Agent.NPC;
+using JMT.Building.Component;
 using JMT.Core.Manager;
 using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Planets.Tile;
 using JMT.UISystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent
 {
@@ -53,6 +56,16 @@ namespace JMT.Agent
             
             agent.transform.position = position;
             agent.transform.rotation = rotation;
+        }
+        
+        public void SpawnNpc(NPCAgent agent)
+        {
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
+            if (lodgingBuilding == null) return;
+            var spawnPos = lodgingBuilding.transform.position;
+
+            Instance.SpawnNpc(spawnPos, Quaternion.identity);
+            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(agent);
         }
 
         public NPCAgent GetAgent()
