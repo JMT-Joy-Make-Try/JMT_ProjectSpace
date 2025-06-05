@@ -74,6 +74,11 @@ namespace JMT.Planets.Tile
 
                     yield return null; // 다음 스폰까지 한 프레임 대기
                 }
+                else
+                {
+                    
+                    yield return null;
+                }
             }
 
             if (spawnedCount < _maxVillageCount)

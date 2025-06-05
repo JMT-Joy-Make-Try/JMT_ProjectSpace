@@ -87,6 +87,9 @@ namespace JMT.UISystem.Hospital
         private void HandleAddEvent()
         {
             // 고용하기 버튼
+
+            if (selectView.IsOpen) return;
+            
             selectView.OpenUI();
             selectView.SetWorkerContent(AgentManager.Instance.UnemployedAgents);
         }
