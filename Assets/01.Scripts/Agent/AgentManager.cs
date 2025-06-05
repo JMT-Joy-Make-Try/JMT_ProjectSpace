@@ -1,5 +1,6 @@
 using JMT.Agent.NPC;
 using JMT.Core.Manager;
+using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.UISystem;
@@ -31,7 +32,8 @@ namespace JMT.Agent
         
         public void SpawnNpc(Vector3 position, Quaternion rotation)
         {
-            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+            NPCAgent firstAgent = GetAgent();
+            NPCAgent agent = PoolingManager.Instance.Pop(firstAgent) as NPCAgent;
             
             agent.transform.position = position;
             agent.transform.rotation = rotation;

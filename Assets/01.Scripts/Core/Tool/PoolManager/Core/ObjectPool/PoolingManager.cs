@@ -44,6 +44,22 @@ namespace JMT.Core.Tool.PoolManager.Core
             return item;
         }
 
+        public IPoolable Pop(IPoolable item)
+        {
+            if (item == null)
+            {
+                Debug.LogError("Pop: item is null");
+                return null;
+            }
+
+            item.ObjectPrefab.SetActive(true);
+            item.ResetItem();
+            if (!_generatedObjects.Contains(item))
+                _generatedObjects.Add(item);
+
+            return item;
+        }
+
         public void Push(IPoolable obj, bool resetParent = false)
         {
             if (resetParent)
@@ -72,5 +88,6 @@ namespace JMT.Core.Tool.PoolManager.Core
                 }
             }
         }
+        
     }
 }

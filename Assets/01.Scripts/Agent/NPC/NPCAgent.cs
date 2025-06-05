@@ -2,6 +2,7 @@ using EditorAttributes;
 using JMT.Agent.State;
 using JMT.UISystem;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace JMT.Agent.NPC
@@ -123,10 +124,15 @@ namespace JMT.Agent.NPC
         protected override void Update()
         {
             base.Update();
-            if (Input.GetKeyDown(KeyCode.Space))
+#if UNITY_EDITOR
+            if (Selection.activeGameObject == gameObject)
             {
-                KillNPC();
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    KillNPC();
+                }
             }
+#endif
         }
     }
 }

@@ -36,6 +36,7 @@ namespace JMT.Agent
         FuelCollector,
         Patient,
         OrganicCollector,
-        DustMaster
+        DustMaster,
+        Doctor,
     }
 }
