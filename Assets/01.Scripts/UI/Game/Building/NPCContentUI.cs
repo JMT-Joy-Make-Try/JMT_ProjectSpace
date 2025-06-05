@@ -6,39 +6,36 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using JMT.DataSystem;
 
 namespace JMT.UISystem
 {
-    public class WorkerContentUI : MonoBehaviour
+    public class NPCContentUI : MonoBehaviour
     {
         public event Action OnAddEvent;
         public event Action OnQuitEvent;
 
-        [Header("Health Settings")]
-        [SerializeField] private List<Sprite> healthIcons;
         [SerializeField] private Image workerHealthImage;
-
-        [Header("Work Settings")]
         [SerializeField] private CellUI workValueCell;
         [SerializeField] private TextMeshProUGUI completeText;
         [SerializeField] private Button quitButton;
-        [SerializeField] private Button hireButton;
+        [SerializeField] private Button addButton;
         [SerializeField] private TextMeshProUGUI workerOxygenValueText;
         [SerializeField] private CanvasGroup lockArea;
 
         private void Awake()
         {
-            hireButton.onClick.AddListener(HandleHireButton);
-            quitButton.onClick.AddListener(HandleQuitButton);
+            addButton.onClick.AddListener(HandleAddButton);
+            quitButton?.onClick.AddListener(HandleQuitButton);
         }
 
         private void OnDestroy()
         {
-            hireButton.onClick.RemoveListener(HandleHireButton);
-            quitButton.onClick.RemoveListener(HandleQuitButton);
+            addButton.onClick.RemoveListener(HandleAddButton);
+            quitButton?.onClick.RemoveListener(HandleQuitButton);
         }
 
-        private void HandleHireButton()
+        private void HandleAddButton()
         {
             OnAddEvent?.Invoke();
         }
@@ -67,7 +64,7 @@ namespace JMT.UISystem
             // 1번 = 건강 중간
             // 2번 = 건강 나쁨
             Debug.Log(healthData.GetStatus());
-            workerHealthImage.sprite = healthIcons[healthData.GetStatus()];
+            workerHealthImage.sprite = NPCSpriteSystem.Instance.GetHealthIcon(healthData.GetStatus());
             // 현재 산소
             if (workerOxygenValueText != null)
                 workerOxygenValueText.text = oxygenData.Oxygen.ToString();
@@ -75,6 +72,7 @@ namespace JMT.UISystem
 
         public void ActiveLockArea(bool isActive)
         {
+            if (lockArea == null) return;
             lockArea.DOFade(isActive ? 1 : 0, 0.3f).SetUpdate(true);
             lockArea.interactable = isActive;
             lockArea.blocksRaycasts = isActive;
