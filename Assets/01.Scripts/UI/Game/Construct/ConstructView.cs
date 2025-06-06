@@ -63,7 +63,7 @@ namespace JMT.UISystem.Interact
 
                 if (value < list.Count)
                 {
-                    cells[value].SetCell(list[value].BuildingName, null, list[value].Icon);
+                    cells[value].SetCell(list[value]);
                     cellButton.onClick.AddListener(() => HandleCellButton(list, value));
                 }
             }

@@ -89,7 +89,7 @@ namespace JMT.UISystem.Inventory
 
         public List<KeyValuePair<ItemSO, int>> SelectCategory(InventoryCategory? category = null)
         {
-            var dic = GameUIManager.Instance.InventoryCompo.InventorySO.ItemDictionary;
+            var dic = inventorySO.ItemDictionary;
 
             var pairs = dic.ToList();
             if (category != null)

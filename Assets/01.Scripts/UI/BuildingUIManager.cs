@@ -1,6 +1,7 @@
 using JMT.UISystem.Building;
 using JMT.UISystem.Hospital;
 using JMT.UISystem.Laboratory;
+using JMT.UISystem.Station;
 using JMT.UISystem.SupplyOxygen;
 using UnityEngine;
 
