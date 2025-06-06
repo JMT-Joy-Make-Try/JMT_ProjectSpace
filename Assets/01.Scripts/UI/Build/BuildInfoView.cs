@@ -47,7 +47,7 @@ namespace JMT.UISystem.Interact
                 else
                     needItemList[value].ResetCell();
             }
-            useFuel.SetCell(string.Empty, data.buildingLevel[0].UseFuelPerSecond.ToString("F1"));
+            useFuel.SetCell(null, data.buildingLevel[0].UseFuelPerSecond.ToString("F1"));
         }
     }
 }

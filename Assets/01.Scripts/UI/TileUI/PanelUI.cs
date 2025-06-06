@@ -17,7 +17,7 @@ namespace JMT.UISystem
         }
     }
 
-    public class PanelUI : MonoBehaviour
+    public class PanelUI : MonoBehaviour, IOpenablePanel
     {
         protected event Action OnCloseEvent;
 
@@ -28,6 +28,7 @@ namespace JMT.UISystem
         public Transform PanelTrm => panelGroup.transform;
         public RectTransform PanelRectTrm => PanelTrm as RectTransform;
         public bool IsOpen { get; private set; } = false;
+
         public virtual void OpenUI()
         {
             IsOpen = true;

@@ -1,5 +1,4 @@
 using JMT.Building;
-using JMT.PlayerCharacter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +11,8 @@ namespace JMT.UISystem.Laboratory
     {
         public event Action<LaboratoryCategory> OnChangedCategory;
         public event Action OnExitEvent;
+
+        private List<Action> cellButtonHandlers = new();
 
         [Header("Category Button")]
         [SerializeField] private Button studyCategoryButton;
@@ -45,23 +46,15 @@ namespace JMT.UISystem.Laboratory
             exitButton.onClick.RemoveAllListeners();
         }
 
-        public void SetCell(List<BuildingDataSO> list, Action<BuildingDataSO> action)
+        public void SetCell<T>(List<T> list, Action<T> action) where T : ICellDisplayData
         {
+            ResetCell();
             for (int i = 0; i < list.Count; i++)
             {
                 int value = i;
+                cellButtonHandlers.Add(() => action(list[value]));
                 cellList[value].SetCell(list[value]);
-                cellList[value].CellButton?.onClick.AddListener(() => action(list[value]));
-            }
-        }
-
-        public void SetCell(List<ToolSO> list, Action<ToolSO> action)
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                int value = i;
-                cellList[value].SetCell(list[value]);
-                cellList[value].CellButton?.onClick.AddListener(() => action(list[value]));
+                cellList[value].OnClickCellEvent += cellButtonHandlers[value];
             }
         }
 
@@ -70,7 +63,7 @@ namespace JMT.UISystem.Laboratory
             for (int i = 0; i < cellList.Count; i++)
             {
                 cellList[i].ResetCell();
-                cellList[i].CellButton?.onClick.RemoveAllListeners();
+                cellList[i].OnClickCellEvent -= cellButtonHandlers[i];
             }
         }
 

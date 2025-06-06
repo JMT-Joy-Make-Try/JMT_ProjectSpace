@@ -13,7 +13,7 @@ namespace JMT.Item
     }
 
     [CreateAssetMenu(menuName = "SO/Data/Items/ItemSO")]
-    public class ItemSO : ScriptableObject, ICategorizable
+    public class ItemSO : ScriptableObject, ICategorizable, ICellDisplayData
     {
         //public Sprite Icon;
         public ItemType ItemType;
@@ -23,5 +23,7 @@ namespace JMT.Item
         public ItemData ItemData;
 
         Enum ICategorizable.Category => Category;
+        public Sprite DisplayIcon => ItemData.Icon;
+        public string DisplayName => ItemName;
     }
 }

@@ -1,4 +1,4 @@
-﻿using JMT.Core;
+using JMT.Core;
 using JMT.Core.Tool;
 using JMT.Item;
 using JMT.Object;
@@ -10,8 +10,8 @@ namespace JMT.PlayerCharacter
     public class PlayerInventory : MonoBehaviour, IPlayerComponent
     {
         public PlayerInventoryData PlayerInventoryData => _playerInventoryData;
-        
-        [SerializeField] private int _maxInventorySize = 3;
+
+        [field: SerializeField] public int MaxInventorySize { get; private set; } = 3;
         [SerializeField] private PlayerInventoryData _playerInventoryData;
         [SerializeField] private LayerMask _whatIsBuilding;
         [SerializeField] private ItemObject _itemObject;
@@ -36,7 +36,7 @@ namespace JMT.PlayerCharacter
             else if (_playerInventoryData.item == item)
             {
                 _playerInventoryData.count += count;
-                _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, _maxInventorySize);
+                _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
             }
             else
             {
@@ -72,7 +72,7 @@ namespace JMT.PlayerCharacter
         
         public bool IsMaxInventorySizeReached()
         {
-            return _playerInventoryData.count >= _maxInventorySize;
+            return _playerInventoryData.count >= MaxInventorySize;
         }
 
         private void Update()
