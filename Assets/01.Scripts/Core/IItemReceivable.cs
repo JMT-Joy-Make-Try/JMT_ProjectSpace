@@ -4,6 +4,6 @@ namespace JMT.Core
 {
     public interface IItemReceivable
     {
-        void ReceiveItem(ItemSO item, int amount);
+        bool ReceiveItem(ItemSO item, int amount);
     }
 }

@@ -10,12 +10,19 @@ namespace JMT.Building
 {
     public class HospitalBuilding : BuildingBase
     {
-        [field: SerializeField] public float HealingTime = 5f;
+        [SerializeField] private int _maxPatientCount = 5;
 
 
         private void Start()
         {
             BuildingManager.Instance.HospitalBuildings.Add(this);
+            GetBuildingComponent<HospitalNPC>().OnPatientAdded += Heal;
+        }
+        
+        private void OnDestroy()
+        {
+            BuildingManager.Instance.HospitalBuildings.Remove(this);
+            GetBuildingComponent<HospitalNPC>().OnPatientAdded -= Heal;
         }
 
         private void Heal(HospitalNPCData data)
@@ -33,6 +40,11 @@ namespace JMT.Building
             patient.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, patient.StatCompo.MoveSpeed);
             patient.ClothCompo.ChangeCloth(AgentType.Base);
             patient.StateMachineCompo.ChangeState(NPCState.Move);
+        }
+        
+        public bool IsFull()
+        {
+            return GetBuildingComponent<HospitalNPC>().PatientCount >= _maxPatientCount;
         }
     }
 }

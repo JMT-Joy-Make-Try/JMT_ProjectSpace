@@ -1,4 +1,5 @@
 ﻿using JMT.Building;
+using JMT.Core.Tool;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,16 +52,6 @@ namespace JMT.Planets.Tile
             LineRenderer.enabled = isActive;
         }
 
-        public void SetTile(TileType tileType, Color color)
-        {
-            foreach (var tile in Tiles)
-            {
-                tile.TileType = tileType;
-                tile.Renderer.material.SetColor("_BaseColor", color);
-            }
-            
-        }
-
         private IEnumerator SpawnCo()
         {
             int spawnedCount = 0;
@@ -82,6 +73,11 @@ namespace JMT.Planets.Tile
                     spawnedCount++;
 
                     yield return null; // 다음 스폰까지 한 프레임 대기
+                }
+                else
+                {
+                    
+                    yield return null;
                 }
             }
 

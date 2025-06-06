@@ -4,7 +4,7 @@ using JMT.Planets.Tile.Items;
 using JMT.PlayerCharacter;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.Item
 {
     [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/Items/ToolSO")]
     public abstract class ToolSO : ItemSO
@@ -14,7 +14,6 @@ namespace JMT
         protected Player _player;
         public virtual void Init(IPlayer player)
         {
-            
             _player = player as Player;
             if (_player == null)
             {

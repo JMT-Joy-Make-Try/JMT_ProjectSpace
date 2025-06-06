@@ -1,5 +1,7 @@
+using JMT.Agent;
 using JMT.Object;
 using JMT.Planets.Tile.Items;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -25,5 +27,11 @@ namespace JMT.Item
         Enum ICategorizable.Category => Category;
         public Sprite DisplayIcon => ItemData.Icon;
         public string DisplayName => ItemName;
+        public bool IsUsable => ItemType is 
+                        ItemType.LiquidFuel or 
+                        ItemType.RefinedFuel or 
+                        ItemType.OxygenTank or 
+                        ItemType.PurificationContainer;
+        public bool IsTakeable => Category != InventoryCategory.Tool;
     }
 }

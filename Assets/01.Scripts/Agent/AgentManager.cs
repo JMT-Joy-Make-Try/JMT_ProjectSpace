@@ -1,12 +1,17 @@
 using JMT.Agent.NPC;
+using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.Planets.Tile;
 using JMT.UISystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent
 {
@@ -22,19 +27,45 @@ namespace JMT.Agent
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
                 return null;
             }
-            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
-            
+
+            NPCAgent agent = null;
+            for (int i = 0; i < 10; i++)
+            {
+                var npc = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+                if (npc != null && !UnemployedAgents.Contains(npc))
+                {
+                    agent = npc;
+                    break;
+                }
+            }
+
+            if (agent == null)
+            {
+                Debug.LogWarning("풀에 사용 가능한 에이전트가 없습니다.");
+                return null;
+            }
+
             agent.SetAgentType(AgentType.Base);
-            
             return agent;
         }
-        
+
         public void SpawnNpc(Vector3 position, Quaternion rotation)
         {
-            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+            NPCAgent firstAgent = GetAgent();
+            NPCAgent agent = PoolingManager.Instance.Pop(firstAgent) as NPCAgent;
             
             agent.transform.position = position;
             agent.transform.rotation = rotation;
+        }
+        
+        public void SpawnNpc(NPCAgent agent)
+        {
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
+            if (lodgingBuilding == null) return;
+            var spawnPos = lodgingBuilding.transform.position;
+
+            Instance.SpawnNpc(spawnPos, Quaternion.identity);
+            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(agent);
         }
 
         public NPCAgent GetAgent()

@@ -1,3 +1,4 @@
+using JMT.Item;
 using UnityEngine;
 
 namespace JMT.PlayerCharacter

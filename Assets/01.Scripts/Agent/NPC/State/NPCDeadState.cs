@@ -107,19 +107,8 @@ namespace JMT.Agent.State
 
         private void StartHealingCoroutine(BuildingBase building)
         {
-            StartCoroutine(HealingRoutine(building as HospitalBuilding));
-        }
-
-        private IEnumerator HealingRoutine(HospitalBuilding building)
-        {
-            yield return new WaitForSeconds(building.HealingTime);
-
-            agent.Init();
-            var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
-            var lodgingBuilding = lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
-            agent.MovementCompo.Move(lodgingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position, agent.StatCompo.MoveSpeed);
-            agent.ClothCompo.ChangeCloth(AgentType.Base);
-            _stateMachine.ChangeState(NPCState.Move);
+            var hospitalNPC = building.GetBuildingComponent<HospitalNPC>();
+            hospitalNPC.AddPatient(agent);
         }
 
         private async Awaitable<T> FindNearbyBuilding<T>() where T : BuildingBase
@@ -140,14 +129,20 @@ namespace JMT.Agent.State
             float minDist = float.MaxValue;
         
             int count = buildings.Count;
+            
+            float[] distances = new float[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                distances[i] = Vector3.Distance(agentPos, buildings[i].transform.position);
+            }
             if (count < 10)
             {
                 for (int i = 0; i < count; i++)
                 {
-                    float dist = Vector3.Distance(agentPos, buildings[i].transform.position);
-                    if (dist < minDist)
+                    if (distances[i] < minDist)
                     {
-                        minDist = dist;
+                        minDist = distances[i];
                         nearest = buildings[i];
                     }
                 }
@@ -157,10 +152,9 @@ namespace JMT.Agent.State
             await Awaitable.BackgroundThreadAsync();
             for (int i = 0; i < count; i++)
             {
-                float dist = Vector3.Distance(agentPos, buildings[i].transform.position);
-                if (dist < minDist)
+                if (distances[i] < minDist)
                 {
-                    minDist = dist;
+                    minDist = distances[i];
                     nearest = buildings[i];
                 }
             }

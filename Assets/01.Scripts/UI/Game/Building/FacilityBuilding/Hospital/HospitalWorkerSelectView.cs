@@ -8,7 +8,7 @@ namespace JMT.UISystem.Hospital
     public class HospitalWorkerSelectView : SidePanelUI
     {
         public event Action<NPCAgent> OnHireEvent;
-        public Action[] handlers;
+        public List<Action> handlers = new();
         [SerializeField] private Transform workerContent;
         [SerializeField] private NPCContentUI workerContentPrefab;
 
@@ -17,7 +17,7 @@ namespace JMT.UISystem.Hospital
             for(int i = 0; i < agents.Count; ++i)
             {
                 int value = i;
-                handlers[i] = () => OnHireEvent?.Invoke(agents[value]);
+                handlers.Add(() => OnHireEvent?.Invoke(agents[value]));
                 NPCContentUI content = Instantiate(workerContentPrefab, workerContent);
                 content.SetWorkerPanel(agents[value]);
                 content.OnAddEvent += handlers[value];

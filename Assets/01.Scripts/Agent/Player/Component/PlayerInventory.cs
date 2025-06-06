@@ -86,8 +86,10 @@ namespace JMT.PlayerCharacter
                 {
                     if (_playerInventoryData.item != null && _playerInventoryData.count > 0)
                     {
-                        building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count);
-                        RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
+                        if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
+                        {
+                            RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
+                        }
                     }
                 }
             }
