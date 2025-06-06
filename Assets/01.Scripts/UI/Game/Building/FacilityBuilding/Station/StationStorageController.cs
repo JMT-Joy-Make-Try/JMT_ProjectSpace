@@ -1,4 +1,6 @@
+using JMT.Agent;
 using JMT.Item;
+using JMT.Planets.Tile.Items;
 using JMT.PlayerCharacter;
 using JMT.UISystem.Inventory;
 using System.Collections.Generic;
@@ -59,11 +61,31 @@ namespace JMT.UISystem.Station
         private void HandleItemUseEvent()
         {
             // currentItem을 이용하여 아이템 사용
+            var itemSO = currentItem.Key;
+            if (itemSO?.IsUsable == false) return;
+
+            if (itemSO.ItemType is ItemType.OxygenTank or ItemType.PurificationContainer)
+            {
+                // 산소 공급(값은 바꿔줘야함)
+                AgentManager.Instance.Player.HealthCompo.AddOxygen(10);
+            }
+            else if (itemSO.ItemType is ItemType.LiquidFuel or ItemType.RefinedFuel)
+            {
+                // 연료 공급(값은 바꿔줘야함)
+                GameUIManager.Instance.ResourceCompo.AddFuel(10);
+            }
+            
+            // 아이템 창고에서 빼고 currentItem 초기화
         }
 
         private void HandleItemOutEvent()
         {
-            // currentItem을 이용하여 아이템 꺼내기
+            var itemSO = currentItem.Key;
+            if (itemSO?.IsTakeable == false) return;
+
+            AgentManager.Instance.Player.InventoryCompo.AddItem(itemSO, currentItem.Value);
+
+            // 아이템 창고에서 빼고 currentItem 초기화
         }
 
         private void HandleItemEquipEvent(bool isEquip)
@@ -71,6 +93,13 @@ namespace JMT.UISystem.Station
             // isEquip은 무시
             // currentItem을 이용하여 아이템 장착
             // 아이템 장착 해제는 주석으로 표시해주세요.
+            
+            var itemSO = currentItem.Key;
+            if (itemSO is not ToolSO toolSO) return;
+            
+            toolSO.Equip();
+            
+            // 만약 해제할거면 toolSO.UnEquip()을 호출하세요.
         }
     }
 }

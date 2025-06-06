@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
+using JMT.Item;
 using System;
 using System.Linq;
 using UnityEngine;
