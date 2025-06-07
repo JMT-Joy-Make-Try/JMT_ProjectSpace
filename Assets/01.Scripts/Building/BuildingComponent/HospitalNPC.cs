@@ -36,7 +36,7 @@ namespace JMT.Building.Component
             }
             else
             {
-                DebugExtension.LogWithClassName("No available slot for patient in hospital NPC data.");
+                Debug.Log("No available slot for patient in hospital NPC data.");
             }
         }
     }

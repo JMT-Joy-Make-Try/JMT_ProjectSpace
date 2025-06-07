@@ -9,6 +9,7 @@ namespace JMT.Building.Component
     {
         [SerializeField] private Material visualMat;
         [SerializeField] private List<MeshRenderer> rendererList;
+        [SerializeField] private List<GameObject> buildingLevelObjects;
         
         public BuildingBase Building { get; private set; }
         public Material VisualMat => visualMat;

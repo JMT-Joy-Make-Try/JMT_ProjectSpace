@@ -32,6 +32,8 @@ namespace JMT.Item
                         ItemType.RefinedFuel or 
                         ItemType.OxygenTank or 
                         ItemType.PurificationContainer;
+        // TODO: 현재 코스튬을 장비로 처리할지 확정되지 않아 임시로 구현함. 확정된 후 적절하게 수정해야함
+        // 코스튬 기획 끝나면 수정 예정
         public bool IsTakeable => Category != InventoryCategory.Tool;
     }
 }
