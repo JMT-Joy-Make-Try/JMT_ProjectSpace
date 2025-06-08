@@ -10,12 +10,12 @@ using UnityEngine;
 
 namespace JMT.UISystem.Inventory
 {
-    public class InventoryModel
+    public class StationStorageModel
     {
         private InventorySO inventorySO;
         private KeyValuePair<ItemSO, int> currentItem;
 
-        public InventoryModel(InventorySO so)
+        public StationStorageModel(InventorySO so)
         {
             inventorySO = so;
         }
@@ -104,5 +104,11 @@ namespace JMT.UISystem.Inventory
 
         public int CalculateItemMaxSize(Player player, int itemCount)
             => player.InventoryCompo.MaxInventorySize < itemCount ? player.InventoryCompo.MaxInventorySize : itemCount;
+
+        public int FindItem(ItemSO resultItem)
+        {
+            inventorySO.ItemDictionary.TryGetValue(resultItem, out var value);
+            return value;
+        }
     }
 }

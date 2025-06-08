@@ -1,9 +1,5 @@
 using JMT.Building;
-using JMT.Item;
 using JMT.Planets.Tile;
-using JMT.UISystem.Inventory;
-using System;
-using System.Linq;
 using UnityEngine;
 
 namespace JMT.UISystem.Station
@@ -12,14 +8,16 @@ namespace JMT.UISystem.Station
     {
         [SerializeField] private StationView view;
         [SerializeField] private StationStorageController storage;
-        
+
         [Header("Upgrade Settings")]
         [SerializeField] private StationUpgradeView upgradeView;
 
         private IOpenablePanel currentPanel;
-        
+
         private void Awake()
         {
+            storage.OnEndEvent += ClosePanel;
+
             view.OnStorageButtonEvent += HandleStorageEvent;
             view.OnUpgradeButtonEvent += HandleUpgradeEvent;
             view.OnExitButtonEvent += ClosePanel;
