@@ -8,12 +8,12 @@ namespace JMT.PlayerCharacter
     {
         public override void Equip()
         {
-            
+            base.Equip();
         }
 
         public override void UnEquip()
         {
-            
+            base.UnEquip();
         }
     }
 }

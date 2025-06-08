@@ -10,11 +10,13 @@ namespace JMT
         // public ItemType ItemType;
         public override void Equip()
         {
+            base.Equip();
             throw new System.NotImplementedException();
         }
 
         public override void UnEquip()
         {
+            base.UnEquip();
             throw new System.NotImplementedException();
         }
     }

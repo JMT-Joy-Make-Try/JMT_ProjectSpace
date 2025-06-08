@@ -17,9 +17,10 @@ namespace JMT.PlayerCharacter
         public void Init(IPlayer player)
         {
             Player = player as Player;
-            foreach (var tool in _playerToolSOs.Values)
+            foreach (var tool in _playerToolSOs)
             {
-                tool.Init(player);
+                _playerToolSOs[tool.Key] = Instantiate(tool.Value);
+                _playerToolSOs[tool.Key].Init(player);
             }
             CurPlayerToolSO = _playerToolSOs.First().Value;
         }
