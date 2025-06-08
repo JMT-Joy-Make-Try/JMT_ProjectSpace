@@ -31,7 +31,7 @@ namespace JMT.Building
         {
             if (_isAnimating) return;
             if (_currentProductionAmount <= 0) return;
-            GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
+            BuildingUIManager.Instance.StorageCompo.AddItem(ProductionItem, _currentProductionAmount);
             OnAddItemEvent?.Invoke();
 
             StartCoroutine(AnimateItem());

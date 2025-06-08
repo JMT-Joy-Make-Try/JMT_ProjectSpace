@@ -116,6 +116,6 @@ namespace JMT.UISystem
         }
 
         private void HandleInventoryButton()
-            => GameUIManager.Instance.InventoryCompo.OpenUI();
+            => BuildingUIManager.Instance.StorageCompo.OpenUI();
     }
 }

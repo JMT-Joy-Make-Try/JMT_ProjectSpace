@@ -18,7 +18,6 @@ namespace JMT.UISystem
         [SerializeField] private TimeController timeCompo;
         [SerializeField] private GameSpeedController speedCompo;
         [SerializeField] private ResourceController resourceCompo;
-        [SerializeField] private InventoryController inventoryCompo;
         [SerializeField] private ItemGetController itemGetCompo;
         [SerializeField] private PopupController popupCompo;
         [SerializeField] private ConstructController constructCompo;
@@ -30,7 +29,6 @@ namespace JMT.UISystem
         public TimeController TimeCompo => timeCompo;
         public GameSpeedController SpeedCompo => speedCompo;
         public ResourceController ResourceCompo => resourceCompo;
-        public InventoryController InventoryCompo => inventoryCompo;
         public ItemGetController ItemGetCompo => itemGetCompo;
         public PopupController PopupCompo => popupCompo;
         public ConstructController ConstructCompo => constructCompo;

@@ -41,7 +41,7 @@ namespace JMT.Planets.Tile
         private void BreakTile()
         {
             Debug.Log("Tile Broken!");
-            GameUIManager.Instance.InventoryCompo.AddItem(_itemType, _itemCount);
+            BuildingUIManager.Instance.StorageCompo.AddItem(_itemType, _itemCount);
         }
     }
 }

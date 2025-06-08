@@ -3,6 +3,7 @@ using JMT.Item;
 using JMT.Planets.Tile.Items;
 using JMT.PlayerCharacter;
 using JMT.UISystem.Inventory;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,19 +11,21 @@ namespace JMT.UISystem.Station
 {
     public class StationStorageController : MonoBehaviour, IOpenablePanel
     {
+        public event Action OnEndEvent;
+
         [Header("Storage Settings")]
         [SerializeField] private Player player;
-        [SerializeField] private StorageSO storageSO;
+        [SerializeField] private StorageSettingsSO storageSO;
         [SerializeField] private InventorySO inventorySO;
         [SerializeField] private StationStorageView storageView;
         [SerializeField] private StationSelectView selectView;
 
-        private InventoryModel model;
+        private StationStorageModel model;
         private KeyValuePair<ItemSO, int> currentItem;
 
         private void Awake()
         {
-            model = new InventoryModel(inventorySO);
+            model = new StationStorageModel(inventorySO);
 
             storageView.SetStorage(storageSO);
             storageView.OnItemSelectEvent += HandleItemSelectEvent;
@@ -45,22 +48,26 @@ namespace JMT.UISystem.Station
             selectView.CloseUI();
         }
 
+
+        // 아이템 카테고리 선택 이벤트
         private void HandleItemCategoryEvent(InventoryCategory? category)
         {
             var list = model.SelectCategory(category);
             storageView.SetData(list);
         }
 
+        // 아이템 셀 선택 이벤트
         private void HandleItemSelectEvent(KeyValuePair<ItemSO, int> item)
         {
-            currentItem = item;
+            int itemMaxValue = model.CalculateItemMaxSize(player, item.Value);
+            currentItem = new(item.Key, itemMaxValue);
             selectView.OpenUI();
-            selectView.SetSelectPanel(item, model.CalculateItemMaxSize(player, item.Value));
+            selectView.SetSelectPanel(item, itemMaxValue);
         }
 
+        // 아이템 사용 이벤트
         private void HandleItemUseEvent()
         {
-            // currentItem을 이용하여 아이템 사용
             var itemSO = currentItem.Key;
             if (itemSO?.IsUsable == false) return;
 
@@ -76,8 +83,11 @@ namespace JMT.UISystem.Station
             }
             
             // 아이템 창고에서 빼고 currentItem 초기화
+            model.RemoveItem(currentItem.Key, currentItem.Value);
+            OnEndEvent?.Invoke();
         }
 
+        // 아이템 꺼내기 이벤트
         private void HandleItemOutEvent()
         {
             var itemSO = currentItem.Key;
@@ -86,8 +96,11 @@ namespace JMT.UISystem.Station
             AgentManager.Instance.Player.InventoryCompo.AddItem(itemSO, currentItem.Value);
 
             // 아이템 창고에서 빼고 currentItem 초기화
+            model.RemoveItem(currentItem.Key, currentItem.Value);
+            OnEndEvent?.Invoke();
         }
 
+        // 아이템 장착 이벤트
         private void HandleItemEquipEvent(bool isEquip)
         {
             // isEquip은 무시
@@ -101,5 +114,19 @@ namespace JMT.UISystem.Station
             
             // 만약 해제할거면 toolSO.UnEquip()을 호출하세요.
         }
+
+        public void AddItem(ItemSO item, int amount)
+        {
+            model.AddItem(item, amount);
+        }
+
+        public bool HasItem(ItemSO item, int amount)
+            => model.HasItem(item, amount);
+
+        public int FindItem(CreateItemSO item)
+            => model.FindItem(item.ResultItem);
+
+        public void RemoveItem(ItemSO key, int value)
+            => model.RemoveItem(key, value);
     }
 }

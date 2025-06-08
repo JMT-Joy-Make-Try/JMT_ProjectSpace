@@ -35,7 +35,7 @@ namespace JMT.Building
         public bool ReceiveItem(ItemSO item, int amount)
         {
             if (!IsBuildingComplete) return false;
-            GameUIManager.Instance.InventoryCompo.AddItem(item, amount);
+            BuildingUIManager.Instance.StorageCompo.AddItem(item, amount);
             return true;
         }
     }
