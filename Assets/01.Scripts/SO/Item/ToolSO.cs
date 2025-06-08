@@ -11,7 +11,9 @@ namespace JMT.Item
     {
         public SerializedDictionary<ItemSO, int> NeedItems;
         public PlayerToolType ToolType;
+        public bool IsEquipped;
         protected Player _player;
+        
         public virtual void Init(IPlayer player)
         {
             _player = player as Player;
@@ -21,8 +23,14 @@ namespace JMT.Item
             }
         }
 
-        public abstract void Equip();
+        public virtual void Equip()
+        {
+            IsEquipped = true;
+        }
 
-        public abstract void UnEquip();
+        public virtual void UnEquip()
+        {
+            IsEquipped = false;
+        }
     }
 }
