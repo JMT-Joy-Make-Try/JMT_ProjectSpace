@@ -25,9 +25,26 @@ namespace JMT.UISystem.Station
             itemDescText.text = item.Key.ItemDescription;
 
             itemCountUI.Init(maxValue);
-            useButton.onClick.AddListener(HandleUseButton);
-            outButton.onClick.AddListener(HandleOutButton);
-            equipButton.onClick.AddListener(HandleEquipButton);
+
+            ButtonSettings(item);
+        }
+
+        private void ButtonSettings(KeyValuePair<ItemSO, int> item)
+        {
+            equipButton.gameObject.SetActive(item.Key is ToolSO);
+            useButton.gameObject.SetActive(item.Key.IsUsable);
+            outButton.gameObject.SetActive(item.Key.IsTakeable);
+
+            if (item.Key is ToolSO tool)
+            {
+                // 장착 여부 확인해야 함.
+                equipButton.onClick.AddListener(HandleEquipButton);
+                return;
+            }
+            if(item.Key.IsUsable)
+                useButton.onClick.AddListener(HandleUseButton);
+            if (item.Key.IsTakeable)
+                outButton.onClick.AddListener(HandleOutButton);
         }
 
         private void HandleUseButton()
@@ -42,7 +59,11 @@ namespace JMT.UISystem.Station
 
         private void HandleEquipButton()
         {
-            // 장비 장착 여부를 어떻게 판단하죠
+            OnItemEquipEvent?.Invoke(true);
+        }
+
+        private void HandleUnEquipButton()
+        {
             OnItemEquipEvent?.Invoke(false);
         }
     }

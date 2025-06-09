@@ -47,7 +47,7 @@ namespace JMT.Building.Component
         {
             foreach (var item in CurrentItems)
             {
-                GameUIManager.Instance.InventoryCompo.AddItem(item.Item1, item.Item2);
+                BuildingUIManager.Instance.StorageCompo.AddItem(ItemListSystem.Instance.GetItemSO(item.Item1), item.Item2);
             }
         }
         
