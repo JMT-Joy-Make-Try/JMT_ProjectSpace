@@ -1,3 +1,4 @@
+using JMT.PlayerCharacter;
 using UnityEngine;
 
 namespace JMT.UISystem
@@ -6,6 +7,12 @@ namespace JMT.UISystem
     {
         [SerializeField] private Transform canvas;
         [SerializeField] private bool isPlayerLook = true;
+
+        protected virtual void Awake()
+        {
+            if (canvas == null)
+                canvas = Camera.main.transform.parent.Find("PlayerCanvas").GetComponentInChildren<Canvas>().transform;
+        }
 
         private void LateUpdate()
         {

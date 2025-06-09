@@ -38,7 +38,10 @@ namespace JMT.UISystem.Station
             if (item.Key is ToolSO tool)
             {
                 // 장착 여부 확인해야 함.
-                equipButton.onClick.AddListener(HandleEquipButton);
+                if(!tool.IsEquipped)
+                    equipButton.onClick.AddListener(HandleEquipButton);
+                else
+                    equipButton.onClick.AddListener(HandleUnEquipButton);
                 return;
             }
             if(item.Key.IsUsable)
