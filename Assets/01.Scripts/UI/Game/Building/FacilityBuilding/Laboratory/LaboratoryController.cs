@@ -95,10 +95,9 @@ namespace JMT.UISystem.Laboratory
         private void HandleItemCreateEvent()
         {
             Debug.Log("버튼을 눌렀습니다.");
-            bool isCalculate = GameUIManager.Instance.InventoryCompo.CalculateItem(currentItemData.NeedItems);
-            if(isCalculate)
+            //bool isCalculate = GameUIManager.Instance.InventoryCompo.CalculateItem(currentItemData.NeedItems);
+            //if(isCalculate)
             {
-                GameUIManager.Instance.InventoryCompo.AddItem(currentItemData, 1);
                 Debug.Log("아이템이 들어왔습니다!");
             }
         }

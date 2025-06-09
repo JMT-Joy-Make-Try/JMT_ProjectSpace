@@ -4,7 +4,7 @@ using UnityEngine;
 namespace JMT
 {
     [CreateAssetMenu(menuName ="SO/Data/Buliding/StorageSO")]
-    public class StorageSO : ScriptableObject
+    public class StorageSettingsSO : ScriptableObject
     {
         public CellUI ItemCellUI;
 

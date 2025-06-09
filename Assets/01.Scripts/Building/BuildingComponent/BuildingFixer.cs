@@ -1,4 +1,4 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.UISystem;
 using System;
@@ -49,7 +49,7 @@ namespace JMT.Building.Component
         {
             foreach (var item in items)
             {
-                if (!GameUIManager.Instance.InventoryCompo.HasItem(item.Key, item.Value))
+                if (!BuildingUIManager.Instance.StorageCompo.HasItem(item.Key, item.Value))
                 {
                     Debug.Log("Not enough items to repair");
                     return false;
@@ -72,7 +72,7 @@ namespace JMT.Building.Component
             // 수리 완료
             foreach (var item in items)
             {
-                GameUIManager.Instance.InventoryCompo.RemoveItem(item.Key, item.Value);
+                BuildingUIManager.Instance.StorageCompo.RemoveItem(item.Key, item.Value);
             }
             
             Building.GetBuildingComponent<BuildingHealth>().InitStat();

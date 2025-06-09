@@ -33,7 +33,7 @@ namespace JMT.UISystem.Station
             OnCategoryEvent?.Invoke(InventoryCategory.Tool);
         }
 
-        public void SetStorage(StorageSO storage)
+        public void SetStorage(StorageSettingsSO storage)
         {
             for (int i = 0; i < storage.TotalCellCount; ++i)
             {
