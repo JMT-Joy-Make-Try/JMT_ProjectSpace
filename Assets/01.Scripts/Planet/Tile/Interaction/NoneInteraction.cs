@@ -23,7 +23,7 @@ namespace JMT.Planets.Tile
             {
                 AddObject(TileManager.Instance.FieldPrefab);
                 planetTile.ChangeInteraction<FieldInteraction>();
-                transform.parent.gameObject.layer = LayerMask.NameToLayer("Field");
+                transform.parent.gameObject.layer = LayerMask.NameToLayer("Reciveable");
             }
         }
 

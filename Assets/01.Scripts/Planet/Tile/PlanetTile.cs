@@ -1,6 +1,7 @@
 using System;
 using JMT.Building;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
@@ -52,11 +53,14 @@ namespace JMT.Planets.Tile
 
         public void EnterPreBuildRequirementState()
         {
-            
+            var preBuild = ChangeInteraction<PreBuildInteraction>();
+            preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
+            gameObject.layer = LayerMask.NameToLayer("Reciveable");
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
+            gameObject.layer = LayerMask.NameToLayer("Ground");
             if (CanBuild())
             {
                 OnBuild?.Invoke();
@@ -66,8 +70,7 @@ namespace JMT.Planets.Tile
                 _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
 
 
-                RemoveInteraction();
-                AddInteraction<ProgressInteraction>();
+                ChangeInteraction<ProgressInteraction>();
             }
             else
             {
@@ -84,10 +87,12 @@ namespace JMT.Planets.Tile
             }
         }
 
-        public void AddInteraction<T>() where T : TileInteraction
+        public T AddInteraction<T>() where T : TileInteraction
         {
             T instance = TileInteraction.AddComponent<T>();
             OnChangeInteraction?.Invoke(instance);
+
+            return instance;
         }
 
         public void RemoveInteraction()
@@ -95,10 +100,10 @@ namespace JMT.Planets.Tile
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
-        public void ChangeInteraction<T>() where T : TileInteraction
+        public T ChangeInteraction<T>() where T : TileInteraction
         {
             RemoveInteraction();
-            AddInteraction<T>();
+            return AddInteraction<T>();
         }
         
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction

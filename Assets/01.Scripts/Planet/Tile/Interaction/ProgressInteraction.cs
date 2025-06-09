@@ -10,7 +10,7 @@ namespace JMT
     {
         private static readonly Dictionary<Type, Type> _interactionLookup = new()
         {
-            { typeof(BaseBuilding), typeof(BaseBuilding) },
+            { typeof(BaseBuilding), typeof(StationInteraction) },
             { typeof(LaboratoryBuilding), typeof(LaboratoryInteraction) },
             { typeof(OxygenBuilding), typeof(SupplyOxygenInteraction) },
             { typeof(HospitalBuilding), typeof(HospitalInteraction) }

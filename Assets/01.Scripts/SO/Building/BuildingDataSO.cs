@@ -29,6 +29,7 @@ namespace JMT.Building
     {
         public Sprite Icon;
         public BuildingBase Prefab;
+        public PVCBuilding PVCPrefab;
         public BuildingCategory Category;
         public string BuildingName;
         [TextArea(4, 10)] public string BuildingDescription;
