@@ -28,6 +28,11 @@ namespace JMT.Building.Component
                 }
             }
 
+            if (buildingLevelObjects == null || buildingLevelObjects.Count == 0)
+            {
+                Debug.LogWarning("Building level objects are not set or empty.");
+                return;
+            }
             _currentLevelObject = buildingLevelObjects[0];
         }
 

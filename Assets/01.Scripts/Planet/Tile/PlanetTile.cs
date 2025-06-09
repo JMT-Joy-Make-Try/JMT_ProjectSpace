@@ -50,6 +50,11 @@ namespace JMT.Planets.Tile
             return !Fog.IsFogActive || _currentBuilding == null;
         }
 
+        public void EnterPreBuildRequirementState()
+        {
+            
+        }
+
         public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
             if (CanBuild())
