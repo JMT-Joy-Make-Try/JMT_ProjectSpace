@@ -12,14 +12,22 @@ namespace JMT.Building.Component
     {
         [Header("Building Data")]
         public List<SerializeTuple<ItemType, int>> CurrentItems;
+
+        [SerializeField] private PVCBuilding pvcBuilding;
         private BuildingDataSO buildingData;
         public BuildingBase Building { get; private set; }
         public BuildingDataSO Data => buildingData;
         public void Init(BuildingBase building)
         {
             Building = building;
+            Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged += OnBuildingLevelChanged;
         }
-        
+
+        private void OnBuildingLevelChanged(int obj)
+        {
+            TileManager.Instance.CurrentTile.Build(buildingData, pvcBuilding);
+        }
+
         public void SetItem(ItemType type, int amount)
         {
             if (CurrentItems.Contains(type))
