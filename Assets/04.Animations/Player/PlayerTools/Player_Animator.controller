@@ -235,11 +235,14 @@ AnimatorStateMachine:
     m_Position: {x: 389.18097, y: 341.0604, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1504006643300504345}
-    m_Position: {x: 120, y: 390, z: 0}
+    m_Position: {x: 340, y: 410, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2999813706539546784}
+    m_Position: {x: 220, y: 470, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -683558387431325012}
-    m_Position: {x: 570, y: 270, z: 0}
+    m_Position: {x: 530, y: 60, z: 0}
   m_AnyStateTransitions:
   - {fileID: -8546229775523463497}
   - {fileID: 3073392631251164461}
@@ -248,6 +251,7 @@ AnimatorStateMachine:
   - {fileID: 8925591334595581501}
   - {fileID: -6788246482150438384}
   - {fileID: -2594806847049893149}
+  - {fileID: 4839735686443615792}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
@@ -459,6 +463,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: Sleep
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -484,6 +494,32 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!1102 &2999813706539546784
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sleep
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 8f6475603c297d845a5af97d6b11b8d2, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &3073392631251164461
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -521,6 +557,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4ea4ec7b6742b88a85a1a45d5bd4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1101 &4839735686443615792
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Sleep
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2999813706539546784}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!1102 &4862928523855035990
 AnimatorState:
   serializedVersion: 6

@@ -82,6 +82,14 @@ namespace JMT.PlayerCharacter
                 Debug.LogWarning($"State {curState} not found in stateHash.");
             }
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ChangeState(PlayerState.Sleep);
+            }
+        }
     }
 
     public enum PlayerState
@@ -90,6 +98,7 @@ namespace JMT.PlayerCharacter
         Walk,
         Interact,
         Carring,
+        Sleep,
         Hit,
         Dead,
     }

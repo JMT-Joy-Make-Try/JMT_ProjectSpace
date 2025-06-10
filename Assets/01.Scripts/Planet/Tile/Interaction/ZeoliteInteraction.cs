@@ -20,11 +20,11 @@ namespace JMT.Planets.Tile
 
         public override void Interaction()
         {
-            if (!FogManager.Instance.IsAllFogOff(_list.FogTier - 1))
-            {
-                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("전 단계의 안개가 모두 해금되지 않았습니다.");
-                return;
-            }
+            // if (!FogManager.Instance.IsAllFogOff(_list.FogTier - 1))
+            // {
+            //     GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("전 단계의 안개가 모두 해금되지 않았습니다.");
+            //     return;
+            // }
             base.Interaction();
             //StartCoroutine(FogOff());
             OnInteraction?.Invoke();
