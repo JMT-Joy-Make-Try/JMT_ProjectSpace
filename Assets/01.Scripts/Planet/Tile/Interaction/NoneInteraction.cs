@@ -11,11 +11,11 @@ namespace JMT.Planets.Tile
         {
             if (!IsPlayerHaveTool())
             {
-                if (TileManager.Instance.CurrentTile.Fog.IsFogActive)
-                {
-                    GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("건설할 수 없는 구역입니다.");
-                    return;
-                }
+                // if (TileManager.Instance.CurrentTile.Fog.IsFogActive)
+                // {
+                //     GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("건설할 수 없는 구역입니다.");
+                //     return;
+                // }
 
                 GameUIManager.Instance.ConstructCompo.OpenUI();
             }

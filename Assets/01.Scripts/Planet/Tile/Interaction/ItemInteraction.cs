@@ -14,7 +14,7 @@ namespace JMT.Planets.Tile
         
         public override void Interaction()
         {
-            if (TileManager.Instance.CurrentTile.Fog.IsFogActive) return;
+            //if (TileManager.Instance.CurrentTile.Fog.IsFogActive) return;
             Destroy(transform.GetChild(0).gameObject);
             for (int i = 0; i < itemCount; i++)
             {

@@ -25,7 +25,7 @@ namespace JMT.Planets.Tile
 
         [Space] [SerializeField] private List<Texture2D> _textures;
 
-        private BuildingBase _currentBuilding;
+        [SerializeField]private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
         public GameObject TileInteraction;
         public Transform Pivot { get; private set; }
@@ -48,7 +48,7 @@ namespace JMT.Planets.Tile
 
         public bool CanBuild()
         {
-            return !Fog.IsFogActive || _currentBuilding == null;
+            return /*!Fog.IsFogActive ||*/ _currentBuilding == null;
         }
 
         public void EnterPreBuildRequirementState()
@@ -61,21 +61,14 @@ namespace JMT.Planets.Tile
         public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
             gameObject.layer = LayerMask.NameToLayer("Ground");
-            if (CanBuild())
-            {
-                OnBuild?.Invoke();
-                PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
-                if (_currentBuilding == null)
-                    _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-                _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
+            OnBuild?.Invoke();
+            PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
+            if (_currentBuilding == null)
+                _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
+            _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
 
 
-                ChangeInteraction<ProgressInteraction>();
-            }
-            else
-            {
-                Debug.Log("Can't Build");
-            }
+            ChangeInteraction<ProgressInteraction>();
         }
 
         public void DestroyBuilding()
@@ -148,10 +141,10 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
-            if (Fog.IsFogActive)
-            {
-                _tileList.LineRenderer.enabled = enable;
-            }
+            // if (Fog.IsFogActive)
+            // {
+            //     _tileList.LineRenderer.enabled = enable;
+            // }
         }
 
         public void TestBuild(BuildingDataSO building)
