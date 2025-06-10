@@ -15,7 +15,7 @@ namespace JMT.Building
         private float _craftProgress = 0f;
         private CreateItemSO _currentRecipe;
 
-        private bool _isHold;
+        //private bool _isHold;
 
         public event Action<ItemSO> OnCraftComplete;
 
@@ -43,17 +43,17 @@ namespace JMT.Building
         {
             while (_craftProgress < duration)
             {
-                if (_isHold)
+                //if (_isHold)
                     _craftProgress += Time.deltaTime;
                 yield return null;
             }
             CompleteCraft();
         }
 
-        public void SetHold(bool isHold)
-        {
-            _isHold = isHold;
-        }
+        // public void SetHold(bool isHold)
+        // {
+        //     _isHold = isHold;
+        // }
 
         private void CompleteCraft()
         {

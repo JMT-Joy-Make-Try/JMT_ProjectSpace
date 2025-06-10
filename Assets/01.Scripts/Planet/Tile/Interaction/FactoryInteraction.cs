@@ -11,13 +11,13 @@ namespace JMT.Planet.Tile
         protected override void Awake()
         {
             base.Awake();
-            GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
+            //GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
         }
 
         private void HandleHoldEvent(bool obj)
         {
-            Debug.Log(obj);
-            (planetTile.CurrentBuilding as FactoryBuilding)?.SetHold(obj);
+            //Debug.Log(obj);
+            //(planetTile.CurrentBuilding as FactoryBuilding)?.SetHold(obj);
         }
     }
 }
