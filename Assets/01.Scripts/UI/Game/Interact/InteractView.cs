@@ -11,17 +11,23 @@ namespace JMT.UISystem.Interact
         public event Action OnChangeInteractEvent;
 
         [SerializeField] private Sprite[] interactSprite;
-        [SerializeField] private Button interactButton, changeButton;
+        [SerializeField] private Button interactButton;
         [SerializeField] private EventTrigger interactTrigger;
         [SerializeField] private Image interactionIcon;
 
         private void Awake()
         {
-            interactButton.onClick.AddListener(() =>
-            {
-                OnInteractEvent?.Invoke();
-            });
-            changeButton.onClick.AddListener(() => OnChangeInteractEvent?.Invoke());
+            interactButton.onClick.AddListener(HandleInteractButton);
+        }
+
+        private void OnDestroy()
+        {
+            interactButton.onClick.RemoveListener(HandleInteractButton);
+        }
+
+        private void HandleInteractButton()
+        {
+            OnInteractEvent?.Invoke();
         }
 
         public void ChangeInteract(InteractType type)

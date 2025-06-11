@@ -25,14 +25,14 @@ namespace JMT.UISystem.SupplyOxygen
         public void OpenPanel()
         {
             view.OpenUI();
-            GameUIManager.Instance.GameUICompo.CloseUI();
+            GameUIManager.Instance.GameUICompo.ClosePanel();
             GameUIManager.Instance.PlayerControlActive(false);
             SetCurrentPanel(workView);
         }
 
         public void ClosePanel()
         {
-            GameUIManager.Instance.GameUICompo.OpenUI();
+            GameUIManager.Instance.GameUICompo.OpenPanel();
             GameUIManager.Instance.PlayerControlActive(true);
             view.CloseUI();
             SetCurrentPanel(null);

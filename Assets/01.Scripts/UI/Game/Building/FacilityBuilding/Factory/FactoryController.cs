@@ -64,7 +64,7 @@ namespace JMT.UISystem.Factory
         public override void OpenPanel()
         {
             view.OpenUI();
-            GameUIManager.Instance.GameUICompo.CloseUI();
+            GameUIManager.Instance.GameUICompo.ClosePanel();
             GameUIManager.Instance.PlayerControlActive(false);
             SetCurrentPanel(itemView);
         }
@@ -72,7 +72,7 @@ namespace JMT.UISystem.Factory
         public override void ClosePanel()
         {
             view.CloseUI();
-            GameUIManager.Instance.GameUICompo.OpenUI();
+            GameUIManager.Instance.GameUICompo.OpenPanel();
             GameUIManager.Instance.PlayerControlActive(true);
             SetCurrentPanel(null);
         }
