@@ -1,3 +1,4 @@
+using JMT.Building;
 using JMT.Item;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace JMT.UISystem.Factory
 
         [SerializeField] private List<CreateItemSO> itemList;
         [SerializeField] private List<CreateItemSO> toolList;
+        
+        public FactoryBuilding factoryBuilding;
 
         private void Awake()
         {
@@ -33,6 +36,7 @@ namespace JMT.UISystem.Factory
         private void HandleCreateItemEvent(CreateItemSO item)
         {
             Debug.Log(item + " 아이템 생성");
+            factoryBuilding.StartCraft(item);
         }
 
         private void HandleItemSelectEvent()

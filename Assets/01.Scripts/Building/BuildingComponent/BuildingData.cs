@@ -55,6 +55,7 @@ namespace JMT.Building.Component
         {
             SetBuildingData(data);
             Building.SetPVCBuilding(pvc);
+            if (Building.PVC == null) Debug.LogError("PVC is null in BuildingData.SetBuildingData");
             Building.PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
             Building.Building();
         }
