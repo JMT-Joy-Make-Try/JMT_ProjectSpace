@@ -17,6 +17,7 @@ namespace JMT
         };
         public override void Interaction()
         {
+            base.Interaction();
             BuildingBase building = GetComponentInChildren<BuildingBase>();
 
             if (!building.IsBuilding) return;
