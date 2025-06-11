@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
-    public class PreBuildInteraction : TileInteraction, IItemReceivable
+    public class PreBuildInteraction : TileInteraction
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _requiredItems = new();
         private bool _isCompleteReceive = false;

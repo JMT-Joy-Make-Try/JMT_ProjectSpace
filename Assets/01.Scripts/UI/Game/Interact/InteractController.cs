@@ -46,8 +46,6 @@ namespace JMT.UISystem.Interact
             view.RemoveAllEventTriggers();
             if (type.Equals(InteractType.Item))
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
-            else if (type.Equals(InteractType.Factory))
-                view.SetHoldEventTrigger(OnFactoryHoldStart, OnHoldEnd);
             else
             {
                 view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
@@ -74,11 +72,11 @@ namespace JMT.UISystem.Interact
             holdCoroutine = StartCoroutine(HoldCoroutine());
         }
         
-        private void OnFactoryHoldStart()
+        private void OnBuildHoldStart()
         {
             GameUIManager.Instance.PlayerControlActive(false);
-            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "제작 중...");
-            holdCoroutine = StartCoroutine(HoldCoroutine(2f));
+            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "건설 중...");
+            holdCoroutine = StartCoroutine(HoldCoroutine(3f));
         }
 
         private void OnHoldEnd()
