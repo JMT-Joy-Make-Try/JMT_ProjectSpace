@@ -110,6 +110,7 @@ namespace JMT.UISystem.Station
             var itemSO = currentItem.Key;
             if (itemSO is not ToolSO toolSO) return;
             
+            player.PlayerToolCompo.AddTool(toolSO);
             toolSO.Equip();
             
             // 만약 해제할거면 toolSO.UnEquip()을 호출하세요.
