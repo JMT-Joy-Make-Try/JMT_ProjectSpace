@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
 using JMT.QuestSystem;
+using System.Collections;
 
 namespace JMT.Planets.Tile
 {
@@ -67,7 +68,6 @@ namespace JMT.Planets.Tile
                 _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
             _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
 
-
             ChangeInteraction<ProgressInteraction>();
         }
 
@@ -91,6 +91,7 @@ namespace JMT.Planets.Tile
         public void RemoveInteraction()
         {
             Destroy(TileInteraction.GetComponent<TileInteraction>());
+            Debug.Log("Interaction removed from tile.");
         }
         
         public T ChangeInteraction<T>() where T : TileInteraction
