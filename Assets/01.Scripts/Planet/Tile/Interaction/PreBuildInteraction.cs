@@ -2,6 +2,7 @@
 using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Item;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +13,12 @@ namespace JMT.Planets.Tile
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _requiredItems = new();
         private bool _isCompleteReceive = false;
+        private bool _isBuildComplete = false;
 
         public override void Interaction()
         {
             base.Interaction();
-            if (_isCompleteReceive)
+            if (_isCompleteReceive && !_isBuildComplete)
             {
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, BuildingManager.Instance.CurrentBuilding.PVCPrefab);
             }
@@ -43,10 +45,23 @@ namespace JMT.Planets.Tile
             return false;
         }
         
-        public void SetRequiredItems(SerializedDictionary<ItemSO, int> requiredItems)
+        public void SetRequiredItems(Dictionary<ItemSO, int> requiredItems)
         {
-            _requiredItems = requiredItems;
+            _requiredItems = requiredItems as SerializedDictionary<ItemSO, int>;
             _isCompleteReceive = false;
+            _isBuildComplete = false;
+            
+            if (_requiredItems.Count <= 0)
+            {
+                StartCoroutine(DelayBuild());
+            }
+        }
+
+        private IEnumerator DelayBuild()
+        {
+            yield return new WaitForSeconds(0.1f);
+            _isBuildComplete = true;
+            planetTile.Build(BuildingManager.Instance.CurrentBuilding, BuildingManager.Instance.CurrentBuilding.PVCPrefab);
         }
     }
 }
