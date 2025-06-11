@@ -1,4 +1,5 @@
 ﻿using AYellowpaper.SerializedCollections;
+using JMT.Agent;
 using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Item;
@@ -15,12 +16,30 @@ namespace JMT.Planets.Tile
         private bool _isCompleteReceive = false;
         private bool _isBuildComplete = false;
 
+        private PVCBuilding pvc;
+
         public override void Interaction()
         {
             base.Interaction();
+            var inventory = AgentManager.Instance.Player.InventoryCompo;
+            if (!_requiredItems.ContainsKey(inventory.PlayerInventoryData.item)) 
+            {
+                Debug.LogError("Required item not found in inventory.");
+                return;
+            }
+
+            _requiredItems[inventory.PlayerInventoryData.item] -= inventory.PlayerInventoryData.count;
+            inventory.RemoveItem();
+            if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
+            {
+                _requiredItems.Remove(inventory.PlayerInventoryData.item);
+            }
+            _isCompleteReceive = _requiredItems.Count <= 0;
+            
             if (_isCompleteReceive && !_isBuildComplete)
             {
-                planetTile.Build(BuildingManager.Instance.CurrentBuilding, BuildingManager.Instance.CurrentBuilding.PVCPrefab);
+                _isBuildComplete = true;
+                planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
         }
 
@@ -50,6 +69,9 @@ namespace JMT.Planets.Tile
             _requiredItems = requiredItems as SerializedDictionary<ItemSO, int>;
             _isCompleteReceive = false;
             _isBuildComplete = false;
+            
+            pvc = Instantiate(BuildingManager.Instance.CurrentBuilding.PVCPrefab, transform);
+            pvc.SetVisualActive(false);
             
             if (_requiredItems.Count <= 0)
             {
