@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Item;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,13 +18,6 @@ namespace JMT.PlayerCharacter
         public void Init(IPlayer player)
         {
             Player = player as Player;
-            var keys = _playerToolSOs.Keys.ToList();
-            foreach (var key in keys)
-            {
-                _playerToolSOs[key] = Instantiate(_playerToolSOs[key]);
-                _playerToolSOs[key].Init(player);
-            }
-            CurPlayerToolSO = _playerToolSOs.First().Value;
         }
 
         public override void SetCloth(PlayerToolType type)
@@ -35,12 +29,9 @@ namespace JMT.PlayerCharacter
             CurPlayerToolSO.Equip();
         }
 
-        private void Update()
+        public void AddTool(ToolSO tool, PlayerToolType type)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SetCloth(PlayerToolType.Farmer);
-            }
+            _playerToolSOs[type] = Instantiate(tool);
         }
     }
     
