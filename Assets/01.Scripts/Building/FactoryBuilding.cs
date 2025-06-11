@@ -29,9 +29,14 @@ namespace JMT.Building
             }
         }
 
+        private void Start()
+        {
+            BuildingUIManager.Instance.FactoryCompo.factoryBuilding = this;
+        }
+
         public bool StartCraft(CreateItemSO recipe)
         {
-            if (_isCrafting || !_craftableItems.Contains(recipe))
+            if (_isCrafting)
                 return false;
 
             _currentRecipe = recipe;

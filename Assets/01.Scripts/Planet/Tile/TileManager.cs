@@ -21,7 +21,7 @@ namespace JMT.Planets.Tile
                 _planetTile.EdgeEnable(true);
             }
         }
-        public GameObject FieldPrefab;
+        public Field.Field FieldPrefab;
         
 
 

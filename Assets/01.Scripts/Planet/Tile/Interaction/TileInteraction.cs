@@ -29,9 +29,9 @@ namespace JMT.Planets.Tile
 
         public void RemoveObject() => Destroy(gameObject);
 
-        public T AddObject<T>(T obj) where T : UnityEngine.Object
+        public T AddObject<T>(T obj, Transform parent) where T : UnityEngine.Object
         {
-            return Instantiate(obj, transform);
+            return Instantiate(obj, parent);
         }
     }
 }

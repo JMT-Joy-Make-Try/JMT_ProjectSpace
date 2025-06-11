@@ -1,4 +1,5 @@
-﻿using JMT.Core;
+﻿using JMT.Agent;
+using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
@@ -11,13 +12,32 @@ namespace JMT.Planets.Tile
 {
     public class FieldInteraction : TileInteraction
     {
+        private Field.Field _field;
         private SeedSO[] _seed = new SeedSO[4];
         private Plant[] _plantObject = new Plant[4];
         private int _growthStage = 1;
 
+        public void SetField(Field.Field field)
+        {
+            _field = field;
+        }
+
         public override void Interaction()
         {
             base.Interaction();
+            var inventory = AgentManager.Instance.Player.InventoryCompo;
+            var currentItem = inventory.PlayerInventoryData.item;
+            if (currentItem is not SeedSO) return;
+            
+            if (Array.Exists(_seed, s => s == null))
+            {
+                SetSeed(currentItem as SeedSO);
+            }
+            else
+            {
+                Debug.Log("All fields are occupied.");
+                return;
+            }
         }
 
         public void SetSeed(SeedSO seed)
@@ -26,7 +46,7 @@ namespace JMT.Planets.Tile
             if (idx != -1)
             {
                 _seed[idx] = seed;
-                _plantObject[idx] = AddObject(seed.plantObject);
+                _plantObject[idx] = AddObject(seed.plantObject, _field.PlantPositions[idx]);
             }
         }
 
