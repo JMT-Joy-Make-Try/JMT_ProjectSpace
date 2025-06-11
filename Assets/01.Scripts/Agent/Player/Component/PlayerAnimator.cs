@@ -26,8 +26,8 @@ namespace JMT.PlayerCharacter
         public void Init(IPlayer player)
         {
             Player = player as Player;
-            AnimCompo = Player.VisualTrm.GetComponent<Animator>();
-            EndTrigger = Player.VisualTrm.GetComponent<AnimationEndTrigger>();
+            AnimCompo = Player?.VisualTrm.GetComponent<Animator>();
+            EndTrigger = Player?.VisualTrm.GetComponent<AnimationEndTrigger>();
 
             InitState();
         }

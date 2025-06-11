@@ -1,4 +1,7 @@
-﻿using JMT.Item;
+﻿using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
+using JMT.Item;
+using JMT.Object;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,6 +64,17 @@ namespace JMT.Building
             var item = _currentRecipe.ResultItem;
             OnCraftComplete?.Invoke(item);
             // 아이템을 건물 앞에 생성하는 로직 추가
+            var obj = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
+            if (obj != null)
+            {
+                obj.SetItemType(item);
+                obj.transform.position = transform.position + Vector3.up * 0.5f; // 건물 앞에 아이템 생성
+                obj.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("Failed to pop ItemObject from pool.");
+            }
         }
     }
 
