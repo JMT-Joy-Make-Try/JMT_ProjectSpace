@@ -1,4 +1,4 @@
-﻿using JMT.Building;
+using JMT.Building;
 using JMT.Planets.Tile;
 using JMT.UISystem;
 using UnityEngine;
@@ -12,6 +12,12 @@ namespace JMT.Planet.Tile
         {
             base.Awake();
             //GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
+        }
+
+        public override void Interaction()
+        {
+            base.Interaction();
+            BuildingUIManager.Instance.FactoryCompo.OpenPanel();
         }
 
         private void HandleHoldEvent(bool obj)
