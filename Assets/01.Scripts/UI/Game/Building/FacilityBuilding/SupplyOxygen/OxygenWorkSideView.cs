@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace JMT.UISystem.SupplyOxygen
 {
@@ -11,18 +10,29 @@ namespace JMT.UISystem.SupplyOxygen
         [SerializeField] private List<CreateItemSO> createItemList;
         [SerializeField] private List<CellUI> itemUI;
 
+        private List<Action> handlers = new();
+
         private void Awake()
         {
-            for(int i = 0; i < itemUI.Count; i++)
+            for (int i = 0; i < itemUI.Count; i++)
             {
                 int value = i;
 
                 if (value < createItemList.Count)
                 {
+                    handlers.Add(() => HandleItemUIButton(value));
                     itemUI[value].SetCell(createItemList[value].ResultItem);
-                    itemUI[value].GetComponent<Button>().onClick.AddListener(() => HandleItemUIButton(value));
+                    itemUI[value].OnClickCellEvent += handlers[i];
                 }
                 else itemUI[value].ResetCell();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            for (int i = 0; i < handlers.Count; ++i)
+            {
+                itemUI[i].OnClickCellEvent -= handlers[i];
             }
         }
 

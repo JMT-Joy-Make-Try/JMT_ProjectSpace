@@ -1,4 +1,5 @@
 using JMT.UISystem.Building;
+using JMT.UISystem.Factory;
 using JMT.UISystem.Hospital;
 using JMT.UISystem.Laboratory;
 using JMT.UISystem.Station;
@@ -15,6 +16,7 @@ namespace JMT.UISystem
         [SerializeField] private LaboratoryController laboratoryCompo;
         [SerializeField] private SupplyOxygenController oxygenCompo;
         [SerializeField] private HospitalController hospitalCompo;
+        [SerializeField] private FactoryController factoryCompo;
 
         public ItemBuildingController ItemBuildingCompo => itemBuildingCompo;
         public StationController StationCompo => stationCompo;
@@ -22,5 +24,6 @@ namespace JMT.UISystem
         public LaboratoryController LaboratoryCompo => laboratoryCompo;
         public SupplyOxygenController OxygenCompo => oxygenCompo;
         public HospitalController HospitalCompo => hospitalCompo;
+        public FactoryController FactoryCompo => factoryCompo;
     }
 }

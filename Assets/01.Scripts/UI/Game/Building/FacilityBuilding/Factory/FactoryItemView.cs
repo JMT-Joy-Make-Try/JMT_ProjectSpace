@@ -1,19 +1,22 @@
 using DG.Tweening;
-using System;
+using JMT.UISystem;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-namespace JMT.UISystem.SupplyOxygen
+namespace JMT
 {
-    public class OxygenWorkView : PanelUI
+    public class FactoryItemView : PanelUI
     {
         public event Action OnOpenSideViewEvent;
         public event Action<CreateItemSO> OnCreateItemEvent;
 
         [SerializeField] private CellUI createItem;
         [SerializeField] private CanvasGroup beforePanel, afterPanel;
+        [SerializeField] private TextMeshProUGUI itemNameText, itemDescText;
         [SerializeField] private List<CellUI> needItemList = new();
         [SerializeField] private Button createButton;
 
@@ -40,8 +43,8 @@ namespace JMT.UISystem.SupplyOxygen
 
         private void HandleCreateButton()
         {
-            if(currentItem != null)
-            OnCreateItemEvent?.Invoke(currentItem);
+            if (currentItem != null)
+                OnCreateItemEvent?.Invoke(currentItem);
         }
 
         public void SetSelectItemPanel(CreateItemSO item)
@@ -51,8 +54,12 @@ namespace JMT.UISystem.SupplyOxygen
 
             currentItem = item;
             createItem.SetCell(item.ResultItem);
+
+            itemNameText.text = item.ResultItem.ItemName;
+            itemDescText.text = item.ResultItem.ItemDescription;
+
             var needItems = item.NeedItemList.ToList();
-            for(int i = 0; i < needItemList.Count; i++)
+            for (int i = 0; i < needItemList.Count; i++)
             {
                 if (i < needItems.Count)
                     needItemList[i].SetCell(needItems[i].Key, needItems[i].Value.ToString());
@@ -66,7 +73,7 @@ namespace JMT.UISystem.SupplyOxygen
             beforePanel.DOFade(1, 0.3f);
             afterPanel.DOFade(0, 0.3f);
 
-            if(currentItem!= null)
+            if (currentItem != null)
                 currentItem = null;
         }
     }
