@@ -4,12 +4,12 @@ namespace JMT.UISystem
 {
     public abstract class BuildingController : MonoBehaviour
     {
-        private PanelUI currentPanel = null;
+        protected PanelUI currentPanel = null;
 
         public abstract void OpenPanel();
         public abstract void ClosePanel();
 
-        public void SetCurrentPanel(PanelUI panel)
+        public virtual void SetCurrentPanel(PanelUI panel)
         {
             if (currentPanel == panel) return;
             currentPanel?.CloseUI();
