@@ -8,6 +8,7 @@ namespace JMT
 {
     public class PVCBuilding : MonoBehaviour
     {
+        [SerializeField] private GameObject pvcObject;
         [SerializeField] private List<Transform> _walls;
         [SerializeField] private ParticleSystem _dustEffect;
         private FillBarUI fillBarUI;
@@ -21,6 +22,7 @@ namespace JMT
 
         public void SetBuildTime(TimeData timeData)
         {
+            SetVisualActive(true);
             int secTime = timeData.GetSecond();
             fillBarUI.ResetBar(0);
             fillBarUI.SetHpBar(1, 1, secTime);
@@ -43,6 +45,11 @@ namespace JMT
             sequence.OnComplete(() => Destroy(gameObject));
 
             sequence.Play();
+        }
+        
+        public void SetVisualActive(bool isActive)
+        {
+            pvcObject.SetActive(isActive);
         }
     }
 }

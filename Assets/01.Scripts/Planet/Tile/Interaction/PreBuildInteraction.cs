@@ -16,6 +16,8 @@ namespace JMT.Planets.Tile
         private bool _isCompleteReceive = false;
         private bool _isBuildComplete = false;
 
+        private PVCBuilding pvc;
+
         public override void Interaction()
         {
             base.Interaction();
@@ -37,7 +39,7 @@ namespace JMT.Planets.Tile
             if (_isCompleteReceive && !_isBuildComplete)
             {
                 _isBuildComplete = true;
-                planetTile.Build(BuildingManager.Instance.CurrentBuilding, BuildingManager.Instance.CurrentBuilding.PVCPrefab);
+                planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
         }
 
@@ -67,6 +69,9 @@ namespace JMT.Planets.Tile
             _requiredItems = requiredItems as SerializedDictionary<ItemSO, int>;
             _isCompleteReceive = false;
             _isBuildComplete = false;
+            
+            pvc = Instantiate(BuildingManager.Instance.CurrentBuilding.PVCPrefab, transform);
+            pvc.SetVisualActive(false);
             
             if (_requiredItems.Count <= 0)
             {
