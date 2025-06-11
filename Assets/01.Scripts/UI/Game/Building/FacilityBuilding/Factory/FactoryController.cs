@@ -1,3 +1,4 @@
+using JMT.Item;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,8 @@ namespace JMT.UISystem.Factory
 
             toolView.OnCreateItemEvent += HandleCreateItemEvent;
             toolView.OnOpenSideViewEvent += HandleToolSelectEvent;
+
+            selectView.OnSelectItemEvent += HandleSelectItemEvent;
         }
 
         private void HandleCreateItemEvent(CreateItemSO item)
@@ -35,11 +38,27 @@ namespace JMT.UISystem.Factory
         private void HandleItemSelectEvent()
         {
             selectView.SetCells(itemList);
+            selectView.OpenUI();
         }
 
         private void HandleToolSelectEvent()
         {
             selectView.SetCells(toolList);
+            selectView.OpenUI();
+        }
+
+        private void HandleSelectItemEvent(CreateItemSO item)
+        {
+            if(itemView.IsOpen)
+                itemView.SetSelectItemPanel(item);
+
+            else if(toolView.IsOpen)
+                toolView.SetSelectItemPanel(item);
+
+            else
+                Debug.Log("이것은 말이 안돼요");
+
+            selectView.CloseUI();
         }
 
         public override void OpenPanel()
@@ -66,6 +85,12 @@ namespace JMT.UISystem.Factory
         private void HandleToolButton()
         {
             SetCurrentPanel(toolView);
+        }
+
+        public override void SetCurrentPanel(PanelUI panel)
+        {
+            base.SetCurrentPanel(panel);
+            selectView.CloseUI();
         }
     }
 }

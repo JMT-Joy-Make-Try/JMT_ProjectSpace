@@ -8,7 +8,7 @@ namespace JMT.UISystem.Factory
 {
     public class FactorySelectView : SidePanelUI
     {
-        public event Action<ItemSO> OnSelectItemEvent;
+        public event Action<CreateItemSO> OnSelectItemEvent;
         [SerializeField] private Transform cellContent;
 
         private List<CellUI> cells = new();
@@ -32,7 +32,7 @@ namespace JMT.UISystem.Factory
                 if (i < items.Count)
                 {
                     int value = i;
-                    handlers.Add(() => OnSelectItemEvent?.Invoke(items[value].ResultItem));
+                    handlers.Add(() => OnSelectItemEvent?.Invoke(items[value]));
                     cells[i].SetCell(items[i].ResultItem);
                     cells[i].OnClickCellEvent += handlers[i];
                 }

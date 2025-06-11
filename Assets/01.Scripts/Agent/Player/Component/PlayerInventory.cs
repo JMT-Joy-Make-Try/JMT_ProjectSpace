@@ -114,6 +114,18 @@ namespace JMT.PlayerCharacter
                 }
             }
         }
+        
+        public void SetMaxInventorySize(int size)
+        {
+            if (size < 0)
+            {
+                Debug.LogWarning("Max inventory size cannot be negative.");
+                return;
+            }
+            MaxInventorySize = size;
+            _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
+            OnInventoryEvent?.Invoke(_playerInventoryData.count, MaxInventorySize);
+        }
     }
 
     [Serializable]

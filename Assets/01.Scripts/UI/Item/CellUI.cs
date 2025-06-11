@@ -1,5 +1,3 @@
-using JMT.Building;
-using JMT.Item;
 using System;
 using TMPro;
 using UnityEngine;
@@ -15,7 +13,6 @@ namespace JMT.UISystem
         [SerializeField] private TextMeshProUGUI nameText, countText;
         [SerializeField] private Image select;
         [SerializeField] private Button cellButton;
-        //public Button CellButton { get; private set; }
 
         private void Awake()
         {
@@ -35,13 +32,13 @@ namespace JMT.UISystem
 
         public void SetCell(ICellDisplayData data = null, string count = null)
         {
-            if(data != null)
+            if (data != null)
             {
                 if (icon != null) icon.sprite = data.DisplayIcon;
                 if (nameText != null) nameText.text = data.DisplayName;
             }
-            
-            if(countText != null) countText.text = count;
+
+            if (countText != null) countText.text = count;
         }
 
         public void ResetCell()
@@ -53,8 +50,8 @@ namespace JMT.UISystem
 
         public void SetSelect(bool isActive)
         {
-            if(select != null)
-            select.enabled = isActive;
+            if (select != null)
+                select.enabled = isActive;
         }
     }
 }

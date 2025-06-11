@@ -20,19 +20,17 @@ namespace JMT
         [SerializeField] private List<CellUI> needItemList = new();
         [SerializeField] private Button createButton;
 
-        private Button createItemButton;
         private CreateItemSO currentItem;
 
         private void Awake()
         {
-            createItemButton = createItem.GetComponent<Button>();
-
-            createItemButton.onClick.AddListener(HandleCreateItemButton);
+            createItem.OnClickCellEvent += HandleCreateItemButton;
             createButton.onClick.AddListener(HandleCreateButton);
         }
 
         private void OnDestroy()
         {
+            createItem.OnClickCellEvent -= HandleCreateItemButton;
             createButton.onClick.RemoveListener(HandleCreateButton);
         }
 
@@ -53,10 +51,10 @@ namespace JMT
             afterPanel.DOFade(1, 0.3f);
 
             currentItem = item;
-            createItem.SetCell(item.ResultItem);
+            createItem.SetCell(currentItem.ResultItem);
 
-            itemNameText.text = item.ResultItem.ItemName;
-            itemDescText.text = item.ResultItem.ItemDescription;
+            itemNameText.text = currentItem.ResultItem.ItemName;
+            itemDescText.text = currentItem.ResultItem.ItemDescription;
 
             var needItems = item.NeedItemList.ToList();
             for (int i = 0; i < needItemList.Count; i++)
@@ -72,6 +70,8 @@ namespace JMT
 
             beforePanel.DOFade(1, 0.3f);
             afterPanel.DOFade(0, 0.3f);
+
+            createItem.ResetCell();
 
             if (currentItem != null)
                 currentItem = null;
