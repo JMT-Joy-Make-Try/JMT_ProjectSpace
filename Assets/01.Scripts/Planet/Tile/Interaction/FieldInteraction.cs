@@ -9,11 +9,16 @@ using UnityEngine;
 
 namespace JMT.Planets.Tile
 {
-    public class FieldInteraction : TileInteraction, IItemReceivable
+    public class FieldInteraction : TileInteraction
     {
         private SeedSO[] _seed = new SeedSO[4];
         private Plant[] _plantObject = new Plant[4];
         private int _growthStage = 1;
+
+        public override void Interaction()
+        {
+            base.Interaction();
+        }
 
         public void SetSeed(SeedSO seed)
         {

@@ -11,19 +11,21 @@ namespace JMT
         [SerializeField] private GameObject pvcObject;
         [SerializeField] private List<Transform> _walls;
         [SerializeField] private ParticleSystem _dustEffect;
-        private FillBarUI fillBarUI;
-        private PVCUI pvcUI;
+        [SerializeField] private FillBarUI fillBarUI;
+        [SerializeField] private PVCUI pvcUI;
 
         private void Awake()
         {
-            fillBarUI = GetComponent<FillBarUI>();
-            pvcUI = GetComponent<PVCUI>();
+            fillBarUI ??= GetComponent<FillBarUI>();
+            pvcUI ??= GetComponent<PVCUI>();
         }
 
         public void SetBuildTime(TimeData timeData)
         {
             SetVisualActive(true);
+            Debug.Log(timeData);
             int secTime = timeData.GetSecond();
+            Debug.Log(fillBarUI == null);
             fillBarUI.ResetBar(0);
             fillBarUI.SetHpBar(1, 1, secTime);
             pvcUI.SetTime(secTime);

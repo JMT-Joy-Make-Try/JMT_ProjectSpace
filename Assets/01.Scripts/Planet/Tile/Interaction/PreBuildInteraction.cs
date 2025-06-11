@@ -83,7 +83,7 @@ namespace JMT.Planets.Tile
         {
             yield return new WaitForSeconds(0.1f);
             _isBuildComplete = true;
-            planetTile.Build(BuildingManager.Instance.CurrentBuilding, BuildingManager.Instance.CurrentBuilding.PVCPrefab);
+            planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
         }
     }
 }

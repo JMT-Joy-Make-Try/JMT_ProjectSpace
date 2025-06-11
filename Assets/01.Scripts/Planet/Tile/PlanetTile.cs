@@ -91,7 +91,6 @@ namespace JMT.Planets.Tile
         public void RemoveInteraction()
         {
             Destroy(TileInteraction.GetComponent<TileInteraction>());
-            Debug.Log("Interaction removed from tile.");
         }
         
         public T ChangeInteraction<T>() where T : TileInteraction
