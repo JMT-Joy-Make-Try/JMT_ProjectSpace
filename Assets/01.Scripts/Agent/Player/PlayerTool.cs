@@ -25,7 +25,7 @@ namespace JMT.PlayerCharacter
         {
             base.SetCloth(type);
             Debug.Log(type.ToString());
-            CurPlayerToolSO.UnEquip();
+            CurPlayerToolSO?.UnEquip();
             CurPlayerToolSO = PlayerTools[type];
             CurPlayerToolSO.Equip();
         }
