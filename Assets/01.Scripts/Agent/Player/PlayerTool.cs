@@ -11,8 +11,9 @@ namespace JMT.PlayerCharacter
 {
     public class PlayerTool : AgentCloth<PlayerToolType>, IPlayerComponent
     {
+        public event Action OnAddToolEvent;
         public Player Player { get; private set; }
-        [SerializeField] private SerializedDictionary<PlayerToolType, ToolSO> _playerToolSOs;
+        [field: SerializeField] public SerializedDictionary<PlayerToolType, ToolSO> PlayerTools { get; private set; }
         public ToolSO CurPlayerToolSO { get; private set; }
         
         public void Init(IPlayer player)
@@ -25,13 +26,14 @@ namespace JMT.PlayerCharacter
             base.SetCloth(type);
             Debug.Log(type.ToString());
             CurPlayerToolSO.UnEquip();
-            CurPlayerToolSO = _playerToolSOs[type];
+            CurPlayerToolSO = PlayerTools[type];
             CurPlayerToolSO.Equip();
         }
 
-        public void AddTool(ToolSO tool, PlayerToolType type)
+        public void AddTool(ToolSO tool)
         {
-            _playerToolSOs[type] = Instantiate(tool);
+            PlayerTools[tool.ToolType] = Instantiate(tool);
+            OnAddToolEvent?.Invoke();
         }
     }
     

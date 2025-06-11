@@ -34,7 +34,7 @@ namespace JMT.UISystem.Station
         public void OpenPanel()
         {
             view.OpenUI();
-            GameUIManager.Instance.GameUICompo.CloseUI();
+            GameUIManager.Instance.GameUICompo.ClosePanel();
             GameUIManager.Instance.PlayerControlActive(false);
             ChangePanel(storage);
         }
@@ -42,7 +42,7 @@ namespace JMT.UISystem.Station
         private void ClosePanel()
         {
             ChangePanel(null);
-            GameUIManager.Instance.GameUICompo.OpenUI();
+            GameUIManager.Instance.GameUICompo.OpenPanel();
             GameUIManager.Instance.PlayerControlActive(true);
             view.CloseUI();
         }
