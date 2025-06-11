@@ -29,6 +29,23 @@ namespace JMT.UISystem.Interact
             view.OnChangeInteractEvent += HandleChangeInteract;
         }
 
+        private void OnDestroy()
+        {
+            view.OnChangeInteractEvent -= HandleChangeInteract;
+        }
+        
+        public void InfinityHold()
+        {
+            OnHoldEvent?.Invoke(true);
+        }
+        
+        public void StopInfinityHold()
+        {
+            OnHoldEvent?.Invoke(false);
+            isHold = false;
+            EndHold();
+        }
+
         private void HandleChangeInteract()
         {
             InteractType type = InteractType.None;
@@ -46,12 +63,16 @@ namespace JMT.UISystem.Interact
             view.RemoveAllEventTriggers();
             if (type.Equals(InteractType.Item))
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
+            else if (type.Equals(InteractType.Zeolite))
+                view.SetHoldEventTrigger(InfinityHold, StopInfinityHold);
             else
             {
                 view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
             }
 
         }
+        
+        
 
         private void HandleInteraction()
         {
@@ -59,7 +80,6 @@ namespace JMT.UISystem.Interact
 
             if (type.Equals(InteractType.Attack))
                 OnAttackEvent?.Invoke();
-
             else if (!type.Equals(InteractType.Item))
                 TileManager.Instance.GetInteraction().Interaction();
         }

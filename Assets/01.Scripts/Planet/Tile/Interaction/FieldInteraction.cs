@@ -38,6 +38,8 @@ namespace JMT.Planets.Tile
                 Debug.Log("All fields are occupied.");
                 return;
             }
+
+            inventory.RemoveItem();
         }
 
         public void SetSeed(SeedSO seed)
