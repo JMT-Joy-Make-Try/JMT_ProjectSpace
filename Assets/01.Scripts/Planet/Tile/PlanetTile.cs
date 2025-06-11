@@ -56,7 +56,6 @@ namespace JMT.Planets.Tile
         {
             var preBuild = ChangeInteraction<PreBuildInteraction>();
             preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
-            gameObject.layer = LayerMask.NameToLayer("Reciveable");
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)

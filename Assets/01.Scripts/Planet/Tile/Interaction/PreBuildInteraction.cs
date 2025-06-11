@@ -1,4 +1,5 @@
 ﻿using AYellowpaper.SerializedCollections;
+using JMT.Agent;
 using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Item;
@@ -18,8 +19,24 @@ namespace JMT.Planets.Tile
         public override void Interaction()
         {
             base.Interaction();
+            var inventory = AgentManager.Instance.Player.InventoryCompo;
+            if (!_requiredItems.ContainsKey(inventory.PlayerInventoryData.item)) 
+            {
+                Debug.LogError("Required item not found in inventory.");
+                return;
+            }
+
+            _requiredItems[inventory.PlayerInventoryData.item] -= inventory.PlayerInventoryData.count;
+            inventory.RemoveItem();
+            if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
+            {
+                _requiredItems.Remove(inventory.PlayerInventoryData.item);
+            }
+            _isCompleteReceive = _requiredItems.Count <= 0;
+            
             if (_isCompleteReceive && !_isBuildComplete)
             {
+                _isBuildComplete = true;
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, BuildingManager.Instance.CurrentBuilding.PVCPrefab);
             }
         }
