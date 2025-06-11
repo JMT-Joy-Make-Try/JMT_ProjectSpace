@@ -17,7 +17,7 @@ namespace JMT.Building.Component
             {
                 if (_curLevel == value) return;
                 _curLevel = value;
-                OnLevelChanged?.Invoke(_curLevel);
+                OnLevelChanged?.Invoke(_curLevel - 1);
             }
         }
         
@@ -25,13 +25,21 @@ namespace JMT.Building.Component
         public void Upgrade()
         {
             _curLevel++;
-            OnLevelChanged?.Invoke(_curLevel);
+            OnLevelChanged?.Invoke(_curLevel - 1);
         }
 
         public void Init(BuildingBase building)
         {
             Building = building;
             _curLevel = 1; // Initialize to level 1
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Upgrade();
+            }
         }
     }
 }

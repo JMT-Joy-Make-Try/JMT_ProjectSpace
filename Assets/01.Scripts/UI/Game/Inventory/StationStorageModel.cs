@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
+using JMT.PlayerCharacter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ using UnityEngine;
 
 namespace JMT.UISystem.Inventory
 {
-    public class InventoryModel
+    public class StationStorageModel
     {
-        [SerializeField] private InventorySO inventorySO;
+        private InventorySO inventorySO;
+        private KeyValuePair<ItemSO, int> currentItem;
 
-        public InventoryModel(InventorySO so)
+        public StationStorageModel(InventorySO so)
         {
             inventorySO = so;
         }
@@ -23,19 +25,6 @@ namespace JMT.UISystem.Inventory
             if (!inventorySO.ItemDictionary.ContainsKey(item)) inventorySO.ItemDictionary.Add(item, increaseCount);
             else inventorySO.ItemDictionary[item] += increaseCount;
         }
-
-        /*public void AddItem(ItemType item, int increaseCount)
-        {
-            var itemSO = itemDictionary.FirstOrDefault(s => ((ItemSO)s.Key).ItemType == item).Key;
-            if (itemSO == null)
-            {
-                Debug.LogError($"Item of type {item} not found in inventory.");
-                return;
-            }
-            if (!itemDictionary.ContainsKey(itemSO))
-                itemDictionary.Add(itemSO, increaseCount);
-            else itemDictionary[itemSO] += increaseCount;
-        }*/
 
         public void RemoveItem(ItemSO item, int decreaseCount)
         {
@@ -89,7 +78,7 @@ namespace JMT.UISystem.Inventory
 
         public List<KeyValuePair<ItemSO, int>> SelectCategory(InventoryCategory? category = null)
         {
-            var dic = GameUIManager.Instance.InventoryCompo.InventorySO.ItemDictionary;
+            var dic = inventorySO.ItemDictionary;
 
             var pairs = dic.ToList();
             if (category != null)
@@ -111,6 +100,15 @@ namespace JMT.UISystem.Inventory
             {
                 return false;
             }
+        }
+
+        public int CalculateItemMaxSize(Player player, int itemCount)
+            => player.InventoryCompo.MaxInventorySize < itemCount ? player.InventoryCompo.MaxInventorySize : itemCount;
+
+        public int FindItem(ItemSO resultItem)
+        {
+            inventorySO.ItemDictionary.TryGetValue(resultItem, out var value);
+            return value;
         }
     }
 }

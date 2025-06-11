@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using JMT.Agent;
+using JMT.Item;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -16,9 +17,11 @@ namespace JMT.PlayerCharacter
         public void Init(IPlayer player)
         {
             Player = player as Player;
-            foreach (var tool in _playerToolSOs.Values)
+            var keys = _playerToolSOs.Keys.ToList();
+            foreach (var key in keys)
             {
-                tool.Init(player);
+                _playerToolSOs[key] = Instantiate(_playerToolSOs[key]);
+                _playerToolSOs[key].Init(player);
             }
             CurPlayerToolSO = _playerToolSOs.First().Value;
         }

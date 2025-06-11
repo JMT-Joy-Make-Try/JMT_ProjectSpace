@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JMT.Item;
+using UnityEngine;
 
 namespace JMT.PlayerCharacter
 {
@@ -7,6 +8,7 @@ namespace JMT.PlayerCharacter
     {
         public override void Equip()
         {
+            base.Equip();
             if (_player.FogDetect.IsPlayerInFog)
                 _player.HealthCompo.SetOxygenMultiplier(2);
             else
@@ -15,6 +17,7 @@ namespace JMT.PlayerCharacter
 
         public override void UnEquip()
         {
+            base.UnEquip();
             _player.HealthCompo.SetOxygenMultiplier(1);
         }
     }

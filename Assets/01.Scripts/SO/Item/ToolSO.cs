@@ -4,17 +4,18 @@ using JMT.Planets.Tile.Items;
 using JMT.PlayerCharacter;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.Item
 {
     [CreateAssetMenu(fileName = "Tool", menuName = "SO/Data/Items/ToolSO")]
     public abstract class ToolSO : ItemSO
     {
         public SerializedDictionary<ItemSO, int> NeedItems;
         public PlayerToolType ToolType;
+        public bool IsEquipped;
         protected Player _player;
+        
         public virtual void Init(IPlayer player)
         {
-            
             _player = player as Player;
             if (_player == null)
             {
@@ -22,8 +23,14 @@ namespace JMT
             }
         }
 
-        public abstract void Equip();
+        public virtual void Equip()
+        {
+            IsEquipped = true;
+        }
 
-        public abstract void UnEquip();
+        public virtual void UnEquip()
+        {
+            IsEquipped = false;
+        }
     }
 }

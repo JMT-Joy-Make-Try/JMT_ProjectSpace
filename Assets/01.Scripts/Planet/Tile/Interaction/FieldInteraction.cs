@@ -43,12 +43,14 @@ namespace JMT.Planets.Tile
             }
         }
 
-        public void ReceiveItem(ItemSO item, int amount)
+        public bool ReceiveItem(ItemSO item, int amount)
         {
             if (item is SeedSO seed)
             {
                 SetSeed(seed);
             }
+
+            return true;
         }
     }
 }

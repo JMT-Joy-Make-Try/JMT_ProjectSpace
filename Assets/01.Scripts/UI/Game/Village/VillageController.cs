@@ -37,6 +37,7 @@ namespace JMT.UISystem.Village
             if (villageSO == null) return;
 
             Debug.Log("퀘스트 연결이 필요합니다.");
+            villageSO.AddNpc();
             view.CloseUI();
         }
     }

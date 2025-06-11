@@ -25,15 +25,20 @@ namespace JMT.Building
 
 
     [CreateAssetMenu(menuName = "SO/Data/BuildingDataSO")]
-    public class BuildingDataSO : ScriptableObject, ICategorizable
+    public class BuildingDataSO : ScriptableObject, ICategorizable, ICellDisplayData
     {
         public Sprite Icon;
         public BuildingBase Prefab;
+        public PVCBuilding PVCPrefab;
         public BuildingCategory Category;
         public string BuildingName;
         [TextArea(4, 10)] public string BuildingDescription;
 
         public List<BuildingLevelData> buildingLevel;
+
         Enum ICategorizable.Category => Category;
+        public Sprite DisplayIcon => Icon;
+        public string DisplayName => BuildingName;
+
     }
 }

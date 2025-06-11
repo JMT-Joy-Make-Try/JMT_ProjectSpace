@@ -1,6 +1,7 @@
 using System;
 using JMT.Building;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
@@ -24,7 +25,7 @@ namespace JMT.Planets.Tile
 
         [Space] [SerializeField] private List<Texture2D> _textures;
 
-        private BuildingBase _currentBuilding;
+        [SerializeField]private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
         public GameObject TileInteraction;
         public Transform Pivot { get; private set; }
@@ -47,27 +48,27 @@ namespace JMT.Planets.Tile
 
         public bool CanBuild()
         {
-            return !Fog.IsFogActive || _currentBuilding == null;
+            return /*!Fog.IsFogActive ||*/ _currentBuilding == null;
+        }
+
+        public void EnterPreBuildRequirementState()
+        {
+            var preBuild = ChangeInteraction<PreBuildInteraction>();
+            preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
+            gameObject.layer = LayerMask.NameToLayer("Reciveable");
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
-            if (CanBuild())
-            {
-                OnBuild?.Invoke();
-                PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
-                if (_currentBuilding == null)
-                    _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-                _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
+            gameObject.layer = LayerMask.NameToLayer("Ground");
+            OnBuild?.Invoke();
+            PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
+            if (_currentBuilding == null)
+                _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
+            _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
 
 
-                RemoveInteraction();
-                AddInteraction<ProgressInteraction>();
-            }
-            else
-            {
-                Debug.Log("Can't Build");
-            }
+            ChangeInteraction<ProgressInteraction>();
         }
 
         public void DestroyBuilding()
@@ -79,10 +80,12 @@ namespace JMT.Planets.Tile
             }
         }
 
-        public void AddInteraction<T>() where T : TileInteraction
+        public T AddInteraction<T>() where T : TileInteraction
         {
             T instance = TileInteraction.AddComponent<T>();
             OnChangeInteraction?.Invoke(instance);
+
+            return instance;
         }
 
         public void RemoveInteraction()
@@ -90,10 +93,10 @@ namespace JMT.Planets.Tile
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
-        public void ChangeInteraction<T>() where T : TileInteraction
+        public T ChangeInteraction<T>() where T : TileInteraction
         {
             RemoveInteraction();
-            AddInteraction<T>();
+            return AddInteraction<T>();
         }
         
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
@@ -138,10 +141,10 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
-            if (Fog.IsFogActive)
-            {
-                _tileList.LineRenderer.enabled = enable;
-            }
+            // if (Fog.IsFogActive)
+            // {
+            //     _tileList.LineRenderer.enabled = enable;
+            // }
         }
 
         public void TestBuild(BuildingDataSO building)

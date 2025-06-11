@@ -11,7 +11,7 @@ namespace JMT.UISystem.Inventory
     {
         [SerializeField] private InventoryView view;
         [SerializeField] private InventorySO inventorySO;
-        private InventoryModel model;
+        private StationStorageModel model;
 
         private ItemSO _curItemSO;
         public InventorySO InventorySO => inventorySO;
@@ -19,7 +19,7 @@ namespace JMT.UISystem.Inventory
         private void Awake()
         {
             inventorySO = Instantiate(inventorySO);
-            model = new InventoryModel(inventorySO);
+            model = new StationStorageModel(inventorySO);
             view.OnCategoryChangedEvent += SelectCategory;
             view.OnItemAddedEvent += HandleItemAdded;
             view.OnEquipButtonClickedEvent += HandleEquip;

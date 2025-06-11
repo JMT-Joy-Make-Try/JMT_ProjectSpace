@@ -71,15 +71,12 @@ namespace JMT.Building
             }
             if (_needItems.Count <= 0)
             {
-                for (int i = 0; i < _npcCount; i++)
-                {
-                    AgentManager.Instance.AddNpc();
-                }
                 GetPlanetTile().RemoveInteraction();
                 GetPlanetTile().AddInteraction<NoneInteraction>();
-                PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
                 _isSpawnEnd = true;
             }
         }
+
+        
     }
 }

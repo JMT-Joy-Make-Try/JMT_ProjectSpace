@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JMT.Item;
+using UnityEngine;
 
 namespace JMT.PlayerCharacter
 {
@@ -7,11 +8,12 @@ namespace JMT.PlayerCharacter
     {
         public override void Equip()
         {
-            
+            base.Equip();
         }
 
         public override void UnEquip()
         {
+            base.UnEquip();
         }
     }
 }

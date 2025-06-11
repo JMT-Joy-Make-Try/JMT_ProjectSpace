@@ -20,7 +20,7 @@ namespace JMT.Building
         protected override void HandleCompleteEvent()
         {
             base.HandleCompleteEvent();
-            FogManager.Instance.OffFogBaseBuilding();
+            //FogManager.Instance.OffFogBaseBuilding();
             FixStation();
             GetBuildingComponent<BuildingAnimator>().SetAnimation(true);
         }
@@ -32,9 +32,11 @@ namespace JMT.Building
             brokenVisual.gameObject.SetActive(false);
         }
 
-        public void ReceiveItem(ItemSO item, int amount)
+        public bool ReceiveItem(ItemSO item, int amount)
         {
-            GameUIManager.Instance.InventoryCompo.AddItem(item, amount);
+            if (!IsBuildingComplete) return false;
+            BuildingUIManager.Instance.StorageCompo.AddItem(item, amount);
+            return true;
         }
     }
 }

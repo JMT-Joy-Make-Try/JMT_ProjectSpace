@@ -1,41 +1,40 @@
+using System.Collections.Generic;
+using JMT.Planets.Tile;
 using JMT.Building;
 using JMT.Planets;
-using JMT.Planets.Tile;
-using UnityEngine;
+using System;
 
 namespace JMT
 {
     public class ProgressInteraction : TileInteraction
     {
+        private static readonly Dictionary<Type, Type> _interactionLookup = new()
+        {
+            { typeof(BaseBuilding), typeof(StationInteraction) },
+            { typeof(LaboratoryBuilding), typeof(LaboratoryInteraction) },
+            { typeof(OxygenBuilding), typeof(SupplyOxygenInteraction) },
+            { typeof(HospitalBuilding), typeof(HospitalInteraction) }
+        };
         public override void Interaction()
         {
             BuildingBase building = GetComponentInChildren<BuildingBase>();
 
             if (!building.IsBuilding) return;
             building.OnCompleteEvent?.Invoke();
+            
+            var tile = TileManager.Instance.CurrentTile;
 
-            TileManager.Instance.CurrentTile.RemoveInteraction();
-            if (building is BaseBuilding)
+            tile.RemoveInteraction();
+            var buildingType = building.GetType();
+            if (_interactionLookup.TryGetValue(buildingType, out var interactionType))
             {
-                TileManager.Instance.CurrentTile.AddInteraction<StationInteraction>();
+                var method = typeof(PlanetTile).GetMethod("AddInteraction", Type.EmptyTypes);
+                var generic = method.MakeGenericMethod(interactionType);
+                generic.Invoke(tile, null);
                 return;
-            }
-            if (building is LaboratoryBuilding)
-            {
-                TileManager.Instance.CurrentTile.AddInteraction<LaboratoryInteraction>();
-                return;
-            }
-            if (building is OxygenBuilding)
-            {
-                TileManager.Instance.CurrentTile.AddInteraction<SupplyOxygenInteraction>();
-                return;
-            }
-            if(building is HospitalBuilding)
-            {
-                TileManager.Instance.CurrentTile.AddInteraction<HospitalInteraction>();
             }
 
-            TileManager.Instance.CurrentTile.AddInteraction<BuildingInteraction>();
+            tile.AddInteraction<BuildingInteraction>();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace JMT.Agent.State
             base.Initialize(agent, stateName);
             this._agent = (NPCAgent)agent;
             this._movement = _agent.MovementCompo as NPCMovement;
-            this._agent.OnTypeChanged += HandleTypeChanged;
+            _agent.OnTypeChanged += HandleTypeChanged;
             
             Debug.Log(_agent);
             Debug.Log(_agent.StatCompo);

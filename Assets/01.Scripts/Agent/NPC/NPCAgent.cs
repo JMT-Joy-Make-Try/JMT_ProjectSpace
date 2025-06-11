@@ -1,6 +1,8 @@
+using EditorAttributes;
 using JMT.Agent.State;
 using JMT.UISystem;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace JMT.Agent.NPC
@@ -112,6 +114,25 @@ namespace JMT.Agent.NPC
             ClothCompo.ChangeCloth(AgentType.Base);
             WorkCompo.SetBuilding(null);
             StateMachineCompo.ChangeState(NPCState.Move);
+        }
+        
+        public void KillNPC()
+        {
+            StatCompo.HealthCompo.TakeDamage(1000, false);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+#if UNITY_EDITOR
+            if (Selection.activeGameObject == gameObject)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    KillNPC();
+                }
+            }
+#endif
         }
     }
 }
