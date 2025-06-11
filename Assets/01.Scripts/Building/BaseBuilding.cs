@@ -20,7 +20,7 @@ namespace JMT.Building
         protected override void HandleCompleteEvent()
         {
             base.HandleCompleteEvent();
-            FogManager.Instance.OffFogBaseBuilding();
+            //FogManager.Instance.OffFogBaseBuilding();
             FixStation();
             GetBuildingComponent<BuildingAnimator>().SetAnimation(true);
         }

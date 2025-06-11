@@ -42,8 +42,8 @@ namespace JMT.UISystem.Station
         private void ClosePanel()
         {
             ChangePanel(null);
-            GameUIManager.Instance.GameUICompo.CloseUI();
-            GameUIManager.Instance.PlayerControlActive(false);
+            GameUIManager.Instance.GameUICompo.OpenUI();
+            GameUIManager.Instance.PlayerControlActive(true);
             view.CloseUI();
         }
 

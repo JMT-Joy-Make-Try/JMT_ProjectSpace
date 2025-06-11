@@ -26,8 +26,8 @@ namespace JMT.PlayerCharacter
         public void Init(IPlayer player)
         {
             Player = player as Player;
-            AnimCompo = Player.VisualTrm.GetComponent<Animator>();
-            EndTrigger = Player.VisualTrm.GetComponent<AnimationEndTrigger>();
+            AnimCompo = Player?.VisualTrm.GetComponent<Animator>();
+            EndTrigger = Player?.VisualTrm.GetComponent<AnimationEndTrigger>();
 
             InitState();
         }
@@ -82,6 +82,14 @@ namespace JMT.PlayerCharacter
                 Debug.LogWarning($"State {curState} not found in stateHash.");
             }
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ChangeState(PlayerState.Sleep);
+            }
+        }
     }
 
     public enum PlayerState
@@ -90,6 +98,7 @@ namespace JMT.PlayerCharacter
         Walk,
         Interact,
         Carring,
+        Sleep,
         Hit,
         Dead,
     }

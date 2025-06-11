@@ -35,7 +35,8 @@ namespace JMT.UISystem.Interact
 
             isBuild = true;
             tile.EdgeEnable(false);
-            tile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
+            tile.EnterPreBuildRequirementState();
+            //tile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
             return true;
         }
     }
