@@ -1,9 +1,7 @@
 using JMT.Building;
 using JMT.Building.Component;
 using JMT.Item;
-using System;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace JMT.QuestSystem
 {
@@ -22,14 +20,14 @@ namespace JMT.QuestSystem
         {
             if (tiles == null || tiles[0] == null || tiles[0].CurrentBuilding == null) return;
             tiles[0].OnBuild -= HandleBuildEvent;
-            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleBuildCompleteEvent;
+            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent -= HandleBuildCompleteEvent;
             if (building == null) return;
             building.OnAddItemEvent -= HandleAddItemQueueEvent;
         }
 
         private void HandleBuildEvent()
         {
-            tiles[0].CurrentBuilding.OnCompleteEvent += HandleBuildCompleteEvent;
+            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent += HandleBuildCompleteEvent;
         }
 
         private void HandleBuildCompleteEvent()

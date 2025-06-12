@@ -68,7 +68,7 @@ namespace JMT.Planets.Tile
                 _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
             _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvc);
 
-            ChangeInteraction<ProgressInteraction>();
+            ChangeInteraction<HoldingInteraction>();
         }
 
         public void DestroyBuilding()

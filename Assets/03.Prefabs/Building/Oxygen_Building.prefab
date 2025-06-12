@@ -16,6 +16,10 @@ GameObject:
   - component: {fileID: -5833555781113589042}
   - component: {fileID: 6718450861411880518}
   - component: {fileID: 3985889103821257259}
+  - component: {fileID: -4556662742516240027}
+  - component: {fileID: -7381738326073091434}
+  - component: {fileID: 2284234437251492201}
+  - component: {fileID: -2170063197134680564}
   m_Layer: 6
   m_Name: Oxygen_Building
   m_TagString: Untagged
@@ -54,9 +58,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <SoundPlayer>k__BackingField: {fileID: 5650092856193505250}
-  _fuelAmount: 0.1
-  _destroyBuildingItems:
-    _serializedList: []
   data:
     BuildingLevel: 1
     UseFuelValue: 0
@@ -65,9 +66,10 @@ MonoBehaviour:
     CreateItemList:
       items:
       - {fileID: 11400000, guid: 0a5dfbb7392707944b76d12b4f4a7405, type: 2}
+  _purificationContainerAmount: 4
+  _oxygenAmount: 50
   interactionDistance: 4
   _visualTransform: {fileID: 2356477293731884676}
-  _oxygenAmount: 50
 --- !u!114 &1076030525563287783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +87,7 @@ MonoBehaviour:
   - {fileID: 6582345938650067694}
   - {fileID: 4198222965217008308}
   - {fileID: 553009529104932310}
+  buildingLevelObjects: []
 --- !u!114 &-7540552467328510253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +156,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentItems: []
+  pvcBuilding: {fileID: 0}
+--- !u!114 &-4556662742516240027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a205c48a9c4c5597128650fe5258fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destroyBuildingItems:
+    _serializedList: []
+--- !u!114 &-7381738326073091434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b269f4042c4a41ceb602166ba26dc7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+    _serializedList: []
+  _repairTime: 5
+--- !u!114 &2284234437251492201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2be57975c8495cba0f97db404923e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fuelAmount: 0
+--- !u!114 &-2170063197134680564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdd5e9ced0e464f959d476d8d0bd280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4507027390083661689
 GameObject:
   m_ObjectHideFlags: 0

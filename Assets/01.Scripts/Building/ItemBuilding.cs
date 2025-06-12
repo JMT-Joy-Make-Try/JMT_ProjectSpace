@@ -1,3 +1,4 @@
+using JMT.Building.Component;
 using JMT.Item;
 using JMT.UISystem;
 using System;
@@ -10,17 +11,39 @@ namespace JMT.Building
 {
     public class ItemBuilding : BuildingBase
     {
-        public event Action<ItemSO> OnAddItemQueueEvent;
-
-        public ItemBuildingData data;
         public Queue<CreateItemSO> ItemQueue { get; private set; } = new();
 
         public float GaugeValue { get; private set; }
-
+        public ItemBuildingData data;
+        public event Action<ItemSO> OnAddItemQueueEvent;
+        
+        private BuildingWorker _worker;
+        
         protected override void Awake()
         {
             base.Awake();
             data.Init(this);
+            _worker = GetBuildingComponent<BuildingWorker>();
+        }
+        
+        protected override void AddEvents()
+        {
+            base.AddEvents();
+            _worker.OnWorkingEvent += HandleWork;
+        }
+        
+        protected override void RemoveEvents()
+        {
+            base.RemoveEvents();
+            _worker.OnWorkingEvent -= HandleWork;
+        }
+
+        private void HandleWork(bool isWorking)
+        {
+            if (isWorking)
+            {
+                Work();
+            }
         }
 
         public void MakeItem(CreateItemSO item)
@@ -36,21 +59,17 @@ namespace JMT.Building
             data.AddWork(work);
         }
 
-        public override void Work()
+        public void Work()
         {
-            base.Work();
             StartCoroutine(WorkCoroutine());
-            
         }
 
         private IEnumerator WorkCoroutine()
         {
-            while (_isWorking)
+            while (_worker.IsWorking)
             {
                 GaugeValue = 0f;
                 CreateItemSO item = data.GetFirstCreateItem();
-                int itemCount = data.CreateItemList.Select(s => s.ResultItem.ItemType).Count();
-                //npcAgent.WorkData.SetData(item, item.CreateTime, itemCount);
                 if (item == null || data.CreateItemList.Count <= 0)
                 {
                     Debug.Log("Building Data is null");

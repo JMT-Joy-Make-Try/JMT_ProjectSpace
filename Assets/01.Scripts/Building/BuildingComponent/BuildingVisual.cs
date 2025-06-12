@@ -110,5 +110,20 @@ namespace JMT.Building.Component
             Building = building;
             Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged += OnBuildingLevelChanged;
         }
+
+        public void SetLayer(string layerName)
+        {
+            int layer = LayerMask.NameToLayer(layerName);
+            if (layer == -1)
+            {
+                Debug.LogError($"Layer '{layerName}' not found.");
+                return;
+            }
+
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = layer;
+            }
+        }
     }
 }

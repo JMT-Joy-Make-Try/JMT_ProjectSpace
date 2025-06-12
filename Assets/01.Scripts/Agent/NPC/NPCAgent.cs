@@ -1,5 +1,6 @@
 using EditorAttributes;
 using JMT.Agent.State;
+using JMT.Building.Component;
 using JMT.UISystem;
 using System;
 using UnityEditor;
@@ -68,14 +69,14 @@ namespace JMT.Agent.NPC
 
         private void HandleOxygenLow()
         {
-            WorkCompo.CurrentWorkingBuilding?.StopWork();
+            WorkCompo.CurrentWorkingBuilding?.GetBuildingComponent<BuildingWorker>().StopWork();
             StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
         private void HandleDeath()
         {
             Debug.Log("Dead");
-            WorkCompo.CurrentWorkingBuilding?.StopWork();
+            WorkCompo.CurrentWorkingBuilding?.GetBuildingComponent<BuildingWorker>().StopWork();
             StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
         

@@ -19,6 +19,7 @@ namespace JMT.UISystem.Interact
         Hospital = 11,
         PreBuild = 12,
         Factory = 13,
+        Holding = 14,
     }
 
     public class InteractModel

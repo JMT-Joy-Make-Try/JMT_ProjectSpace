@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Scroll
-  m_Shader: {fileID: -6465566751694194690, guid: 13c1400f8bd814e4dbfc4cd503389111, type: 3}
+  m_Name: Shader Graphs_New Shader Graph
+  m_Shader: {fileID: -6465566751694194690, guid: 12477b93a98fee046ac52c11ba59b1ec, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -18,13 +18,16 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_226960be98574cada6b59c65e4b6d74e_Out_0_Texture2D:
         m_Texture: {fileID: 2800000, guid: b0da735b240309e41b023c8b8aeb83bf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -43,9 +46,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _ScrollSpeed: 1
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -53,13 +53,7 @@ Material:
     - _StencilWriteMask: 255
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
-    - _XRMotionVectorsPass: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.39429992, b: 0, a: 1}
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 0.6156125, b: 0, a: 1}
-    - _ScrollDirection: {r: 0, g: 0.5, b: 0, a: 0}
-    - _ScrollSpeed: {r: 0, g: 0.5, b: 0, a: 0}
-    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

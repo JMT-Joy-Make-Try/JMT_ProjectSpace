@@ -1,3 +1,4 @@
+using JMT.Building.Component;
 using System;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ namespace JMT
         {
             if (tiles == null || tiles[0] == null || tiles[0].CurrentBuilding == null) return;
             tiles[0].OnBuild -= HandleBuildEvent;
-            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
+            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent -= HandleRunQuest;
         }
 
         private void HandleBuildEvent()
         {
-            tiles[0].CurrentBuilding.OnCompleteEvent += HandleRunQuest;
+            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent += HandleRunQuest;
         }
 
         private void HandleRunQuest()

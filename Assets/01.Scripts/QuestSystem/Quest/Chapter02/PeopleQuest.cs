@@ -13,8 +13,11 @@ namespace JMT.QuestSystem
         private void OnDestroy()
         {
             tiles[0].OnBuild -= HandleBuildEvent;
-            if (tiles[0].CurrentBuilding != null) 
-            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
+            if (tiles[0].CurrentBuilding != null)
+            {
+                var builder = tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>();
+                builder.OnCompleteEvent -= HandleRunQuest;
+            }
         }
 
         private void HandleRunQuest()
@@ -24,7 +27,7 @@ namespace JMT.QuestSystem
 
         private void HandleBuildEvent()
         {
-            tiles[0].CurrentBuilding.OnCompleteEvent += HandleRunQuest;
+            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent += HandleRunQuest;
         }
 
         public override void Enable()
