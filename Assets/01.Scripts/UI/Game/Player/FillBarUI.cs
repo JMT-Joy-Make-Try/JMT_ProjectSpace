@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,11 @@ namespace JMT.UISystem
         public void ResetBar(float value)
         {
             fill.fillAmount = value;
+        }
+        
+        public bool IsFull()
+        {
+            return fill.fillAmount >= 1f;
         }
     }
 }

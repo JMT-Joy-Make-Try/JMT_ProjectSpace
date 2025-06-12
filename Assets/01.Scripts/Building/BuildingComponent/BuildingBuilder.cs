@@ -1,0 +1,97 @@
+﻿using AYellowpaper.SerializedCollections;
+using JMT.Item;
+using JMT.Planets.Tile;
+using System;
+using System.Collections;
+using UnityEngine;
+
+namespace JMT.Building.Component
+{
+    public class BuildingBuilder : MonoBehaviour, IBuildingComponent
+    {
+        [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
+        public BuildingBase Building { get; private set; }
+        
+        public bool IsBuilding { get; private set; }
+        public bool IsBuildingComplete { get; private set; } = false;
+        private PVCBuilding _pvc;
+        
+        public PVCBuilding PVC => _pvc;
+        
+        public event Action OnCompleteEvent;
+        public event Action OnGaugeFullEvent;
+        
+        public void Init(BuildingBase building)
+        {
+            Building = building;
+            IsBuilding = false;
+            IsBuildingComplete = false;
+            OnCompleteEvent += HandleCompleteEvent;
+        }
+
+        private void OnDestroy()
+        {
+            OnCompleteEvent -= HandleCompleteEvent;
+            if (_pvc != null)
+            {
+                _pvc.OnGaugeFull -= HandleGaugeFull;
+            }
+        }
+        
+        public void CompleteEventInvoker()
+        {
+            OnCompleteEvent?.Invoke();
+        }
+        
+        public void SetPVCBuilding(PVCBuilding pvc)
+        {
+            _pvc = pvc;
+            _pvc.OnGaugeFull += HandleGaugeFull;
+        }
+
+        private void HandleGaugeFull()
+        {
+            OnGaugeFullEvent?.Invoke();
+        }
+
+        public void BuildBuilding()
+        {
+            var visual = Building.GetBuildingComponent<BuildingVisual>();
+            visual.SetMaterial(visual.VisualMat);
+
+            var buildingData = Building.GetBuildingComponent<BuildingData>().Data;
+            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
+            Building.SoundPlayer.PlaySound("Building_Sound");
+        }
+        
+        private IEnumerator BuildingRoutine(int time)
+        {
+            Building.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.3f);
+            yield return new WaitForSeconds(time);
+            IsBuilding = true;
+        }
+        
+        protected virtual void HandleCompleteEvent()
+        {
+            var visual = Building.GetBuildingComponent<BuildingVisual>();
+            visual.BuildingTransparent(1f);
+            PVC.PlayAnimation();
+            visual.SetFloatProperty("_Alpha", 1f);
+            Building.SoundPlayer.StopSound("Building_Sound");
+            Building.SoundPlayer.PlaySound("Building_Complete");
+            IsBuildingComplete = true;
+        }
+        
+        public void DestroyBuilding()
+        {
+            Building.GetPlanetTile().RemoveInteraction();
+            Building.GetPlanetTile().AddInteraction<ItemInteraction>();
+            foreach (var items in _destroyBuildingItems)
+            {
+                Building.GetPlanetTile().GetInteraction<ItemInteraction>().SetItem(items.Key, items.Value);
+            }
+            
+            Destroy(gameObject);
+        }
+    }
+}

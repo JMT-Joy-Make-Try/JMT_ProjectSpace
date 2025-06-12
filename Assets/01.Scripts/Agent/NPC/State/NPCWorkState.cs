@@ -23,7 +23,7 @@ namespace JMT.Agent.State
             npcAgent.MovementCompo.Stop(true);
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            npcAgent.WorkCompo.CurrentWorkingBuilding.Work();
+            npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingWorker>().Work();
             
             int index = Random.Range(0, animationData.Length);
             //ChangeAnimations(animationData[index]);

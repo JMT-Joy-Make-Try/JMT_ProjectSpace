@@ -54,10 +54,10 @@ namespace JMT.Building.Component
         public void SetBuildingData(BuildingDataSO data, PVCBuilding pvc)
         {
             SetBuildingData(data);
-            Building.SetPVCBuilding(pvc);
-            if (Building.PVC == null) Debug.LogError("PVC is null in BuildingData.SetBuildingData");
-            Building.PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
-            Building.Building();
+            Building.GetBuildingComponent<BuildingBuilder>().SetPVCBuilding(pvc);
+            var pcvBuilding = Building.GetBuildingComponent<BuildingBuilder>().PVC;
+            Building.GetBuildingComponent<BuildingBuilder>().PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
+            Building.GetBuildingComponent<BuildingBuilder>().BuildBuilding();
         }
     }
 }

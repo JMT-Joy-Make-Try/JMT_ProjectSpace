@@ -63,6 +63,10 @@ GameObject:
   - component: {fileID: 5320848308989056372}
   - component: {fileID: -7277751334508291883}
   - component: {fileID: -3565146585303324927}
+  - component: {fileID: 7464656905914588}
+  - component: {fileID: -5045076338340648334}
+  - component: {fileID: -5086826875654387084}
+  - component: {fileID: -1378851204146513049}
   m_Layer: 0
   m_Name: Space_Village
   m_TagString: Untagged
@@ -116,9 +120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <SoundPlayer>k__BackingField: {fileID: 1025289654358072277}
-  _fuelAmount: 0
-  _destroyBuildingItems:
-    _serializedList: []
   _needItems:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
@@ -140,6 +141,7 @@ MonoBehaviour:
   visualMat: {fileID: 2100000, guid: 51f6df262bca8cc45b86227835c7b247, type: 2}
   rendererList:
   - {fileID: 4325285934699249274}
+  buildingLevelObjects: []
 --- !u!114 &1638044165906541453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +210,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentItems: []
+  pvcBuilding: {fileID: 0}
+--- !u!114 &7464656905914588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8784733564618996465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a205c48a9c4c5597128650fe5258fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destroyBuildingItems:
+    _serializedList: []
+--- !u!114 &-5045076338340648334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8784733564618996465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b269f4042c4a41ceb602166ba26dc7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+    _serializedList: []
+  _repairTime: 5
+--- !u!114 &-5086826875654387084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8784733564618996465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2be57975c8495cba0f97db404923e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fuelAmount: 0
+--- !u!114 &-1378851204146513049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8784733564618996465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdd5e9ced0e464f959d476d8d0bd280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3154513179428479742
 PrefabInstance:
   m_ObjectHideFlags: 0

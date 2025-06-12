@@ -21,19 +21,24 @@ namespace JMT.Building.Editor
                 }
 
                 // Undo 등록 및 컴포넌트 추가
-                AddComponentWithUndo<BuildingVisual>(building.gameObject);
                 AddComponentWithUndo<BuildingAnimator>(building.gameObject);
-                AddComponentWithUndo<BuildingNPC>(building.gameObject);
+                AddComponentWithUndo<BuildingBuilder>(building.gameObject);
+                AddComponentWithUndo<BuildingData>(building.gameObject);
+                AddComponentWithUndo<BuildingFixer>(building.gameObject);
+                AddComponentWithUndo<BuildingFuel>(building.gameObject);
                 AddComponentWithUndo<BuildingHealth>(building.gameObject);
                 AddComponentWithUndo<BuildingLevel>(building.gameObject);
-                AddComponentWithUndo<BuildingData>(building.gameObject);
+                AddComponentWithUndo<BuildingNPC>(building.gameObject);
+                AddComponentWithUndo<BuildingVisual>(building.gameObject);
+                AddComponentWithUndo<BuildingWorker>(building.gameObject);
+                
 
                 // 변경 사항 저장
                 EditorUtility.SetDirty(building);
             }
         }
 
-        private void AddComponentWithUndo<T>(GameObject obj) where T : UnityEngine.Component
+        private void AddComponentWithUndo<T>(GameObject obj) where T : UnityEngine.Component, IBuildingComponent
         {
             if (obj.GetComponent<T>() == null)
             {

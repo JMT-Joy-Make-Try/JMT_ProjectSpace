@@ -1,5 +1,6 @@
 using DG.Tweening;
 using JMT.DayTime;
+using JMT.Planets.Tile;
 using JMT.UISystem;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace JMT
 
         private float _progressTime = 0;
         private bool _isHold = false;
+        private bool _isGaugeFull = false;
+        
+        public PVCUI PVCUI => pvcUI;
+        public event Action OnGaugeFull;
 
         private void Awake()
         {
@@ -36,17 +41,29 @@ namespace JMT
 
         private void HandleHoldEvent(bool isHold)
         {
-            _isHold = isHold;
+            var curTile = TileManager.Instance.CurrentTile;
+            var myTile = GetComponentInParent<PlanetTile>();
+            if (curTile == myTile)
+            {
+                _isHold = isHold;
+            }
         }
         
         private void Update()
         {
+            if (_isGaugeFull) return;
             if (_isHold)
             {
                 _progressTime += Time.deltaTime;
                 if (fillBarUI != null)
                 {
                     fillBarUI.ResetBar(_progressTime);
+                }
+
+                if (fillBarUI.IsFull())
+                {
+                    _isGaugeFull = true;
+                    OnGaugeFull?.Invoke();
                 }
             }
             else

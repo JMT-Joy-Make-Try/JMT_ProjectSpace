@@ -63,7 +63,7 @@ namespace JMT.UISystem.Interact
             view.RemoveAllEventTriggers();
             if (type.Equals(InteractType.Item))
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
-            else if (type.Equals(InteractType.Progress))
+            else if (type.Equals(InteractType.Holding))
                 view.SetHoldEventTrigger(InfinityHold, StopInfinityHold);
             else
             {

@@ -1,10 +1,6 @@
-using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core;
-using JMT.Core.Manager;
-using JMT.Core.Tool;
 using JMT.Item;
-using JMT.PlayerCharacter;
 using JMT.UISystem;
 using UnityEngine;
 
@@ -13,14 +9,29 @@ namespace JMT.Building
     public class BaseBuilding : BuildingBase, IItemReceivable
     {
         [SerializeField] private Transform visual, brokenVisual;
-
-        private Vector3 _playerPos;
-        private Player _player;
-
-        protected override void HandleCompleteEvent()
+        
+        private BuildingBuilder _buildingBuilder;
+        
+        protected override void Awake()
         {
-            base.HandleCompleteEvent();
-            //FogManager.Instance.OffFogBaseBuilding();
+            base.Awake();
+            _buildingBuilder = GetBuildingComponent<BuildingBuilder>();
+        }
+
+        protected override void AddEvents()
+        {
+            base.AddEvents();
+            _buildingBuilder.OnCompleteEvent += HandleCompleteEvent;
+        }
+        
+        protected override void RemoveEvents()
+        {
+            base.RemoveEvents();
+            _buildingBuilder.OnCompleteEvent -= HandleCompleteEvent;
+        }
+
+        private void HandleCompleteEvent()
+        {
             FixStation();
             GetBuildingComponent<BuildingAnimator>().SetAnimation(true);
         }
@@ -34,7 +45,7 @@ namespace JMT.Building
 
         public bool ReceiveItem(ItemSO item, int amount)
         {
-            if (!IsBuildingComplete) return false;
+            if (!_buildingBuilder.IsBuildingComplete) return false;
             BuildingUIManager.Instance.StorageCompo.AddItem(item, amount);
             return true;
         }

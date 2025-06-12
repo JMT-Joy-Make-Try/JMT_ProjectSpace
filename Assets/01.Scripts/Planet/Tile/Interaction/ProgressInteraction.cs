@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using JMT.Planets.Tile;
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Planets;
 using System;
 
@@ -19,9 +20,9 @@ namespace JMT
         {
             base.Interaction();
             BuildingBase building = GetComponentInChildren<BuildingBase>();
-
-            if (!building.IsBuilding) return;
-            building.OnCompleteEvent?.Invoke();
+            var builder = building.GetBuildingComponent<BuildingBuilder>();
+            if (!builder.IsBuilding) return;
+            builder.CompleteEventInvoker();
             
             var tile = TileManager.Instance.CurrentTile;
 
