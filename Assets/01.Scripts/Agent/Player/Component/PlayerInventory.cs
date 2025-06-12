@@ -54,7 +54,7 @@ namespace JMT.PlayerCharacter
             OnInventoryEvent?.Invoke(PlayerInventoryData.count, MaxInventorySize);
             _itemObject.gameObject.SetActive(true);
             _itemObject.SetItemType(item);
-            _player.AnimatorCompo.SetBool(PlayerState.Carring, true);
+            _player.AnimatorCompo.SetBool(PlayerState.Caring, true);
         }
         
         public ItemSO RemoveItem(ItemSO item = null, int count = 1)
@@ -76,7 +76,7 @@ namespace JMT.PlayerCharacter
 
                     // 플레이어가 아이템을 내려놓음
                     _itemObject.gameObject.SetActive(false);
-                    _player.AnimatorCompo.SetBool(PlayerState.Carring, false);
+                    _player.AnimatorCompo.SetBool(PlayerState.Caring, false);
                 }
             }
             else

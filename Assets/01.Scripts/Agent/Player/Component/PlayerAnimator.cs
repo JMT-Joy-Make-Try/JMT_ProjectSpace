@@ -97,7 +97,7 @@ namespace JMT.PlayerCharacter
         Idle,
         Walk,
         Interact,
-        Carring,
+        Caring,
         Sleep,
         Hit,
         Dead,
