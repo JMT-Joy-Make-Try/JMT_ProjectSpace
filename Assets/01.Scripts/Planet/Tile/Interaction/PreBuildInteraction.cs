@@ -28,12 +28,12 @@ namespace JMT.Planets.Tile
                 return;
             }
 
-            _requiredItems[inventory.PlayerInventoryData.item] -= inventory.PlayerInventoryData.count;
-            inventory.RemoveItem();
+            _requiredItems[inventory.PlayerInventoryData.item] -= 1;
             if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
             {
                 _requiredItems.Remove(inventory.PlayerInventoryData.item);
             }
+            inventory.RemoveItem();
             _isCompleteReceive = _requiredItems.Count <= 0;
             
             if (_isCompleteReceive && !_isBuildComplete)
