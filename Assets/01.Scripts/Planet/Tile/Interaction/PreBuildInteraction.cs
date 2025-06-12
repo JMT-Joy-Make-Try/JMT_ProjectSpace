@@ -66,7 +66,7 @@ namespace JMT.Planets.Tile
         
         public void SetRequiredItems(Dictionary<ItemSO, int> requiredItems)
         {
-            _requiredItems = requiredItems as SerializedDictionary<ItemSO, int>;
+            _requiredItems = new SerializedDictionary<ItemSO, int>(requiredItems);
             _isCompleteReceive = false;
             _isBuildComplete = false;
             
