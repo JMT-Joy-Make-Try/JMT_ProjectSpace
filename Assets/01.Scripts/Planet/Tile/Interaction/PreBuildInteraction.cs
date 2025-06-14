@@ -16,12 +16,11 @@ namespace JMT.Planets.Tile
         [SerializeField] private SerializedDictionary<ItemSO, int> _requiredItems = new();
         private bool _isCompleteReceive = false;
         private bool _isBuildComplete = false;
-        private int _curItemCount = 0, _maxItemCount = 0;
-        
-        public int CurItemCount => _curItemCount;
-        public int MaxItemCount => _maxItemCount;
+        private List<PreBuildItemData> _preBuildItemDatas = new();
 
         private PVCBuilding pvc;
+        
+        public List<PreBuildItemData> PreBuildItemDatas => _preBuildItemDatas;
 
         public override void Interaction()
         {
@@ -34,7 +33,11 @@ namespace JMT.Planets.Tile
             }
 
             _requiredItems[inventory.PlayerInventoryData.item] -= 1;
-            _curItemCount++;
+            var preBuildItem = FindPreBuildItemCount(inventory.PlayerInventoryData.item);
+            if (preBuildItem != null)
+            {
+                preBuildItem.CurItemCount++;
+            }
             if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
             {
                 _requiredItems.Remove(inventory.PlayerInventoryData.item);
@@ -48,6 +51,12 @@ namespace JMT.Planets.Tile
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
         }
+        
+        public PreBuildItemData FindPreBuildItemCount(ItemSO item)
+        {
+            var preBuildItem = _preBuildItemDatas.FirstOrDefault(x => x.Item == item);
+            return preBuildItem;
+        }
 
         
         public void SetRequiredItems(Dictionary<ItemSO, int> requiredItems)
@@ -55,8 +64,12 @@ namespace JMT.Planets.Tile
             _requiredItems = new SerializedDictionary<ItemSO, int>(requiredItems);
             _isCompleteReceive = false;
             _isBuildComplete = false;
-            _curItemCount = 0;
-            _maxItemCount = _requiredItems.First().Value;
+            
+            _preBuildItemDatas.Clear();
+            foreach (var item in _requiredItems)
+            {
+                _preBuildItemDatas.Add(new PreBuildItemData(item.Key, 0, item.Value));
+            }
             
             pvc = Instantiate(BuildingManager.Instance.CurrentBuilding.PVCPrefab, transform);
             pvc.SetVisualActive(false);
@@ -72,6 +85,21 @@ namespace JMT.Planets.Tile
             yield return new WaitForSeconds(0.1f);
             _isBuildComplete = true;
             planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
+        }
+    }
+
+    [System.Serializable]
+    public class PreBuildItemData
+    {
+        public ItemSO Item;
+        public int CurItemCount;
+        public int MaxItemCount;
+
+        public PreBuildItemData(ItemSO item, int curItemCount, int maxItemCount)
+        {
+            Item = item;
+            CurItemCount = curItemCount;
+            MaxItemCount = maxItemCount;
         }
     }
 }
