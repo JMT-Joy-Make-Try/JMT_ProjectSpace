@@ -17,9 +17,12 @@ namespace JMT.PlayerCharacter
         [SerializeField] private PlayerInventoryData _playerInventoryData;
         [SerializeField] private LayerMask _whatIsBuilding;
         [SerializeField] private ItemObject _itemObject;
+        [SerializeField] private float _itemAddDelay = 1f;
         private Player _player;
         
         private Collider[] _colliders = new Collider[10];
+        private bool _isItemAddActive = false;
+        private float _currentItemAddTime = 0f;
 
         public void Init(IPlayer player)
         {
@@ -30,6 +33,7 @@ namespace JMT.PlayerCharacter
         
         public void AddItem(ItemSO item, int count = 1)
         {
+            _isItemAddActive = false;
             // 현재 들고있는 아이템이 없을 때
             if (_playerInventoryData.item == null)
             {
@@ -97,6 +101,17 @@ namespace JMT.PlayerCharacter
 
         private void Update()
         {
+            if (!_isItemAddActive)
+            {
+                _currentItemAddTime += Time.deltaTime;
+                if (_currentItemAddTime >= _itemAddDelay)
+                {
+                    _isItemAddActive = true;
+                    _currentItemAddTime = 0f;
+                }
+                
+                return;
+            }
             int cnt = Physics.OverlapSphereNonAlloc(transform.position, 5f, _colliders, _whatIsBuilding);
             
             for (int i = 0; i < cnt; i++)
