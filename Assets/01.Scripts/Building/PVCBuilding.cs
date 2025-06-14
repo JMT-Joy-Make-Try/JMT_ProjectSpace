@@ -1,4 +1,5 @@
 using DG.Tweening;
+using JMT.Agent;
 using JMT.DayTime;
 using JMT.Planets.Tile;
 using JMT.UISystem;
@@ -48,6 +49,7 @@ namespace JMT
             {
                 _isHold = isHold;
                 OnGaugeHold?.Invoke(isHold);
+                AgentManager.Instance.Player.AnimatorCompo.SetLayer(2, 1);
             }
         }
         
