@@ -1,13 +1,8 @@
-using AYellowpaper.SerializedCollections;
-using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core.Manager;
-using JMT.Item;
 using JMT.Planets.Tile;
 using JMT.Sound;
-using JMT.UISystem;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,8 +15,6 @@ namespace JMT.Building
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
-        
-        [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
         #endregion
         
         protected virtual void Awake()

@@ -1,6 +1,7 @@
 ﻿using AYellowpaper.SerializedCollections;
 using JMT.Item;
 using JMT.Planets.Tile;
+using JMT.Sound;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace JMT.Building.Component
     public class BuildingBuilder : MonoBehaviour, IBuildingComponent
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
+        [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
         public BuildingBase Building { get; private set; }
         
         public bool IsBuilding { get; private set; }
@@ -35,6 +37,7 @@ namespace JMT.Building.Component
             if (_pvc != null)
             {
                 _pvc.OnGaugeFull -= HandleGaugeFull;
+                _pvc.OnGaugeHold -= HandleGaugeHold;
             }
         }
         
@@ -47,6 +50,15 @@ namespace JMT.Building.Component
         {
             _pvc = pvc;
             _pvc.OnGaugeFull += HandleGaugeFull;
+            _pvc.OnGaugeHold += HandleGaugeHold;
+        }
+
+        private void HandleGaugeHold(bool isHold)
+        {
+            if (isHold)
+                SoundPlayer.PlaySound("Building_Sound");
+            else
+                SoundPlayer.StopSound("Building_Sound");
         }
 
         private void HandleGaugeFull()
@@ -76,8 +88,8 @@ namespace JMT.Building.Component
             visual.BuildingTransparent(1f);
             PVC.PlayAnimation();
             visual.SetFloatProperty("_Alpha", 1f);
-            Building.SoundPlayer.StopSound("Building_Sound");
-            Building.SoundPlayer.PlaySound("Building_Complete");
+            SoundPlayer.StopSound("Building_Sound");
+            SoundPlayer.PlaySound("Building_Complete");
             IsBuildingComplete = true;
         }
         
