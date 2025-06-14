@@ -22,6 +22,7 @@ namespace JMT
         
         public PVCUI PVCUI => pvcUI;
         public event Action OnGaugeFull;
+        public event Action<bool> OnGaugeHold;
 
         private void Awake()
         {
@@ -46,6 +47,7 @@ namespace JMT
             if (curTile == myTile)
             {
                 _isHold = isHold;
+                OnGaugeHold?.Invoke(isHold);
             }
         }
         
