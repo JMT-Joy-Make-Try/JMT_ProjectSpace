@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using JMT.UISystem.Interact;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,31 @@ namespace JMT.Planets.Tile
             }
         }
         public Field.Field FieldPrefab;
+        
+        private Dictionary<Vector2Int, PlanetTile> _tileList = new();
+        
+        public PlanetTile GetTile(int x, int y)
+        {
+            Vector2Int position = new Vector2Int(x, y);
+            if (_tileList.TryGetValue(position, out var tile))
+            {
+                return tile;
+            }
+            return null;
+        }
+        
+        public void RegisterTile(int x, int y, PlanetTile tile)
+        {
+            Vector2Int position = new Vector2Int(x, y);
+            if (!_tileList.ContainsKey(position))
+            {
+                _tileList[position] = tile;
+            }
+            else
+            {
+                Debug.LogWarning($"Tile at position {position} is already registered.");
+            }
+        }
         
 
 

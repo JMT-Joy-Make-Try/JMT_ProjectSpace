@@ -61,7 +61,6 @@ namespace JMT.Building.Component
 
             var buildingData = Building.GetBuildingComponent<BuildingData>().Data;
             StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
-            Building.SoundPlayer.PlaySound("Building_Sound");
         }
         
         private IEnumerator BuildingRoutine(int time)

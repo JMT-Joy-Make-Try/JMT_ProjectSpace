@@ -34,6 +34,8 @@ namespace JMT.Planets.Tile
         private bool canInteraction = true;
         
         private TileList _tileList;
+        private Vector2Int _position;
+        public Vector2Int Position => _position;
 
         private void Awake()
         {
@@ -45,6 +47,13 @@ namespace JMT.Planets.Tile
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
+        }
+
+        private void Start()
+        {
+            Vector3 position = transform.position;
+            _position = new Vector2Int((int)position.x, (int)position.z);
+            TileManager.Instance.RegisterTile((int)position.x, (int)position.z, this);
         }
 
         public bool CanBuild()

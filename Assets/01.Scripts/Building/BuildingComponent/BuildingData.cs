@@ -20,7 +20,15 @@ namespace JMT.Building.Component
         public void Init(BuildingBase building)
         {
             Building = building;
-            Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged += OnBuildingLevelChanged;
+            //Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged += OnBuildingLevelChanged;
+        }
+
+        private void OnDestroy()
+        {
+            if (Building != null)
+            {
+                //Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged -= OnBuildingLevelChanged;
+            }
         }
 
         private void OnBuildingLevelChanged(int obj)
