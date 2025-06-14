@@ -16,7 +16,8 @@ namespace JMT.PlayerCharacter
 
         [SerializeField] private PlayerState curState;
         private PlayerState saveState;
-        private float coolTime = 0.4f;
+        private float _coolTime = 0.4f;
+        private int _currentLayer = 0;
 
         private void Awake()
         {
@@ -81,6 +82,13 @@ namespace JMT.PlayerCharacter
             {
                 Debug.LogWarning($"State {curState} not found in stateHash.");
             }
+        }
+        
+        public void SetLayer(int layerNumber, float weight)
+        {
+            AnimCompo.SetLayerWeight(_currentLayer, 0);
+            _currentLayer = layerNumber;
+            AnimCompo.SetLayerWeight(_currentLayer, weight);
         }
 
         private void Update()

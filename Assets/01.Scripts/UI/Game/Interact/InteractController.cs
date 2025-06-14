@@ -1,3 +1,4 @@
+    using JMT.Agent;
     using JMT.Planets.Tile;
 using System;
 using System.Collections;
@@ -90,6 +91,7 @@ namespace JMT.UISystem.Interact
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "재료 캐는 중...");
             holdCoroutine = StartCoroutine(HoldCoroutine());
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(1, 1);
         }
         
         private void OnBuildHoldStart()
