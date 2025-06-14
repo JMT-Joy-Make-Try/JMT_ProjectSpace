@@ -38,7 +38,8 @@ namespace JMT
 
         private void OnDestroy()
         {
-            GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
+            if (GameUIManager.Instance != null)
+                GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
         }
 
         private void HandleHoldEvent(bool isHold)
