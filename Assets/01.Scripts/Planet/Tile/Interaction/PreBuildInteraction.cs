@@ -1,8 +1,8 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using JMT.Agent;
-using JMT.Core;
 using JMT.Core.Manager;
 using JMT.Item;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ namespace JMT.Planets.Tile
 {
     public class PreBuildInteraction : TileInteraction
     {
+        public event Action<List<PreBuildItemData>> OnChangedDataEvent;
         [SerializeField] private SerializedDictionary<ItemSO, int> _requiredItems = new();
         private bool _isCompleteReceive = false;
         private bool _isBuildComplete = false;
@@ -22,11 +23,17 @@ namespace JMT.Planets.Tile
         
         public List<PreBuildItemData> PreBuildItemDatas => _preBuildItemDatas;
 
+
+        private void OnDestroy()
+        {
+            OnChangedDataEvent -= pvc.PVCUI.SetNeedItemUI;
+        }
+
         public override void Interaction()
         {
             base.Interaction();
             var inventory = AgentManager.Instance.Player.InventoryCompo;
-            if (!_requiredItems.ContainsKey(inventory.PlayerInventoryData.item)) 
+            if (!_requiredItems.ContainsKey(inventory.PlayerInventoryData.item))
             {
                 Debug.LogError("Required item not found in inventory.");
                 return;
@@ -50,6 +57,8 @@ namespace JMT.Planets.Tile
                 _isBuildComplete = true;
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
+
+            OnChangedDataEvent?.Invoke(_preBuildItemDatas);
         }
         
         public PreBuildItemData FindPreBuildItemCount(ItemSO item)
@@ -72,6 +81,7 @@ namespace JMT.Planets.Tile
             }
             
             pvc = Instantiate(BuildingManager.Instance.CurrentBuilding.PVCPrefab, transform);
+            OnChangedDataEvent += pvc.PVCUI.SetNeedItemUI;
             pvc.SetVisualActive(false);
             
             if (_requiredItems.Count <= 0)
