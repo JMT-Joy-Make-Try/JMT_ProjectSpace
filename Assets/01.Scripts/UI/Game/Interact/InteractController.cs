@@ -37,11 +37,13 @@ namespace JMT.UISystem.Interact
         
         public void InfinityHold()
         {
+            Debug.LogError("Infinity Hold");
             OnHoldEvent?.Invoke(true);
         }
         
         public void StopInfinityHold()
         {
+            Debug.LogError("Stop Infinity Hold");
             OnHoldEvent?.Invoke(false);
             isHold = false;
             EndHold();
