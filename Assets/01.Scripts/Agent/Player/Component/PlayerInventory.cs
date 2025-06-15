@@ -9,7 +9,7 @@ namespace JMT.PlayerCharacter
 {
     public class PlayerInventory : MonoBehaviour, IPlayerComponent
     {
-        public event Action<int, int> OnInventoryEvent;
+        public event Action<ItemSO, int> OnInventoryEvent;
 
         public PlayerInventoryData PlayerInventoryData => _playerInventoryData;
 
@@ -55,7 +55,7 @@ namespace JMT.PlayerCharacter
             }
 
             // 플레이어가 아이템을 듬
-            OnInventoryEvent?.Invoke(PlayerInventoryData.count, MaxInventorySize);
+            OnInventoryEvent?.Invoke(item, PlayerInventoryData.count);
             _itemObject.gameObject.SetActive(true);
             _itemObject.SetItemType(item);
             _player.AnimatorCompo.SetBool(PlayerState.Caring, true);
@@ -90,7 +90,7 @@ namespace JMT.PlayerCharacter
             }
 
             // 이거는 뺀거 뭔지 알려고 넘겨주는거임
-            OnInventoryEvent?.Invoke(PlayerInventoryData.count, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, PlayerInventoryData.count);
             return _playerInventoryData.item;
         }
         
@@ -139,7 +139,7 @@ namespace JMT.PlayerCharacter
             }
             MaxInventorySize = size;
             _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
-            OnInventoryEvent?.Invoke(_playerInventoryData.count, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
         }
     }
 

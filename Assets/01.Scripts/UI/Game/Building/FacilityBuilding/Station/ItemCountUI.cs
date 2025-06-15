@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JMT
+namespace JMT.UISystem
 {
     public class ItemCountUI : MonoBehaviour
     {
