@@ -1,21 +1,21 @@
 using DG.Tweening;
+using JMT.Item;
 using JMT.PlayerCharacter;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace JMT.UISystem
 {
     public class PlayerInventoryUI : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup playerInventoryGroup;
-        [SerializeField] private Color redColor;
-        [SerializeField] private TextMeshProUGUI playerInventoryValueText;
+        [SerializeField] private ItemValueUI itemValueUI;
         [SerializeField] private PlayerInventory playerInventory;
 
         private void Awake()
         {
             playerInventory.OnInventoryEvent += HandleInventoryEvent;
-            HandleInventoryEvent(0, 1);
+            HandleInventoryEvent(null, 0);
         }
 
         private void OnDestroy()
@@ -23,11 +23,12 @@ namespace JMT.UISystem
             playerInventory.OnInventoryEvent -= HandleInventoryEvent;
         }
 
-        private void HandleInventoryEvent(int currentVal, int maxVal)
+        private void HandleInventoryEvent(ItemSO item, int currentVal)
         {
-            playerInventoryGroup.DOFade(currentVal == 0 ? 0 : 1f, 0.3f);
-            playerInventoryValueText.DOColor(currentVal == maxVal ? redColor : Color.white, 0.3f);
-            playerInventoryValueText.text = $"{currentVal}/{maxVal}";
+            int maxVal = playerInventory.MaxInventorySize;
+            itemValueUI.SetItemCount(item, currentVal, maxVal);
+            if(currentVal ==0) itemValueUI.CloseUI();
+            else itemValueUI.OpenUI();
         }
     }
 }
