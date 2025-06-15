@@ -91,7 +91,7 @@ namespace JMT.UISystem.Interact
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "재료 캐는 중...");
             holdCoroutine = StartCoroutine(HoldCoroutine());
-            AgentManager.Instance.Player.AnimatorCompo.SetLayer(1, 1);
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(0, 1);
         }
         
         private void OnBuildHoldStart()
