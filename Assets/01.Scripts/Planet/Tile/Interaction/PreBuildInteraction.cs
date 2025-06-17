@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Core.Manager;
 using JMT.Item;
+using JMT.PlayerCharacter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace JMT.Planets.Tile
         [SerializeField] private SerializedDictionary<ItemSO, int> _requiredItems = new();
         private bool _isCompleteReceive = false;
         private bool _isBuildComplete = false;
-        private List<PreBuildItemData> _preBuildItemDatas = new();
+        [SerializeField] private List<PreBuildItemData> _preBuildItemDatas = new();
 
         private PVCBuilding pvc;
         
         public List<PreBuildItemData> PreBuildItemDatas => _preBuildItemDatas;
+        
+        private Coroutine _prebuildCoroutine;
 
 
         private void OnDestroy()
@@ -39,17 +42,39 @@ namespace JMT.Planets.Tile
                 return;
             }
 
-            _requiredItems[inventory.PlayerInventoryData.item] -= 1;
-            var preBuildItem = FindPreBuildItemCount(inventory.PlayerInventoryData.item);
-            if (preBuildItem != null)
+            if (_prebuildCoroutine == null)
             {
-                preBuildItem.CurItemCount++;
+                _prebuildCoroutine = StartCoroutine(DelayUpdatePreBuildItem(inventory));
             }
-            if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
+        }
+
+        private IEnumerator DelayUpdatePreBuildItem(PlayerInventory inventory)
+        {
+            yield return null;
+            for (int i = 0; i < 3; i++)
             {
-                _requiredItems.Remove(inventory.PlayerInventoryData.item);
+                Debug.Log("TimeScale"+Time.timeScale);
+                _requiredItems[inventory.PlayerInventoryData.item] -= 1;
+                if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
+                {
+                    _requiredItems.Remove(inventory.PlayerInventoryData.item);
+                }
+                var preBuildItem = FindPreBuildItemCount(inventory.PlayerInventoryData.item);
+                if (preBuildItem != null)
+                {
+                    preBuildItem.CurItemCount++;
+                }
+                inventory.RemoveItem();
+                
+                OnChangedDataEvent?.Invoke(_preBuildItemDatas);
+                Debug.Log("PreBuildInteraction: Item used for building.");
+                Debug.Log(i);
+                
+                yield return new WaitForSeconds(0.5f);
+                Debug.Log("TimeScale"+Time.timeScale);
             }
-            inventory.RemoveItem();
+            
+            
             _isCompleteReceive = _requiredItems.Count <= 0;
             
             if (_isCompleteReceive && !_isBuildComplete)
@@ -57,10 +82,10 @@ namespace JMT.Planets.Tile
                 _isBuildComplete = true;
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
-
-            OnChangedDataEvent?.Invoke(_preBuildItemDatas);
+            
+            _prebuildCoroutine = null;
         }
-        
+
         public PreBuildItemData FindPreBuildItemCount(ItemSO item)
         {
             var preBuildItem = _preBuildItemDatas.FirstOrDefault(x => x.Item == item);

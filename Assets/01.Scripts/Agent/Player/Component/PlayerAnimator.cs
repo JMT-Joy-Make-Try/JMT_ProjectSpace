@@ -37,13 +37,19 @@ namespace JMT.PlayerCharacter
         {
             Player.InputSO.OnMoveEvent += HandleMoveAnimation;
             GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
+            GameUIManager.Instance.InteractCompo.OnAnimationEndEvent += HandleAnimation;
         }
+
+        
 
         private void OnDestroy()
         {
             Player.InputSO.OnMoveEvent -= HandleMoveAnimation;
             if (GameUIManager.Instance != null && GameUIManager.Instance.InteractCompo != null)
+            {
                 GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
+                GameUIManager.Instance.InteractCompo.OnAnimationEndEvent -= HandleAnimation;
+            }
         }
 
         private void InitState()
@@ -63,6 +69,11 @@ namespace JMT.PlayerCharacter
         {
             if (isHold) ChangeState(PlayerState.Interact);
             else ChangeState(PlayerState.Idle);
+        }
+        
+        private void HandleAnimation()
+        {
+            ChangeState(PlayerState.Idle);
         }
 
         private void ChangeState(PlayerState state) 

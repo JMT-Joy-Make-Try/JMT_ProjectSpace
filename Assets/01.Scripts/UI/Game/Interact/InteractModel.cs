@@ -20,6 +20,7 @@ namespace JMT.UISystem.Interact
         PreBuild = 12,
         Factory = 13,
         Holding = 14,
+        FieldHold = 15,
     }
 
     public class InteractModel

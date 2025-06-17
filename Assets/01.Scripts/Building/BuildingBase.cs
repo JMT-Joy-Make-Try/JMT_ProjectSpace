@@ -2,6 +2,7 @@ using JMT.Building.Component;
 using JMT.Core.Manager;
 using JMT.Planets.Tile;
 using JMT.Sound;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,7 @@ namespace JMT.Building
 
         private void HandleGaugeFull()
         {
+            GameUIManager.Instance.InteractCompo.StopInfinityHold();
             GetPlanetTile().ChangeInteraction<ProgressInteraction>();
         }
 

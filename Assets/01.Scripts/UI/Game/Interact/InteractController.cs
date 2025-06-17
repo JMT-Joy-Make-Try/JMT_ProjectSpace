@@ -10,12 +10,13 @@ namespace JMT.UISystem.Interact
     public class InteractController : MonoBehaviour
     {
         public event Action<bool> OnHoldEvent;
-        public event Action OnAttackEvent;
+        public event Action OnAnimationEndEvent;
 
         [SerializeField] private InteractView view;
         private InteractModel model = new();
         private Coroutine holdCoroutine;
         private bool isHold = false;
+        private bool _isHoldEnd = false;
 
         public InteractType InteractType => model.InteractType;
         public event Action OnChangeInteractEvent
@@ -66,6 +67,8 @@ namespace JMT.UISystem.Interact
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
             else if (type.Equals(InteractType.Holding))
                 view.SetHoldEventTrigger(InfinityHold, StopInfinityHold);
+            else if (type.Equals(InteractType.FieldHold))
+                view.SetHoldEventTrigger(OnFieldHoldStart, OnFieldHoldEnd);
             else
             {
                 view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
@@ -79,9 +82,7 @@ namespace JMT.UISystem.Interact
         {
             InteractType type = model.InteractType;
 
-            if (type.Equals(InteractType.Attack))
-                OnAttackEvent?.Invoke();
-            else if (!type.Equals(InteractType.Item))
+            if (!type.Equals(InteractType.Item))
                 TileManager.Instance.GetInteraction().Interaction();
         }
 
@@ -91,14 +92,15 @@ namespace JMT.UISystem.Interact
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "재료 캐는 중...");
             holdCoroutine = StartCoroutine(HoldCoroutine());
-            AgentManager.Instance.Player.AnimatorCompo.SetLayer(1, 1);
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(0, 1);
         }
         
-        private void OnBuildHoldStart()
+        public void OnFieldHoldStart()
         {
             GameUIManager.Instance.PlayerControlActive(false);
-            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "건설 중...");
-            holdCoroutine = StartCoroutine(HoldCoroutine(3f));
+            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "밭 가는 중...");
+            holdCoroutine = StartCoroutine(HoldCoroutine(12));
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(3, 1);
         }
 
         private void OnHoldEnd()
@@ -113,12 +115,30 @@ namespace JMT.UISystem.Interact
             EndHold();
         }
 
+        private void OnFieldHoldEnd()
+        {
+            if (holdCoroutine != null)
+            {
+                StopCoroutine(holdCoroutine);
+                holdCoroutine = null;
+                if (_isHoldEnd)
+                    OnHoldEvent?.Invoke(false);
+                
+                OnAnimationEndEvent?.Invoke();
+            }
+            isHold = false;
+            _isHoldEnd = false;
+            EndHold();
+        }
+
         private IEnumerator HoldCoroutine(float time = 1f)
         {
+            _isHoldEnd = false;
             OnHoldEvent?.Invoke(true);
             yield return new WaitForSeconds(time);
             TileManager.Instance.GetInteraction().Interaction();
             isHold = true;
+            _isHoldEnd = true;
 
             OnHoldEnd();
         }
