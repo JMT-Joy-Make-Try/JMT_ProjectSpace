@@ -1,4 +1,5 @@
 using JMT.Agent;
+using JMT.Planet.Tile;
 using JMT.PlayerCharacter;
 using JMT.UISystem;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace JMT.Planets.Tile
             }
             else
             {
-                planetTile.ChangeInteraction<FieldInteraction>().SetField(AddObject(TileManager.Instance.FieldPrefab, transform));
+                planetTile.ChangeInteraction<FieldHoldInteraction>();
             }
         }
 
