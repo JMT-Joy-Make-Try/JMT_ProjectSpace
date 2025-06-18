@@ -8,6 +8,7 @@ namespace JMT.Building.Component
         public event Action<int> OnLevelChanged;
         public BuildingBase Building { get; private set; }
         [SerializeField] private BuildingDataSO data;
+        [SerializeField] private bool _isLevelUpgradable = true;
         private int _curLevel;
         
         public int CurLevel
@@ -24,6 +25,11 @@ namespace JMT.Building.Component
         
         public void Upgrade()
         {
+            if (!_isLevelUpgradable)
+            {
+                Debug.LogWarning("Building is not upgradable.");
+                return;
+            }
             _curLevel++;
             OnLevelChanged?.Invoke(_curLevel - 1);
         }
