@@ -120,6 +120,11 @@ namespace JMT.PlayerCharacter
         {
             return _playerInventoryData.count >= MaxInventorySize;
         }
+        
+        public bool IsPlayerHoldingItem()
+        {
+            return _playerInventoryData.item != null && _playerInventoryData.count > 0;
+        }
 
         public void SendItem()
         {
@@ -128,44 +133,13 @@ namespace JMT.PlayerCharacter
                 var building = _player.TileFindingCompo.RayHit.collider.FindComponent<IItemReceivable>();
                 if (building != null && _playerInventoryData.item != null && _playerInventoryData.count > 0)
                 {
-                    if (building.ReceiveItem(_playerInventoryData.item, 1))
+                    if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
                     {
-                        RemoveItem();
+                        RemoveItem(count: _playerInventoryData.count);
                     }
                 }
             }
         }
-
-        // private void Update()
-        // {
-        //     if (!_isItemAddActive)
-        //     {
-        //         _currentItemAddTime += Time.deltaTime;
-        //         if (_currentItemAddTime >= _itemAddDelay)
-        //         {
-        //             _isItemAddActive = true;
-        //             _currentItemAddTime = 0f;
-        //         }
-        //         
-        //         return;
-        //     }
-        //     int cnt = Physics.OverlapSphereNonAlloc(transform.position, 5f, _colliders, _whatIsBuilding);
-        //     
-        //     for (int i = 0; i < cnt; i++)
-        //     {
-        //         var building = _colliders[i].FindComponent<IItemReceivable>();
-        //         if (building != null)
-        //         {
-        //             if (_playerInventoryData.item != null && _playerInventoryData.count > 0)
-        //             {
-        //                 if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
-        //                 {
-        //                     RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
         
         public void SetMaxInventorySize(int size)
         {
