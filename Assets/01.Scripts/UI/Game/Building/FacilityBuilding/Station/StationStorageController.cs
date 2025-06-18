@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace JMT.UISystem.Station
 {
+    // selectView.ItemCountUI.Count 쓰는곳 고쳐주세요
     public class StationStorageController : MonoBehaviour, IOpenablePanel
     {
         public event Action OnEndEvent;
@@ -83,7 +84,8 @@ namespace JMT.UISystem.Station
             }
             
             // 아이템 창고에서 빼고 currentItem 초기화
-            model.RemoveItem(currentItem.Key, currentItem.Value);
+            Debug.Log(selectView.ItemCountUI.Count + "개 아이템 꺼내기");
+            model.RemoveItem(currentItem.Key, selectView.ItemCountUI.Count);
             OnEndEvent?.Invoke();
         }
 
@@ -93,10 +95,11 @@ namespace JMT.UISystem.Station
             var itemSO = currentItem.Key;
             if (itemSO?.IsTakeable == false) return;
 
-            AgentManager.Instance.Player.InventoryCompo.AddItem(itemSO, currentItem.Value);
+            Debug.Log(selectView.ItemCountUI.Count + "개 아이템 꺼내기");
+            AgentManager.Instance.Player.InventoryCompo.AddItem(itemSO, selectView.ItemCountUI.Count);
 
             // 아이템 창고에서 빼고 currentItem 초기화
-            model.RemoveItem(currentItem.Key, currentItem.Value);
+            model.RemoveItem(currentItem.Key, selectView.ItemCountUI.Count);
             OnEndEvent?.Invoke();
         }
 

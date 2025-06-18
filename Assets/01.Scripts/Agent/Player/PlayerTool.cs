@@ -19,12 +19,14 @@ namespace JMT.PlayerCharacter
         public void Init(IPlayer player)
         {
             Player = player as Player;
+            Init(PlayerToolType.None);
         }
 
         public override void SetCloth(PlayerToolType type)
         {
             base.SetCloth(type);
             Debug.Log(type.ToString());
+            agentClothList[PlayerToolType.None].gameObject.SetActive(true);
             CurPlayerToolSO?.UnEquip();
             CurPlayerToolSO = PlayerTools[type];
             CurPlayerToolSO.Equip();
@@ -39,6 +41,7 @@ namespace JMT.PlayerCharacter
     
     public enum PlayerToolType
     {
+        None,
         Vacuum, // 먼지채집기
         Scanner, // 유기물채집기
         FuelDropper, // 액체연료채집기

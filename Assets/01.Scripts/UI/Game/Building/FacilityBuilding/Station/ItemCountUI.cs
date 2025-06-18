@@ -45,6 +45,7 @@ namespace JMT.UISystem
         public void ItemCountText(int value = 1)
         {
             countText.text = value.ToString();
+            Count = value;
         }
     }
 }
