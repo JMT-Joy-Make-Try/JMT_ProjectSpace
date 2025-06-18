@@ -41,9 +41,9 @@ namespace JMT.PlayerCharacter
             
             HealthCompo = GetComponent<PlayerHealth>();
             InventoryCompo = GetComponent<PlayerInventory>();
+            PlayerToolCompo = GetComponent<PlayerTool>();
             AnimatorCompo = GetComponent<PlayerAnimator>();
             MovementCompo = GetComponent<PlayerMovement>();
-            PlayerToolCompo = GetComponent<PlayerTool>();
             TileFindingCompo = GetComponent<PlayerTileFinding>();
             
             

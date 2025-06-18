@@ -10,7 +10,9 @@ namespace JMT.PlayerCharacter
     {
         public Player Player { get; private set; }
         public Animator AnimCompo { get; private set; }
+        public Animator ToolAnimCompo { get; private set; }
         public AnimationEndTrigger EndTrigger { get; private set; }
+        public PlayerState CurrentState => curState;
 
         private Dictionary<PlayerState, int> stateHash;
 
@@ -29,6 +31,11 @@ namespace JMT.PlayerCharacter
             Player = player as Player;
             AnimCompo = Player?.VisualTrm.GetComponent<Animator>();
             EndTrigger = Player?.VisualTrm.GetComponent<AnimationEndTrigger>();
+            ToolAnimCompo = Player?.PlayerToolCompo.CurrentCloth;
+            
+            Player.PlayerToolCompo.OnClothChange += HandleToolAnimChange;
+            
+            
 
             InitState();
         }
@@ -45,6 +52,7 @@ namespace JMT.PlayerCharacter
         private void OnDestroy()
         {
             Player.InputSO.OnMoveEvent -= HandleMoveAnimation;
+            Player.PlayerToolCompo.OnClothChange -= HandleToolAnimChange;
             if (GameUIManager.Instance != null && GameUIManager.Instance.InteractCompo != null)
             {
                 GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;
@@ -79,8 +87,10 @@ namespace JMT.PlayerCharacter
         private void ChangeState(PlayerState state) 
         {
             AnimCompo.SetBool(stateHash[curState], false);
+            ToolAnimCompo?.SetBool(stateHash[curState], false);
             curState = state;
             AnimCompo.SetBool(stateHash[curState], true);
+            ToolAnimCompo?.SetBool(stateHash[curState], true);
         }
 
         public void SetBool(PlayerState stateName, bool value)
@@ -88,6 +98,7 @@ namespace JMT.PlayerCharacter
             if (stateHash.TryGetValue(stateName, out int hash))
             {
                 AnimCompo.SetBool(hash, value);
+                ToolAnimCompo?.SetBool(hash, value);
             }
             else
             {
@@ -100,6 +111,15 @@ namespace JMT.PlayerCharacter
             AnimCompo.SetLayerWeight(_currentLayer, 0);
             _currentLayer = layerNumber;
             AnimCompo.SetLayerWeight(_currentLayer, weight);
+        }
+        
+        private void HandleToolAnimChange(Animator toolAnim)
+        {
+            ToolAnimCompo = toolAnim;
+            if (ToolAnimCompo != null)
+            {
+                ToolAnimCompo.SetBool(stateHash[curState], true);
+            }
         }
 
         private void Update()
