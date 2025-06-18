@@ -8,7 +8,9 @@ namespace JMT.Building.Component
     public class BuildingVisual : MonoBehaviour, IBuildingComponent
     {
         [SerializeField] private Material visualMat;
+        [SerializeField] private Material visualMat2;
         [SerializeField] private List<MeshRenderer> rendererList;
+        [SerializeField] private List<MeshRenderer> rendererList2;
         [SerializeField] private List<GameObject> buildingLevelObjects;
         
         private GameObject _currentLevelObject;
@@ -20,13 +22,12 @@ namespace JMT.Building.Component
         private void Start()
         {
             visualMat = Instantiate(visualMat);
-            for (byte i = 0; i < rendererList.Count; i++)
+            if (visualMat2 != null)
             {
-                if (rendererList[i] != null)
-                {
-                    rendererList[i].material = Instantiate(rendererList[i].material);
-                }
+                visualMat2 = Instantiate(visualMat2);
             }
+            SetMaterial(visualMat, rendererList);
+            SetMaterial(visualMat2, rendererList2);
 
             if (buildingLevelObjects == null || buildingLevelObjects.Count == 0)
             {
@@ -67,6 +68,10 @@ namespace JMT.Building.Component
         public void SetFloatProperty(string propertyName, float value, bool isAllRendererChange = false)
         {
             visualMat.SetFloat(propertyName, value);
+            if (visualMat2 != null)
+            {
+                visualMat2.SetFloat(propertyName, value);
+            }
             if (!isAllRendererChange) return;
             for (byte i = 0; i < rendererList.Count; i++)
             {
@@ -88,13 +93,17 @@ namespace JMT.Building.Component
             }
         }
 
-        public void SetMaterial(Material material)
+        public void SetMaterial(Material material, List<MeshRenderer> rendererL = null)
         {
-            for (byte i = 0; i < rendererList.Count; i++)
+            if (rendererL == null)
             {
-                if (rendererList[i] != null)
+                rendererL = rendererList;
+            }
+            for (byte i = 0; i < rendererL.Count; i++)
+            {
+                if (rendererL[i] != null)
                 {
-                    rendererList[i].material = material;
+                    rendererL[i].material = material;
                 }
             }
         }

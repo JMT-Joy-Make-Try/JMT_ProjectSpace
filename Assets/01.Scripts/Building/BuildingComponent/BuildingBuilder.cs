@@ -87,7 +87,6 @@ namespace JMT.Building.Component
             var visual = Building.GetBuildingComponent<BuildingVisual>();
             visual.BuildingTransparent(1f);
             PVC.PlayAnimation();
-            visual.SetFloatProperty("_Alpha", 1f);
             SoundPlayer.StopSound("Building_Sound");
             SoundPlayer.PlaySound("Building_Complete");
             IsBuildingComplete = true;

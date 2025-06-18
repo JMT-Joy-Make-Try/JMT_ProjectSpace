@@ -57,8 +57,8 @@ namespace JMT.Building
 
         public void FixStation()
         {
-            visual.gameObject.SetActive(true);
             brokenVisual.gameObject.SetActive(false);
+            visual.gameObject.SetActive(true);
         }
 
         public bool ReceiveItem(ItemSO item, int amount)
