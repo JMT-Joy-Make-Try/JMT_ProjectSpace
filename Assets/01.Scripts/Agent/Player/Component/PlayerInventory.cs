@@ -45,6 +45,7 @@ namespace JMT.PlayerCharacter
             if (_playerInventoryData.item == null)
             {
                 // 매개변수로 받아온 아이템을 1개 들고있게 한다
+                Debug.Log(count + "개 아이템 받기");
                 _playerInventoryData.item = item;
                 _playerInventoryData.count = count;
             }
@@ -60,6 +61,8 @@ namespace JMT.PlayerCharacter
                 Debug.LogWarning("Inventory is full or item type mismatch.");
                 return;
             }
+            
+            Debug.Log(_playerInventoryData.count + "개 아이템");
 
             // 플레이어가 아이템을 듬
             OnInventoryEvent?.Invoke(item, PlayerInventoryData.count);
