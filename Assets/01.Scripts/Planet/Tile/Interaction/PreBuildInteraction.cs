@@ -51,20 +51,20 @@ namespace JMT.Planets.Tile
         private IEnumerator DelayUpdatePreBuildItem(PlayerInventory inventory)
         {
             yield return null;
+            var item = inventory.RemoveItem(inventory.PlayerInventoryData.item, 3, false);
             for (int i = 0; i < 3; i++)
             {
-                Debug.Log("TimeScale"+Time.timeScale);
-                _requiredItems[inventory.PlayerInventoryData.item] -= 1;
-                if (_requiredItems[inventory.PlayerInventoryData.item] <= 0)
+                _requiredItems[item] -= 1;
+                if (_requiredItems[item] <= 0)
                 {
-                    _requiredItems.Remove(inventory.PlayerInventoryData.item);
+                    _requiredItems.Remove(item);
                 }
-                var preBuildItem = FindPreBuildItemCount(inventory.PlayerInventoryData.item);
+                var preBuildItem = FindPreBuildItemCount(item);
                 if (preBuildItem != null)
                 {
                     preBuildItem.CurItemCount++;
                 }
-                inventory.RemoveItem();
+                
                 
                 OnChangedDataEvent?.Invoke(_preBuildItemDatas);
                 Debug.Log("PreBuildInteraction: Item used for building.");
@@ -84,6 +84,7 @@ namespace JMT.Planets.Tile
             }
             
             _prebuildCoroutine = null;
+            inventory.ResetItem();
         }
 
         public PreBuildItemData FindPreBuildItemCount(ItemSO item)

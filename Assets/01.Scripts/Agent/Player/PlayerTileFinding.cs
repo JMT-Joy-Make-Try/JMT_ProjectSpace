@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JMT.PlayerCharacter
 {
-    public class PlayerTileFinding : MonoBehaviour
+    public class PlayerTileFinding : MonoBehaviour, IPlayerComponent
     {
         private Player player;
         [SerializeField] private Transform startTrm;
@@ -13,12 +13,14 @@ namespace JMT.PlayerCharacter
         [SerializeField] private float rayDistance = 4f;
 
         private PlanetTile currentTile;
+        private RaycastHit hit;
 
         public Vector3 RayDirection => (startTrm.forward + rotateVec).normalized;
-
-        private void Awake()
+        public RaycastHit RayHit => hit;
+        
+        public void Init(IPlayer p)
         {
-            player = GetComponent<Player>();
+            player = p as Player;
         }
 
         private void Update()
@@ -32,7 +34,7 @@ namespace JMT.PlayerCharacter
             if (tileManager.CurrentTile != null)
                 tileManager.CurrentTile.EdgeEnable(false);
             if (type == InteractType.Attack) return;
-            if (Physics.Raycast(startTrm.position, RayDirection, out RaycastHit hit, rayDistance, player.GroundLayer))
+            if (Physics.Raycast(startTrm.position, RayDirection, out hit, rayDistance, player.GroundLayer))
             {
                 tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
                 tileManager.CurrentTile.EdgeEnable(true);
@@ -49,5 +51,7 @@ namespace JMT.PlayerCharacter
             Gizmos.DrawLine(rayStart, rayStart + RayDirection * rayDistance);
             Gizmos.DrawSphere(rayStart + RayDirection * rayDistance, 0.05f);
         }
+
+        
     }
 }
