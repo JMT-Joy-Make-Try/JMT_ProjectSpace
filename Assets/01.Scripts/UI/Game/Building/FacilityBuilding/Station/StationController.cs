@@ -1,4 +1,5 @@
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Planets.Tile;
 using UnityEngine;
 
@@ -59,7 +60,7 @@ namespace JMT.UISystem.Station
 
         private void HandleUpgradeButton()
         {
-            TileManager.Instance.GetInteraction().GetComponentInChildren<BaseBuilding>().FixStation();
+            TileManager.Instance.GetInteraction().GetComponentInChildren<BaseBuilding>().GetBuildingComponent<BuildingLevel>().Upgrade();
             Debug.Log("그냥 레벨업할게요.");
             ClosePanel();
         }
