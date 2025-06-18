@@ -8,6 +8,7 @@ namespace JMT.Building.Component
         public event Action<int> OnLevelChanged;
         public BuildingBase Building { get; private set; }
         [SerializeField] private BuildingDataSO data;
+        [SerializeField] private int maxLevel = 3;
         [SerializeField] private bool _isLevelUpgradable = true;
         private int _curLevel;
         
@@ -28,6 +29,11 @@ namespace JMT.Building.Component
             if (!_isLevelUpgradable)
             {
                 Debug.LogWarning("Building is not upgradable.");
+                return;
+            }
+            if (_curLevel >= maxLevel)
+            {
+                Debug.LogWarning("Building has reached the maximum level.");
                 return;
             }
             _curLevel++;
