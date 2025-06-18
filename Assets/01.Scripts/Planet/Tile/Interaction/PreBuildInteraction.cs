@@ -67,11 +67,8 @@ namespace JMT.Planets.Tile
                 
                 
                 OnChangedDataEvent?.Invoke(_preBuildItemDatas);
-                Debug.Log("PreBuildInteraction: Item used for building.");
-                Debug.Log(i);
                 
-                yield return new WaitForSeconds(0.5f);
-                Debug.Log("TimeScale"+Time.timeScale);
+                yield return new WaitForSeconds(0.2f);
             }
             
             
