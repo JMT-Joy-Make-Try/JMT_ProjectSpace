@@ -20,6 +20,7 @@ namespace JMT.PlayerCharacter
         public PlayerAnimator AnimatorCompo { get; private set; }
         public PlayerMovement MovementCompo { get; private set; }
         public PlayerTool PlayerToolCompo { get; private set; }
+        public PlayerTileFinding TileFindingCompo { get; private set; }
         public FogDetect FogDetect { get; private set; }
         public Transform VisualTrm { get; private set; }
         public SoundPlayer SoundPlayer { get; private set; }
@@ -43,6 +44,7 @@ namespace JMT.PlayerCharacter
             AnimatorCompo = GetComponent<PlayerAnimator>();
             MovementCompo = GetComponent<PlayerMovement>();
             PlayerToolCompo = GetComponent<PlayerTool>();
+            TileFindingCompo = GetComponent<PlayerTileFinding>();
             
             
             FogDetect = GetComponent<FogDetect>();
@@ -61,6 +63,7 @@ namespace JMT.PlayerCharacter
             AnimatorCompo.Init(this);
             MovementCompo.Init(this);
             FogDetect.Init(this);
+            TileFindingCompo.Init(this);
         }
 
         private void OnDestroy()

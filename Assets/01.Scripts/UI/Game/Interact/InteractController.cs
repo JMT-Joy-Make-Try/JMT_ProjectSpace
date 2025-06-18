@@ -11,6 +11,7 @@ namespace JMT.UISystem.Interact
     {
         public event Action<bool> OnHoldEvent;
         public event Action OnAnimationEndEvent;
+        public event Action OnClickEvent;
 
         [SerializeField] private InteractView view;
         private InteractModel model = new();
@@ -83,7 +84,10 @@ namespace JMT.UISystem.Interact
             InteractType type = model.InteractType;
 
             if (!type.Equals(InteractType.Item))
+            {
                 TileManager.Instance.GetInteraction().Interaction();
+                OnClickEvent?.Invoke();
+            }
         }
 
 
@@ -99,8 +103,8 @@ namespace JMT.UISystem.Interact
         {
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "밭 가는 중...");
-            holdCoroutine = StartCoroutine(HoldCoroutine(12));
             AgentManager.Instance.Player.AnimatorCompo.SetLayer(3, 1);
+            holdCoroutine = StartCoroutine(HoldCoroutine(12));
         }
 
         private void OnHoldEnd()

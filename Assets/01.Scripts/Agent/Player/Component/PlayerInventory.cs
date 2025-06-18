@@ -2,6 +2,7 @@ using JMT.Core;
 using JMT.Core.Tool;
 using JMT.Item;
 using JMT.Object;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -29,8 +30,14 @@ namespace JMT.PlayerCharacter
             _itemObject.IsCollectable = false;
             _itemObject.gameObject.SetActive(false);
             _player = player as Player;
+            GameUIManager.Instance.InteractCompo.OnClickEvent += SendItem;
         }
-        
+
+        private void OnDestroy()
+        {
+            GameUIManager.Instance.InteractCompo.OnClickEvent -= SendItem;
+        }
+
         public void AddItem(ItemSO item, int count = 1)
         {
             _isItemAddActive = false;
@@ -61,7 +68,7 @@ namespace JMT.PlayerCharacter
             _player.AnimatorCompo.SetBool(PlayerState.Caring, true);
         }
         
-        public ItemSO RemoveItem(ItemSO item = null, int count = 1)
+        public ItemSO RemoveItem(ItemSO item = null, int count = 1, bool isItemCountZeroNull = true)
         {
             // 매개변수로 받아온 아이템이 없으면 현재 들고있는 아이템으로 설정
             if (item == null) item = _playerInventoryData.item;
@@ -75,7 +82,10 @@ namespace JMT.PlayerCharacter
                 if (_playerInventoryData.count <= 0)
                 {
                     // 들고있는 아이템 없애기
-                    _playerInventoryData.item = null;
+                    if (isItemCountZeroNull)
+                    {
+                        _playerInventoryData.item = null;
+                    }
                     _playerInventoryData.count = 0;
 
                     // 플레이어가 아이템을 내려놓음
@@ -94,41 +104,65 @@ namespace JMT.PlayerCharacter
             return _playerInventoryData.item;
         }
         
+        public void ResetItem()
+        {
+            _playerInventoryData.item = null;
+            _playerInventoryData.count = 0;
+            _itemObject.gameObject.SetActive(false);
+            _player.AnimatorCompo.SetBool(PlayerState.Caring, false);
+            OnInventoryEvent?.Invoke(null, PlayerInventoryData.count);
+        }
+        
         public bool IsMaxInventorySizeReached()
         {
             return _playerInventoryData.count >= MaxInventorySize;
         }
 
-        private void Update()
+        public void SendItem()
         {
-            if (!_isItemAddActive)
+            if (_player.TileFindingCompo.RayHit.collider != null)
             {
-                _currentItemAddTime += Time.deltaTime;
-                if (_currentItemAddTime >= _itemAddDelay)
+                var building = _player.TileFindingCompo.RayHit.collider.FindComponent<IItemReceivable>();
+                if (building != null && _playerInventoryData.item != null && _playerInventoryData.count > 0)
                 {
-                    _isItemAddActive = true;
-                    _currentItemAddTime = 0f;
-                }
-                
-                return;
-            }
-            int cnt = Physics.OverlapSphereNonAlloc(transform.position, 5f, _colliders, _whatIsBuilding);
-            
-            for (int i = 0; i < cnt; i++)
-            {
-                var building = _colliders[i].FindComponent<IItemReceivable>();
-                if (building != null)
-                {
-                    if (_playerInventoryData.item != null && _playerInventoryData.count > 0)
+                    if (building.ReceiveItem(_playerInventoryData.item, 1))
                     {
-                        if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
-                        {
-                            RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
-                        }
+                        RemoveItem();
                     }
                 }
             }
         }
+
+        // private void Update()
+        // {
+        //     if (!_isItemAddActive)
+        //     {
+        //         _currentItemAddTime += Time.deltaTime;
+        //         if (_currentItemAddTime >= _itemAddDelay)
+        //         {
+        //             _isItemAddActive = true;
+        //             _currentItemAddTime = 0f;
+        //         }
+        //         
+        //         return;
+        //     }
+        //     int cnt = Physics.OverlapSphereNonAlloc(transform.position, 5f, _colliders, _whatIsBuilding);
+        //     
+        //     for (int i = 0; i < cnt; i++)
+        //     {
+        //         var building = _colliders[i].FindComponent<IItemReceivable>();
+        //         if (building != null)
+        //         {
+        //             if (_playerInventoryData.item != null && _playerInventoryData.count > 0)
+        //             {
+        //                 if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
+        //                 {
+        //                     RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         
         public void SetMaxInventorySize(int size)
         {
