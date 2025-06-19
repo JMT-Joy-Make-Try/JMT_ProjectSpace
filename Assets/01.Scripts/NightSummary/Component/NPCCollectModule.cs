@@ -7,7 +7,7 @@ namespace JMT.NightSummary.Component
 {
     // 포섭된 NPC
     [Serializable]
-    public class NPCCollectModule
+    public class NPCCollectModule : IResetable
     {
         [SerializeField] private List<NPCStat> _npcList = new List<NPCStat>();
         
@@ -22,6 +22,11 @@ namespace JMT.NightSummary.Component
         public List<NPCStat> GetCollectedNPCs()
         {
             return _npcList;
+        }
+
+        public void Reset()
+        {
+            _npcList.Clear();
         }
     }
 }

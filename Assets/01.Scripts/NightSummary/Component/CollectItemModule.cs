@@ -8,7 +8,7 @@ namespace JMT.NightSummary.Component
 {
     // 획득한 자원
     [Serializable]
-    public class CollectItemModule
+    public class CollectItemModule : IResetable
     {
         [SerializeField] private List<CollectItemData> _collectItemDataList = new();
         
@@ -33,6 +33,11 @@ namespace JMT.NightSummary.Component
         public string GetItemSummary(CollectItemData data)
         {
             return $"{data.ItemType} X{data.Count}";
+        }
+
+        public void Reset()
+        {
+            _collectItemDataList.Clear();
         }
     }
 

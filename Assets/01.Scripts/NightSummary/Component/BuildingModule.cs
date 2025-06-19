@@ -8,7 +8,7 @@ namespace JMT.NightSummary.Component
 {
     // 설치되어있는 건물
     [Serializable]
-    public class BuildingModule
+    public class BuildingModule : IResetable
     {
         [SerializeField] private List<BuildingModuleData> _buildingDataList = new();
 
@@ -33,6 +33,11 @@ namespace JMT.NightSummary.Component
         public string GetBuildingSummary(BuildingModuleData data)
         {
             return $"{data.BuildingType} Lv.{data.Level} X{data.Count}";
+        }
+
+        public void Reset()
+        {
+            _buildingDataList.Clear();
         }
     }
 

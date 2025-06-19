@@ -6,7 +6,7 @@ namespace JMT.NightSummary.Component
 {
     // 평판
     [Serializable]
-    public class ReputationModule
+    public class ReputationModule : IResetable
     {
         [SerializeField] private NPCCollectModule _npcCollectModule;
         //평판은 일꾼의 만족도 평균
@@ -30,6 +30,14 @@ namespace JMT.NightSummary.Component
             }
             
             return totalSatisfaction / npcCount.Count;
+        }
+
+        public void Reset()
+        {
+            if (_npcCollectModule != null)
+            {
+                _npcCollectModule.Reset();
+            }
         }
     }
 }

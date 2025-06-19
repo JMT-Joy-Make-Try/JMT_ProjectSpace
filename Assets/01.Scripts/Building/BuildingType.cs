@@ -2,6 +2,6 @@
 {
     public enum BuildingType
     {
-        
+        Null,
     }
 }
