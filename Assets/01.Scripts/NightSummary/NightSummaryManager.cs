@@ -31,13 +31,5 @@ namespace JMT.NightSummary
             BuildingModule.Reset();
             ReputationModule.Reset();
         }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log($"Reputation: {ReputationModule.CalculateReputation()}");
-            }
-        }
     }
 }
