@@ -30493,6 +30493,64 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2710003948065671140, guid: 234c07036ed44ac4eb8860f9eb468e56, type: 3}
   m_PrefabInstance: {fileID: 1469323590}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1469415728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1469415730}
+  - component: {fileID: 1469415729}
+  m_Layer: 0
+  m_Name: NightSummaryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1469415729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469415728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42716d43240346a08dad1a699fd29865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <RocketStatusModule>k__BackingField:
+    _rocketCompletionPercent: 0
+  <CollectItemModule>k__BackingField:
+    _collectItemDataList: []
+  <NPCCollectModule>k__BackingField:
+    _npcList: []
+  <BuildingModule>k__BackingField:
+    _buildingDataList:
+    - BuildingType: 0
+      Level: 0
+      Count: 0
+  <ReputationModule>k__BackingField:
+    _npcCollectModule:
+      _npcList: []
+--- !u!4 &1469415730
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469415728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1472813090 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9179196772889426035, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
@@ -55000,3 +55058,4 @@ SceneRoots:
   - {fileID: 1370143250}
   - {fileID: 196324561}
   - {fileID: 1808350589}
+  - {fileID: 1469415730}

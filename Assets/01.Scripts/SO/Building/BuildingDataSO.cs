@@ -32,6 +32,7 @@ namespace JMT.Building
         public PVCBuilding PVCPrefab;
         public BuildingCategory Category;
         public string BuildingName;
+        public BuildingType BuildingType;
         [TextArea(4, 10)] public string BuildingDescription;
 
         public List<BuildingLevelData> buildingLevel;

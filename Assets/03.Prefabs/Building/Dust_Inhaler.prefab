@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2a5f0cd0a2462487eeab06f5367bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingDataSO: {fileID: 11400000, guid: 74ebd333e2345814498722a00622a083, type: 2}
   <ProductionItem>k__BackingField: {fileID: 11400000, guid: 0c8208b9af40481489692ca9fe6eb806, type: 2}
   _productionTime: 3
   _maxProductionAmount: 10
@@ -166,9 +167,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualMat: {fileID: 2100000, guid: 3dd5b9545249a0d4c94f2925fbdf99e9, type: 2}
+  visualMat2: {fileID: 0}
   rendererList:
   - {fileID: 2004903886150119484}
   - {fileID: 3013437326420350241}
+  rendererList2: []
   buildingLevelObjects: []
 --- !u!114 &1437728862446333920
 MonoBehaviour:
@@ -225,6 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 0}
+  maxLevel: 3
+  _isLevelUpgradable: 1
 --- !u!114 &7978435145743687815
 MonoBehaviour:
   m_ObjectHideFlags: 0

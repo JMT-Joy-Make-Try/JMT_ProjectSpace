@@ -1,17 +1,14 @@
-using JMT.Agent.NPC;
+using JMT.Core.Tool.PoolManager.Core;
+using System.Collections.Generic;
+using JMT.Core.Tool.PoolManager;
 using JMT.Building.Component;
 using JMT.Core.Manager;
-using JMT.Core.Tool;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
 using JMT.Planets.Tile;
+using JMT.Agent.NPC;
 using JMT.UISystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using JMT.NightSummary;
 
 namespace JMT.Agent
 {
@@ -95,6 +92,7 @@ namespace JMT.Agent
             }
             UnemployedAgents.Add(agent);
             GameUIManager.Instance.ResourceCompo.AddNpc(1);
+            NightSummaryManager.Instance.NPCCollectModule.CollectNPC(agent.StatCompo);
         }
 
         public void UnregisterAgent(NPCAgent agent)

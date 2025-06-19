@@ -1,6 +1,7 @@
 using JMT.Building;
 using JMT.Building.Component;
 using JMT.Core.Tool;
+using JMT.NightSummary;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,8 +25,8 @@ namespace JMT.Core.Manager
         
         private List<BuildingBase> _buildings = new List<BuildingBase>();
         private List<float> _defaultFuelAmount = new List<float>();
-        
-        
+
+
         public void AddBuilding(BuildingBase building)
         {
             if (building == null) return;

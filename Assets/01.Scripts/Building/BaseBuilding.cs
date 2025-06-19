@@ -1,6 +1,7 @@
 using JMT.Building.Component;
 using JMT.Core;
 using JMT.Item;
+using JMT.NightSummary;
 using JMT.Planet.Tile;
 using JMT.Planets.Tile;
 using JMT.UISystem;
@@ -65,6 +66,7 @@ namespace JMT.Building
         {
             if (!_buildingBuilder.IsBuildingComplete) return false;
             BuildingUIManager.Instance.StorageCompo.AddItem(item, amount);
+            NightSummaryManager.Instance.CollectItemModule.AddItem(item.ItemType, amount);
             return true;
         }
     }

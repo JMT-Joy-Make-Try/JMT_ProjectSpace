@@ -1,5 +1,7 @@
 using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.NightSummary;
+using JMT.Planet.Tile;
 using JMT.Planets.Tile;
 using JMT.Sound;
 using JMT.UISystem;
@@ -12,6 +14,7 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour
     {
+        [SerializeField] private BuildingDataSO buildingDataSO;
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
@@ -21,12 +24,15 @@ namespace JMT.Building
         protected virtual void Awake()
         {
             InitBuildingComponents();
-            BuildingManager.Instance.AddBuilding(this);
+            
         }
-        
+
         protected virtual void Start()
         {
+            BuildingManager.Instance.AddBuilding(this);
             AddEvents();
+            var buildingLevel = GetBuildingComponent<BuildingLevel>();
+            NightSummaryManager.Instance.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
         }
         
         protected virtual void OnDestroy()
