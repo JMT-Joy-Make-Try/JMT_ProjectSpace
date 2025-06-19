@@ -21,6 +21,7 @@ namespace JMT.UISystem.Interact
         Factory = 13,
         Holding = 14,
         FieldHold = 15,
+        RocketLauncher = 16,
     }
 
     public class InteractModel

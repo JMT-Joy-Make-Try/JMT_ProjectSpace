@@ -1,11 +1,13 @@
+using JMT.Agent;
 using System.Collections.Generic;
 using JMT.Planets.Tile;
 using JMT.Building;
 using JMT.Building.Component;
 using JMT.Planets;
 using System;
+using UnityEngine;
 
-namespace JMT
+namespace JMT.Planet.Tile
 {
     public class ProgressInteraction : TileInteraction
     {
@@ -14,8 +16,10 @@ namespace JMT
             { typeof(BaseBuilding), typeof(StationInteraction) },
             { typeof(LaboratoryBuilding), typeof(LaboratoryInteraction) },
             { typeof(OxygenBuilding), typeof(SupplyOxygenInteraction) },
-            { typeof(HospitalBuilding), typeof(HospitalInteraction) }
+            { typeof(HospitalBuilding), typeof(HospitalInteraction) },
+            { typeof(RocketBuilding), typeof(RocketLauncherInteraction) }
         };
+        
         public override void Interaction()
         {
             base.Interaction();
@@ -24,12 +28,17 @@ namespace JMT
             if (!builder.IsBuilding) return;
             builder.CompleteEventInvoker();
             
-            var tile = TileManager.Instance.CurrentTile;
+            var tile = planetTile;
 
             tile.RemoveInteraction();
             var buildingType = building.GetType();
             if (_interactionLookup.TryGetValue(buildingType, out var interactionType))
             {
+                if (interactionType == typeof(RocketLauncherInteraction))
+                {
+                    Set2By2Interaction(tile, interactionType);
+                    return;
+                }
                 var method = typeof(PlanetTile).GetMethod("AddInteraction", Type.EmptyTypes);
                 var generic = method.MakeGenericMethod(interactionType);
                 generic.Invoke(tile, null);
@@ -37,6 +46,16 @@ namespace JMT
             }
 
             tile.AddInteraction<BuildingInteraction>();
+        }
+
+        private void Set2By2Interaction(PlanetTile tile, Type interactionType)
+        {
+            var playerLookDir = AgentManager.Instance.Player.transform.forward;
+            var tiles = TileManager.Instance.Get2By2TilesInAnyDirection(tile, playerLookDir);
+            foreach (var t in tiles)
+            {
+                Debug.LogError($"Adding interaction {interactionType.Name} to tile at position {t.Position}");
+            }
         }
     }
 }

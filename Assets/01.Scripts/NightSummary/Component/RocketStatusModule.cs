@@ -10,6 +10,8 @@ namespace JMT.NightSummary.Component
         [SerializeField] private int _rocketCompletionPercent;
         private string _percentText;
         
+        public string PercentText => _percentText;
+        
         public event Action<string> OnRocketCompletionPercentChanged;
 
         public void Reset()

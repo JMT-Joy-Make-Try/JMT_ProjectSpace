@@ -1,6 +1,7 @@
 using JMT.Building.Component;
 using JMT.Core.Manager;
 using JMT.NightSummary;
+using JMT.Planet.Tile;
 using JMT.Planets.Tile;
 using JMT.Sound;
 using JMT.UISystem;
