@@ -35,6 +35,7 @@ namespace JMT.PlayerCharacter
 
         private void OnDestroy()
         {
+            if (GameUIManager.Instance == null) return;
             GameUIManager.Instance.InteractCompo.OnClickEvent -= SendItem;
         }
 
