@@ -24,6 +24,7 @@ namespace JMT.PlayerCharacter
         public FogDetect FogDetect { get; private set; }
         public Transform VisualTrm { get; private set; }
         public SoundPlayer SoundPlayer { get; private set; }
+        public PlayerStat StatCompo { get; private set; }
         
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
@@ -45,6 +46,7 @@ namespace JMT.PlayerCharacter
             AnimatorCompo = GetComponent<PlayerAnimator>();
             MovementCompo = GetComponent<PlayerMovement>();
             TileFindingCompo = GetComponent<PlayerTileFinding>();
+            StatCompo = GetComponent<PlayerStat>();
             
             
             FogDetect = GetComponent<FogDetect>();
@@ -64,6 +66,7 @@ namespace JMT.PlayerCharacter
             MovementCompo.Init(this);
             FogDetect.Init(this);
             TileFindingCompo.Init(this);
+            StatCompo.Init(this);
         }
 
         private void OnDestroy()

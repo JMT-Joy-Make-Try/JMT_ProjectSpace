@@ -1,4 +1,4 @@
-namespace JMT.NightSummary.Component 
+namespace JMT.Core 
 {
     public interface IResetable
     {

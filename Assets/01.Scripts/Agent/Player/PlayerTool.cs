@@ -2,10 +2,7 @@ using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Item;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace JMT.PlayerCharacter
 {
@@ -15,7 +12,7 @@ namespace JMT.PlayerCharacter
         public Player Player { get; private set; }
         [field: SerializeField] public SerializedDictionary<PlayerToolType, ToolSO> PlayerTools { get; private set; }
         public ToolSO CurPlayerToolSO { get; private set; }
-        
+
         public void Init(IPlayer player)
         {
             Player = player as Player;
@@ -36,6 +33,13 @@ namespace JMT.PlayerCharacter
         {
             PlayerTools[tool.ToolType] = Instantiate(tool);
             OnAddToolEvent?.Invoke();
+        }
+        
+        public bool IsEquippedTool(PlayerToolType toolType)
+        {
+            var tool = CurPlayerToolSO;
+            if (tool == null) return false;
+            return tool.ToolType == toolType;
         }
     }
     

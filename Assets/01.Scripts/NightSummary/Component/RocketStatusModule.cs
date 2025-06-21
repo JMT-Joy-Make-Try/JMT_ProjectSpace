@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JMT.Core;
+using System;
 using UnityEngine;
 
 namespace JMT.NightSummary.Component

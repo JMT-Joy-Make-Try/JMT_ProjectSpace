@@ -1,5 +1,6 @@
-    using JMT.Agent;
-    using JMT.Planets.Tile;
+using JMT.Agent;
+using JMT.Planets.Tile;
+using JMT.Planets.Tile.Items;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -95,7 +96,9 @@ namespace JMT.UISystem.Interact
         {
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "재료 캐는 중...");
-            holdCoroutine = StartCoroutine(HoldCoroutine());
+            var currentInteract = TileManager.Instance.GetInteraction();
+            var interactTime = AgentManager.Instance.Player.StatCompo.GetInteractTime(currentInteract.GetItemType());
+            holdCoroutine = StartCoroutine(HoldCoroutine(interactTime));
             AgentManager.Instance.Player.AnimatorCompo.SetLayer(0, 1);
         }
         
