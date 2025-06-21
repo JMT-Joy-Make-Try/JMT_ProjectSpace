@@ -25,6 +25,8 @@ namespace JMT.Planets.Tile.Items
         RefinedFuel, // 정제 연료
         OxygenTank, // 
         PurificationContainer, // 정화통
+        Stone, // 돌
+        None,
     }
     
 }

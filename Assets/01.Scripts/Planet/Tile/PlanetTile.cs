@@ -28,7 +28,7 @@ namespace JMT.Planets.Tile
 
         [SerializeField]private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
-        public GameObject TileInteraction;
+        public TileInteraction TileInteraction;
         public Transform Pivot { get; private set; }
 
         private bool canInteraction = true;
@@ -46,7 +46,7 @@ namespace JMT.Planets.Tile
             Renderer.material = Instantiate(Renderer.material);
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
-            TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
+            TileInteraction = transform.GetComponentInChildren<TileInteraction>();
         }
 
         private void Start()

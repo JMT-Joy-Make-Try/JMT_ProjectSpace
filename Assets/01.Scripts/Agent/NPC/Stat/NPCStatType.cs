@@ -8,9 +8,12 @@
         Satisfaction, // 만족도
     }
 
-    public enum NPCStatModifierType
+    public enum StatModifierType
     {
-        Additive,
+        Addition,
+        Subtraction,
         Multiplicative,
+        Division,
+        Percentage
     }
 }
