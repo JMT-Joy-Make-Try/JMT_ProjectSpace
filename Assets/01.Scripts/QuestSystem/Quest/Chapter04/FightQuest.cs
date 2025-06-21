@@ -9,6 +9,7 @@ namespace JMT.QuestSystem
         public override void Enable()
         {
             base.Enable();
+            GameUIManager.Instance.TimeCompo.StartNightTime();
             waveSystem.OnClearEvent += HandleSpawnEvent;
         }
 

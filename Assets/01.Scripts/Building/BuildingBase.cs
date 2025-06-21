@@ -24,7 +24,6 @@ namespace JMT.Building
         protected virtual void Awake()
         {
             InitBuildingComponents();
-            
         }
 
         protected virtual void Start()

@@ -56,6 +56,15 @@ namespace JMT.UISystem.DayTime
             timeCoroutine = StartCoroutine(TimeRoutine());
         }
 
+        public void StartNightTime()
+        {
+            model.SetTime(timeSO.repeatNightTime);
+            model.ChangeDayTime(DaytimeType.Night);
+            if (timeCoroutine != null)
+                StopCoroutine(timeCoroutine);
+            StartCoroutine(TimeRoutine());
+        }
+
         private IEnumerator TimeRoutine()
         {
             var wait = new WaitForSeconds(1f);

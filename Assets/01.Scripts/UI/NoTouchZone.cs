@@ -4,11 +4,11 @@ using UnityEngine.EventSystems;
 
 namespace JMT.UISystem
 {
-    public class TouchScreen : MonoBehaviour, IPointerDownHandler
+    public class NoTouchZone : MonoBehaviour, IPointerClickHandler
     {
         public event Action OnClickEvent;
 
-        public void OnPointerDown(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
             OnClickEvent?.Invoke();
         }

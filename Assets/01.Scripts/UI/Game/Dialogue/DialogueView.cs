@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -8,31 +7,25 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem.Dialogue
 {
-    public class DialogueView : PanelUI
+    public class DialogueView : MonoBehaviour
     {
-        public event Action<bool> OnCompleteEvent;
-
-        [SerializeField] private Image characterImage;
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI descText;
+        [SerializeField] private Image characterImage;
 
-        private StringBuilder builder = new();
+        private StringBuilder builder;
         private Coroutine dialogueRoutine;
 
-        private string desc;
-
-        public void SetDialogue(DialogueData data)
+        public void SetDialogue(string name, string desc)
         {
-            nameText.text = data.name;
-            dialogueRoutine = StartCoroutine(DialogueRoutine(data.desc));
+            nameText.text = name;
+            dialogueRoutine = StartCoroutine(DialogueRoutine(desc));
         }
 
         private IEnumerator DialogueRoutine(string desc)
         {
-            OnCompleteEvent?.Invoke(false);
-            var waitTime = new WaitForSeconds(0.06f);
-            builder?.Clear();
-            this.desc = desc;
+            var waitTime = new WaitForSeconds(0.05f);
+            builder.Clear();
             foreach (char text in desc)
             {
                 builder.Append(text);
@@ -40,10 +33,10 @@ namespace JMT.UISystem.Dialogue
 
                 yield return waitTime;
             }
-            ShowAllDescription();
+            SetDescription(desc);
         }
 
-        public void ShowAllDescription()
+        public void SetDescription(string desc)
         {
             if(dialogueRoutine != null)
             {
@@ -51,7 +44,6 @@ namespace JMT.UISystem.Dialogue
                 dialogueRoutine = null;
             }
             descText.text = desc;
-            OnCompleteEvent?.Invoke(true);
         }
     }
 }
