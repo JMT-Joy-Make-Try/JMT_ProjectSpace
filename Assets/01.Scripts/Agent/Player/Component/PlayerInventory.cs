@@ -153,6 +153,33 @@ namespace JMT.PlayerCharacter
             _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
             OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
         }
+        public void AddMaxInventorySize(int size)
+        {
+            if (size < 0)
+            {
+                Debug.LogWarning("Size to add cannot be negative.");
+                return;
+            }
+            MaxInventorySize += size;
+            _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
+        }
+
+        public void RemoveMaxInventorySize(int size)
+        {
+            if (size < 0)
+            {
+                Debug.LogWarning("Size to subtract cannot be negative.");
+                return;
+            }
+            MaxInventorySize -= size;
+            if (MaxInventorySize < 0)
+            {
+                MaxInventorySize = 0;
+            }
+            _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
+        }
     }
 
     [Serializable]
