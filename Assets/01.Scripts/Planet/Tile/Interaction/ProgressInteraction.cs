@@ -36,7 +36,7 @@ namespace JMT.Planet.Tile
             {
                 if (interactionType == typeof(RocketLauncherInteraction))
                 {
-                    Set2By2Interaction(tile, interactionType);
+                    RocketLauncherInteraction(tile);
                     return;
                 }
                 var method = typeof(PlanetTile).GetMethod("AddInteraction", Type.EmptyTypes);
@@ -47,14 +47,15 @@ namespace JMT.Planet.Tile
 
             tile.AddInteraction<BuildingInteraction>();
         }
-
-        private void Set2By2Interaction(PlanetTile tile, Type interactionType)
+        
+        private void RocketLauncherInteraction(PlanetTile tile)
         {
-            var playerLookDir = AgentManager.Instance.Player.transform.forward;
+            var playerLookDir = AgentManager.Instance.Player.VisualTrm.forward;
             var tiles = TileManager.Instance.Get2By2TilesInAnyDirection(tile, playerLookDir);
             foreach (var t in tiles)
             {
-                Debug.LogError($"Adding interaction {interactionType.Name} to tile at position {t.Position}");
+                Debug.LogError($"Adding interaction RocketLauncherInteraction to tile at position {t.Position}");
+                t.AddInteraction<RocketLauncherInteraction>();
             }
         }
     }
