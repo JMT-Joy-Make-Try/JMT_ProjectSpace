@@ -110,7 +110,7 @@ namespace JMT.Planets.Tile
         
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
         {
-            interaction = TileInteraction.GetComponent<T>();
+            interaction = TileInteraction as T;
             if (interaction != null)
             {
                 canInteraction = true;
