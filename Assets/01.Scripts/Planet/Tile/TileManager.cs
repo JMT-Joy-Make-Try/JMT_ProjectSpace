@@ -54,47 +54,51 @@ namespace JMT.Planets.Tile
         public List<PlanetTile> Get2By2TilesInAnyDirection(PlanetTile curTile, Vector2 forwardDir)
         {
             if (curTile == null) return null;
-        
-            // 타일 간격
-            float tileSize = 15f;
-        
-            // 방향 정규화
+
+            // 방향 정규화 후 4방향 스냅
             Vector2 dir = forwardDir.normalized;
-        
-            // 수직 방향 구하기 (좌측 90도 회전)
-            Vector2 perp = new Vector2(-dir.y, dir.x);
-        
-            // 2x2 정사각형 네 꼭짓점 오프셋
-            Vector2[] offsets = new Vector2[]
+            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+                dir = new Vector2(Mathf.Sign(dir.x), 0);
+            else
+                dir = new Vector2(0, Mathf.Sign(dir.y));
+
+            // 왼쪽 방향 (dir을 기준으로 좌측 90도 회전)
+            Vector2 left = new Vector2(-dir.y, dir.x);
+
+            // 왼위 2x2 타일 좌표들
+            Vector2Int[] offsets = new Vector2Int[]
             {
-                Vector2.zero,
-                dir * tileSize,
-                perp * tileSize,
-                dir * tileSize + perp * tileSize
+                Vector2Int.zero,                    // 현재 타일
+                Vector2Int.RoundToInt(left),        // 왼쪽
+                Vector2Int.RoundToInt(dir),         // 위쪽 (플레이어 전방)
+                Vector2Int.RoundToInt(left + dir)   // 왼쪽 + 위쪽 = 대각
             };
-        
-            var tiles = new List<PlanetTile>();
+
+            int unit = 10; // 타일 간격
             int x0 = curTile.Position.x;
             int y0 = curTile.Position.y;
-        
+
+            var tiles = new List<PlanetTile>();
+
             foreach (var offset in offsets)
             {
-                // 오프셋을 반올림하여 정수 좌표로 변환
-                int x = Mathf.RoundToInt(x0 + offset.x);
-                int y = Mathf.RoundToInt(y0 + offset.y);
-        
+                int x = x0 + offset.x * unit;
+                int y = y0 + offset.y * unit;
+
                 if (IsTileValid(x, y, out var tile))
                 {
                     tiles.Add(tile);
                 }
                 else
                 {
-                    return null;
+                    return null; // 하나라도 없으면 실패
                 }
             }
-        
+
             return tiles;
         }
+
+
         
         
         public bool IsTileValid(int x, int y, out PlanetTile tile)
@@ -109,8 +113,6 @@ namespace JMT.Planets.Tile
                 }
 
                 Debug.LogWarning($"Tile at position {position} cannot be built on.");
-                tile = null;
-                return false;
             }
             tile = null;
             return false;
@@ -120,13 +122,13 @@ namespace JMT.Planets.Tile
         {
             if (Input.GetKeyDown(KeyCode.B))
             {
-                var playerLookDir = AgentManager.Instance.Player.transform.forward;
+                var playerLookDir = AgentManager.Instance.Player.VisualTrm.transform.forward;
                 _planetTiles = Get2By2TilesInAnyDirection(_planetTile, playerLookDir);
             }
         }
 
 
-        public TileInteraction GetInteraction() => CurrentTile.GetInteraction<TileInteraction>();
+        public TileInteraction GetInteraction() => CurrentTile.TileInteraction;
         public InteractType GetInteractType() => GetInteraction().InteractType;
     }
 }

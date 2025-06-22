@@ -31,5 +31,30 @@ namespace JMT.NightSummary
             BuildingModule.Reset();
             ReputationModule.Reset();
         }
+
+        public void PrintModules()
+        {
+            Debug.Log("Rocket Status: " + RocketStatusModule.PercentText);
+            var collectedItems = CollectItemModule.GetCollectedItems();
+            string itemSummary = string.Join(", ", collectedItems.ConvertAll(item => CollectItemModule.GetItemSummary(item)));
+            Debug.Log("Collected Items: " + itemSummary);
+            
+            var npcList = NPCCollectModule.GetCollectedNPCs();
+            Debug.Log("NPCs Collected: " + string.Join(", ", npcList.ConvertAll(npc => npc.name)));
+            
+            var buildings = BuildingModule.GetBuildings();
+            Debug.Log("Buildings Installed: " + string.Join(", ", buildings.ConvertAll(building => BuildingModule.GetBuildingSummary(building))));
+            Debug.Log("Reputation: " + ReputationModule.CalculateReputation());
+        }
+        
+        
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                PrintModules();
+            }
+        }
     }
 }

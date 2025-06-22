@@ -1,4 +1,5 @@
 using JMT.Item;
+using JMT.Planets.Tile.Items;
 using JMT.UISystem.Interact;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ namespace JMT.Planets.Tile
         [SerializeField] protected int itemCount;
 
         protected PlanetTile planetTile;
+
+        public ItemType GetItemType()
+        {
+            return itemType != null ? itemType.ItemType : ItemType.None;
+        }
 
         protected virtual void Awake()
         {
@@ -32,6 +38,16 @@ namespace JMT.Planets.Tile
         public T AddObject<T>(T obj, Transform parent) where T : UnityEngine.Object
         {
             return Instantiate(obj, parent);
+        }
+        
+        public T AddComponent<T>() where T : Component
+        {
+            return gameObject.AddComponent<T>();
+        }
+        
+        public bool IsItemType(ItemType itemType)
+        {
+            return this.itemType != null && this.itemType.ItemType == itemType;
         }
     }
 }
