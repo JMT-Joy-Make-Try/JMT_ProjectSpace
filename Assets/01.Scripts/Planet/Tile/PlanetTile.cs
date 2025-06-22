@@ -47,6 +47,11 @@ namespace JMT.Planets.Tile
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+            
+            if (TileInteraction == null)
+            {
+                TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+            }
         }
 
         private void Start()
@@ -91,10 +96,21 @@ namespace JMT.Planets.Tile
 
         public T AddInteraction<T>() where T : TileInteraction
         {
-            T instance = TileInteraction.AddComponent<T>();
-            OnChangeInteraction?.Invoke(instance);
+            TileInteraction = TileInteraction.AddComponent<T>();
+            OnChangeInteraction?.Invoke(TileInteraction);
+            string interactionName = TileInteraction.GetType().Name.Replace("Interaction", "");
 
-            return instance;
+            if (Enum.TryParse<InteractType>(interactionName, out var interactType))
+            {
+                TileInteraction.SetType(interactType);
+            }
+            else
+            {
+                Debug.LogError($"Interaction type {interactionName} is not defined in InteractType enum.");
+                TileInteraction.SetType(InteractType.None);
+            }
+
+            return TileInteraction as T;
         }
 
         public void RemoveInteraction()
@@ -110,7 +126,7 @@ namespace JMT.Planets.Tile
         
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
         {
-            interaction = TileInteraction.GetComponent<T>();
+            interaction = TileInteraction as T;
             if (interaction != null)
             {
                 canInteraction = true;

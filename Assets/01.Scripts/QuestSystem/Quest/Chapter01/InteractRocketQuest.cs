@@ -32,6 +32,12 @@ namespace JMT.QuestSystem
         private IEnumerator DelayRoutine()
         {
             yield return new WaitForSeconds(0.2f);
+            if (tiles == null || tiles.Count <= 0)
+            {
+                Debug.LogError("InteractRocketQuest: tiles is null or empty.");
+                yield break;
+            }
+            Debug.Log(tiles[0].TileInteraction);
             int chidlCount = tiles[0].TileInteraction.transform.childCount;
             if (chidlCount <= 0)
                 RunQuest(0);
