@@ -21,9 +21,10 @@ namespace JMT.Core.Tool.PoolManager.Core
             {
                 GameObject obj = GameObject.Instantiate(_prefab.ObjectPrefab, _parent);
                 
+                IPoolable item = obj.GetComponent<IPoolable>();
+                item.ResetItem();
                 obj.gameObject.name = _type.ToString();
                 obj.gameObject.SetActive(false);
-                IPoolable item = obj.GetComponent<IPoolable>();
                 item.type = _type;
                 _pool.Push(item);
             }

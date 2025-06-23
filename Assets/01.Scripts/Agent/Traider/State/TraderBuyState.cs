@@ -1,17 +1,18 @@
 ﻿using JMT.Agent.State;
+using JMT.Agent.Trader;
 using System;
 
-namespace JMT.Agent.Trader
+namespace JMT.Agent.State
 {
     public class TraderBuyState : State<TraderStateEnum>
     {
-        private Trader _trader;
+        private Trader.Trader _trader;
         private TraderTimer _traderTimer;
 
         public override void Initialize(AgentAI<TraderStateEnum> agent, string stateName)
         {
             base.Initialize(agent, stateName);
-            _trader = agent as Trader;
+            _trader = agent as Trader.Trader;
             _traderTimer = _trader.GetTraderComponent<TraderTimer>();
             
             _traderTimer.OnTimerComplete += HandleTimerComplete;
@@ -28,6 +29,7 @@ namespace JMT.Agent.Trader
         public override void EnterState()
         {
             base.EnterState();
+            _traderTimer.SetTimer(20);
             _traderTimer.StartTimer();
         }
 

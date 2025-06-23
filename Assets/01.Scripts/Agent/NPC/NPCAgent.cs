@@ -55,7 +55,6 @@ namespace JMT.Agent.NPC
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
             
-            StateMachineCompo.InitAllState(this);
             StateMachineCompo.ChangeState(NPCState.Idle);
         }
         

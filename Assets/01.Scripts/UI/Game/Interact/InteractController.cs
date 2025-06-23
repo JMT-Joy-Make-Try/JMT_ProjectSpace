@@ -86,8 +86,8 @@ namespace JMT.UISystem.Interact
 
             if (!type.Equals(InteractType.Item))
             {
-                TileManager.Instance.GetInteraction().Interaction();
                 OnClickEvent?.Invoke();
+                TileManager.Instance.GetInteraction()?.Interaction();
             }
         }
 
