@@ -10,11 +10,9 @@ namespace JMT.UISystem.Dialogue
 {
     public class DialogueView : PanelUI
     {
-        public event Action<bool> OnCompleteEvent;
-
-        [SerializeField] private Image characterImage;
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI descText;
+        [SerializeField] private Image characterImage;
 
         private StringBuilder builder = new();
         private Coroutine dialogueRoutine;
@@ -23,15 +21,14 @@ namespace JMT.UISystem.Dialogue
 
         public void SetDialogue(DialogueData data)
         {
-            nameText.text = data.name;
-            dialogueRoutine = StartCoroutine(DialogueRoutine(data.desc));
+            nameText.text = data.Name;
+            dialogueRoutine = StartCoroutine(DialogueRoutine(data.Description));
         }
 
         private IEnumerator DialogueRoutine(string desc)
         {
-            OnCompleteEvent?.Invoke(false);
-            var waitTime = new WaitForSeconds(0.06f);
-            builder?.Clear();
+            var waitTime = new WaitForSeconds(0.05f);
+            builder.Clear();
             this.desc = desc;
             foreach (char text in desc)
             {
@@ -40,10 +37,10 @@ namespace JMT.UISystem.Dialogue
 
                 yield return waitTime;
             }
-            ShowAllDescription();
+            SkipDescription();
         }
 
-        public void ShowAllDescription()
+        public void SkipDescription()
         {
             if(dialogueRoutine != null)
             {
@@ -51,7 +48,6 @@ namespace JMT.UISystem.Dialogue
                 dialogueRoutine = null;
             }
             descText.text = desc;
-            OnCompleteEvent?.Invoke(true);
         }
     }
 }

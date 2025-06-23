@@ -1,6 +1,8 @@
 using JMT.Agent;
 using JMT.Planets.Tile;
 using JMT.QuestSystem;
+using JMT.UISystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,13 +18,15 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public bool IsActive { get; private set; }
     public bool CanRunQuest => QuestState == QuestState.InProgress && IsActive;
+    public int CompleteCount => tiles.Count(t => t.QuestPing.IsEnable);
     public bool IsComplete => tiles.All(t => !t.QuestPing.IsEnable);
 
     public virtual void RunQuest(int num)
     {
         QuestPing[num].DisablePing();
+        QuestCountEvent();
 
-        if(IsComplete)
+        if (IsComplete)
         {
             QuestManager.Instance.CompleteQuest(QuestData);
             GetReward(QuestData);
@@ -47,6 +51,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public virtual void Enable()
     {
+        QuestCountEvent();
         QuestState = QuestState.InProgress;
         IsActive = true;
         for(int i = 0; i < tiles.Count; i++)
@@ -60,4 +65,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public void SetState(QuestState state)
         => QuestState = state;
+
+    private void QuestCountEvent()
+        => QuestManager.Instance.OnQuestCountEvent?.Invoke($"{CompleteCount}/{QuestPing.Count}");
 }

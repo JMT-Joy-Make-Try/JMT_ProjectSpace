@@ -32,25 +32,39 @@ namespace JMT.UISystem.DayTime
         public void ChangeDayTime(DaytimeType type)
         {
             daytimeType = type;
-            isNight = type == DaytimeType.Day ? false : true;
             OnChangeDaytimeEvent?.Invoke(daytimeType);
         }
 
-        public void ChangeTime(DayTimeSO timeSO)
+        public bool ChangeTime(DayTimeSO timeSO)
         {
             if (--saveTime.second < 0)
             {
                 if (--saveTime.minute < 0)
                 {
-                    ChangeDayTime(DaytimeType.Night);
+                    if (isNight)
+                    {
+                        AddDayCount();
+                        isNight = false;
+                        saveTime = timeSO.repeatDayTime;
+                        ChangeDayTime(DaytimeType.Day);
+                        return true;
+                    }
+                    else
+                    {
+                        isNight = true;
+                        ChangeDayTime(DaytimeType.Night);
+                        return true;
+                    }
                 }
                 else
                 {
+                    //saveTime.minute--;
                     saveTime.second = 59;
                 }
             }
 
             OnChangeTimeEvent?.Invoke(saveTime.minute, saveTime.second);
+            return false;
         }
     }
 }

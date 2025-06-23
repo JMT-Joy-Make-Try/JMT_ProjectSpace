@@ -1,74 +1,71 @@
-using AYellowpaper.SerializedCollections;
-using JMT.QuestSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.UISystem.Dialogue
 {
+    public struct DialogueData
+    {
+        public string Name;
+        public string Description;
+
+        public DialogueData(string name, string desc)
+        {
+            Name = name;
+            Description = desc;
+        }
+    }
     public class DialogueController : MonoBehaviour
     {
-        [SerializeField] private SerializedDictionary<QuestSO, string> questDialogue;
-        [SerializeField] private QuestSO testQuest;
         [SerializeField] private DialogueView view;
-        [SerializeField] private TouchScreen touchView;
-
-        private Queue<DialogueData> dialogueDatas = new();
+        [SerializeField] private TouchScreen touchScreen;
 
         private DialogueModel model = new();
 
-        private bool isComplete;
+        private Queue<DialogueData> dialogueDatas = new();
+        private bool isComplete = false;
+
         private void Awake()
         {
-            touchView.OnClickEvent += HandleClickEvent;
-            view.OnCompleteEvent += HandleCompleteEvent;
+            touchScreen.OnClickEvent += HandleClickEvent;
         }
 
-        private void Start()
+        private void OnDestroy()
         {
-            StartQuest(testQuest);
+            touchScreen.OnClickEvent -= HandleClickEvent;
+        }
+
+        public async void StartDialogue(string range)
+        {
+            string data = await model.LoadDataAsync(range);
+            dialogueDatas = model.SettingDialogueData(data);
+            SetDialogue();
         }
 
         private void HandleClickEvent()
         {
-            Debug.Log("눌렸어요");
             if (!isComplete)
-                view.ShowAllDescription();
-            else
-                StartDialogue();
-        }
-
-        private void HandleCompleteEvent(bool isComplete)
-        {
-            this.isComplete = isComplete;
-        }
-
-
-        public async void StartQuest(QuestSO quest)
-        {
-            questDialogue.TryGetValue(quest, out string range);
-            string data = await model.LoadDataAsync(range);
-            dialogueDatas = model.SettingDialogueData(data);
-            StartDialogue();
-        }
-
-        public async void StartQuest(string range)
-        {
-            string data = await model.LoadDataAsync(range);
-            dialogueDatas = model.SettingDialogueData(data);
-            StartDialogue();
-        }
-
-        private void StartDialogue()
-        {
-            if (dialogueDatas.Count > 0)
             {
-                view.SetDialogue(dialogueDatas.Dequeue());
-                view.OpenUI();
+                isComplete = true;
+                view.SkipDescription();
             }
             else
             {
-                Debug.Log("끝났어요");
+                isComplete = false;
+                SetDialogue();
+            }
+        }
+
+        private void SetDialogue()
+        {
+            if (dialogueDatas.Count > 0)
+            {
+                view.OpenUI();
+                view.SetDialogue(dialogueDatas.Dequeue());
+            }
+            else
+            {
                 view.CloseUI();
+                Debug.Log("끝낫어요");
             }
         }
     }

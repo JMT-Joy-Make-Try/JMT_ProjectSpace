@@ -1,5 +1,6 @@
 using JMT.Building;
 using JMT.NightSummary;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace JMT.Planets.Tile
         {
             base.Interaction();
             // Open the rocket launcher UI
+            BuildingUIManager.Instance.RocketCompo.OpenPanel();
         }
     }
 }
