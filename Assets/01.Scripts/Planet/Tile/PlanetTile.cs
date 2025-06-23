@@ -15,6 +15,7 @@ namespace JMT.Planets.Tile
         [Tooltip("건물이 건설되기 시작했을 때 일어나는 액션입니다.")]
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
+        public event Action OnPreBuild;
 
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         [field: SerializeField] public TileType TileType { get; set; }
@@ -70,6 +71,7 @@ namespace JMT.Planets.Tile
         {
             var preBuild = ChangeInteraction<PreBuildInteraction>();
             preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
+            OnPreBuild?.Invoke();
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)

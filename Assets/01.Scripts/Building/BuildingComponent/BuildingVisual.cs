@@ -12,6 +12,7 @@ namespace JMT.Building.Component
         [SerializeField] private List<MeshRenderer> rendererList;
         [SerializeField] private List<MeshRenderer> rendererList2;
         [SerializeField] private List<GameObject> buildingLevelObjects;
+        [SerializeField] private bool _isBeforeLevelVisualActiveFalse = true;
         
         private GameObject _currentLevelObject;
         
@@ -55,7 +56,8 @@ namespace JMT.Building.Component
                 _currentLevelObject = buildingLevelObjects[0];
             }
             
-            _currentLevelObject.SetActive(false);
+            if (_isBeforeLevelVisualActiveFalse)
+                _currentLevelObject.SetActive(false);
             _currentLevelObject = buildingLevelObjects[level];
             if (_currentLevelObject == null)
             {

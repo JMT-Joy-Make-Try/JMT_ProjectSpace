@@ -24,7 +24,7 @@ namespace JMT.Agent.Trader
             _currentTime = 0;
         }
 
-        private void StartTimer()
+        public void StartTimer()
         {
             StartCoroutine(TimerCoroutine());
         }

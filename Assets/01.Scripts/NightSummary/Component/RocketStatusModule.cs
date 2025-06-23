@@ -23,7 +23,11 @@ namespace JMT.NightSummary.Component
 
         public void UpgradeRocketCompletion(int percent)
         {
-            _rocketCompletionPercent = Mathf.Clamp(_rocketCompletionPercent + percent, 0, 100);
+            _rocketCompletionPercent += percent;
+            if (_rocketCompletionPercent > 100)
+            {
+                _rocketCompletionPercent = 100; // 최대 100%로 제한
+            }
             _percentText = $"{_rocketCompletionPercent}%";
             
             OnRocketCompletionPercentChanged?.Invoke(_percentText);

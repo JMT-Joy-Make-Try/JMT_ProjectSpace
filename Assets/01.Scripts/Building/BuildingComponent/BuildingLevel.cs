@@ -6,6 +6,7 @@ namespace JMT.Building.Component
     public class BuildingLevel : MonoBehaviour, IBuildingComponent
     {
         public event Action<int> OnLevelChanged;
+        public event Action OnUpgradeComplete;
         public BuildingBase Building { get; private set; }
         [SerializeField] private BuildingDataSO data;
         [SerializeField] private int maxLevel = 3;
@@ -34,6 +35,7 @@ namespace JMT.Building.Component
             if (_curLevel >= maxLevel)
             {
                 Debug.LogWarning("Building has reached the maximum level.");
+                OnUpgradeComplete?.Invoke();
                 return;
             }
             _curLevel++;

@@ -12,10 +12,9 @@ namespace JMT.QuestSystem
         public event Action<QuestSO> OnQuestStartEvent;
         public event Action OnQuestEndEvent;
 
-        [SerializeField] private List<ChapterSO> chapterSO = new();
+        [SerializeField] private List<QuestSO> questSOs = new();
 
         private int currentQuestIndex = 0;
-        private int currentChapterIndex = 0;
         private List<QuestBase> currentQuestTargets = new();
         private bool _isDelayRunning = false;
 
@@ -29,7 +28,7 @@ namespace JMT.QuestSystem
         }
         private void Start()
         {
-            StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
+            StartQuest(questSOs[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -91,23 +90,18 @@ namespace JMT.QuestSystem
             _isDelayRunning = true;
             _isStaringQuest = false;
             
-            if (currentChapterIndex >= chapterSO.Count)
+            if (currentQuestIndex >= questSOs.Count)
             {
                 _isAllQuestCompleted = true;
                 Debug.Log("All quests completed!");
             }
 
             currentQuestIndex++;
-            if (currentQuestIndex >= chapterSO[currentChapterIndex].quests.Count)
-            {
-                currentQuestIndex = 0;
-                currentChapterIndex++;
-            }
 
-            if (currentChapterIndex < chapterSO.Count && currentQuestIndex < chapterSO[currentChapterIndex].quests.Count )
+            if ( currentQuestIndex < questSOs.Count )
             {
                 yield return new WaitForSeconds(1f);
-                StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
+                StartQuest(questSOs[currentQuestIndex]);
             }
             
 

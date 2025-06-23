@@ -17,7 +17,7 @@ namespace JMT.Planet.Tile
             { typeof(LaboratoryBuilding), typeof(LaboratoryInteraction) },
             { typeof(OxygenBuilding), typeof(SupplyOxygenInteraction) },
             { typeof(HospitalBuilding), typeof(HospitalInteraction) },
-            { typeof(RocketBuilding), typeof(RocketLauncherInteraction) }
+            { typeof(RocketLauncherBuilding), typeof(RocketLauncherInteraction) }
         };
         
         public override void Interaction()
@@ -50,11 +50,13 @@ namespace JMT.Planet.Tile
         
         private void RocketLauncherInteraction(PlanetTile tile)
         {
-            var playerLookDir = AgentManager.Instance.Player.VisualTrm.forward;
-            var tiles = TileManager.Instance.Get2By2TilesInAnyDirection(tile, playerLookDir);
+            Debug.Log(tile is null);
+            var tiles = TileManager.Instance.Get2By2TilesInAnyDirection(tile);
+            Debug.Log(tiles.Count);
             foreach (var t in tiles)
             {
-                Debug.LogError($"Adding interaction RocketLauncherInteraction to tile at position {t.Position}");
+                t.RemoveInteraction();
+                Debug.Log($"Adding interaction RocketLauncherInteraction to tile at position {t.Position}");
                 t.AddInteraction<RocketLauncherInteraction>();
             }
         }
