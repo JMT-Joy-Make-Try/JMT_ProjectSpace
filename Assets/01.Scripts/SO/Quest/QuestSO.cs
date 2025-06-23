@@ -9,6 +9,7 @@ namespace JMT.QuestSystem
     {
         public string questName;
         public string description;
+        public string dialogueRange;
         public List<QuestRewardType> questRewardTypes;
     }
 
