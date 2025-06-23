@@ -114,6 +114,7 @@ namespace JMT.UISystem.Station
             if (itemSO is not ToolSO toolSO) return;
             
             player.PlayerToolCompo.AddTool(toolSO);
+            toolSO.Init(player);
             toolSO.Equip();
             
             // 만약 해제할거면 toolSO.UnEquip()을 호출하세요.
