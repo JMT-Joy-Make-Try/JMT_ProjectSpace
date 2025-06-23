@@ -22,6 +22,7 @@ namespace JMT.Building.Component
         
         public event Action OnCompleteEvent;
         public event Action OnGaugeFullEvent;
+        public event Action OnBuildingEvent;
         
         public void Init(BuildingBase building)
         {
@@ -70,16 +71,8 @@ namespace JMT.Building.Component
         {
             var visual = Building.GetBuildingComponent<BuildingVisual>();
             visual.SetMaterial(visual.VisualMat);
-
-            var buildingData = Building.GetBuildingComponent<BuildingData>().Data;
-            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
-        }
-        
-        private IEnumerator BuildingRoutine(int time)
-        {
-            Building.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.3f);
-            yield return new WaitForSeconds(time);
             IsBuilding = true;
+            OnBuildingEvent?.Invoke();
         }
         
         protected virtual void HandleCompleteEvent()

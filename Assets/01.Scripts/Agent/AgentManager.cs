@@ -9,6 +9,7 @@ using JMT.UISystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using JMT.NightSummary;
+using System;
 
 namespace JMT.Agent
 {
@@ -16,6 +17,27 @@ namespace JMT.Agent
     {
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
         [field: SerializeField] public PlayerCharacter.Player Player { get; private set; }
+        [SerializeField] private Trader.Trader _traderPrefab;
+
+        private Trader.Trader _trader;
+        private void Start()
+        {
+            _trader = Instantiate(_traderPrefab, transform);
+            _trader.gameObject.SetActive(false);
+        }
+        
+        public void SpawnTrader(Vector3 position, Quaternion rotation)
+        {
+            if (_trader == null)
+            {
+                Debug.LogWarning("Trader prefab is not assigned.");
+                return;
+            }
+            _trader.transform.SetParent(null, true);
+            _trader.transform.SetPositionAndRotation(position, rotation);
+            _trader.gameObject.SetActive(true);
+            
+        }
 
         public NPCAgent AddNpc()
         {
