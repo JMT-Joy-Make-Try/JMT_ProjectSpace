@@ -140,7 +140,7 @@ namespace JMT.Planets.Tile
             Vector2Int position = new Vector2Int(x, y);
             if (_tileList.TryGetValue(position, out var tileTmp))
             {
-                if (tileTmp.CanBuild() || true) 
+                if (tileTmp.CanBuild()) 
                 {
                     tile = tileTmp;
                     return true;

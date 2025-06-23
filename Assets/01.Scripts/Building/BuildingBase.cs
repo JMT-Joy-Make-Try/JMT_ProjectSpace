@@ -85,6 +85,7 @@ namespace JMT.Building
 
         private void HandleGaugeFull()
         {
+            Debug.Log(gameObject.name);
             GameUIManager.Instance.InteractCompo.StopInfinityHold();
             GetPlanetTile().ChangeInteraction<ProgressInteraction>();
         }

@@ -33,8 +33,9 @@ namespace JMT.Building
             _visibilityTracker.OnInvisibleCallback += HandleVisibility;
         }
         
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             _visibilityTracker.OnInvisibleCallback -= HandleVisibility;
         }
 
