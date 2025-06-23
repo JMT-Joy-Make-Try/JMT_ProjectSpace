@@ -11,6 +11,7 @@ namespace JMT.Agent.Trader
         public Trader Trader { get; private set; }
         
         [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new();
+        [SerializeField] private SerializedDictionary<ItemSO, int> _dropItems = new SerializedDictionary<ItemSO, int>();
         
         public void Init(Trader trader)
         {
@@ -44,6 +45,10 @@ namespace JMT.Agent.Trader
                 if (_tradeItems[item] <= 0)
                 {
                     _tradeItems.Remove(item);
+                }
+                if (_tradeItems.Count <= 0)
+                {
+                    Trader.StateMachineCompo.ChangeState(TraderStateEnum.Disappear);
                 }
                 return true;
             }

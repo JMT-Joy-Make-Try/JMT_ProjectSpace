@@ -1,15 +1,20 @@
 ﻿using AYellowpaper.SerializedCollections;
 using JMT.Core;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
+using JMT.Object;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace JMT.Agent.Trader
 {
-    public class Trader : AgentAI<TraderStateEnum>, IInteractable, IItemReceivable
+    public class Trader : AgentAI<TraderStateEnum>, IInteractable
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new SerializedDictionary<ItemSO, int>();
+        
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
         
         public SerializedDictionary<ItemSO, int> TradeItems => _tradeItems;
@@ -17,9 +22,18 @@ namespace JMT.Agent.Trader
         
         public override void Init()
         {
-            base.Init();
             InitTraderComponents();
+            base.Init();
             StateMachineCompo.ChangeState(TraderStateEnum.Idle);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
+            }
         }
 
         public void Interact()
@@ -54,22 +68,6 @@ namespace JMT.Agent.Trader
 
             Debug.LogError($"Component of type {typeof(T)} not found in Trader.");
             return default;
-        }
-
-        public bool ReceiveItem(ItemSO item, int amount)
-        {
-            if (_tradeItems.ContainsKey(item))
-            {
-                _tradeItems[item] -= amount;
-                if (_tradeItems[item] <= 0)
-                {
-                    _tradeItems.Remove(item);
-                }
-                return true;
-            }
-
-            Debug.LogWarning($"Item {item.name} not found in trade items.");
-            return false;
         }
     }
 }

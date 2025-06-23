@@ -37,7 +37,7 @@ namespace JMT.PlayerCharacter
             if (Physics.Raycast(startTrm.position, RayDirection, out hit, rayDistance, player.GroundLayer))
             {
                 tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
-                tileManager.CurrentTile.EdgeEnable(true);
+                tileManager.CurrentTile?.EdgeEnable(true);
                 GameUIManager.Instance.InteractCompo.ChangeInteract(tileManager.GetInteractType());
             }
         }

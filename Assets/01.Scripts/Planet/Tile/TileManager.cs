@@ -162,7 +162,7 @@ namespace JMT.Planets.Tile
         }
 
 
-        public TileInteraction GetInteraction() => CurrentTile.TileInteraction;
+        public TileInteraction GetInteraction() => CurrentTile?.TileInteraction;
         public InteractType GetInteractType() => GetInteraction().InteractType;
     }
 }
