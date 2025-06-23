@@ -21,6 +21,11 @@ namespace JMT.PlayerCharacter
 
         public override void SetCloth(PlayerToolType type)
         {
+            if (CurPlayerToolSO?.ToolType == type)
+            {
+                Debug.LogWarning($"Already equipped tool: {type}");
+                return;
+            }
             base.SetCloth(type);
             Debug.Log(type.ToString());
             agentClothList[PlayerToolType.None].gameObject.SetActive(true);
@@ -32,6 +37,7 @@ namespace JMT.PlayerCharacter
         public void AddTool(ToolSO tool)
         {
             PlayerTools[tool.ToolType] = Instantiate(tool);
+            PlayerTools[tool.ToolType].Init(Player);
             OnAddToolEvent?.Invoke();
         }
         

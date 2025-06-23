@@ -29,8 +29,9 @@ namespace JMT.Building
             _buildingBuilder = GetBuildingComponent<BuildingBuilder>();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             BuildingManager.Instance.OxygenBuildings.Add(this);
             _data = GetBuildingComponent<BuildingData>();
             _player = AgentManager.Instance.Player;
