@@ -50,7 +50,6 @@ namespace JMT.Planet.Tile
         
         private void RocketLauncherInteraction(PlanetTile tile)
         {
-            var playerLookDir = AgentManager.Instance.Player.VisualTrm.forward;
             Debug.Log(tile is null);
             var tiles = TileManager.Instance.Get2By2TilesInAnyDirection(tile);
             Debug.Log(tiles.Count);

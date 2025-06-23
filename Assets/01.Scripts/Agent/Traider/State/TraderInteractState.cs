@@ -16,6 +16,7 @@ namespace JMT.Agent.Trader
         {
             base.EnterState();
             _trader.GetTraderComponent<TraderTrade>().SetTradeItem(_trader.TradeItems);
+            _stateMachine.ChangeState(TraderStateEnum.Buy);
         }
     }
 }
