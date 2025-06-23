@@ -83,7 +83,7 @@ namespace JMT.Building
                 {
                     PoolingManager.Instance.Push(item);
                 }).SetEase(Ease.OutBounce);
-                item.SetItemType(ProductionItem);
+                item.SetItem(ProductionItem);
                 
                 yield return new WaitForSeconds(0.2f);
             }

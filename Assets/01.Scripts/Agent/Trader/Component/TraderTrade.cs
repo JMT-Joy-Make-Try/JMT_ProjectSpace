@@ -1,6 +1,10 @@
 ﻿using AYellowpaper.SerializedCollections;
 using JMT.Core;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
+using JMT.Object;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,13 +52,29 @@ namespace JMT.Agent.Trader
                 }
                 if (_tradeItems.Count <= 0)
                 {
-                    Trader.StateMachineCompo.ChangeState(TraderStateEnum.Disappear);
+                    DropItem();
                 }
                 return true;
             }
 
             Debug.LogWarning($"Item {item.name} not found in trade items.");
             return false;
+        }
+
+        private void DropItem()
+        {
+            foreach (var items in _dropItems)
+            {
+                for (int i = 0; i < items.Value; i++)
+                {
+                    var itemObj = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
+                    itemObj.SetItem(items.Key);
+                    itemObj.transform.position = Trader.transform.position + Vector3.up * 0.5f;
+                    itemObj.IsCollectable = true;
+                }
+            }
+            
+            Trader.StateMachineCompo.ChangeStateDelay(TraderStateEnum.Disappear, 0.5f);
         }
     }
 }

@@ -6,6 +6,7 @@ using JMT.Planets.Tile;
 using JMT.Sound;
 using JMT.UISystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,6 +45,7 @@ namespace JMT.Building
             GetBuildingComponent<BuildingFuel>().OnFuelEmptyEvent += HandleFuelEmpty;
             GetBuildingComponent<BuildingWorker>().OnWorkingEvent += HandleWorkingEvent;
             GetBuildingComponent<BuildingBuilder>().OnGaugeFullEvent += HandleGaugeFull;
+            GetBuildingComponent<BuildingBuilder>().OnBuildingEvent += HandleBuildingEnd;
         }
 
         
@@ -53,6 +55,13 @@ namespace JMT.Building
             GetBuildingComponent<BuildingFuel>().OnFuelEmptyEvent -= HandleFuelEmpty;
             GetBuildingComponent<BuildingWorker>().OnWorkingEvent -= HandleWorkingEvent;
             GetBuildingComponent<BuildingBuilder>().OnGaugeFullEvent -= HandleGaugeFull;
+            GetBuildingComponent<BuildingBuilder>().OnBuildingEvent -= HandleBuildingEnd;
+        }
+
+        private void HandleBuildingEnd()
+        {
+            var interaction = GetPlanetTile().ChangeInteraction<ProgressInteraction>();
+            interaction.Interaction();
         }
 
         private void HandleWorkingEvent(bool isWorking)
@@ -86,7 +95,7 @@ namespace JMT.Building
         {
             Debug.Log(gameObject.name);
             GameUIManager.Instance.InteractCompo.StopInfinityHold();
-            GetPlanetTile().ChangeInteraction<ProgressInteraction>();
+            GetBuildingComponent<BuildingBuilder>().BuildBuilding();
         }
 
         public T GetBuildingComponent<T>() where T : IBuildingComponent

@@ -24,6 +24,7 @@ namespace JMT
         public PVCUI PVCUI => pvcUI;
         public event Action OnGaugeFull;
         public event Action<bool> OnGaugeHold;
+        private TimeData _buildTime;
 
         private void Awake()
         {
@@ -59,7 +60,7 @@ namespace JMT
             if (_isGaugeFull) return;
             if (_isHold)
             {
-                _progressTime += Time.deltaTime;
+                _progressTime += Time.deltaTime / _buildTime.GetSecond();
                 if (fillBarUI != null)
                 {
                     fillBarUI.ResetBar(_progressTime);
@@ -73,7 +74,7 @@ namespace JMT
             }
             else
             {
-                _progressTime -= Time.deltaTime;
+                _progressTime -= Time.deltaTime / _buildTime.GetSecond();
                 if (_progressTime < 0)
                 {
                     _progressTime = 0;
@@ -88,13 +89,9 @@ namespace JMT
         public void SetBuildTime(TimeData timeData)
         {
             SetVisualActive(true);
-            Debug.Log(timeData);
-            int secTime = timeData.GetSecond();
-            Debug.Log(fillBarUI == null);
             fillBarUI.ResetBar(0);
             _progressTime = 0;
-            //fillBarUI.SetHpBar(1, 1, secTime);
-            //pvcUI.SetTime(secTime);
+            _buildTime = timeData;
         }
 
         public void PlayAnimation()

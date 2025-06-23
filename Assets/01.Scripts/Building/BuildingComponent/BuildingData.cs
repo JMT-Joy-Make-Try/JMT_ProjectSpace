@@ -65,7 +65,6 @@ namespace JMT.Building.Component
             Building.GetBuildingComponent<BuildingBuilder>().SetPVCBuilding(pvc);
             var pcvBuilding = Building.GetBuildingComponent<BuildingBuilder>().PVC;
             Building.GetBuildingComponent<BuildingBuilder>().PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
-            Building.GetBuildingComponent<BuildingBuilder>().BuildBuilding();
         }
     }
 }
