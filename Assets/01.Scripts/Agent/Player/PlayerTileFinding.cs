@@ -11,8 +11,6 @@ namespace JMT.PlayerCharacter
         [SerializeField] private Transform startTrm;
         [SerializeField] private Vector3 rotateVec;
         [SerializeField] private float rayDistance = 4f;
-
-        private PlanetTile currentTile;
         private RaycastHit hit;
 
         public Vector3 RayDirection => (startTrm.forward + rotateVec).normalized;
@@ -36,7 +34,12 @@ namespace JMT.PlayerCharacter
             if (type == InteractType.Attack) return;
             if (Physics.Raycast(startTrm.position, RayDirection, out hit, rayDistance, player.GroundLayer))
             {
-                tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
+                var hitObject = hit.transform.gameObject;
+                if (hitObject.TryGetComponent(out PlanetTile planetTile))
+                {
+                    tileManager.CurrentTile = planetTile;
+                }
+                //tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
                 tileManager.CurrentTile?.EdgeEnable(true);
                 GameUIManager.Instance.InteractCompo.ChangeInteract(tileManager.GetInteractType());
             }
