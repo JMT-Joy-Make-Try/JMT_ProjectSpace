@@ -1,4 +1,5 @@
 using JMT.DialogueSystem;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -22,6 +23,20 @@ namespace JMT.UISystem.Dialogue
                 return www.downloadHandler.text;
 
             return string.Empty;
+        }
+
+        public Queue<DialogueData> SettingDialogueData(string data)
+        {
+
+            Queue<DialogueData> result = new();
+            string[] splitEnterData = data.Split('\n');
+
+            foreach (string str in splitEnterData)
+            {
+                string[] splitTabData = str.Split('\t');
+                result.Enqueue(new(splitTabData[0], splitTabData[1]));
+            }
+            return result;
         }
     }
 }

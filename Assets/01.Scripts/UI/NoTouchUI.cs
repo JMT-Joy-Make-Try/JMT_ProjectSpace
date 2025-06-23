@@ -6,9 +6,9 @@ namespace JMT.UISystem
 {
     public class NoTouchUI : MonoBehaviour
     {
-        [SerializeField] private NoTouchZone noTouchZone;
+        [SerializeField] private TouchScreen noTouchZone;
 
-        public NoTouchZone NoTouchZone => noTouchZone;
+        public TouchScreen NoTouchZone => noTouchZone;
         public void ActiveNoTouchZone(bool isTrue) => noTouchZone.gameObject.SetActive(isTrue);
 
 

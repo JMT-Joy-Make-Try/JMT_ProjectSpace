@@ -1,19 +1,16 @@
-using System;
-using UnityEngine;
-
 namespace JMT.QuestSystem
 {
     public class MakeBaseQuest : QuestBase
     {
         private void Start()
         {
-            tiles[0].OnBuild += HandleRunQuest;
+            tiles[0].OnPrebuild += HandleRunQuest;
         }
 
         private void OnDestroy()
         {
             if (tiles == null) return;
-            tiles[0].OnBuild -= HandleRunQuest;
+            tiles[0].OnPrebuild -= HandleRunQuest;
         }
 
         private void HandleRunQuest()

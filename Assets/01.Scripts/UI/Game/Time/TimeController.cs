@@ -58,11 +58,12 @@ namespace JMT.UISystem.DayTime
 
         public void StartNightTime()
         {
-            model.SetTime(timeSO.repeatNightTime);
             model.ChangeDayTime(DaytimeType.Night);
             if (timeCoroutine != null)
+            {
                 StopCoroutine(timeCoroutine);
-            StartCoroutine(TimeRoutine());
+                timeCoroutine = null;
+            }
         }
 
         private IEnumerator TimeRoutine()
@@ -71,9 +72,10 @@ namespace JMT.UISystem.DayTime
 
             while (true)
             {
-                model.ChangeTime(timeSO);
+                if(model.ChangeTime(timeSO)) break;
                 yield return wait;
             }
+            yield return null;
         }
     }
 }
