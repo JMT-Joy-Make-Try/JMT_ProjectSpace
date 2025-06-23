@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AYellowpaper.SerializedCollections;
+using JMT.Item;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +8,23 @@ namespace JMT.Agent.Trader
 {
     public class Trader : AgentAI<TraderStateEnum>
     {
+        [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new SerializedDictionary<ItemSO, int>();
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
+        
+        public SerializedDictionary<ItemSO, int> TradeItems => _tradeItems;
+        public event Action OnInteract;
         
         public override void Init()
         {
             base.Init();
             InitTraderComponents();
             StateMachineCompo.ChangeState(TraderStateEnum.Idle);
+        }
+
+        public void Interact()
+        {
+            OnInteract?.Invoke();
+            StateMachineCompo.ChangeState(TraderStateEnum.Interact);
         }
 
         private void InitTraderComponents()

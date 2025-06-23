@@ -95,6 +95,40 @@ namespace JMT.Planets.Tile
                 }
             }
 
+            _planetTiles = tiles;
+            return tiles;
+        }
+        
+        public List<PlanetTile> Get2By2TilesInAnyDirection(PlanetTile curTile)
+        {
+            if (curTile == null) return null;
+            List<PlanetTile> tiles = new List<PlanetTile>();
+            
+            tiles.Add(curTile);
+            
+            Vector2Int[] offset = new Vector2Int[]
+            {
+                new Vector2Int(0, 10),   // 위
+                new Vector2Int(-10, 0),   // 왼쪽
+                new Vector2Int(-10, 10),  // 위왼
+            };
+            
+            
+            foreach (var off in offset)
+            {
+                int x = curTile.Position.x + off.x;
+                int y = curTile.Position.y + off.y;
+
+                if (IsTileValid(x, y, out var tile))
+                {
+                    tiles.Add(tile);
+                }
+                else
+                {
+                    return null; // 하나라도 없으면 실패
+                }
+            }
+            _planetTiles = tiles;
             return tiles;
         }
 
@@ -106,7 +140,7 @@ namespace JMT.Planets.Tile
             Vector2Int position = new Vector2Int(x, y);
             if (_tileList.TryGetValue(position, out var tileTmp))
             {
-                if (tileTmp.CanBuild())
+                if (tileTmp.CanBuild() || true) 
                 {
                     tile = tileTmp;
                     return true;
