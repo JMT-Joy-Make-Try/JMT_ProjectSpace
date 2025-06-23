@@ -8,7 +8,8 @@ namespace JMT.Agent.State
         public override void OnAnimationEnd()
         {
             base.OnAnimationEnd();
-            Destroy(Agent.gameObject);
+            Agent.transform.SetParent(AgentManager.Instance.transform);
+            Agent.gameObject.SetActive(false);
         }
     }
 }
