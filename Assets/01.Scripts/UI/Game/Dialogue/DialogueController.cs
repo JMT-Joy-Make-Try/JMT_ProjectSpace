@@ -29,6 +29,11 @@ namespace JMT.UISystem.Dialogue
             touchScreen.OnClickEvent += HandleClickEvent;
         }
 
+        private void OnDestroy()
+        {
+            touchScreen.OnClickEvent -= HandleClickEvent;
+        }
+
         public async void StartDialogue(string range)
         {
             string data = await model.LoadDataAsync(range);
