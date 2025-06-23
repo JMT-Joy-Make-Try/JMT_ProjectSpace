@@ -54,6 +54,11 @@ namespace JMT.Building
         
         public void GiveItem(ItemSO item, int amount)
         {
+            if (AgentManager.Instance.IsBuildingNotEnough())
+            {
+                Debug.LogError("Building 부족");
+                return;
+            }
             if (!_needItems.ContainsKey(item))
             {
                 Debug.LogError($"Item {item} not found in need items.");
@@ -66,15 +71,12 @@ namespace JMT.Building
             }
             if (_needItems.Count <= 0)
             {
-                for (int i = 0; i < _npcCount; i++)
-                {
-                    AgentManager.Instance.AddNpc();
-                }
                 GetPlanetTile().RemoveInteraction();
                 GetPlanetTile().AddInteraction<NoneInteraction>();
-                PoolingManager.Instance.ResetPool(PoolingType.Agent_NPC);
                 _isSpawnEnd = true;
             }
         }
+
+        
     }
 }

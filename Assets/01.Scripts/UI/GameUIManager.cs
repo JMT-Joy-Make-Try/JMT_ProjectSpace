@@ -6,6 +6,7 @@ using JMT.UISystem.ItemGet;
 using JMT.UISystem.Popup;
 using JMT.UISystem.Quest;
 using JMT.UISystem.Resource;
+using JMT.UISystem.Village;
 using UnityEngine;
 
 namespace JMT.UISystem
@@ -17,7 +18,6 @@ namespace JMT.UISystem
         [SerializeField] private TimeController timeCompo;
         [SerializeField] private GameSpeedController speedCompo;
         [SerializeField] private ResourceController resourceCompo;
-        [SerializeField] private InventoryController inventoryCompo;
         [SerializeField] private ItemGetController itemGetCompo;
         [SerializeField] private PopupController popupCompo;
         [SerializeField] private ConstructController constructCompo;
@@ -25,10 +25,10 @@ namespace JMT.UISystem
         [SerializeField] private GameUIController gameUICompo;
         [SerializeField] private QuestController questCompo;
         [SerializeField] private PingPointerController pointerCompo;
+        [SerializeField] private VillageController villageCompo;
         public TimeController TimeCompo => timeCompo;
         public GameSpeedController SpeedCompo => speedCompo;
         public ResourceController ResourceCompo => resourceCompo;
-        public InventoryController InventoryCompo => inventoryCompo;
         public ItemGetController ItemGetCompo => itemGetCompo;
         public PopupController PopupCompo => popupCompo;
         public ConstructController ConstructCompo => constructCompo;
@@ -36,13 +36,11 @@ namespace JMT.UISystem
         public GameUIController GameUICompo => gameUICompo;
         public QuestController QuestCompo => questCompo;
         public PingPointerController PointerCompo => pointerCompo;
+        public VillageController VillageCompo => villageCompo;
 
         public void PlayerControlActive(bool isActive)
         {
-            if (isActive)
-                inputSO.ControlEnable(true);
-            else
-                inputSO.ControlEnable(false);
+            inputSO.ControlEnable(isActive);
         }
 
     }

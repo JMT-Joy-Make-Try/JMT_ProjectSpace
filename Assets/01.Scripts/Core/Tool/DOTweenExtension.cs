@@ -20,11 +20,11 @@ namespace JMT.Core.Tool
             return DOTween.To(() => target.Lens.OrthographicSize, x => target.Lens.OrthographicSize = x, endValue, duration);
         }
 
-        public static void DOZoom(this Camera camera, float endValue, float duration, Ease ease = Ease.Linear)
+        public static void DOZoom(this CinemachineCamera camera, float endValue, float duration, Ease ease = Ease.Linear)
         {
-            DOVirtual.Float(camera.orthographicSize, endValue, duration, value =>
+            DOVirtual.Float(camera.Lens.OrthographicSize, endValue, duration, value =>
             {
-                camera.orthographicSize = value;
+                camera.Lens.OrthographicSize = value;
             }).SetEase(ease);
         }
 
@@ -57,6 +57,23 @@ namespace JMT.Core.Tool
             DOVirtual.Float(target, endValue, duration, value =>
             {
                 target = value;
+            }).SetEase(ease);
+        }
+
+        public static void DOColor(this Color target, Color endValue, float duration, Ease ease = Ease.Unset)
+        {
+            DOVirtual.Color(target, endValue, duration, value =>
+            {
+                target = value;
+            }).SetEase(ease);
+        }
+
+        public static void DOFollowOffset(this CinemachineFollow target, Vector3 endValue, float duration,
+            Ease ease = Ease.Unset)
+        {
+            DOVirtual.Vector3(target.FollowOffset, endValue, duration, value =>
+            {
+                target.FollowOffset = value;
             }).SetEase(ease);
         }
     }

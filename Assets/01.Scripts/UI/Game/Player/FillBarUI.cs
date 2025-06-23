@@ -23,5 +23,10 @@ namespace JMT.UISystem
         {
             fill.fillAmount = value;
         }
+        
+        public bool IsFull()
+        {
+            return fill.fillAmount >= 1f;
+        }
     }
 }

@@ -14,6 +14,14 @@ namespace JMT.UISystem.Interact
         Zeolite = 6,
         Village = 7,
         Laboratory = 8,
+        SupplyOxygen = 9,
+        Field = 10,
+        Hospital = 11,
+        PreBuild = 12,
+        Factory = 13,
+        Holding = 14,
+        FieldHold = 15,
+        RocketLauncher = 16,
     }
 
     public class InteractModel

@@ -1,12 +1,14 @@
-using JMT.Agent.NPC;
-using JMT.Core.Manager;
-using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
-using JMT.UISystem;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using JMT.Core.Tool.PoolManager;
+using JMT.Building.Component;
+using JMT.Core.Manager;
+using JMT.Planets.Tile;
+using JMT.Agent.NPC;
+using JMT.UISystem;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using JMT.NightSummary;
 
 namespace JMT.Agent
 {
@@ -15,29 +17,52 @@ namespace JMT.Agent
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
         [field: SerializeField] public PlayerCharacter.Player Player { get; private set; }
 
-        public void AddNpc()
+        public NPCAgent AddNpc()
         {
-            if (BuildingManager.Instance.LodgingBuilding == null)
+            if (BuildingManager.Instance.LodgingBuildings.Count <= 0)
             {
                 GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 필요합니다.");
-                return;
+                return null;
             }
-            if (GameUIManager.Instance.ResourceCompo.MaxNpcValue <= GameUIManager.Instance.ResourceCompo.CurrentNpcValue)
+
+            NPCAgent agent = null;
+            for (int i = 0; i < 10; i++)
             {
-                GameUIManager.Instance.PopupCompo.SetActiveAutoPopup("숙소가 부족합니다.");
-                return;
+                var npc = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+                if (npc != null && !UnemployedAgents.Contains(npc))
+                {
+                    agent = npc;
+                    break;
+                }
             }
-            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
-            GameUIManager.Instance.ResourceCompo.AddNpc(1);
+
+            if (agent == null)
+            {
+                Debug.LogWarning("풀에 사용 가능한 에이전트가 없습니다.");
+                return null;
+            }
+
             agent.SetAgentType(AgentType.Base);
+            return agent;
         }
-        
+
         public void SpawnNpc(Vector3 position, Quaternion rotation)
         {
-            NPCAgent agent = PoolingManager.Instance.Pop(PoolingType.Agent_NPC) as NPCAgent;
+            NPCAgent firstAgent = GetAgent();
+            NPCAgent agent = PoolingManager.Instance.Pop(firstAgent) as NPCAgent;
             
             agent.transform.position = position;
             agent.transform.rotation = rotation;
+        }
+        
+        public void SpawnNpc(NPCAgent agent)
+        {
+            var lodgingBuilding = BuildingManager.Instance.LodgingBuildings[Random.Range(0, BuildingManager.Instance.LodgingBuildings.Count)];
+            if (lodgingBuilding == null) return;
+            var spawnPos = lodgingBuilding.transform.position;
+
+            Instance.SpawnNpc(spawnPos, Quaternion.identity);
+            TileManager.Instance.CurrentTile.CurrentBuilding.GetBuildingComponent<BuildingNPC>().AddNpc(agent);
         }
 
         public NPCAgent GetAgent()
@@ -66,6 +91,8 @@ namespace JMT.Agent
                 return;
             }
             UnemployedAgents.Add(agent);
+            GameUIManager.Instance.ResourceCompo.AddNpc(1);
+            NightSummaryManager.Instance.NPCCollectModule.CollectNPC(agent.StatCompo);
         }
 
         public void UnregisterAgent(NPCAgent agent)
@@ -82,7 +109,17 @@ namespace JMT.Agent
         {
             GameUIManager.Instance.ResourceCompo.AddMaxNpc(count);
         }
+
+        public bool IsBuildingNotEnough()
+        {
+            return GameUIManager.Instance.ResourceCompo.MaxNpcValue <=
+                   GameUIManager.Instance.ResourceCompo.CurrentNpcValue;
+        }
         
+        public bool IsContainAgent(NPCAgent agent)
+        {
+            return UnemployedAgents.Contains(agent);
+        }
         
     }
 }

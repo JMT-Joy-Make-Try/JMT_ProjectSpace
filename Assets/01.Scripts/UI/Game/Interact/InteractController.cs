@@ -1,4 +1,6 @@
-    using JMT.Planets.Tile;
+using JMT.Agent;
+using JMT.Planets.Tile;
+using JMT.Planets.Tile.Items;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -9,12 +11,14 @@ namespace JMT.UISystem.Interact
     public class InteractController : MonoBehaviour
     {
         public event Action<bool> OnHoldEvent;
-        public event Action OnAttackEvent;
+        public event Action OnAnimationEndEvent;
+        public event Action OnClickEvent;
 
         [SerializeField] private InteractView view;
         private InteractModel model = new();
         private Coroutine holdCoroutine;
         private bool isHold = false;
+        private bool _isHoldEnd = false;
 
         public InteractType InteractType => model.InteractType;
         public event Action OnChangeInteractEvent
@@ -27,6 +31,23 @@ namespace JMT.UISystem.Interact
         {
             //view.OnInteractEvent += HandleInteraction;
             view.OnChangeInteractEvent += HandleChangeInteract;
+        }
+
+        private void OnDestroy()
+        {
+            view.OnChangeInteractEvent -= HandleChangeInteract;
+        }
+        
+        public void InfinityHold()
+        {
+            OnHoldEvent?.Invoke(true);
+        }
+        
+        public void StopInfinityHold()
+        {
+            OnHoldEvent?.Invoke(false);
+            isHold = false;
+            EndHold();
         }
 
         private void HandleChangeInteract()
@@ -46,23 +67,28 @@ namespace JMT.UISystem.Interact
             view.RemoveAllEventTriggers();
             if (type.Equals(InteractType.Item))
                 view.SetHoldEventTrigger(OnHoldStart, OnHoldEnd);
+            else if (type.Equals(InteractType.Holding))
+                view.SetHoldEventTrigger(InfinityHold, StopInfinityHold);
+            else if (type.Equals(InteractType.FieldHold))
+                view.SetHoldEventTrigger(OnFieldHoldStart, OnFieldHoldEnd);
             else
             {
                 view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
             }
 
         }
+        
+        
 
         private void HandleInteraction()
         {
             InteractType type = model.InteractType;
 
-            Debug.Log("type : " + type);
-            if (type.Equals(InteractType.Attack))
-                OnAttackEvent?.Invoke();
-
-            else if (!type.Equals(InteractType.Item))
+            if (!type.Equals(InteractType.Item))
+            {
                 TileManager.Instance.GetInteraction().Interaction();
+                OnClickEvent?.Invoke();
+            }
         }
 
 
@@ -70,7 +96,18 @@ namespace JMT.UISystem.Interact
         {
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "재료 캐는 중...");
-            holdCoroutine = StartCoroutine(HoldCoroutine());
+            var currentInteract = TileManager.Instance.GetInteraction();
+            var interactTime = AgentManager.Instance.Player.StatCompo.GetInteractTime(currentInteract.GetItemType());
+            holdCoroutine = StartCoroutine(HoldCoroutine(interactTime));
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(0, 1);
+        }
+        
+        public void OnFieldHoldStart()
+        {
+            GameUIManager.Instance.PlayerControlActive(false);
+            GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "밭 가는 중...");
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(3, 1);
+            holdCoroutine = StartCoroutine(HoldCoroutine(12));
         }
 
         private void OnHoldEnd()
@@ -85,12 +122,30 @@ namespace JMT.UISystem.Interact
             EndHold();
         }
 
+        private void OnFieldHoldEnd()
+        {
+            if (holdCoroutine != null)
+            {
+                StopCoroutine(holdCoroutine);
+                holdCoroutine = null;
+                if (_isHoldEnd)
+                    OnHoldEvent?.Invoke(false);
+                
+                OnAnimationEndEvent?.Invoke();
+            }
+            isHold = false;
+            _isHoldEnd = false;
+            EndHold();
+        }
+
         private IEnumerator HoldCoroutine(float time = 1f)
         {
+            _isHoldEnd = false;
             OnHoldEvent?.Invoke(true);
             yield return new WaitForSeconds(time);
             TileManager.Instance.GetInteraction().Interaction();
             isHold = true;
+            _isHoldEnd = true;
 
             OnHoldEnd();
         }

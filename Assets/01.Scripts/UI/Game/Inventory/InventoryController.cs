@@ -11,7 +11,7 @@ namespace JMT.UISystem.Inventory
     {
         [SerializeField] private InventoryView view;
         [SerializeField] private InventorySO inventorySO;
-        private InventoryModel model;
+        private StationStorageModel model;
 
         private ItemSO _curItemSO;
         public InventorySO InventorySO => inventorySO;
@@ -19,7 +19,7 @@ namespace JMT.UISystem.Inventory
         private void Awake()
         {
             inventorySO = Instantiate(inventorySO);
-            model = new InventoryModel(inventorySO);
+            model = new StationStorageModel(inventorySO);
             view.OnCategoryChangedEvent += SelectCategory;
             view.OnItemAddedEvent += HandleItemAdded;
             view.OnEquipButtonClickedEvent += HandleEquip;
@@ -28,8 +28,8 @@ namespace JMT.UISystem.Inventory
         private void HandleEquip()
         {
             PlayerCharacter.Player player = AgentManager.Instance.Player;
-            player.PlayerTool.SetCloth((_curItemSO as ToolSO).ToolType);
-            Debug.Log(player.PlayerTool._curPlayerToolSO);
+            player.PlayerToolCompo.SetCloth((_curItemSO as ToolSO).ToolType);
+            Debug.Log(player.PlayerToolCompo.CurPlayerToolSO);
         }
 
         private void HandleItemAdded(ItemSO so)
@@ -77,6 +77,11 @@ namespace JMT.UISystem.Inventory
         }
 
         public void RemoveItem(ItemSO item, int value) => model.RemoveItem(item, value);
+        
+        public bool HasItem(ItemSO item, int value)
+        {
+            return model.HasItem(item, value);
+        }
 
         private void SelectCategory(InventoryCategory? category)
         {

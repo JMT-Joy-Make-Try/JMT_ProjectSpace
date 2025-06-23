@@ -1,7 +1,6 @@
 using JMT.Building.Component;
 using JMT.Core.Tool;
-using JMT.Planets.Tile;
-using JMT.UISystem;
+using JMT.Item;
 using System;
 using UnityEngine;
 
@@ -11,6 +10,8 @@ namespace JMT.Building
     public class ItemBuildingData : BaseData
     {
         public SizeLimitQueue<CreateItemSO> CreateItemList = new(4);
+        
+        public event Action<ItemSO, int> OnItemCreate;
 
         public CreateItemSO GetFirstCreateItem()
         {
@@ -24,20 +25,21 @@ namespace JMT.Building
         public override void AddWork(BuildingWork work)
         {
             base.AddWork(work);
-            // foreach (var createItem in CreateItemList)
-            // {
-            //     foreach (var item in createItem.NeedItemList)
-            //     {
-            //         GameUIManager.Instance.InventoryCompo.AddItem(item.Key, item.Value);
-            //     }
-            // }
-
+            foreach (var createItem in CreateItemList)
+            {
+                OnItemCreate?.Invoke(createItem.ResultItem, 1);
+            }
         }
 
         public override void RemoveWork(bool isAddItem = true)
         {
             base.RemoveWork(isAddItem);
             if (!isAddItem) return;
+            AddItem();
+        }
+
+        public void AddItem()
+        {
             foreach (var createItem in CreateItemList)
             {
                 if (_buildingBase == null)

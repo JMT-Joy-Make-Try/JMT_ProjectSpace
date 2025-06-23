@@ -1,24 +1,24 @@
-﻿using UnityEngine;
+﻿using JMT.Item;
+using UnityEngine;
 
 namespace JMT.PlayerCharacter
 {
     [CreateAssetMenu(fileName = "FilterMaskSO", menuName = "SO/Data/ToolSO/FilterMaskSO")]
     public class FilterMaskSO : ToolSO
     {
-        public override void Equip(Player player)
+        public override void Equip()
         {
-            if (player.FogDetect.IsPlayerInFog)
-                player.SetOxygenMultiplier(2);
-            else
-                player.SetOxygenMultiplier(1);
-            
-            Debug.Log("a");
+            base.Equip();
+            // if (_player.FogDetect.IsPlayerInFog)
+            //     _player.HealthCompo.SetOxygenMultiplier(2);
+            // else
+            //     _player.HealthCompo.SetOxygenMultiplier(1);
         }
 
-        public override void UnEquip(Player player)
+        public override void UnEquip()
         {
-            player.SetOxygenMultiplier(1);
-            Debug.Log("b");
+            base.UnEquip();
+            //_player.HealthCompo.SetOxygenMultiplier(1);
         }
     }
 }

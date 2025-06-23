@@ -1,18 +1,23 @@
 using System;
 using JMT.Building;
 using JMT.Building.Component;
+using JMT.Core.Manager;
 using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
 using JMT.QuestSystem;
+using System.Collections;
 
 namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        [Tooltip("건물이 건설되기 시작했을 때 일어나는 액션입니다.")]
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
+        public event Action OnPrebuild;
+
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         [field: SerializeField] public TileType TileType { get; set; }
         [field: SerializeField] public MeshRenderer Renderer { get; private set; }
         [field: SerializeField] public MeshFilter Filter { get; private set; }
@@ -22,14 +27,16 @@ namespace JMT.Planets.Tile
 
         [Space] [SerializeField] private List<Texture2D> _textures;
 
-        private BuildingBase _currentBuilding;
+        [SerializeField]private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
-        public GameObject TileInteraction;
+        public TileInteraction TileInteraction;
         public Transform Pivot { get; private set; }
 
         private bool canInteraction = true;
         
         private TileList _tileList;
+        private Vector2Int _position;
+        public Vector2Int Position => _position;
 
         private void Awake()
         {
@@ -40,33 +47,44 @@ namespace JMT.Planets.Tile
             Renderer.material = Instantiate(Renderer.material);
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
-            TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
+            TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+            
+            if (TileInteraction == null)
+            {
+                TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+            }
+        }
+
+        private void Start()
+        {
+            Vector3 position = transform.position;
+            _position = new Vector2Int((int)position.x, (int)position.z);
+            TileManager.Instance.RegisterTile((int)position.x, (int)position.z, this);
         }
 
         public bool CanBuild()
         {
-            return !Fog.IsFogActive || _currentBuilding == null;
+            return /*!Fog.IsFogActive ||*/ _currentBuilding == null;
+        }
+
+        public void EnterPreBuildRequirementState()
+        {
+            var preBuild = ChangeInteraction<PreBuildInteraction>();
+            preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
+            OnPrebuild?.Invoke();
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
-            if (CanBuild())
-            {
-                Debug.Log("Build");
-                OnBuild?.Invoke();
-                PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
-                if (_currentBuilding == null)
-                    _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-                _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
+            gameObject.layer = LayerMask.NameToLayer("Ground");
+            pvc.SetVisualActive(true);
+            OnBuild?.Invoke();
+            
+            if (_currentBuilding == null)
+                _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
+            _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvc);
 
-
-                RemoveInteraction();
-                AddInteraction<ProgressInteraction>();
-            }
-            else
-            {
-                Debug.Log("Can't Build");
-            }
+            ChangeInteraction<HoldingInteraction>();
         }
 
         public void DestroyBuilding()
@@ -78,10 +96,23 @@ namespace JMT.Planets.Tile
             }
         }
 
-        public void AddInteraction<T>() where T : TileInteraction
+        public T AddInteraction<T>() where T : TileInteraction
         {
-            T instance = TileInteraction.AddComponent<T>();
-            OnChangeInteraction?.Invoke(instance);
+            TileInteraction = TileInteraction.AddComponent<T>();
+            OnChangeInteraction?.Invoke(TileInteraction);
+            string interactionName = TileInteraction.GetType().Name.Replace("Interaction", "");
+
+            if (Enum.TryParse<InteractType>(interactionName, out var interactType))
+            {
+                TileInteraction.SetType(interactType);
+            }
+            else
+            {
+                Debug.LogError($"Interaction type {interactionName} is not defined in InteractType enum.");
+                TileInteraction.SetType(InteractType.None);
+            }
+
+            return TileInteraction as T;
         }
 
         public void RemoveInteraction()
@@ -89,9 +120,15 @@ namespace JMT.Planets.Tile
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
+        public T ChangeInteraction<T>() where T : TileInteraction
+        {
+            RemoveInteraction();
+            return AddInteraction<T>();
+        }
+        
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
         {
-            interaction = TileInteraction.GetComponent<T>();
+            interaction = TileInteraction as T;
             if (interaction != null)
             {
                 canInteraction = true;
@@ -106,32 +143,23 @@ namespace JMT.Planets.Tile
         {
             canInteraction = true;
             var interaction = TileInteraction.GetComponent<T>();
-            switch (interaction)
+
+            if (interaction == null)
             {
-                case BuildingInteraction:
-                    interaction.SetType(InteractType.Building);
-                    break;
-                case ItemInteraction:
-                    interaction.SetType(InteractType.Item);
-                    break;
-                case StationInteraction:
-                    interaction.SetType(InteractType.Station);
-                    break;
-                case NoneInteraction:
-                    interaction.SetType(InteractType.None);
-                    break;
-                case ProgressInteraction:
-                    interaction.SetType(InteractType.Progress);
-                    break;
-                case ZeoliteInteraction:
-                    interaction.SetType(InteractType.Zeolite);
-                    break;
-                case VillageInteraction:
-                    interaction.SetType(InteractType.Village);
-                    break;
-                case LaboratoryInteraction:
-                    interaction.SetType(InteractType.Laboratory);
-                    break;
+                Debug.LogError($"Can't find interaction of type {typeof(T)}");
+                return null;
+            }
+            
+            string interactionName = interaction.GetType().Name.Replace("Interaction", "");
+
+            if (Enum.TryParse<InteractType>(interactionName, out var interactType))
+            {
+                interaction.SetType(interactType);
+            }
+            else
+            {
+                Debug.LogError($"Interaction type {interactionName} is not defined in InteractType enum.");
+                interaction.SetType(InteractType.None);
             }
 
             return interaction;
@@ -140,10 +168,10 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
-            if (Fog.IsFogActive)
-            {
-                _tileList.LineRenderer.enabled = enable;
-            }
+            // if (Fog.IsFogActive)
+            // {
+            //     _tileList.LineRenderer.enabled = enable;
+            // }
         }
 
         public void TestBuild(BuildingDataSO building)

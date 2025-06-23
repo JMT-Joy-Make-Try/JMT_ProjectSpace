@@ -7,9 +7,10 @@ namespace JMT.Agent
 {
     public class AgentCloth<T> : MonoBehaviour where T : Enum
     {
-        [SerializeField] private SerializedDictionary<T, Animator> agentClothList;
+        [SerializeField] protected SerializedDictionary<T, Animator> agentClothList;
 
         public Animator CurrentCloth { get; private set; }
+        public event Action<Animator> OnClothChange;
 
         public virtual void Init(T type)
         {
@@ -24,6 +25,7 @@ namespace JMT.Agent
             }
 
             CurrentCloth = agentClothList[type];
+            OnClothChange?.Invoke(CurrentCloth);
             CurrentCloth.gameObject.SetActive(true);
         }
     }
@@ -36,6 +38,7 @@ namespace JMT.Agent
         FuelCollector,
         Patient,
         OrganicCollector,
-        DustMaster
+        DustMaster,
+        Doctor,
     }
 }

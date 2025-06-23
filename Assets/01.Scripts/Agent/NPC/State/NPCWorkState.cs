@@ -1,14 +1,15 @@
-﻿using JMT.Agent.NPC;
-using JMT.Building;
 using JMT.Building.Component;
+using JMT.Agent.NPC;
 using JMT.Core.Tool;
-using System.Collections;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JMT.Agent.State
 {
     public class NPCWorkState : State<NPCState>
     {
+        [SerializeField] private NPCWorkAnimationData[] animationData;
         private NPCAgent npcAgent;
         public override void Initialize(AgentAI<NPCState> agent, string stateName)
         {
@@ -22,36 +23,23 @@ namespace JMT.Agent.State
             npcAgent.MovementCompo.Stop(true);
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            npcAgent.CurrentWorkingBuilding.Work();
-            StartCoroutine(Work());
+            npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingWorker>().Work();
             
+            int index = Random.Range(0, animationData.Length);
+            //ChangeAnimations(animationData[index]);
         }
 
-        private IEnumerator Work()
+        private void ChangeAnimations(NPCWorkAnimationData npcWorkAnimationData)
         {
-            ItemBuilding building = npcAgent.CurrentWorkingBuilding.ConvertTo<ItemBuilding>();
-            if (building == null)
-            {
-                Debug.Log("Building is null");
-                yield break;
-            }
-            
-            while (true)
-            {
-                if (building.data.GetFirstCreateItem() == null || building.data.CreateItemList.Count <= 0)
-                {
-                    Debug.Log("Building Data is null");
-                    yield break;
-                }
-                int timeMinute = building.data.GetFirstCreateItem().CreateTime.minute * 60 + building.data.GetFirstCreateItem().CreateTime.second;
-                yield return new WaitForSeconds(timeMinute);
-                building.data.RemoveWork();
-            }
+            var animator = npcAgent.AnimatorCompo;
+            animator.ChangeAnimation("InWork", npcWorkAnimationData.InClip);
+            animator.ChangeAnimation("OutWork", npcWorkAnimationData.OutClip);
+            animator.ChangeAnimation("Work", npcWorkAnimationData.WorkClip);
         }
 
         public override void UpdateState()
         {
-            npcAgent.transform.position = npcAgent.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
+            npcAgent.transform.position = npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             base.UpdateState();
             npcAgent.transform.rotation = Quaternion.Euler(0, 180, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 180, 0);
@@ -62,5 +50,14 @@ namespace JMT.Agent.State
             npcAgent.MovementCompo.Stop(false);
             base.ExitState();
         }
+    }
+
+
+    [Serializable]
+    public struct NPCWorkAnimationData
+    {
+        public AnimationClip InClip;
+        public AnimationClip OutClip;
+        public AnimationClip WorkClip;
     }
 }

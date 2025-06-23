@@ -16,6 +16,10 @@ GameObject:
   - component: {fileID: -5833555781113589042}
   - component: {fileID: 6718450861411880518}
   - component: {fileID: 3985889103821257259}
+  - component: {fileID: -4556662742516240027}
+  - component: {fileID: -7381738326073091434}
+  - component: {fileID: 2284234437251492201}
+  - component: {fileID: -2170063197134680564}
   m_Layer: 6
   m_Name: Oxygen_Building
   m_TagString: Untagged
@@ -38,6 +42,7 @@ Transform:
   m_Children:
   - {fileID: 2356477293731884676}
   - {fileID: 1664384574102451752}
+  - {fileID: 6470711965214405128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &94794387616571235
@@ -52,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6704d394fd7285b43a9bf0b597f8cbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fuelAmount: 0.1
+  buildingDataSO: {fileID: 11400000, guid: a6f561c34e7715d48b2696d848c0fb60, type: 2}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
@@ -61,9 +66,10 @@ MonoBehaviour:
     CreateItemList:
       items:
       - {fileID: 11400000, guid: 0a5dfbb7392707944b76d12b4f4a7405, type: 2}
-  interactionDistance: 2.5
-  _visualTransform: {fileID: 2356477293731884676}
+  _purificationContainerAmount: 4
   _oxygenAmount: 50
+  interactionDistance: 4
+  _visualTransform: {fileID: 2356477293731884676}
 --- !u!114 &1076030525563287783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,10 +83,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualMat: {fileID: 2100000, guid: 1543aa205c71d594a94d90a0b362399a, type: 2}
+  visualMat2: {fileID: 0}
   rendererList:
   - {fileID: 6582345938650067694}
   - {fileID: 4198222965217008308}
   - {fileID: 553009529104932310}
+  rendererList2: []
+  buildingLevelObjects: []
 --- !u!114 &-7540552467328510253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentNpc: []
-  _agentType: 0
+  _agentType: 1
   <WorkPosition>k__BackingField: {fileID: 6438078358172703228}
 --- !u!114 &-5833555781113589042
 MonoBehaviour:
@@ -136,6 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 0}
+  maxLevel: 3
+  _isLevelUpgradable: 1
 --- !u!114 &3985889103821257259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +160,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentItems: []
+  pvcBuilding: {fileID: 0}
+--- !u!114 &-4556662742516240027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a205c48a9c4c5597128650fe5258fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destroyBuildingItems:
+    _serializedList: []
+  <SoundPlayer>k__BackingField: {fileID: 5650092856193505250}
+--- !u!114 &-7381738326073091434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b269f4042c4a41ceb602166ba26dc7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+    _serializedList: []
+  _repairTime: 5
+--- !u!114 &2284234437251492201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2be57975c8495cba0f97db404923e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fuelAmount: 0
+--- !u!114 &-2170063197134680564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441797193344769761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdd5e9ced0e464f959d476d8d0bd280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4507027390083661689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6470711965214405128}
+  - component: {fileID: 5650092856193505250}
+  m_Layer: 6
+  m_Name: Sound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6470711965214405128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507027390083661689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6438078358172703228}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5650092856193505250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507027390083661689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e93a07aa46664143ad9814658ec64d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundData: {fileID: 11400000, guid: 21752342c66272942a0ecf15af44d8b5, type: 2}
+  audioSourcePoolSize: 2
 --- !u!1 &5708634991250265493
 GameObject:
   m_ObjectHideFlags: 0

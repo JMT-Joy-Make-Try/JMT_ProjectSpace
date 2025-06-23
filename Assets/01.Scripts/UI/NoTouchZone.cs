@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace JMT.UISystem
 {
-    public class NoTouchZone : MonoBehaviour, IPointerClickHandler
+    public class TouchScreen : MonoBehaviour, IPointerClickHandler
     {
         public event Action OnClickEvent;
 

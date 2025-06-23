@@ -31,11 +31,12 @@ namespace JMT.UISystem.Interact
                 Debug.Log("읎으요");
                 return false;
             }
-            if (!GameUIManager.Instance.InventoryCompo.CalculateItem(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems)) return false;
+            //if (!GameUIManager.Instance.InventoryCompo.CalculateItem(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems)) return false;
 
             isBuild = true;
             tile.EdgeEnable(false);
-            tile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
+            tile.EnterPreBuildRequirementState();
+            //tile.Build(BuildingManager.Instance.CurrentBuilding, pvcObject);
             return true;
         }
     }

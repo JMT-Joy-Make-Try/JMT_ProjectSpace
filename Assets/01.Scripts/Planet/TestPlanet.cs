@@ -5,11 +5,5 @@ namespace JMT.Planets
 {
     public class TestPlanet : Planet
     {
-        [SerializeField] private TilesSO _tile;
-
-        private void Start()
-        {
-            GeneratePlanet(_tile);
-        }
     }
 }

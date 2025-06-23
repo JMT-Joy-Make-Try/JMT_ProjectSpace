@@ -1,13 +1,11 @@
 using DG.Tweening;
 using JMT.Agent;
-using JMT.Agent.NPC;
 using JMT.Building.Component;
 using JMT.Core.Tool;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
 using JMT.Object;
-using JMT.Planets.Tile;
 using JMT.Planets.Tile.Items;
 using JMT.UISystem;
 using System;
@@ -18,22 +16,55 @@ namespace JMT.Building
 {
     public class GatheringBuilding : BuildingBase
     {
+        public event Action OnAddItemEvent;
+        
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
         [SerializeField] private float _productionTime;
         [SerializeField] private int _maxProductionAmount;
+        
         private int _currentProductionAmount;
         private float _productGauge;
+        private bool _isAnimating;
         
         private IEnumerator _workCoroutine;
+        private BuildingWorker _worker;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _worker = GetBuildingComponent<BuildingWorker>();
+        }
         
-        private bool _isAnimating;
+        protected override void AddEvents()
+        {
+            base.AddEvents();
+            _worker.OnWorkingEvent += HandleWork;
+        }
+        
+        protected override void RemoveEvents()
+        {
+            base.RemoveEvents();
+            _worker.OnWorkingEvent -= HandleWork;
+        }
+
+        private void HandleWork(bool isWorking)
+        {
+            if (isWorking)
+            {
+                Work();
+            }
+            else
+            {
+                StopWork();
+            }
+        }
 
         public void InventoryAdd()
         {
             if (_isAnimating) return;
             if (_currentProductionAmount <= 0) return;
-            GameUIManager.Instance.InventoryCompo.AddItem(ProductionItem, _currentProductionAmount);
-            
+            BuildingUIManager.Instance.StorageCompo.AddItem(ProductionItem, _currentProductionAmount);
+            OnAddItemEvent?.Invoke();
 
             StartCoroutine(AnimateItem());
         }
@@ -62,16 +93,14 @@ namespace JMT.Building
             _isAnimating = false;
         }
 
-        public override void Work()
+        public void Work()
         {
-            base.Work();
             _workCoroutine = WorkCoroutine();
             StartCoroutine(_workCoroutine);
         }
         
-        public override void StopWork()
+        public void StopWork()
         {
-            base.StopWork();
             if (_workCoroutine != null)
             {
                 StopCoroutine(_workCoroutine);
@@ -82,7 +111,7 @@ namespace JMT.Building
         private IEnumerator WorkCoroutine()
         {
             var ws = new WaitForSeconds(_productionTime);
-            while (_isWorking)
+            while (_worker.IsWorking)
             {
                 if (_currentProductionAmount >= _maxProductionAmount)
                 {
@@ -107,7 +136,7 @@ namespace JMT.Building
 
         private void Update()
         {
-            if (_isWorking)
+            if (_worker.IsWorking)
             {
                 _productGauge += Time.deltaTime / _productionTime;
                 if (_productGauge >= 1f)

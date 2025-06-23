@@ -1,10 +1,11 @@
-using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core.Manager;
+using JMT.NightSummary;
+using JMT.Planet.Tile;
 using JMT.Planets.Tile;
+using JMT.Sound;
 using JMT.UISystem;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,57 +14,51 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour
     {
+        [SerializeField] private BuildingDataSO buildingDataSO;
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
         #endregion
         
-        public bool IsBuilding { get; private set; }
-        public Action OnCompleteEvent;
-        
-        [SerializeField] private float _fuelAmount;
-        
-        public float FuelAmount
-        {
-            get => _fuelAmount;
-            set => _fuelAmount = value;
-        }
-        
-        protected bool _isWorking;
-        private PVCBuilding _pvc;
-        
-        public PVCBuilding PVC => _pvc;
-        
         protected virtual void Awake()
         {
             InitBuildingComponents();
+        }
+
+        protected virtual void Start()
+        {
             BuildingManager.Instance.AddBuilding(this);
-            
-            OnCompleteEvent += HandleCompleteEvent;
+            AddEvents();
+            var buildingLevel = GetBuildingComponent<BuildingLevel>();
+            NightSummaryManager.Instance.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
         }
-
-        private IEnumerator FuelRoutine()
+        
+        protected virtual void OnDestroy()
         {
-            while (true)
-            {
-                if (GameUIManager.Instance.ResourceCompo.CurrentFuelValue <= 0)
-                {
-                    StopWork();
-                    var npcList = GetBuildingComponent<BuildingNPC>();
-                    npcList.RemoveAllNpc();
-                    yield break;
-                }
-                GameUIManager.Instance.ResourceCompo.AddFuel(-_fuelAmount);
-                yield return new WaitForSeconds(1f);
-            }
+            RemoveEvents();
         }
 
-        private void OnDestroy()
+        protected virtual void AddEvents()
         {
-            OnCompleteEvent -= HandleCompleteEvent;
+            GetBuildingComponent<BuildingFuel>().OnFuelEmptyEvent += HandleFuelEmpty;
+            GetBuildingComponent<BuildingWorker>().OnWorkingEvent += HandleWorkingEvent;
+            GetBuildingComponent<BuildingBuilder>().OnGaugeFullEvent += HandleGaugeFull;
         }
 
+        
+
+        protected virtual void RemoveEvents()
+        {
+            GetBuildingComponent<BuildingFuel>().OnFuelEmptyEvent -= HandleFuelEmpty;
+            GetBuildingComponent<BuildingWorker>().OnWorkingEvent -= HandleWorkingEvent;
+            GetBuildingComponent<BuildingBuilder>().OnGaugeFullEvent -= HandleGaugeFull;
+        }
+
+        private void HandleWorkingEvent(bool isWorking)
+        {
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(isWorking);
+        }
 
         protected virtual void InitBuildingComponents()
         {
@@ -75,69 +70,24 @@ namespace JMT.Building
             }
         }
 
-        protected virtual void HandleCompleteEvent()
+        private void HandleFuelEmpty()
         {
-            var visual = GetBuildingComponent<BuildingVisual>();
-            visual.BuildingTransparent(1f);
-            _pvc.PlayAnimation();
-            visual.SetFloatProperty("_Alpha", 1f);
-            StartCoroutine(FuelRoutine());
-        }
-
-        public void Building()
-        {
-            var visual = GetBuildingComponent<BuildingVisual>();
-            visual.SetMaterial(visual.VisualMat);
-
-            var buildingData = GetBuildingComponent<BuildingData>().Data;
-            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
-        }
-
-        private IEnumerator BuildingRoutine(int time)
-        {
-            GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.3f);
-            yield return new WaitForSeconds(time);
-            IsBuilding = true;
-        }
-
-        public virtual void Work()
-        {
-            if (_isWorking)
-            {
-                return;
-            }
-
-            _isWorking = true;
-            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
+            GetBuildingComponent<BuildingWorker>().StopWork();
+            var npcList = GetBuildingComponent<BuildingNPC>();
+            npcList.RemoveAllNpc();
         }
         
-        public virtual void StopWork()
-        {
-            if (!_isWorking)
-            {
-                return;
-            }
-
-            _isWorking = false;
-            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
-        }
-        
-        public void SetWorking(bool isWorking)
-        {
-            _isWorking = isWorking;
-            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
-        }
-        
-        protected PlanetTile GetPlanetTile()
+        public PlanetTile GetPlanetTile()
         {
             return transform.parent.parent.GetComponent<PlanetTile>();
         }
-        
-        public void SetPVCBuilding(PVCBuilding pvc)
+
+        private void HandleGaugeFull()
         {
-            _pvc = pvc;
+            GameUIManager.Instance.InteractCompo.StopInfinityHold();
+            GetPlanetTile().ChangeInteraction<ProgressInteraction>();
         }
-        
+
         public T GetBuildingComponent<T>() where T : IBuildingComponent
         {
             if (_componentLookup.TryGetValue(typeof(T), out var component))
@@ -156,6 +106,6 @@ namespace JMT.Building
             Debug.LogError($"Component of type {typeof(T)} not found in {gameObject.name}");
             return default;
         }
-
+        
     }
 }

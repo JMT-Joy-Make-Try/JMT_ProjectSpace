@@ -1,5 +1,3 @@
-using JMT.Agent;
-using JMT.Core.Tool;
 using JMT.UISystem;
 using System;
 using System.Collections;
@@ -14,13 +12,14 @@ namespace JMT.QuestSystem
         public event Action<QuestSO> OnQuestStartEvent;
         public event Action OnQuestEndEvent;
 
-        [SerializeField] private List<QuestSO> pingDatas = new();
+        [SerializeField] private List<QuestSO> questSOs = new();
 
         private int currentQuestIndex = 0;
         private List<QuestBase> currentQuestTargets = new();
         private bool _isDelayRunning = false;
 
         private bool _isAllQuestCompleted;
+        private bool _isStaringQuest = false;
 
         protected override void Awake()
         {
@@ -29,8 +28,7 @@ namespace JMT.QuestSystem
         }
         private void Start()
         {
-            Debug.Log(currentQuestTargets.Count);
-            StartQuest(pingDatas[currentQuestIndex]);
+            StartQuest(questSOs[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -61,6 +59,11 @@ namespace JMT.QuestSystem
         {
             if (_isAllQuestCompleted) 
                 return;
+            if (_isStaringQuest)
+            {
+                Debug.LogWarning("Quest is already starting!");
+                return;
+            }
             Debug.Log($"Starting quest '{questData.questName}'");
 
             foreach (var target in currentQuestTargets)
@@ -68,11 +71,12 @@ namespace JMT.QuestSystem
                 if (target.QuestData == questData)
                 {
                     OnQuestStartEvent?.Invoke(questData);
-                    if (target.Tile != null)
+                    if (target.Tiles != null)
                     {
-                        GameUIManager.Instance.PointerCompo.SetPointer(target.Tile.Pivot);
+                        Debug.Log("핑...");
+                        //GameUIManager.Instance.PointerCompo.SetPointer(target.Tiles.Pivot);
                     }
-
+                    _isStaringQuest = true;
                     target.Enable();
                 }
             }
@@ -84,19 +88,22 @@ namespace JMT.QuestSystem
                 yield break;
 
             _isDelayRunning = true;
-
-            currentQuestIndex++;
-
-            if (currentQuestIndex < pingDatas.Count)
-            {
-                yield return new WaitForSeconds(1f);
-                StartQuest(pingDatas[currentQuestIndex]);
-            }
-            else
+            _isStaringQuest = false;
+            
+            if (currentQuestIndex >= questSOs.Count)
             {
                 _isAllQuestCompleted = true;
                 Debug.Log("All quests completed!");
             }
+
+            currentQuestIndex++;
+
+            if ( currentQuestIndex < questSOs.Count )
+            {
+                yield return new WaitForSeconds(1f);
+                StartQuest(questSOs[currentQuestIndex]);
+            }
+            
 
             _isDelayRunning = false;
             yield return null;

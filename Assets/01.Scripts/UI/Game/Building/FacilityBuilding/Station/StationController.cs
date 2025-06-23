@@ -1,48 +1,71 @@
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Planets.Tile;
 using UnityEngine;
 
-namespace JMT.UISystem.Building
+namespace JMT.UISystem.Station
 {
     public class StationController : MonoBehaviour
     {
         [SerializeField] private StationView view;
+        [SerializeField] private StationStorageController storage;
+
+        [Header("Upgrade Settings")]
         [SerializeField] private StationUpgradeView upgradeView;
 
-        private PanelUI currentPanel;
+        private IOpenablePanel currentPanel;
 
         private void Awake()
         {
-            view.OnExitButtonEvent += CloseUI;
+            storage.OnEndEvent += ClosePanel;
+
+            view.OnStorageButtonEvent += HandleStorageEvent;
+            view.OnUpgradeButtonEvent += HandleUpgradeEvent;
+            view.OnExitButtonEvent += ClosePanel;
+
             upgradeView.OnUpgradeEvent += HandleUpgradeButton;
         }
 
         private void OnDestroy()
         {
-            view.OnExitButtonEvent -= CloseUI;
+            view.OnExitButtonEvent -= ClosePanel;
             upgradeView.OnUpgradeEvent -= HandleUpgradeButton;
         }
 
-        public void OpenUI()
+        public void OpenPanel()
         {
             view.OpenUI();
-            upgradeView.OpenUI();
+            GameUIManager.Instance.GameUICompo.ClosePanel();
+            GameUIManager.Instance.PlayerControlActive(false);
+            ChangePanel(storage);
         }
 
-        private void CloseUI()
+        private void ClosePanel()
         {
-            upgradeView.CloseUI();
+            ChangePanel(null);
+            GameUIManager.Instance.GameUICompo.OpenPanel();
+            GameUIManager.Instance.PlayerControlActive(true);
             view.CloseUI();
+        }
+
+        private void HandleStorageEvent()
+        {
+            ChangePanel(storage);
+        }
+
+        private void HandleUpgradeEvent()
+        {
+            ChangePanel(upgradeView);
         }
 
         private void HandleUpgradeButton()
         {
-            TileManager.Instance.GetInteraction().GetComponentInChildren<BaseBuilding>().FixStation();
+            TileManager.Instance.GetInteraction().GetComponentInChildren<BaseBuilding>().GetBuildingComponent<BuildingLevel>().Upgrade();
             Debug.Log("그냥 레벨업할게요.");
-            CloseUI();
+            ClosePanel();
         }
 
-        private void ChangePanel(PanelUI panel = null)
+        private void ChangePanel(IOpenablePanel panel = null)
         {
             currentPanel?.CloseUI();
             if (panel == null) return;

@@ -1,5 +1,4 @@
-using JMT.Building;
-using JMT.Item;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,49 +7,37 @@ namespace JMT.UISystem
 {
     public class CellUI : MonoBehaviour
     {
+        public Action OnClickCellEvent;
+
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI nameText, countText;
         [SerializeField] private Image select;
-        public Button CellButton { get; private set; }
+        [SerializeField] private Button cellButton;
 
         private void Awake()
         {
-            CellButton = GetComponent<Button>();
+            cellButton?.onClick.AddListener(HandleCellButton);
             SetSelect(false);
         }
 
-        public void SetCell(ItemSO itemSO = null, string count = null)
+        private void OnDestroy()
         {
-            if (itemSO != null)
-            {
-                if (icon != null)
-                {
-                    if (itemSO.ItemData.Icon != null)
-                        icon.sprite = itemSO.ItemData.Icon;
-                }
-            }
-            if(nameText != null) nameText.text = itemSO.ItemName;
-            if (countText != null) countText.text = count;
-        }
-        
-        public void SetCell(BuildingDataSO data = null)
-        {
-            if (icon != null)
-            {
-                if (data.Icon != null)
-                    icon.sprite = data.Icon;
-            }
-            if (nameText != null) nameText.text = data.BuildingName;
+            cellButton?.onClick.RemoveListener(HandleCellButton);
         }
 
-        public void SetCell(string name = null, string count = null, Sprite icon = null)
+        private void HandleCellButton()
         {
-            if (this.icon != null) 
+            OnClickCellEvent?.Invoke();
+        }
+
+        public void SetCell(ICellDisplayData data = null, string count = null)
+        {
+            if (data != null)
             {
-                if (icon != null)
-                    this.icon.sprite = icon;
+                if (icon != null) icon.sprite = data.DisplayIcon;
+                if (nameText != null) nameText.text = data.DisplayName;
             }
-            if (nameText != null) nameText.text = name;
+
             if (countText != null) countText.text = count;
         }
 
@@ -63,8 +50,8 @@ namespace JMT.UISystem
 
         public void SetSelect(bool isActive)
         {
-            if(select != null)
-            select.enabled = isActive;
+            if (select != null)
+                select.enabled = isActive;
         }
     }
 }
