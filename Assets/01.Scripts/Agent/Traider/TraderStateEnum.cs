@@ -5,7 +5,6 @@
         Idle,
 		Interact,
         Buy,
-        Sell,
         Disappear,
     }
 }

@@ -8,15 +8,12 @@ namespace JMT.Planets.Tile
 {
     public class RocketLauncherInteraction : TileInteraction
     {
-        private RocketBuilding _rocketBuilding;
+        private RocketLauncherBuilding _rocketLauncherBuilding;
+        
         public override void Interaction()
         {
             base.Interaction();
-        }
-
-        private void UpgradeRocketLauncher()
-        {
-            NightSummaryManager.Instance.RocketStatusModule.UpgradeRocketCompletion(25);
+            // Open the rocket launcher UI
         }
     }
 }
