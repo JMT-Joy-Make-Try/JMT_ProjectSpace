@@ -1,6 +1,6 @@
 namespace JMT.QuestSystem
 {
-    public class MakeBaseQuest : QuestBase
+    public class CreateBaseQuest : QuestBase
     {
         private void Start()
         {

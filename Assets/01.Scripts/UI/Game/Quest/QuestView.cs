@@ -15,5 +15,10 @@ namespace JMT.UISystem.Quest
             questNameText.text = quest.questName;
             questDescText.text = quest.description;
         }
+
+        public void SetQuestNameCount(string count)
+        {
+            questNameText.text += $" ({count})";
+        }
     }
 }

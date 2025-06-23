@@ -1,4 +1,5 @@
 using JMT.QuestSystem;
+using System;
 using UnityEngine;
 
 namespace JMT.UISystem.Quest
@@ -11,17 +12,25 @@ namespace JMT.UISystem.Quest
         {
             QuestManager.Instance.OnQuestStartEvent += HandleQuestStartEvent;
             QuestManager.Instance.OnQuestEndEvent += view.CloseUI;
+            QuestManager.Instance.OnQuestCountEvent += HandleQuestCountEvent;
         }
 
         private void OnDestroy()
         {
             QuestManager.Instance.OnQuestStartEvent -= HandleQuestStartEvent;
             QuestManager.Instance.OnQuestEndEvent -= view.CloseUI;
+            QuestManager.Instance.OnQuestCountEvent -= HandleQuestCountEvent;
         }
 
         private void HandleQuestStartEvent(QuestSO SO)
         {
             view.SetQuestView(SO);
+            
+        }
+
+        private void HandleQuestCountEvent(string count)
+        {
+            view.SetQuestNameCount(count);
         }
     }
 }
