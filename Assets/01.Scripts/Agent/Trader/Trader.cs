@@ -11,10 +11,10 @@ using UnityEngine;
 
 namespace JMT.Agent.Trader
 {
-    public class Trader : AgentAI<TraderStateEnum>, IInteractable, IItemReceivable
+    public class Trader : AgentAI<TraderStateEnum>, IInteractable
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new SerializedDictionary<ItemSO, int>();
-        [SerializeField] private SerializedDictionary<ItemSO, int> _dropItems = new SerializedDictionary<ItemSO, int>();
+        
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
         
         public SerializedDictionary<ItemSO, int> TradeItems => _tradeItems;
@@ -33,10 +33,6 @@ namespace JMT.Agent.Trader
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Interact();
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ReceiveItem(_tradeItems.Keys.First(), 1);
             }
         }
 
@@ -72,37 +68,6 @@ namespace JMT.Agent.Trader
 
             Debug.LogError($"Component of type {typeof(T)} not found in Trader.");
             return default;
-        }
-
-        public bool ReceiveItem(ItemSO item, int amount)
-        {
-            
-            if (_tradeItems.ContainsKey(item))
-            {
-                _tradeItems[item] -= amount;
-                if (_tradeItems[item] <= 0)
-                {
-                    _tradeItems.Remove(item);
-                }
-                if (_tradeItems.Count <= 0)
-                {
-                    foreach (var items in _dropItems)
-                    {
-                        for (int i = 0; i < items.Value; i++)
-                        {
-                            var itemObj = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
-                            itemObj.SetItemType(items.Key);
-                            itemObj.transform.position = transform.position + Vector3.up * 0.5f;
-                            itemObj.transform.rotation = Quaternion.identity;
-                            itemObj.IsCollectable = true;
-                        }
-                    }
-                }
-                return true;
-            }
-
-            Debug.LogWarning($"Item {item.name} not found in trade items.");
-            return false;
         }
     }
 }
