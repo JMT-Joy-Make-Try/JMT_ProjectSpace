@@ -1,5 +1,5 @@
-﻿using JMT.Agent.State;
-using JMT.Agent.Trader;
+﻿using JMT.Agent.Trader;
+using JMT.DataSystem;
 
 namespace JMT.Agent.State
 {
@@ -17,12 +17,13 @@ namespace JMT.Agent.State
         {
             base.EnterState();
             // 다이얼로그 띄워주기
-            //BuyStart();
+            BuyStart();
         }
 
         private void BuyStart()
         {
-            _trader.GetTraderComponent<TraderTrade>().SetTradeItem(_trader.TradeItems);
+            var tradeItem = RandomDataSystem.Instance.GetRandomTraderTradeSO();
+            _trader.GetTraderComponent<TraderTrade>().SetTradeItem(tradeItem);
             _stateMachine.ChangeState(TraderStateEnum.Buy);
         }
     }

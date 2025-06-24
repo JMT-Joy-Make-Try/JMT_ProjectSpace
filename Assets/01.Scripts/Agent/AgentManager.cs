@@ -33,8 +33,8 @@ namespace JMT.Agent
                 Debug.LogWarning("Trader prefab is not assigned.");
                 return;
             }
-            _trader.transform.SetParent(null, true);
-            _trader.transform.SetPositionAndRotation(position, rotation);
+            _trader.transform.SetParent(null);
+            _trader.transform.SetPositionAndRotation(position + new Vector3(0, 5, 0), rotation);
             _trader.gameObject.SetActive(true);
             
         }
