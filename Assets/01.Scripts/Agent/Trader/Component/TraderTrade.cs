@@ -1,4 +1,4 @@
-﻿using JMT.Core;
+using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
@@ -11,7 +11,7 @@ namespace JMT.Agent.Trader
     {
         public Trader Trader { get; private set; }
         
-        private TraderTradeSO _traderTradeSO;
+        public TraderTradeSO TraderTradeSO { get; private set; }
         
         public void Init(Trader trader)
         {
@@ -34,27 +34,27 @@ namespace JMT.Agent.Trader
 
         public void SetTradeItem(TraderTradeSO traderTradeSO)
         {
-            _traderTradeSO = Instantiate(traderTradeSO);
+            TraderTradeSO = Instantiate(traderTradeSO);
         }
 
         public bool ReceiveItem(ItemSO item, int amount)
         {
-            if (_traderTradeSO == null)
+            if (TraderTradeSO == null)
             {
                 Debug.LogWarning("TraderTradeSO is not set.");
                 return false;
             }
             
-            if (_traderTradeSO.NeedItems.Contains(item))
+            if (TraderTradeSO.NeedItems.ContainsKey(item))
             {
-                _traderTradeSO.NeedItems.Remove(item);
-                if (_traderTradeSO.NeedItems.Count == 0)
+                TraderTradeSO.NeedItems.Remove(item);
+                if (TraderTradeSO.NeedItems.Count == 0)
                 {
                     DropItem();
                 }
                 else
                 {
-                    Debug.Log($"Received item: {item.name}, remaining items needed: {_traderTradeSO.NeedItems.Count}");
+                    Debug.Log($"Received item: {item.name}, remaining items needed: {TraderTradeSO.NeedItems.Count}");
                 }
                 return true;
             }
@@ -72,7 +72,7 @@ namespace JMT.Agent.Trader
                 return;
             }
             
-            item.SetItem(_traderTradeSO.ReceiveItem);
+            item.SetItem(TraderTradeSO.ReceiveItem);
             item.transform.position = Trader.transform.position + new Vector3(0, 1, 0);
             item.IsCollectable = true;
             Trader.StateMachineCompo.ChangeStateDelay(TraderStateEnum.Disappear, 0.5f);

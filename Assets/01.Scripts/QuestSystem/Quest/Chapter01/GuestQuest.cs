@@ -9,6 +9,18 @@ namespace JMT.QuestSystem
         {
             base.Enable();
             AgentManager.Instance.SpawnTrader(Tiles[0].transform.position, Quaternion.identity);
+            AgentManager.Instance.Trader.OnInteractEvent += HandleInteractEvent;
+        }
+
+        private void OnDestroy()
+        {
+            if(AgentManager.Instance.Trader != null)
+                AgentManager.Instance.Trader.OnInteractEvent -= HandleInteractEvent;
+        }
+
+        private void HandleInteractEvent()
+        {
+            RunQuest(0);
         }
     }
 }

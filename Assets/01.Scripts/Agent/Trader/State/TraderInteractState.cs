@@ -1,4 +1,4 @@
-﻿using JMT.Agent.Trader;
+using JMT.Agent.Trader;
 using JMT.DataSystem;
 
 namespace JMT.Agent.State
@@ -16,15 +16,6 @@ namespace JMT.Agent.State
         public override void EnterState()
         {
             base.EnterState();
-            // 다이얼로그 띄워주기
-            BuyStart();
-        }
-
-        private void BuyStart()
-        {
-            var tradeItem = RandomDataSystem.Instance.GetRandomTraderTradeSO();
-            _trader.GetTraderComponent<TraderTrade>().SetTradeItem(tradeItem);
-            _stateMachine.ChangeState(TraderStateEnum.Buy);
         }
     }
 }

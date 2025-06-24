@@ -101,7 +101,7 @@ namespace JMT.QuestSystem
 
             if ( currentQuestIndex < questList.Count )
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1.5f);
                 StartQuest(questList[currentQuestIndex]);
             }
             
