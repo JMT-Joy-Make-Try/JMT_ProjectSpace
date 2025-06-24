@@ -78,6 +78,7 @@ namespace JMT.Planets.Tile
             if (_isCompleteReceive && !_isBuildComplete)
             {
                 _isBuildComplete = true;
+                pvc.PVCUI.ActiveItemUI(false);
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
             
