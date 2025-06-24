@@ -1,11 +1,5 @@
-﻿using AYellowpaper.SerializedCollections;
-using JMT.Core;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
+﻿using JMT.Core;
 using JMT.Item;
-using JMT.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JMT.Agent.Trader
@@ -14,8 +8,7 @@ namespace JMT.Agent.Trader
     {
         public Trader Trader { get; private set; }
         
-        [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new();
-        [SerializeField] private SerializedDictionary<ItemSO, int> _dropItems = new SerializedDictionary<ItemSO, int>();
+        private TraderTradeSO _traderTradeSO;
         
         public void Init(Trader trader)
         {
@@ -36,43 +29,38 @@ namespace JMT.Agent.Trader
             Trader.StateMachineCompo.ChangeState(TraderStateEnum.Disappear);
         }
 
-        public void SetTradeItem(Dictionary<ItemSO, int> tradeItems)
+        public void SetTradeItem(TraderTradeSO traderTradeSO)
         {
-            _tradeItems = tradeItems as SerializedDictionary<ItemSO, int>;
+            _traderTradeSO = Instantiate(traderTradeSO);
         }
 
         public bool ReceiveItem(ItemSO item, int amount)
         {
-            if (_tradeItems.ContainsKey(item))
+            if (_traderTradeSO == null)
             {
-                _tradeItems[item] -= amount;
-                if (_tradeItems[item] <= 0)
-                {
-                    _tradeItems.Remove(item);
-                }
-                if (_tradeItems.Count <= 0)
+                Debug.LogWarning("TraderTradeSO is not set.");
+                return false;
+            }
+            
+            if (_traderTradeSO.NeedItems.Contains(item))
+            {
+                _traderTradeSO.NeedItems.Remove(item);
+                if (_traderTradeSO.NeedItems.Count == 0)
                 {
                     DropItem();
                 }
+                else
+                {
+                    Debug.Log($"Received item: {item.name}, remaining items needed: {_traderTradeSO.NeedItems.Count}");
+                }
                 return true;
             }
-
             Debug.LogWarning($"Item {item.name} not found in trade items.");
             return false;
         }
 
         private void DropItem()
         {
-            foreach (var items in _dropItems)
-            {
-                for (int i = 0; i < items.Value; i++)
-                {
-                    var itemObj = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
-                    itemObj.SetItem(items.Key);
-                    itemObj.transform.position = Trader.transform.position + Vector3.up * 0.5f;
-                    itemObj.IsCollectable = true;
-                }
-            }
             
             Trader.StateMachineCompo.ChangeStateDelay(TraderStateEnum.Disappear, 0.5f);
         }

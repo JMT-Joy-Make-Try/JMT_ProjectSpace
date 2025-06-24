@@ -14,11 +14,8 @@ namespace JMT.Agent.Trader
 {
     public class Trader : AgentAI<TraderStateEnum>, IInteractable
     {
-        [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new SerializedDictionary<ItemSO, int>();
-        
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
         
-        public SerializedDictionary<ItemSO, int> TradeItems => _tradeItems;
         
         public override void Init()
         {
@@ -27,7 +24,7 @@ namespace JMT.Agent.Trader
             StateMachineCompo.ChangeState(TraderStateEnum.Idle);
             GameUIManager.Instance.InteractCompo.OnTraderInteractEvent += Interact;
         }
-        
+
         private void OnDestroy()
         {
             if (GameUIManager.Instance == null) return;
