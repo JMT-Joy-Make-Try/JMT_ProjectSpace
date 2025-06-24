@@ -8,7 +8,7 @@ namespace JMT.QuestSystem
         public override void Enable()
         {
             base.Enable();
-            AgentManager.Instance.SpawnTrader(Tiles[0].transform.position, Quaternion.identity);
+            AgentManager.Instance.SpawnTrader(Tiles[0], new Quaternion(0, 180, 0, 1));
             AgentManager.Instance.Trader.OnInteractEvent += HandleInteractEvent;
         }
 

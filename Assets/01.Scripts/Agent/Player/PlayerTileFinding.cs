@@ -44,6 +44,11 @@ namespace JMT.PlayerCharacter
                 if (hitObject.TryGetComponent(out PlanetTile planetTile))
                 {
                     tileManager.CurrentTile = planetTile;
+                    if (planetTile.IsTraderOnTile())
+                    {
+                        GameUIManager.Instance.InteractCompo.ChangeInteract(InteractType.Trader);
+                        return;
+                    }
                 }
                 //tileManager.CurrentTile = hit.transform.GetComponent<PlanetTile>();
                 tileManager.CurrentTile?.EdgeEnable(true);
