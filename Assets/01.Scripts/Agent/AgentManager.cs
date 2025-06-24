@@ -28,7 +28,7 @@ namespace JMT.Agent
             Trader.gameObject.SetActive(false);
         }
         
-        public void SpawnTrader(Vector3 position, Quaternion rotation)
+        public void SpawnTrader(PlanetTile tile, Quaternion rotation)
         {
             if (Trader == null)
             {
@@ -36,9 +36,9 @@ namespace JMT.Agent
                 return;
             }
             Trader.transform.SetParent(null);
-            Trader.transform.SetPositionAndRotation(position + new Vector3(0, 5, 0), rotation);
+            Trader.transform.SetPositionAndRotation(tile.transform.position + new Vector3(0, 5, 0), rotation);
             Trader.gameObject.SetActive(true);
-            
+            tile.SetTrader(Trader);
         }
 
         public NPCAgent AddNpc()
