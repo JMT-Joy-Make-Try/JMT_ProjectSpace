@@ -15,12 +15,15 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour
     {
+        [SerializeField] private bool _isOnceBuild = false;
         [SerializeField] private BuildingDataSO buildingDataSO;
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
         #endregion
+
+        [SerializeField] private Collider _collider;
         
         protected virtual void Awake()
         {
@@ -29,10 +32,21 @@ namespace JMT.Building
 
         protected virtual void Start()
         {
+            SetColliderEnable(false);
             BuildingManager.Instance.AddBuilding(this);
             AddEvents();
             var buildingLevel = GetBuildingComponent<BuildingLevel>();
-            NightSummaryManager.Instance.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
+            if (buildingDataSO != null)
+                NightSummaryManager.Instance?.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
+        }
+
+        public void SetColliderEnable(bool isEnable)
+        {
+            if (_collider == null)
+            {
+                return;
+            }
+            _collider.enabled = isEnable;
         }
         
         protected virtual void OnDestroy()
@@ -62,6 +76,9 @@ namespace JMT.Building
         {
             var interaction = GetPlanetTile().ChangeInteraction<ProgressInteraction>();
             interaction.Interaction();
+            if (_isOnceBuild)
+                BuildingManager.Instance.GetDictionary().Remove(buildingDataSO);
+            SetColliderEnable(true);
         }
 
         private void HandleWorkingEvent(bool isWorking)

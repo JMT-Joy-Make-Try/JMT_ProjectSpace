@@ -64,7 +64,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
         IsActive = true;
         for (int i = 0; i < tileDialogues.Count; i++)
         {
-            if (tileDialogues != null && Tiles[i].QuestPing != null)
+            if (tileDialogues != null && Tiles[i] != null && Tiles[i].QuestPing != null)
                 QuestPing[i].EnablePing();
         }
 
