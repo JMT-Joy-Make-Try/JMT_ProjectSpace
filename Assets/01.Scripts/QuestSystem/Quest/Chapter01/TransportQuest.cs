@@ -1,16 +1,17 @@
+using JMT.Building.Component;
+
 namespace JMT.QuestSystem
 {
-    public class CreateBaseQuest : QuestBase
+    public class TransportQuest : QuestBase
     {
         private void Start()
         {
-            Tiles[0].OnPrebuild += HandleRunQuest;
+            Tiles[0].OnBuild += HandleRunQuest;
         }
 
         private void OnDestroy()
         {
-            if (Tiles == null) return;
-            Tiles[0].OnPrebuild -= HandleRunQuest;
+            Tiles[0].OnBuild -= HandleRunQuest;
         }
 
         private void HandleRunQuest()

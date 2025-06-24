@@ -13,26 +13,26 @@ namespace JMT.QuestSystem
 
         private void Start()
         {
-            tiles[0].OnBuild += HandleBuildEvent;
+            Tiles[0].OnBuild += HandleBuildEvent;
         }
 
         private void OnDestroy()
         {
-            if (tiles == null || tiles[0] == null || tiles[0].CurrentBuilding == null) return;
-            tiles[0].OnBuild -= HandleBuildEvent;
-            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent -= HandleBuildCompleteEvent;
+            if (Tiles == null || Tiles[0] == null || Tiles[0].CurrentBuilding == null) return;
+            Tiles[0].OnBuild -= HandleBuildEvent;
+            Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent -= HandleBuildCompleteEvent;
             if (building == null) return;
             building.OnAddItemEvent -= HandleAddItemQueueEvent;
         }
 
         private void HandleBuildEvent()
         {
-            tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent += HandleBuildCompleteEvent;
+            Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent += HandleBuildCompleteEvent;
         }
 
         private void HandleBuildCompleteEvent()
         {
-            building = tiles[0].CurrentBuilding as GatheringBuilding;
+            building = Tiles[0].CurrentBuilding as GatheringBuilding;
             building.OnAddItemEvent += HandleAddItemQueueEvent;
         }
 
@@ -46,7 +46,7 @@ namespace JMT.QuestSystem
         
         public override void Enable()
         {
-            tiles[0].QuestPing.SelectPingLocation(true);
+            Tiles[0].QuestPing.SelectPingLocation(true);
             base.Enable();
         }
     }

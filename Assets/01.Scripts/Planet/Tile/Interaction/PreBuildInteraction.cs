@@ -112,6 +112,7 @@ namespace JMT.Planets.Tile
             {
                 StartCoroutine(DelayBuild());
             }
+            OnChangedDataEvent?.Invoke(_preBuildItemDatas);
         }
 
         private IEnumerator DelayBuild()

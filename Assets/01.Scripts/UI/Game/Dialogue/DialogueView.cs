@@ -19,6 +19,9 @@ namespace JMT.UISystem.Dialogue
 
         private string desc;
 
+        private bool isEnd;
+        public bool IsEnd => isEnd;
+
         public void SetDialogue(DialogueData data)
         {
             nameText.text = data.Name;
@@ -27,7 +30,8 @@ namespace JMT.UISystem.Dialogue
 
         private IEnumerator DialogueRoutine(string desc)
         {
-            var waitTime = new WaitForSeconds(0.05f);
+            var waitTime = new WaitForSeconds(0.04f);
+            isEnd = false;
             builder.Clear();
             this.desc = desc;
             foreach (char text in desc)
@@ -42,6 +46,7 @@ namespace JMT.UISystem.Dialogue
 
         public void SkipDescription()
         {
+            isEnd = true;
             if(dialogueRoutine != null)
             {
                 StopCoroutine(dialogueRoutine);
