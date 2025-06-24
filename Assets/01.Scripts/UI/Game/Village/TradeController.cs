@@ -1,11 +1,12 @@
+using JMT.Agent.Trader;
 using UnityEngine;
 
 namespace JMT.UISystem.Village
 {
-    public class VillageController : MonoBehaviour
+    public class TradeController : MonoBehaviour
     {
-        [SerializeField] private VillageView view;
-        private VillageSO villageSO;
+        [SerializeField] private TradeView view;
+        private ITradeable tradeable;
 
         private void Awake()
         {
@@ -19,25 +20,25 @@ namespace JMT.UISystem.Village
             view.OnExitEvent -= ClosePanel;
         }
 
-        public void OpenPanel(VillageSO villageSO)
+        public void OpenPanel(ITradeable trade)
         {
-            this.villageSO = villageSO;
-            view.SetVillagePanel(villageSO);
+            tradeable = trade;
+            view.SetVillagePanel(trade);
             view.OpenUI();
         }
 
         public void ClosePanel()
         {
-            villageSO = null;
+            tradeable = null;
             view.CloseUI();
         }
 
         private void HandleAcceptEvent()
         {
-            if (villageSO == null) return;
+            if (tradeable == null) return;
 
             Debug.Log("퀘스트 연결이 필요합니다.");
-            villageSO.AddNpc();
+            tradeable.SucessTrade();
             view.CloseUI();
         }
     }

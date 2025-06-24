@@ -1,7 +1,8 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.DataSystem;
 using JMT.Item;
 using JMT.Object;
 using JMT.UISystem;
@@ -14,6 +15,8 @@ namespace JMT.Agent.Trader
 {
     public class Trader : AgentAI<TraderStateEnum>, IInteractable
     {
+        public event Action OnInteractEvent;
+
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
         
         
@@ -21,19 +24,37 @@ namespace JMT.Agent.Trader
         {
             InitTraderComponents();
             base.Init();
+            var tradeItem = RandomDataSystem.Instance.GetRandomTraderTradeSO();
+            var tradeCompo = GetTraderComponent<TraderTrade>();
+            tradeCompo.SetTradeItem(tradeItem);
             StateMachineCompo.ChangeState(TraderStateEnum.Idle);
             GameUIManager.Instance.InteractCompo.OnTraderInteractEvent += Interact;
+
+            tradeCompo.TraderTradeSO.OnStartTradeEvent += BuyStart;
         }
+
+        private void BuyStart()
+        {
+            StateMachineCompo.ChangeState(TraderStateEnum.Buy);
+            Debug.Log($"CurrentState {StateMachineCompo.CurrentState}");
+        }
+
 
         private void OnDestroy()
         {
             if (GameUIManager.Instance == null) return;
             GameUIManager.Instance.InteractCompo.OnTraderInteractEvent -= Interact;
+
+            var tradeSO = GetTraderComponent<TraderTrade>().TraderTradeSO;
+            tradeSO.OnStartTradeEvent -= BuyStart;
         }
         
         public void Interact()
         {
             StateMachineCompo.ChangeState(TraderStateEnum.Interact);
+            var tradeSO = GetTraderComponent<TraderTrade>().TraderTradeSO;
+            GameUIManager.Instance.VillageCompo.OpenPanel(tradeSO);
+            OnInteractEvent?.Invoke();
         }
 
         private void InitTraderComponents()
