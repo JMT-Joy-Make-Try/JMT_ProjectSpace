@@ -36,7 +36,7 @@ namespace JMT.UISystem
         public GameUIController GameUICompo => gameUICompo;
         public QuestController QuestCompo => questCompo;
         public PingPointerController PointerCompo => pointerCompo;
-        public TradeController VillageCompo => villageCompo;
+        public TradeController TradeCompo => villageCompo;
 
         public void PlayerControlActive(bool isActive)
         {

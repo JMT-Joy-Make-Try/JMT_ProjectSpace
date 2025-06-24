@@ -53,7 +53,7 @@ namespace JMT.Agent.Trader
         {
             StateMachineCompo.ChangeState(TraderStateEnum.Interact);
             var tradeSO = GetTraderComponent<TraderTrade>().TraderTradeSO;
-            GameUIManager.Instance.VillageCompo.OpenPanel(tradeSO);
+            GameUIManager.Instance.TradeCompo.OpenPanel(tradeSO);
             OnInteractEvent?.Invoke();
         }
 

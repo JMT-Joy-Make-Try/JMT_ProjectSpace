@@ -1,19 +1,25 @@
+using JMT.UISystem;
+using System;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.QuestSystem
 {
     public class BuySpaceshipQuest : QuestBase
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public override void Enable()
         {
-        
+            base.Enable();
+            GameUIManager.Instance.TradeCompo.OnAcceptEvent += HandleAcceptEvent;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnDestroy()
         {
-        
+            GameUIManager.Instance.TradeCompo.OnAcceptEvent -= HandleAcceptEvent;
+        }
+
+        private void HandleAcceptEvent()
+        {
+            RunQuest(0);
         }
     }
 }
