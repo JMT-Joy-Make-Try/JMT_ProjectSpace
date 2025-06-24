@@ -45,5 +45,17 @@ namespace JMT.Sound
                 Debug.LogError("SoundPlayer component is not initialized.");
             }
         }
+        
+        public void StopSound()
+        {
+            if (_soundPlayer != null)
+            {
+                _soundPlayer.StopSound(soundKey);
+            }
+            else
+            {
+                Debug.LogError("SoundPlayer component is not initialized.");
+            }
+        }
     }
 }

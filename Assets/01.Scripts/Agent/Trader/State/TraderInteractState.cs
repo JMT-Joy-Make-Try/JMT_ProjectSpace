@@ -17,7 +17,7 @@ namespace JMT.Agent.State
         {
             base.EnterState();
             // 다이얼로그 띄워주기
-            BuyStart();
+            //BuyStart();
         }
 
         private void BuyStart()
