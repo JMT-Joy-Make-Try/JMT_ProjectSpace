@@ -19,23 +19,25 @@ namespace JMT.Agent
         [field: SerializeField] public PlayerCharacter.Player Player { get; private set; }
         [SerializeField] private Trader.Trader _traderPrefab;
 
-        private Trader.Trader _trader;
+        public Trader.Trader Trader { get; private set; }
         private void Start()
         {
-            _trader = Instantiate(_traderPrefab, transform);
-            _trader.gameObject.SetActive(false);
+            Debug.Log(_traderPrefab);
+            Debug.Log(Trader);
+            Trader = Instantiate(_traderPrefab, transform);
+            Trader.gameObject.SetActive(false);
         }
         
         public void SpawnTrader(Vector3 position, Quaternion rotation)
         {
-            if (_trader == null)
+            if (Trader == null)
             {
                 Debug.LogWarning("Trader prefab is not assigned.");
                 return;
             }
-            _trader.transform.SetParent(null);
-            _trader.transform.SetPositionAndRotation(position + new Vector3(0, 5, 0), rotation);
-            _trader.gameObject.SetActive(true);
+            Trader.transform.SetParent(null);
+            Trader.transform.SetPositionAndRotation(position + new Vector3(0, 5, 0), rotation);
+            Trader.gameObject.SetActive(true);
             
         }
 
