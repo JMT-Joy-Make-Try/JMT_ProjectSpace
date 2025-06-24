@@ -1,3 +1,4 @@
+using JMT.Core;
 using JMT.Planets.Tile;
 using JMT.UISystem;
 using JMT.UISystem.Interact;
@@ -35,6 +36,11 @@ namespace JMT.PlayerCharacter
             if (Physics.Raycast(startTrm.position, RayDirection, out hit, rayDistance, player.GroundLayer))
             {
                 var hitObject = hit.transform.gameObject;
+                if (hitObject.transform.parent.TryGetComponent(out IInteractable interactable))
+                {
+                    GameUIManager.Instance.InteractCompo.ChangeInteract(InteractType.Trader);
+                    return;
+                }
                 if (hitObject.TryGetComponent(out PlanetTile planetTile))
                 {
                     tileManager.CurrentTile = planetTile;
