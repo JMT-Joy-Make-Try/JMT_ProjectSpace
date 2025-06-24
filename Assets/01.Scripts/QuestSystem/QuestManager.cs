@@ -9,10 +9,11 @@ namespace JMT.QuestSystem
 {
     public class QuestManager : MonoSingleton<QuestManager>
     {
+        public Action<string> OnQuestCountEvent;
         public event Action<QuestSO> OnQuestStartEvent;
         public event Action OnQuestEndEvent;
 
-        [SerializeField] private List<QuestSO> questSOs = new();
+        [SerializeField] private List<QuestSO> questList = new();
 
         private int currentQuestIndex = 0;
         private List<QuestBase> currentQuestTargets = new();
@@ -28,7 +29,7 @@ namespace JMT.QuestSystem
         }
         private void Start()
         {
-            StartQuest(questSOs[currentQuestIndex]);
+            StartQuest(questList[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -90,7 +91,7 @@ namespace JMT.QuestSystem
             _isDelayRunning = true;
             _isStaringQuest = false;
             
-            if (currentQuestIndex >= questSOs.Count)
+            if (currentQuestIndex >= questList.Count)
             {
                 _isAllQuestCompleted = true;
                 Debug.Log("All quests completed!");
@@ -98,10 +99,10 @@ namespace JMT.QuestSystem
 
             currentQuestIndex++;
 
-            if ( currentQuestIndex < questSOs.Count )
+            if ( currentQuestIndex < questList.Count )
             {
-                yield return new WaitForSeconds(1f);
-                StartQuest(questSOs[currentQuestIndex]);
+                yield return new WaitForSeconds(1.5f);
+                StartQuest(questList[currentQuestIndex]);
             }
             
 

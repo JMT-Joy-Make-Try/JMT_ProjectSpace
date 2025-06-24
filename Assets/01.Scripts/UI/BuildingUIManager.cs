@@ -2,6 +2,7 @@ using JMT.UISystem.Building;
 using JMT.UISystem.Factory;
 using JMT.UISystem.Hospital;
 using JMT.UISystem.Laboratory;
+using JMT.UISystem.Rocket;
 using JMT.UISystem.Station;
 using JMT.UISystem.SupplyOxygen;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace JMT.UISystem
     {
         [SerializeField] private ItemBuildingController itemBuildingCompo;
         [SerializeField] private StationController stationCompo;
+        [SerializeField] private RocketController rocketCompo;
         [SerializeField] private StationStorageController storageCompo;
         [SerializeField] private LaboratoryController laboratoryCompo;
         [SerializeField] private SupplyOxygenController oxygenCompo;
@@ -20,6 +22,7 @@ namespace JMT.UISystem
 
         public ItemBuildingController ItemBuildingCompo => itemBuildingCompo;
         public StationController StationCompo => stationCompo;
+        public RocketController RocketCompo => rocketCompo;
         public StationStorageController StorageCompo => storageCompo;
         public LaboratoryController LaboratoryCompo => laboratoryCompo;
         public SupplyOxygenController OxygenCompo => oxygenCompo;

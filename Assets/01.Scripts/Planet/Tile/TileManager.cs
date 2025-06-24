@@ -19,7 +19,11 @@ namespace JMT.Planets.Tile
             set
             {
                 if (_planetTile != null)
+                {
                     _planetTile.EdgeEnable(false);
+                    
+                }
+                
                 _planetTile = value;
                 _planetTile.EdgeEnable(true);
             }
@@ -140,7 +144,7 @@ namespace JMT.Planets.Tile
             Vector2Int position = new Vector2Int(x, y);
             if (_tileList.TryGetValue(position, out var tileTmp))
             {
-                if (tileTmp.CanBuild() || true) 
+                if (tileTmp.CanBuild()) 
                 {
                     tile = tileTmp;
                     return true;
@@ -162,7 +166,7 @@ namespace JMT.Planets.Tile
         }
 
 
-        public TileInteraction GetInteraction() => CurrentTile.TileInteraction;
+        public TileInteraction GetInteraction() => CurrentTile?.TileInteraction;
         public InteractType GetInteractType() => GetInteraction().InteractType;
     }
 }

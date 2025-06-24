@@ -1,0 +1,21 @@
+using JMT.Agent.Trader;
+using JMT.DataSystem;
+
+namespace JMT.Agent.State
+{
+    public class TraderInteractState : State<TraderStateEnum>
+    {
+        private Trader.Trader _trader;
+
+        public override void Initialize(AgentAI<TraderStateEnum> agent, string stateName)
+        {
+            base.Initialize(agent, stateName);
+            _trader = agent as Trader.Trader;
+        }
+
+        public override void EnterState()
+        {
+            base.EnterState();
+        }
+    }
+}

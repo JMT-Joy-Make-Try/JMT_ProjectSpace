@@ -16,6 +16,7 @@ namespace JMT.Agent.Editor
         
         private Transform _parent;
         private bool _isAlien;
+        private bool _isDrawDefaultInspector = true;
 
         private void OnEnable()
         {
@@ -31,6 +32,16 @@ namespace JMT.Agent.Editor
 
         public override void OnInspectorGUI()
         {
+            _isDrawDefaultInspector = EditorGUILayout.Toggle("Draw Default Inspector", _isDrawDefaultInspector);
+            if (_isDrawDefaultInspector)
+            {
+                DrawDefaultInspector();
+            }
+            else
+            {
+                EditorGUILayout.LabelField("State Machine Editor", EditorStyles.boldLabel);
+            }
+            
             _isAlien = EditorGUILayout.Toggle("Is Alien", _isAlien);
 
             if (GUILayout.Button("Add State"))
@@ -84,7 +95,7 @@ namespace JMT.Agent.Editor
                 if (existingStates.Contains(stateName)) continue;
 
                 var stateObject = new GameObject(stateName) { transform = { parent = _parent, localPosition = Vector3.zero} };
-                string agentName = _isAlien ? "Alien" : "NPC";
+                string agentName = _isAlien ? "Trader" : "NPC";
                 Type stateClass = GetStateType($"JMT.Agent.State.{agentName}{stateName}State");
                 if (stateClass != null) stateObject.AddComponent(stateClass);
 

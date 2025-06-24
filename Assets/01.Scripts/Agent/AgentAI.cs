@@ -22,12 +22,11 @@ namespace JMT.Agent
         {
             StateMachineCompo = gameObject.GetComponentOrAdd<StateMachine<T>>();
             AnimatorCompo = gameObject.GetComponentOrAdd<Animator>();
-            MovementCompo = gameObject.GetComponentOrAdd<AgentMovement>();
+            MovementCompo = gameObject.GetComponent<AgentMovement>();
             ClothCompo = GetComponent<NPCCloth>();
             AnimationEndTrigger = GetComponentInChildren<AnimationEndTrigger>();
             HealthCompo = GetComponent<AgentHealth>();
 
-            StateMachineCompo.InitAllState(this);
             Init();
         }
 
@@ -43,8 +42,9 @@ namespace JMT.Agent
 
         public virtual void Init()
         {
-            HealthCompo.InitStat();
-            MovementCompo.Stop(false);
+            StateMachineCompo.InitAllState(this);
+            HealthCompo?.InitStat();
+            MovementCompo?.Stop(false);
         }
     }
 }

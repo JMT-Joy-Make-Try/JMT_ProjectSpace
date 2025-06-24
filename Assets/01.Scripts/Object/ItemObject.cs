@@ -31,7 +31,7 @@ namespace JMT.Object
             _meshRenderer.material = Instantiate(_meshRenderer.material);
         }
 
-        public void SetItemType(ItemSO itemType)
+        public void SetItem(ItemSO itemType)
         {
             _itemSO = itemType;
             _itemSpriteRenderer.sprite = itemType.ItemData.Icon;
@@ -60,7 +60,6 @@ namespace JMT.Object
                 return;
             }
             AgentManager.Instance.Player.InventoryCompo.AddItem(_itemSO);
-            Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);
         }
     }

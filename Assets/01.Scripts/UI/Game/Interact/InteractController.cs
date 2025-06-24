@@ -13,6 +13,7 @@ namespace JMT.UISystem.Interact
         public event Action<bool> OnHoldEvent;
         public event Action OnAnimationEndEvent;
         public event Action OnClickEvent;
+        public event Action OnTraderInteractEvent;
 
         [SerializeField] private InteractView view;
         private InteractModel model = new();
@@ -71,14 +72,20 @@ namespace JMT.UISystem.Interact
                 view.SetHoldEventTrigger(InfinityHold, StopInfinityHold);
             else if (type.Equals(InteractType.FieldHold))
                 view.SetHoldEventTrigger(OnFieldHoldStart, OnFieldHoldEnd);
+            else if (type.Equals(InteractType.Trader))
+                view.AddEventTrigger(EventTriggerType.PointerDown, HandleTraderInteraction);
             else
             {
                 view.AddEventTrigger(EventTriggerType.PointerDown, HandleInteraction);
             }
 
         }
-        
-        
+
+        private void HandleTraderInteraction()
+        {
+            OnTraderInteractEvent?.Invoke();
+        }
+
 
         private void HandleInteraction()
         {
@@ -86,7 +93,7 @@ namespace JMT.UISystem.Interact
 
             if (!type.Equals(InteractType.Item))
             {
-                TileManager.Instance.GetInteraction().Interaction();
+                TileManager.Instance.GetInteraction()?.Interaction();
                 OnClickEvent?.Invoke();
             }
         }

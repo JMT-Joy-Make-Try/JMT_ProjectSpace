@@ -11,14 +11,19 @@ namespace JMT.UISystem
 
         private void Awake()
         {
-            ActiveUI(false, true);
+            ActiveFillUI(false);
         }
 
-        public void ActiveUI(bool isFillActive, bool isNeedItemActive)
+        public void ActiveFillUI(bool isFillActive)
+            => fill.SetActive(isFillActive);
+
+        public void ActiveItemUI(bool isItemActive)
         {
-            fill.SetActive(isFillActive);
             foreach (var item in needItemValue)
-                item.CloseUI();
+            {
+                if (isItemActive) item.OpenUI();
+                else item.CloseUI();
+            }
         }
 
         public void SetNeedItemUI(List<PreBuildItemData> items)

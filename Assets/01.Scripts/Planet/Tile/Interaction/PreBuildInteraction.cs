@@ -51,8 +51,9 @@ namespace JMT.Planets.Tile
         private IEnumerator DelayUpdatePreBuildItem(PlayerInventory inventory)
         {
             yield return null;
-            var item = inventory.RemoveItem(inventory.PlayerInventoryData.item, 3, false);
-            for (int i = 0; i < 3; i++)
+            var count = inventory.PlayerInventoryData.count;
+            var item = inventory.RemoveItem(inventory.PlayerInventoryData.item, count, false);
+            for (int i = 0; i < count; i++)
             {
                 _requiredItems[item] -= 1;
                 if (_requiredItems[item] <= 0)
@@ -77,6 +78,8 @@ namespace JMT.Planets.Tile
             if (_isCompleteReceive && !_isBuildComplete)
             {
                 _isBuildComplete = true;
+                pvc.PVCUI.ActiveItemUI(false);
+                pvc.PVCUI.ActiveFillUI(true);
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
             
@@ -111,6 +114,7 @@ namespace JMT.Planets.Tile
             {
                 StartCoroutine(DelayBuild());
             }
+            OnChangedDataEvent?.Invoke(_preBuildItemDatas);
         }
 
         private IEnumerator DelayBuild()

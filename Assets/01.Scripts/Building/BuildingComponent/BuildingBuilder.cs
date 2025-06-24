@@ -12,6 +12,7 @@ namespace JMT.Building.Component
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
         [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
+        [field: SerializeField] public AutoSoundPlayer AutoSoundPlayer { get; private set; } 
         public BuildingBase Building { get; private set; }
         
         public bool IsBuilding { get; private set; }
@@ -22,6 +23,7 @@ namespace JMT.Building.Component
         
         public event Action OnCompleteEvent;
         public event Action OnGaugeFullEvent;
+        public event Action OnBuildingEvent;
         
         public void Init(BuildingBase building)
         {
@@ -70,16 +72,8 @@ namespace JMT.Building.Component
         {
             var visual = Building.GetBuildingComponent<BuildingVisual>();
             visual.SetMaterial(visual.VisualMat);
-
-            var buildingData = Building.GetBuildingComponent<BuildingData>().Data;
-            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
-        }
-        
-        private IEnumerator BuildingRoutine(int time)
-        {
-            Building.GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.3f);
-            yield return new WaitForSeconds(time);
             IsBuilding = true;
+            OnBuildingEvent?.Invoke();
         }
         
         protected virtual void HandleCompleteEvent()
