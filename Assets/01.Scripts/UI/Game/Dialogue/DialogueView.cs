@@ -25,6 +25,7 @@ namespace JMT.UISystem.Dialogue
         public void SetDialogue(DialogueData data)
         {
             nameText.text = data.Name;
+            descText.text = "";
             dialogueRoutine = StartCoroutine(DialogueRoutine(data.Description));
         }
 
