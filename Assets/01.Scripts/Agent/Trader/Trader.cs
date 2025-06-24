@@ -4,6 +4,7 @@ using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
 using JMT.Object;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,27 +19,23 @@ namespace JMT.Agent.Trader
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
         
         public SerializedDictionary<ItemSO, int> TradeItems => _tradeItems;
-        public event Action OnInteract;
         
         public override void Init()
         {
             InitTraderComponents();
             base.Init();
             StateMachineCompo.ChangeState(TraderStateEnum.Idle);
+            GameUIManager.Instance.InteractCompo.OnTraderInteractEvent += Interact;
         }
-
-        protected override void Update()
+        
+        private void OnDestroy()
         {
-            base.Update();
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Interact();
-            }
+            if (GameUIManager.Instance == null) return;
+            GameUIManager.Instance.InteractCompo.OnTraderInteractEvent -= Interact;
         }
-
+        
         public void Interact()
         {
-            OnInteract?.Invoke();
             StateMachineCompo.ChangeState(TraderStateEnum.Interact);
         }
 
