@@ -57,7 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6704d394fd7285b43a9bf0b597f8cbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isOnceBuild: 0
   buildingDataSO: {fileID: 11400000, guid: a6f561c34e7715d48b2696d848c0fb60, type: 2}
+  _collider: {fileID: 7034130794083775066}
   data:
     BuildingLevel: 1
     UseFuelValue: 0
@@ -510,6 +512,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2991668648938852495}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6b90fc126a09364488f80a181177823, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7034130794083775066}
     - targetCorrespondingSourceObject: {fileID: 5162820104835090806, guid: d6b90fc126a09364488f80a181177823, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7965616836228624463}
@@ -524,6 +529,32 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d6b90fc126a09364488f80a181177823, type: 3}
   m_PrefabInstance: {fileID: 2826390161159670127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3168338625894675518 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d6b90fc126a09364488f80a181177823, type: 3}
+  m_PrefabInstance: {fileID: 2826390161159670127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7034130794083775066
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3168338625894675518}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.3936448, z: 1}
+  m_Center: {x: 0, y: 0.6968223, z: 0}
 --- !u!23 &4198222965217008308 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2124097496332456923, guid: d6b90fc126a09364488f80a181177823, type: 3}
