@@ -30,6 +30,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public virtual void RunQuest(int num)
     {
+        if (QuestState != QuestState.InProgress) return;
         QuestPing[num].DisablePing();
         QuestCountEvent();
         DialogueManager.Instance.StartDialogue(Ranges[num]);
