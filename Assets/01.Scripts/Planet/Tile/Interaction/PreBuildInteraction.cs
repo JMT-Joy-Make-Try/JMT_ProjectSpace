@@ -79,6 +79,7 @@ namespace JMT.Planets.Tile
             {
                 _isBuildComplete = true;
                 pvc.PVCUI.ActiveItemUI(false);
+                pvc.PVCUI.ActiveFillUI(true);
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
             
