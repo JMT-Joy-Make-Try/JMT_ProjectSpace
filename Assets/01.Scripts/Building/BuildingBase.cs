@@ -22,6 +22,8 @@ namespace JMT.Building
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
         #endregion
+
+        [SerializeField] private Collider _collider;
         
         protected virtual void Awake()
         {
@@ -30,10 +32,20 @@ namespace JMT.Building
 
         protected virtual void Start()
         {
+            SetColliderEnable(false);
             BuildingManager.Instance.AddBuilding(this);
             AddEvents();
             var buildingLevel = GetBuildingComponent<BuildingLevel>();
             NightSummaryManager.Instance?.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
+        }
+
+        public void SetColliderEnable(bool isEnable)
+        {
+            if (_collider == null)
+            {
+                return;
+            }
+            _collider.enabled = isEnable;
         }
         
         protected virtual void OnDestroy()
@@ -65,6 +77,7 @@ namespace JMT.Building
             interaction.Interaction();
             if (_isOnceBuild)
                 BuildingManager.Instance.GetDictionary().Remove(buildingDataSO);
+            SetColliderEnable(true);
         }
 
         private void HandleWorkingEvent(bool isWorking)
