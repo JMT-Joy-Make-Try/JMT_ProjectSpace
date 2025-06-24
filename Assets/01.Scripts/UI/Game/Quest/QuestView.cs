@@ -7,6 +7,7 @@ namespace JMT.UISystem.Quest
     public class QuestView : PanelUI
     {
         [SerializeField] private TextMeshProUGUI questNameText;
+        [SerializeField] private TextMeshProUGUI questCountText;
         [SerializeField] private TextMeshProUGUI questDescText;
 
         public void SetQuestView(QuestSO quest)
@@ -18,7 +19,7 @@ namespace JMT.UISystem.Quest
 
         public void SetQuestNameCount(string count)
         {
-            questNameText.text += $" ({count})";
+            questCountText.text = $"({count})";
         }
     }
 }
