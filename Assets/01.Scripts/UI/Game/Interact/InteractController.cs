@@ -114,7 +114,7 @@ namespace JMT.UISystem.Interact
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "밭 가는 중...");
             AgentManager.Instance.Player.AnimatorCompo.SetLayer(3, 1);
-            holdCoroutine = StartCoroutine(HoldCoroutine(12));
+            holdCoroutine = StartCoroutine(HoldCoroutine(5));
         }
 
         private void OnHoldEnd()
