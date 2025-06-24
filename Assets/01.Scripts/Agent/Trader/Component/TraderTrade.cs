@@ -1,5 +1,8 @@
 ﻿using JMT.Core;
+using JMT.Core.Tool.PoolManager;
+using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
+using JMT.Object;
 using UnityEngine;
 
 namespace JMT.Agent.Trader
@@ -61,7 +64,17 @@ namespace JMT.Agent.Trader
 
         private void DropItem()
         {
+            var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
             
+            if (item == null)
+            {
+                Debug.LogError("Failed to pop item from pool.");
+                return;
+            }
+            
+            item.SetItem(_traderTradeSO.ReceiveItem);
+            item.transform.position = Trader.transform.position + new Vector3(0, 1, 0);
+            item.IsCollectable = true;
             Trader.StateMachineCompo.ChangeStateDelay(TraderStateEnum.Disappear, 0.5f);
         }
     }
