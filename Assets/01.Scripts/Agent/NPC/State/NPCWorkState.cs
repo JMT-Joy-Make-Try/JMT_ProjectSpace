@@ -39,7 +39,7 @@ namespace JMT.Agent.State
 
         public override void UpdateState()
         {
-            npcAgent.transform.localPosition = npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position + new Vector3(0, 5f, 0);
+            npcAgent.transform.localPosition = npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             base.UpdateState();
             npcAgent.transform.rotation = Quaternion.Euler(0, 180, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 180, 0);
