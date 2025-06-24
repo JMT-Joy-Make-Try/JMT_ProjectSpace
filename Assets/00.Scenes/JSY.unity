@@ -19802,6 +19802,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 763868675401861533, guid: 234c07036ed44ac4eb8860f9eb468e56, type: 3}
   m_PrefabInstance: {fileID: 970445665}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &985403790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3745843715571854658, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+  m_PrefabInstance: {fileID: 3291252360734560062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &985403791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985403790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803199c76a201144a92e004615040dad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileDialogues:
+  - Tile: {fileID: 660460537}
+    DialogueRange: B28:C28
+  questData: {fileID: 11400000, guid: 132c71445f5a14c408c3c8ad100f0cdb, type: 2}
 --- !u!1001 &987294636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48989,6 +49010,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1756367922}
     - target: {fileID: 8468771078103789662, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      propertyPath: isTimeStop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8468771078103789662, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
       propertyPath: receiveCell
       value: 
       objectReference: {fileID: 1756367921}
@@ -49787,7 +49812,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3745843715571854658, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 985403791}
   m_SourcePrefab: {fileID: 100100000, guid: c92e5f75c1138b34d83fb10fbd6d462e, type: 3}
 --- !u!1 &3291252360734560063 stripped
 GameObject:
