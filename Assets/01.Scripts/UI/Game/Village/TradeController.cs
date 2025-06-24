@@ -1,4 +1,5 @@
 using JMT.Agent.Trader;
+using System;
 using UnityEngine;
 
 namespace JMT.UISystem.Village
@@ -7,6 +8,12 @@ namespace JMT.UISystem.Village
     {
         [SerializeField] private TradeView view;
         private ITradeable tradeable;
+
+        public event Action OnAcceptEvent
+        {
+            add => view.OnAcceptEvent += value;
+            remove => view.OnAcceptEvent -= value;
+        }
 
         private void Awake()
         {
