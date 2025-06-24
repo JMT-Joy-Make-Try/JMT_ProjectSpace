@@ -13,7 +13,6 @@ namespace JMT.UISystem.Rocket
             view.OnExitEvent += ClosePanel;
         }
 
-
         private void OnDestroy()
         {
             view.OnUpgradeEvent -= HandleUpgradeEvent;

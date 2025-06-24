@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace JMT.UISystem.Dialogue
@@ -16,13 +18,14 @@ namespace JMT.UISystem.Dialogue
     }
     public class DialogueController : MonoBehaviour
     {
+        public event Action OnEndEvent;
+
         [SerializeField] private DialogueView view;
         [SerializeField] private TouchScreen touchScreen;
 
         private DialogueModel model = new();
 
         private Queue<DialogueData> dialogueDatas = new();
-        private bool isComplete = false;
 
         private void Awake()
         {
@@ -34,7 +37,7 @@ namespace JMT.UISystem.Dialogue
             touchScreen.OnClickEvent -= HandleClickEvent;
         }
 
-        public async void StartDialogue(string range)
+        public async Task StartDialogue(string range)
         {
             string data = await model.LoadDataAsync(range);
             dialogueDatas = model.SettingDialogueData(data);
@@ -43,14 +46,12 @@ namespace JMT.UISystem.Dialogue
 
         private void HandleClickEvent()
         {
-            if (!isComplete)
+            if (!view.IsEnd)
             {
-                isComplete = true;
                 view.SkipDescription();
             }
             else
             {
-                isComplete = false;
                 SetDialogue();
             }
         }
@@ -65,7 +66,7 @@ namespace JMT.UISystem.Dialogue
             else
             {
                 view.CloseUI();
-                Debug.Log("끝낫어요");
+                OnEndEvent?.Invoke();
             }
         }
     }

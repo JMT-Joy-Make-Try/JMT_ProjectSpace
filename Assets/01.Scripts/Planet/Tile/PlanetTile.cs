@@ -81,12 +81,12 @@ namespace JMT.Planets.Tile
         {
             gameObject.layer = LayerMask.NameToLayer("Ground");
             pvc.SetVisualActive(true);
-            OnBuild?.Invoke();
             
             if (_currentBuilding == null)
                 _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
             _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvc);
 
+            OnBuild?.Invoke();
             ChangeInteraction<HoldingInteraction>();
         }
 
