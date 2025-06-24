@@ -16,6 +16,7 @@ namespace JMT
         [SerializeField] private ParticleSystem _dustEffect;
         [SerializeField] private FillBarUI fillBarUI;
         [SerializeField] private PVCUI pvcUI;
+        private Animator _aniamtor;
 
         private float _progressTime = 0;
         private bool _isHold = false;
@@ -30,6 +31,7 @@ namespace JMT
         {
             fillBarUI ??= GetComponent<FillBarUI>();
             pvcUI ??= GetComponent<PVCUI>();
+            _aniamtor = GetComponent<Animator>();
         }
 
         private void Start()
@@ -111,10 +113,11 @@ namespace JMT
 
             sequence.Play();
         }
-        
+
         public void SetVisualActive(bool isActive)
         {
             pvcObject.SetActive(isActive);
+            _aniamtor.SetTrigger("Trigger");
         }
     }
 }

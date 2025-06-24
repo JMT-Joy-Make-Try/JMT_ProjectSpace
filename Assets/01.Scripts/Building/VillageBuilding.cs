@@ -48,8 +48,9 @@ namespace JMT.Building
             }
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _spawnPos = BuildingManager.Instance.BaseBuilding.transform.position;
         }
         

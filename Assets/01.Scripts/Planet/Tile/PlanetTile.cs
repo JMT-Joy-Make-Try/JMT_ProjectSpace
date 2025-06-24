@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
 using JMT.QuestSystem;
-using System.Collections;
+using JMT.Agent.Trader;
 
 namespace JMT.Planets.Tile
 {
@@ -40,6 +40,8 @@ namespace JMT.Planets.Tile
         
         private bool _isGroup = false;
         private PlanetTileGroup _tileGroup;
+        private Trader _trader;
+        public Trader Trader => _trader;
 
         private void Awake()
         {
@@ -51,7 +53,7 @@ namespace JMT.Planets.Tile
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>();
-            
+
             if (TileInteraction == null)
             {
                 TileInteraction = transform.GetComponentInChildren<TileInteraction>();
@@ -156,6 +158,11 @@ namespace JMT.Planets.Tile
 
         public T GetInteraction<T>() where T : TileInteraction
         {
+            if (IsTraderOnTile())
+            {
+                _trader.Interact();
+                return null;
+            }
             canInteraction = true;
             var interaction = TileInteraction.GetComponent<T>();
 
@@ -194,6 +201,16 @@ namespace JMT.Planets.Tile
         public void SetColor(Color color)
         {
             Renderer.material.SetColor(BaseColor, color);
+        }
+
+        public void SetTrader(Trader trader)
+        {
+            _trader = trader;
+        }
+
+        public bool IsTraderOnTile()
+        {
+            return _trader != null;
         }
     }
 }
