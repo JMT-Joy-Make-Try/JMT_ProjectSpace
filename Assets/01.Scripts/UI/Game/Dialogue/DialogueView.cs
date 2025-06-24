@@ -35,14 +35,52 @@ namespace JMT.UISystem.Dialogue
             isEnd = false;
             builder.Clear();
             this.desc = desc;
-            foreach (char text in desc)
-            {
-                builder.Append(text);
-                descText.text = builder.ToString();
 
+            Stack<string> tagStack = new();
+            StringBuilder visibleText = new();
+
+            for (int i = 0; i < desc.Length; i++)
+            {
+                char c = desc[i];
+                if (c == '<')
+                {
+                    int tagEnd = desc.IndexOf('>', i);
+                    if (tagEnd == -1) break;
+
+                    string fullTag = desc.Substring(i, tagEnd - i + 1);
+                    bool isClosing = fullTag.StartsWith("</");
+
+                    if (!isClosing)
+                    {
+                        tagStack.Push(fullTag);
+                    }
+                    else
+                    {
+                        if (tagStack.Count > 0) tagStack.Pop();
+                    }
+
+                    visibleText.Append(fullTag);
+                    i = tagEnd;
+                    continue;
+                }
+
+                visibleText.Append(c);
+
+                builder.Clear();
+                builder.Append(visibleText.ToString());
+
+                foreach (var tag in tagStack)
+                {
+                    string closing = "</" + tag.Substring(1); // <b> -> </b>
+                    builder.Append(closing);
+                }
+
+                descText.text = builder.ToString();
                 yield return waitTime;
             }
-            SkipDescription();
+
+            dialogueRoutine = null;
+            isEnd = true;
         }
 
         public void SkipDescription()
