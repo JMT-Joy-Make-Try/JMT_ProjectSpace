@@ -60,7 +60,6 @@ namespace JMT.Object
                 return;
             }
             AgentManager.Instance.Player.InventoryCompo.AddItem(_itemSO);
-            Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);
         }
     }
