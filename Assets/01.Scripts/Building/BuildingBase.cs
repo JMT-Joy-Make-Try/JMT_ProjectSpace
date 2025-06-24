@@ -15,6 +15,7 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour
     {
+        [SerializeField] private bool _isOnceBuild = false;
         [SerializeField] private BuildingDataSO buildingDataSO;
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
@@ -32,7 +33,7 @@ namespace JMT.Building
             BuildingManager.Instance.AddBuilding(this);
             AddEvents();
             var buildingLevel = GetBuildingComponent<BuildingLevel>();
-            NightSummaryManager.Instance.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
+            NightSummaryManager.Instance?.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
         }
         
         protected virtual void OnDestroy()
@@ -62,6 +63,8 @@ namespace JMT.Building
         {
             var interaction = GetPlanetTile().ChangeInteraction<ProgressInteraction>();
             interaction.Interaction();
+            if (_isOnceBuild)
+                BuildingManager.Instance.GetDictionary().Remove(buildingDataSO);
         }
 
         private void HandleWorkingEvent(bool isWorking)
