@@ -32,7 +32,7 @@ namespace JMT.Building
             BuildingManager.Instance.AddBuilding(this);
             AddEvents();
             var buildingLevel = GetBuildingComponent<BuildingLevel>();
-            NightSummaryManager.Instance.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
+            NightSummaryManager.Instance?.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
         }
         
         protected virtual void OnDestroy()
