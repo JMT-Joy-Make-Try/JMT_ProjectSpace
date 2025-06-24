@@ -12,6 +12,7 @@ namespace JMT.Building.Component
     {
         [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
         [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
+        [field: SerializeField] public AutoSoundPlayer AutoSoundPlayer { get; private set; } 
         public BuildingBase Building { get; private set; }
         
         public bool IsBuilding { get; private set; }

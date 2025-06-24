@@ -52,10 +52,12 @@ namespace JMT.Building
             if (isWorking)
             {
                 Work();
+                GetBuildingComponent<BuildingBuilder>().AutoSoundPlayer.PlaySound();
             }
             else
             {
                 StopWork();
+                GetBuildingComponent<BuildingBuilder>().AutoSoundPlayer.StopSound();
             }
         }
 
