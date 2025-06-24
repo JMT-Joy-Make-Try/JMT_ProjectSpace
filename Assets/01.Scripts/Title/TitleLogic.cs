@@ -11,6 +11,8 @@ namespace JMT
         [SerializeField] private TitleAnimation titleAnim;
         [SerializeField] private TItleFade titleFade;
 
+        private bool isTrue;
+
         private void Awake()
         {
             inputSO.OnTouchEvent += HandleTouchEvent;
@@ -21,7 +23,13 @@ namespace JMT
         private void HandleTouchEvent()
         {
             if (titleAnim.IsEnd)
-                SceneManager.LoadScene("Timeline");
+            {
+                if(!isTrue)
+                {
+                    isTrue = true;
+                    SceneManager.LoadScene("Timeline");
+                }
+            }
             else
             {
                 titleAnim.SkipAnimation();
