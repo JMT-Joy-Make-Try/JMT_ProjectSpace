@@ -78,6 +78,8 @@ namespace JMT.Planets.Tile
             if (_isCompleteReceive && !_isBuildComplete)
             {
                 _isBuildComplete = true;
+                pvc.PVCUI.ActiveItemUI(false);
+                pvc.PVCUI.ActiveFillUI(true);
                 planetTile.Build(BuildingManager.Instance.CurrentBuilding, pvc);
             }
             
@@ -112,6 +114,7 @@ namespace JMT.Planets.Tile
             {
                 StartCoroutine(DelayBuild());
             }
+            OnChangedDataEvent?.Invoke(_preBuildItemDatas);
         }
 
         private IEnumerator DelayBuild()

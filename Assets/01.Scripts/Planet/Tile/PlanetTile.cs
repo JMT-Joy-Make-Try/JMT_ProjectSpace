@@ -37,6 +37,9 @@ namespace JMT.Planets.Tile
         private TileList _tileList;
         private Vector2Int _position;
         public Vector2Int Position => _position;
+        
+        private bool _isGroup = false;
+        private PlanetTileGroup _tileGroup;
 
         private void Awake()
         {
@@ -78,12 +81,12 @@ namespace JMT.Planets.Tile
         {
             gameObject.layer = LayerMask.NameToLayer("Ground");
             pvc.SetVisualActive(true);
-            OnBuild?.Invoke();
             
             if (_currentBuilding == null)
                 _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
             _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvc);
 
+            OnBuild?.Invoke();
             ChangeInteraction<HoldingInteraction>();
         }
 
@@ -95,9 +98,16 @@ namespace JMT.Planets.Tile
                 _currentBuilding = null;
             }
         }
+        
+        
 
         public T AddInteraction<T>() where T : TileInteraction
         {
+            if (_isGroup)
+            {
+                _tileGroup.AddInteraction<T>();
+                return _tileGroup.GetInteraction<T>();
+            }
             TileInteraction = TileInteraction.AddComponent<T>();
             OnChangeInteraction?.Invoke(TileInteraction);
             string interactionName = TileInteraction.GetType().Name.Replace("Interaction", "");
@@ -117,6 +127,11 @@ namespace JMT.Planets.Tile
 
         public void RemoveInteraction()
         {
+            if (_isGroup)
+            {
+                _tileGroup.RemoveInteraction();
+                return;
+            }
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
@@ -168,10 +183,6 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
-            // if (Fog.IsFogActive)
-            // {
-            //     _tileList.LineRenderer.enabled = enable;
-            // }
         }
 
         public void TestBuild(BuildingDataSO building)

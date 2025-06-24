@@ -44,7 +44,7 @@ namespace JMT.Agent
 
         public void ChangeStateDelay(T state, float delayTime)
         {
-            if (_agent.HealthCompo.IsDead) return;
+            if (_agent.HealthCompo != null && _agent.HealthCompo.IsDead) return;
             StartCoroutine(Change(delayTime, state));
         }
 

@@ -1,30 +1,39 @@
 using JMT.Agent;
+using JMT.DialogueSystem;
 using JMT.Planets.Tile;
 using JMT.QuestSystem;
-using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[Serializable]
+public struct TileDialogue
+{
+    public PlanetTile Tile;
+    public string DialogueRange;
+}
 public class QuestBase : MonoBehaviour, IQuestTarget
 {
-    [SerializeField] protected List<PlanetTile> tiles;
+    [SerializeField] protected List<TileDialogue> tileDialogues;
     [SerializeField] private QuestSO questData;
     public QuestSO QuestData => questData;
-    public List<PlanetTile> Tiles => tiles;
-    public List<QuestPing> QuestPing => tiles.Select(t => t.QuestPing).ToList();
+    public List<PlanetTile> Tiles => tileDialogues.Select(t => t.Tile).ToList();
+    public List<string> Ranges => tileDialogues.Select(t => t.DialogueRange).ToList();
+    public List<QuestPing> QuestPing => Tiles.Select(t => t.QuestPing).ToList();
     public QuestState QuestState { get; private set; }
 
     public bool IsActive { get; private set; }
     public bool CanRunQuest => QuestState == QuestState.InProgress && IsActive;
-    public int CompleteCount => tiles.Count(t => t.QuestPing.IsEnable);
-    public bool IsComplete => tiles.All(t => !t.QuestPing.IsEnable);
+    public int CompleteCount => Tiles.Count(t => !t.QuestPing.IsEnable);
+    public bool IsComplete => Tiles.All(t => !t.QuestPing.IsEnable);
 
     public virtual void RunQuest(int num)
     {
+        if (QuestState != QuestState.InProgress) return;
         QuestPing[num].DisablePing();
         QuestCountEvent();
+        DialogueManager.Instance.StartDialogue(Ranges[num]);
 
         if (IsComplete)
         {
@@ -32,7 +41,7 @@ public class QuestBase : MonoBehaviour, IQuestTarget
             GetReward(QuestData);
         }
     }
-    
+
     private void GetReward(QuestSO questData)
     {
         foreach (var rewardType in questData.questRewardTypes)
@@ -51,15 +60,15 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     public virtual void Enable()
     {
-        QuestCountEvent();
         QuestState = QuestState.InProgress;
         IsActive = true;
-        for(int i = 0; i < tiles.Count; i++)
+        for (int i = 0; i < tileDialogues.Count; i++)
         {
-            if (tiles != null && tiles[i].QuestPing != null)
+            if (tileDialogues != null && Tiles[i].QuestPing != null)
                 QuestPing[i].EnablePing();
         }
-        
+
+        QuestCountEvent();
         Debug.Log("Quest enabled: " + QuestData.questName);
     }
 
@@ -67,5 +76,8 @@ public class QuestBase : MonoBehaviour, IQuestTarget
         => QuestState = state;
 
     private void QuestCountEvent()
-        => QuestManager.Instance.OnQuestCountEvent?.Invoke($"{CompleteCount}/{QuestPing.Count}");
+    {
+        Debug.Log($"{CompleteCount}/{QuestPing.Count}");
+        QuestManager.Instance.OnQuestCountEvent?.Invoke($"{CompleteCount}/{QuestPing.Count}");
+    }
 }

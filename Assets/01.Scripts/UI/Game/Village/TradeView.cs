@@ -1,3 +1,4 @@
+using JMT.Agent.Trader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,15 @@ using UnityEngine.UI;
 
 namespace JMT.UISystem.Village
 {
-    public class VillageView : PanelUI
+    public class TradeView : PanelUI
     {
         public event Action OnAcceptEvent;
         public event Action OnExitEvent;
 
+        [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI descText;
-        [SerializeField] private CellUI workerCell;
+        [SerializeField] private TextMeshProUGUI receiveText;
+        [SerializeField] private CellUI receiveCell;
         [SerializeField] private Transform needItemListTrm;
         [SerializeField] private Button acceptButton, exitButton;
         
@@ -32,15 +35,16 @@ namespace JMT.UISystem.Village
             exitButton.onClick.RemoveListener(HandleCloseButton);
         }
 
-        public void SetVillagePanel(VillageSO villageSO)
+        public void SetVillagePanel(ITradeable trade)
         {
-            descText.text = villageSO.VillageDescription;
-            workerCell.SetCell(null, $"X {villageSO.AddWorkerCount}");
-            
+            titleText.text = trade.TitleText;
+            descText.text = trade.Description;
+            receiveText.text = trade.ReceiveText;
+            receiveCell.SetCell(null, $"X {trade.ReceiveCount}");
 
             for(int i = 0; i < needItems.Count; i++)
             {
-                var pairs = villageSO.NeedItems.ToList();
+                var pairs = trade.NeedItems.ToList();
                 bool isNeedItem = i < pairs.Count;
 
                 if (isNeedItem)

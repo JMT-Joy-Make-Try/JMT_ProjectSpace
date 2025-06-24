@@ -23,6 +23,7 @@ namespace JMT.Planet.Tile
         public override void Interaction()
         {
             base.Interaction();
+            Debug.Log("ProgressInteraction Interaction called");
             BuildingBase building = GetComponentInChildren<BuildingBase>();
             var builder = building.GetBuildingComponent<BuildingBuilder>();
             if (!builder.IsBuilding) return;

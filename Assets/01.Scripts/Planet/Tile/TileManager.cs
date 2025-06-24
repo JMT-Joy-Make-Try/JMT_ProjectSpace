@@ -19,7 +19,11 @@ namespace JMT.Planets.Tile
             set
             {
                 if (_planetTile != null)
+                {
                     _planetTile.EdgeEnable(false);
+                    
+                }
+                
                 _planetTile = value;
                 _planetTile.EdgeEnable(true);
             }

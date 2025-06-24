@@ -21,7 +21,7 @@ namespace JMT.Planets.Tile
                 var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
                 item.transform.position = transform.position + Vector3.up * 5f;
                 item.IsCollectable = true;
-                item.SetItemType(itemType);
+                item.SetItem(itemType);
             }
             //GameUIManager.Instance.InventoryCompo.AddItem(itemType, itemCount);
             TileManager.Instance.CurrentTile.RemoveInteraction();

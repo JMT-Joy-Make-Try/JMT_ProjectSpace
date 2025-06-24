@@ -1,3 +1,4 @@
+using DG.Tweening;
 using JMT.QuestSystem;
 using System;
 using UnityEngine;
@@ -11,14 +12,14 @@ namespace JMT.UISystem.Quest
         private void Awake()
         {
             QuestManager.Instance.OnQuestStartEvent += HandleQuestStartEvent;
-            QuestManager.Instance.OnQuestEndEvent += view.CloseUI;
+            QuestManager.Instance.OnQuestEndEvent += HandleQuestEndEvent;
             QuestManager.Instance.OnQuestCountEvent += HandleQuestCountEvent;
         }
 
         private void OnDestroy()
         {
             QuestManager.Instance.OnQuestStartEvent -= HandleQuestStartEvent;
-            QuestManager.Instance.OnQuestEndEvent -= view.CloseUI;
+            QuestManager.Instance.OnQuestEndEvent -= HandleQuestEndEvent;
             QuestManager.Instance.OnQuestCountEvent -= HandleQuestCountEvent;
         }
 
@@ -26,6 +27,14 @@ namespace JMT.UISystem.Quest
         {
             view.SetQuestView(SO);
             
+        }
+
+        private void HandleQuestEndEvent()
+        {
+            Sequence seq = DOTween.Sequence();
+            seq.AppendCallback(() => view.QuestComplete());
+            seq.AppendInterval(0.6f);
+            seq.AppendCallback(() => view.CloseUI());
         }
 
         private void HandleQuestCountEvent(string count)

@@ -1,9 +1,11 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using JMT.Core;
 using JMT.Core.Tool.PoolManager;
 using JMT.Core.Tool.PoolManager.Core;
+using JMT.DataSystem;
 using JMT.Item;
 using JMT.Object;
+using JMT.UISystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,33 +15,46 @@ namespace JMT.Agent.Trader
 {
     public class Trader : AgentAI<TraderStateEnum>, IInteractable
     {
-        [SerializeField] private SerializedDictionary<ItemSO, int> _tradeItems = new SerializedDictionary<ItemSO, int>();
-        
+        public event Action OnInteractEvent;
+
         private Dictionary<Type, ITraderComponent> _componentLookup = new Dictionary<Type, ITraderComponent>();
         
-        public SerializedDictionary<ItemSO, int> TradeItems => _tradeItems;
-        public event Action OnInteract;
         
         public override void Init()
         {
             InitTraderComponents();
             base.Init();
+            var tradeItem = RandomDataSystem.Instance.GetRandomTraderTradeSO();
+            var tradeCompo = GetTraderComponent<TraderTrade>();
+            tradeCompo.SetTradeItem(tradeItem);
             StateMachineCompo.ChangeState(TraderStateEnum.Idle);
+            GameUIManager.Instance.InteractCompo.OnTraderInteractEvent += Interact;
+
+            tradeCompo.TraderTradeSO.OnStartTradeEvent += BuyStart;
         }
 
-        protected override void Update()
+        private void BuyStart()
         {
-            base.Update();
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Interact();
-            }
+            StateMachineCompo.ChangeState(TraderStateEnum.Buy);
+            Debug.Log($"CurrentState {StateMachineCompo.CurrentState}");
         }
 
+
+        private void OnDestroy()
+        {
+            if (GameUIManager.Instance == null) return;
+            GameUIManager.Instance.InteractCompo.OnTraderInteractEvent -= Interact;
+
+            var tradeSO = GetTraderComponent<TraderTrade>().TraderTradeSO;
+            tradeSO.OnStartTradeEvent -= BuyStart;
+        }
+        
         public void Interact()
         {
-            OnInteract?.Invoke();
             StateMachineCompo.ChangeState(TraderStateEnum.Interact);
+            var tradeSO = GetTraderComponent<TraderTrade>().TraderTradeSO;
+            GameUIManager.Instance.VillageCompo.OpenPanel(tradeSO);
+            OnInteractEvent?.Invoke();
         }
 
         private void InitTraderComponents()

@@ -4,13 +4,13 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tiles[0].OnPrebuild += HandleRunQuest;
+            Tiles[0].OnPrebuild += HandleRunQuest;
         }
 
         private void OnDestroy()
         {
-            if (tiles == null) return;
-            tiles[0].OnPrebuild -= HandleRunQuest;
+            if (Tiles == null) return;
+            Tiles[0].OnPrebuild -= HandleRunQuest;
         }
 
         private void HandleRunQuest()
@@ -20,7 +20,7 @@ namespace JMT.QuestSystem
 
         public override void Enable()
         {
-            tiles[0].QuestPing.SelectPingLocation(true);
+            Tiles[0].QuestPing.SelectPingLocation(true);
             base.Enable();
         }
     }
