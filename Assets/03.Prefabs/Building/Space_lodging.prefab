@@ -73,7 +73,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3df57eeaa7455e921a88574b1ce2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isOnceBuild: 0
   buildingDataSO: {fileID: 11400000, guid: 88977df52fa71b14d958a2172f5ffce3, type: 2}
+  _collider: {fileID: 5264134022268554522}
   _npcCount: 3
 --- !u!114 &1143328055804512936
 MonoBehaviour:
@@ -334,6 +336,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c9bf17d82569474b94148741a6e00eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7522425470331807375}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c9bf17d82569474b94148741a6e00eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5264134022268554522}
   m_SourcePrefab: {fileID: 100100000, guid: 5c9bf17d82569474b94148741a6e00eb, type: 3}
 --- !u!23 &7067356093875717707 stripped
 MeshRenderer:
@@ -372,6 +377,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &5264134022268554522
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724799161167783838}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.0234334, y: 3.311198, z: 2.5188093}
+  m_Center: {x: -0.00000011920936, y: -0.00000018105607, z: 1.2594045}
 --- !u!1001 &9020536461517243070
 PrefabInstance:
   m_ObjectHideFlags: 0
