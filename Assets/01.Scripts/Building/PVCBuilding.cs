@@ -97,7 +97,7 @@ namespace JMT
         public void PlayAnimation()
         {
             _dustEffect.Play();
-            pvcUI.ActiveUI(false);
+            pvcUI.ActiveFillUI(false);
             Sequence sequence = DOTween.Sequence();
             for (int i = 0; i < _walls.Count; i++)
             {
