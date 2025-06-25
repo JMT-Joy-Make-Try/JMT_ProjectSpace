@@ -84,7 +84,7 @@ namespace JMT.PlayerCharacter
             ChangeState(PlayerState.Idle);
         }
 
-        private void ChangeState(PlayerState state) 
+        public void ChangeState(PlayerState state) 
         {
             AnimCompo.SetBool(stateHash[curState], false);
             ToolAnimCompo?.SetBool(stateHash[curState], false);
@@ -119,14 +119,6 @@ namespace JMT.PlayerCharacter
             if (ToolAnimCompo != null)
             {
                 ToolAnimCompo.SetBool(stateHash[curState], true);
-            }
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ChangeState(PlayerState.Sleep);
             }
         }
     }
