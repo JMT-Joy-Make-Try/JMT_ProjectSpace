@@ -17,6 +17,8 @@ namespace JMT.CameraSystem
         
         [Header("Extension")]
         [SerializeField] private CinemachineImpulseSource _mainImpulseSource;
+
+        public event Action OnCameraZoom;
         private CinemachineFollow _cinemachineFollow;
         
         private Vector3 _defaultCameraPosition;
@@ -40,36 +42,30 @@ namespace JMT.CameraSystem
             _defaultFollowOffset = _cinemachineFollow.FollowOffset;
         }
 
-        // private void Start()
-        // {
-        //     GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
-        // }
+        private void Start()
+        {
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
+        }
 
-        // private void OnDestroy()
-        // {
-        //     if (GameUIManager.Instance != null)
-        //     {
-        //         GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
-        //     }
-        // }
+        private void OnDestroy()
+        {
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
+            }
+        }
 
         private void HandleNightEvent(DaytimeType obj)
         {
-            Sequence sequence = DOTween.Sequence();
             if (obj == DaytimeType.Night)
             {
-                sequence.Append(_mainCamera.DOZoom(12f, 1f));
-                sequence.AppendCallback(() => RotationCamera(new Vector3(-7.5f, 45, 0), 1f));
-                sequence.AppendCallback(() => SetFollowOffset(26.9f, 1f));
+                _mainCamera.DOZoom(16f, 1f);
+                OnCameraZoom?.Invoke();
             }
             else if (obj == DaytimeType.Day)
             {
-                sequence.Append(_mainCamera.DOZoom(14f, 1f));
-                sequence.AppendCallback(() => RotationCamera(new Vector3(-7.5f, 45, 0), 1f));
-                sequence.AppendCallback(() => SetFollowOffset(12.6f, 1f));
+                _mainCamera.DOZoom(14f, 1f);
             }
-            
-            sequence.Play();
         }
 
         public void ShakeCamera(float strength)
