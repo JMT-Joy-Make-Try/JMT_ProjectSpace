@@ -14,8 +14,9 @@ namespace JMT.Agent.NPC
         [field: SerializeField] public NPCWorkData WorkData { get; private set; }
         [field: SerializeField] public NPCWork WorkCompo { get; private set; }
         [field: SerializeField] public NPCStat StatCompo { get; private set; }
+        [field: SerializeField] public NPCBuildingFinder BuildingFinderCompo { get; private set; }
         
-        [field:SerializeField] public AgentType AgentType { get; private set; }
+        [field: SerializeField] public AgentType AgentType { get; private set; }
         private NPCStatUI npcStatUI;
         
         public event Action<AgentType> OnTypeChanged;
@@ -36,6 +37,7 @@ namespace JMT.Agent.NPC
         {
             StatCompo = GetComponent<NPCStat>();
             npcStatUI = GetComponent<NPCStatUI>();
+            BuildingFinderCompo = GetComponent<NPCBuildingFinder>();
             StatCompo?.Initialize(this);
             base.Awake();
             
@@ -48,6 +50,7 @@ namespace JMT.Agent.NPC
             WorkData?.Initialize(this);
             WorkCompo?.Initialize(this);
             ClothCompo?.Initialize(this);
+            BuildingFinderCompo?.Initialize(this);
             
             StatCompo?.AddListener<Action>(NPCStatEventType.OnDeath, HandleDeath);
             StatCompo?.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);

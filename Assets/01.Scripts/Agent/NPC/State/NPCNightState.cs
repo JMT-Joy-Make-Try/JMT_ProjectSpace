@@ -1,8 +1,6 @@
 using JMT.Agent.NPC;
 using JMT.Building;
 using JMT.Building.Component;
-using JMT.Core.Manager;
-using UnityEngine;
 
 namespace JMT.Agent.State
 {
@@ -18,19 +16,13 @@ namespace JMT.Agent.State
             _npcMovement = agent.MovementCompo as NPCMovement;
         }
 
-        public override void EnterState()
+        public async override void EnterState()
         {
             base.EnterState();
             
-            var lodging = FindLodgingBuilding();
+            var lodging = await _npcAgent.BuildingFinderCompo.FindNearbyBuilding<LodgingBuilding>();
             _npcMovement.SetBuilding(lodging);
             _npcMovement.Move(lodging.GetBuildingComponent<BuildingNPC>().WorkPosition.position, 10);
-        }
-
-        private LodgingBuilding FindLodgingBuilding()
-        {
-            var lodgingBuildings = BuildingManager.Instance.LodgingBuildings;
-            return lodgingBuildings[Random.Range(0, lodgingBuildings.Count)];
         }
     }
 }
