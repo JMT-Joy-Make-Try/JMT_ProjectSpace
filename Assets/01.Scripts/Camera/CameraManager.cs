@@ -40,18 +40,18 @@ namespace JMT.CameraSystem
             _defaultFollowOffset = _cinemachineFollow.FollowOffset;
         }
 
-        private void Start()
-        {
-            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
-        }
+        // private void Start()
+        // {
+        //     GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
+        // }
 
-        private void OnDestroy()
-        {
-            if (GameUIManager.Instance != null)
-            {
-                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
-            }
-        }
+        // private void OnDestroy()
+        // {
+        //     if (GameUIManager.Instance != null)
+        //     {
+        //         GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
+        //     }
+        // }
 
         private void HandleNightEvent(DaytimeType obj)
         {

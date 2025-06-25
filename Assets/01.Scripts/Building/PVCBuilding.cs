@@ -47,6 +47,7 @@ namespace JMT
 
         private void HandleHoldEvent(bool isHold)
         {
+            if (AgentManager.Instance.Player.TileFindingCompo.IsTileIsHold()) return;
             var curTile = TileManager.Instance.CurrentTile;
             var myTile = GetComponentInParent<PlanetTile>();
             if (curTile == myTile)
