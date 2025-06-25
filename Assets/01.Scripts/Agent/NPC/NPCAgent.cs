@@ -56,7 +56,8 @@ namespace JMT.Agent.NPC
             StatCompo?.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
-            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleNightEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleDayEvent;
             
             StateMachineCompo.ChangeState(NPCState.Idle);
         }
@@ -69,15 +70,28 @@ namespace JMT.Agent.NPC
             StatCompo?.RemoveListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
             StatCompo?.RemoveListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
             if (GameUIManager.Instance != null)
-                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
+            {
+                GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleNightEvent;
+                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleDayEvent;
+            }
         }
 
-        private void HandleNightEvent(DaytimeType daytimeType)
+        private void HandleDayEvent(DaytimeType type)
         {
-            if (daytimeType == DaytimeType.Night)
+            // if (type == DaytimeType.Day &&
+            // GameUIManager.Instance.TimeCompo)
+            // {
+                
+            // }
+        }
+
+        private void HandleNightEvent(int m, int s)
+        {
+            if (m == 0 && s == 10)
             {
                 WorkCompo.CurrentWorkingBuilding?.GetBuildingComponent<BuildingWorker>().StopWork();
                 StateMachineCompo.ChangeState(NPCState.Night);
+                ClothCompo.ChangeCloth(AgentType.Base);
             }
         }
 

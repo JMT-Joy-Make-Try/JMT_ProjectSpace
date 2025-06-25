@@ -7,6 +7,8 @@ using UnityEngine;
 using JMT.Sound;
 using JMT.Agent;
 using JMT.Core;
+using JMT.DayTime;
+using System;
 
 namespace JMT.PlayerCharacter
 {
@@ -54,6 +56,7 @@ namespace JMT.PlayerCharacter
             
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
             HealthCompo.OnDamageEvent += HandleDamaged;
         }
 
@@ -74,7 +77,22 @@ namespace JMT.PlayerCharacter
             if (GameUIManager.Instance == null) return;
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
             HealthCompo.OnDamageEvent -= HandleDamaged;
+        }
+
+        private void HandleNightEvent(DaytimeType type)
+        {
+            if (type == DaytimeType.Night)
+            {
+                GameUIManager.Instance.PlayerControlActive(false);
+                AnimatorCompo.ChangeState(PlayerState.Sleep);
+            }
+            else if (type == DaytimeType.Day)
+            {
+                GameUIManager.Instance.PlayerControlActive(true);
+                AnimatorCompo.ChangeState(PlayerState.Idle);
+            }
         }
 
         private void HandleDamaged(int cur, int max)
