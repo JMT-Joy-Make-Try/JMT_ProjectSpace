@@ -56,6 +56,16 @@ namespace JMT.PlayerCharacter
             }
         }
 
+        public bool IsTileIsHold()
+        {
+            Physics.Raycast(startTrm.position, Vector3.down, out var hit, rayDistance, player.GroundLayer);
+            if (hit.transform.TryGetComponent(out PlanetTile planetTile))
+            {
+                return planetTile.TileInteraction.InteractType == InteractType.Holding;
+            }
+            return false;
+        }
+
         private void OnDrawGizmos()
         {
             if (startTrm == null) return;

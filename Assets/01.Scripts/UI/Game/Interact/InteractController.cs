@@ -41,11 +41,13 @@ namespace JMT.UISystem.Interact
         
         public void InfinityHold()
         {
+            GameUIManager.Instance.PlayerControlActive(false);
             OnHoldEvent?.Invoke(true);
         }
         
         public void StopInfinityHold()
         {
+            GameUIManager.Instance.PlayerControlActive(true);
             OnHoldEvent?.Invoke(false);
             isHold = false;
             EndHold();
