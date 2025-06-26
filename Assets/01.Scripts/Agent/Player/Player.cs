@@ -9,6 +9,8 @@ using JMT.Agent;
 using JMT.Core;
 using JMT.DayTime;
 using JMT.Effect;
+using JMT.Planets.Tile;
+using JMT.UISystem.Interact;
 using System;
 
 namespace JMT.PlayerCharacter
@@ -29,6 +31,7 @@ namespace JMT.PlayerCharacter
         public SoundPlayer SoundPlayer { get; private set; }
         public PlayerStat StatCompo { get; private set; }
         public EffectPlayer EffectCompo { get; private set; }
+        public PlayerEffect PlayerEffectCompo { get; private set; }
         
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
@@ -52,6 +55,7 @@ namespace JMT.PlayerCharacter
             TileFindingCompo = GetComponent<PlayerTileFinding>();
             StatCompo = GetComponent<PlayerStat>();
             EffectCompo = GetComponent<EffectPlayer>();
+            PlayerEffectCompo = GetComponent<PlayerEffect>();
             
             
             FogDetect = GetComponent<FogDetect>();
@@ -60,6 +64,7 @@ namespace JMT.PlayerCharacter
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
+            GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleItem;
             InputSO.OnMoveEvent += HandleMoveEffect;
             HealthCompo.OnDamageEvent += HandleDamaged;
         }
@@ -74,6 +79,7 @@ namespace JMT.PlayerCharacter
             FogDetect.Init(this);
             TileFindingCompo.Init(this);
             StatCompo.Init(this);
+            PlayerEffectCompo?.Init(this);
         }
 
         private void OnDestroy()
@@ -84,6 +90,21 @@ namespace JMT.PlayerCharacter
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
+            GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleItem;
+        }
+
+        private void HandleItem(bool isHold)
+        {
+            var item = TileManager.Instance.CurrentTile.TileInteraction.GetItemType();
+            if (isHold)
+            {
+                PlayerEffectCompo?.PlayEffect(item);
+            }
+            else
+            {
+                PlayerEffectCompo?.StopEffect(item);
+            }
+            
         }
 
         private void HandleMoveEffect(Vector2 movement)
