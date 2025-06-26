@@ -10,6 +10,7 @@ using JMT.Core;
 using JMT.DayTime;
 using JMT.Effect;
 using JMT.Planets.Tile;
+using JMT.Planets.Tile.Items;
 using JMT.UISystem.Interact;
 using System;
 
@@ -100,19 +101,25 @@ namespace JMT.PlayerCharacter
             {
                 if (PlayerToolCompo.IsEquippedTool(PlayerToolType.Vacuum))
                 {
-                    PlayerEffectCompo?.PlayEffect("PlayerDust");
-                    return;
+                    if (item == ItemType.Dust)
+                    {
+                        PlayerEffectCompo?.PlayEffect("PlayerDust");
+                        return;
+                    }
                 }
                 if (PlayerToolCompo.IsEquippedTool(PlayerToolType.FuelDropper))
                 {
-                    PlayerEffectCompo?.PlayEffect("PlayerFuel");
-                    return;
+                    if (item == ItemType.LiquidFuel)
+                    {
+                        PlayerEffectCompo?.PlayEffect("PlayerFuel");
+                        return;
+                    }
                 }
                 PlayerEffectCompo?.PlayEffect(item.ToString());
             }
             else
             {
-                PlayerEffectCompo?.StopEffect(item.ToString());
+                PlayerEffectCompo?.StopEffect();
             }
             
         }
