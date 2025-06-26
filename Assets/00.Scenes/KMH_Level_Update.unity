@@ -11621,6 +11621,8 @@ GameObject:
   - component: {fileID: 544593411}
   - component: {fileID: 544593410}
   - component: {fileID: 544593412}
+  - component: {fileID: 544593414}
+  - component: {fileID: 544593413}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: Untagged
@@ -11641,9 +11643,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 621942902}
-  <CameraShakerCompo>k__BackingField: {fileID: 0}
-  <CameraChangerCompo>k__BackingField: {fileID: 0}
-  <CameraTransformCompo>k__BackingField: {fileID: 0}
+  <CameraShakerCompo>k__BackingField: {fileID: 544593414}
+  <CameraChangerCompo>k__BackingField: {fileID: 544593412}
+  <CameraTransformCompo>k__BackingField: {fileID: 544593413}
+  _cameraEventSO: {fileID: 11400000, guid: 0eb7d47699831234eb9238e86ecd8765, type: 2}
 --- !u!4 &544593411
 Transform:
   m_ObjectHideFlags: 0
@@ -11676,6 +11679,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameras:
     _serializedList: []
+--- !u!114 &544593413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544593409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309eb43c8a2b7544e801e53e6c3abf07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &544593414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544593409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9b4e8eb57854641859467ebbccf8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainImpulseSource: {fileID: 1064232787}
+  _cameraEvent: {fileID: 11400000, guid: 0eb7d47699831234eb9238e86ecd8765, type: 2}
 --- !u!1 &544607779
 GameObject:
   m_ObjectHideFlags: 0

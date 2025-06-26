@@ -19,6 +19,7 @@ namespace JMT.CameraSystem
         [field: SerializeField] public CameraShaker CameraShakerCompo { get; private set; }
         [field: SerializeField] public CameraChanger CameraChangerCompo { get; private set; }
         [field: SerializeField] public CameraTransform CameraTransformCompo { get; private set; }
+        [SerializeField] private CameraEventSO _cameraEventSO;
         
         public CinemachineCamera MainCamera => _mainCamera;
 
@@ -55,6 +56,7 @@ namespace JMT.CameraSystem
             if (obj == DaytimeType.Night)
             {
                 _mainCamera.DOZoom(16f, 1f);
+                _cameraEventSO.Invoke();
             }
             else if (obj == DaytimeType.Day)
             {

@@ -17,9 +17,19 @@ namespace JMT.Core
             OnEventRaised -= listener;
         }
 
-        public void RaiseEvent(T value)
+        public void Invoke(T value)
         {
             OnEventRaised?.Invoke(value);
+        }
+        
+        public void ClearListeners()
+        {
+            OnEventRaised = null;
+        }
+
+        private void OnDestroy()
+        {
+            ClearListeners();
         }
     }
 
@@ -37,9 +47,14 @@ namespace JMT.Core
             OnEventRaised -= listener;
         }
 
-        public void RaiseEvent()
+        public void Invoke()
         {
             OnEventRaised?.Invoke();
+        }
+        
+        public void ClearListeners()
+        {
+            OnEventRaised = null;
         }
     }
 }
