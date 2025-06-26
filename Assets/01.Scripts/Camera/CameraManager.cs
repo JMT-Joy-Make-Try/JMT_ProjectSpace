@@ -13,18 +13,12 @@ namespace JMT.CameraSystem
     {
         [Header("Camera")]
         [SerializeField] private CinemachineCamera _mainCamera;
-        [Space]
+        
         
         [Header("Extension")]
-        [SerializeField] private CinemachineImpulseSource _mainImpulseSource;
-
-        public event Action OnCameraZoom;
-        private CinemachineFollow _cinemachineFollow;
-        
-        private Vector3 _defaultCameraPosition;
-        private Vector3 _defaultCameraRotation;
-        private Vector3 _defaultFollowOffset;
-        
+        [field: SerializeField] public CameraShaker CameraShakerCompo { get; private set; }
+        [field: SerializeField] public CameraChanger CameraChangerCompo { get; private set; }
+        [field: SerializeField] public CameraTransform CameraTransformCompo { get; private set; }
         
         public CinemachineCamera MainCamera => _mainCamera;
 
@@ -36,10 +30,11 @@ namespace JMT.CameraSystem
                 Debug.LogError("Main Camera is not assigned in CameraManager.");
                 return;
             }
-            
-            _defaultCameraRotation = _mainCamera.transform.rotation.eulerAngles;
-            _cinemachineFollow = _mainCamera.GetComponent<CinemachineFollow>();
-            _defaultFollowOffset = _cinemachineFollow.FollowOffset;
+            CameraShakerCompo = GetComponent<CameraShaker>();
+            CameraChangerCompo = GetComponent<CameraChanger>();
+            CameraTransformCompo = GetComponent<CameraTransform>();
+
+            CameraTransformCompo?.Init(_mainCamera);
         }
 
         private void Start()
@@ -49,7 +44,7 @@ namespace JMT.CameraSystem
 
         private void OnDestroy()
         {
-            if (GameUIManager.Instance != null)
+            if (GameUIManager.HasInstance)
             {
                 GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
             }
@@ -60,69 +55,11 @@ namespace JMT.CameraSystem
             if (obj == DaytimeType.Night)
             {
                 _mainCamera.DOZoom(16f, 1f);
-                OnCameraZoom?.Invoke();
             }
             else if (obj == DaytimeType.Day)
             {
                 _mainCamera.DOZoom(14f, 1f);
             }
-        }
-
-        public void ShakeCamera(float strength)
-        {
-            if (_mainImpulseSource != null)
-            {
-                _mainImpulseSource.GenerateImpulse(strength);
-            }
-        }
-        
-        public void ShakeCamera(float strength, float duration)
-        {
-            StartCoroutine(ImpulseCoroutine(strength, duration));
-        }
-
-        private IEnumerator ImpulseCoroutine(float strength, float duration)
-        {
-            float elapsedTime = 0;
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                _mainImpulseSource.GenerateImpulse(strength);
-                yield return null;
-            }
-        }
-        
-        public void RotationCamera(Vector3 rotation, float duration, Ease ease = Ease.Unset)
-        {
-            if (_mainCamera == null) return;
-
-            _mainCamera.transform.DORotate(rotation, duration)
-                .SetEase(ease);
-        }
-
-        private void SetFollowOffset(float y, float duration, Ease ease = Ease.Unset)
-        {
-            if (_cinemachineFollow == null) return;
-            //_cinemachineFollow.FollowOffset = new Vector3(_cinemachineFollow.FollowOffset.x, y, _cinemachineFollow.FollowOffset.z);
-            _cinemachineFollow.DOFollowOffset(
-                new Vector3(_cinemachineFollow.FollowOffset.x, y, _cinemachineFollow.FollowOffset.z),
-                duration, ease);
-        }
-        
-        private void SetCameraYPosition(float y, float duration, Ease ease = Ease.Unset)
-        {
-            if (_mainCamera == null) return;
-
-            _mainCamera.transform.DOMoveY(y, duration)
-                .SetEase(ease);
-        }
-        
-        public void ResetCamera()
-        {
-            if (_mainCamera == null) return;
-
-            _mainCamera.transform.rotation = Quaternion.Euler(_defaultCameraRotation);
-            _cinemachineFollow.FollowOffset = _defaultFollowOffset;
         }
     }
 }
