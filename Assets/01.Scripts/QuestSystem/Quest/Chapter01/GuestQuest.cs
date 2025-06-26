@@ -14,7 +14,7 @@ namespace JMT.QuestSystem
 
         private void OnDestroy()
         {
-            if(AgentManager.Instance.Trader != null)
+            if (AgentManager.HasInstance && AgentManager.Instance.Trader != null)
                 AgentManager.Instance.Trader.OnInteractEvent -= HandleInteractEvent;
         }
 
