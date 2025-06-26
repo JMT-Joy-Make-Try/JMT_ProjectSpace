@@ -8,6 +8,7 @@ using JMT.Sound;
 using JMT.Agent;
 using JMT.Core;
 using JMT.DayTime;
+using JMT.Effect;
 using System;
 
 namespace JMT.PlayerCharacter
@@ -27,6 +28,7 @@ namespace JMT.PlayerCharacter
         public Transform VisualTrm { get; private set; }
         public SoundPlayer SoundPlayer { get; private set; }
         public PlayerStat StatCompo { get; private set; }
+        public EffectPlayer EffectCompo { get; private set; }
         
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
@@ -49,6 +51,7 @@ namespace JMT.PlayerCharacter
             MovementCompo = GetComponent<PlayerMovement>();
             TileFindingCompo = GetComponent<PlayerTileFinding>();
             StatCompo = GetComponent<PlayerStat>();
+            EffectCompo = GetComponent<EffectPlayer>();
             
             
             FogDetect = GetComponent<FogDetect>();
@@ -57,6 +60,7 @@ namespace JMT.PlayerCharacter
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
+            InputSO.OnMoveEvent += HandleMoveEffect;
             HealthCompo.OnDamageEvent += HandleDamaged;
         }
 
@@ -74,11 +78,24 @@ namespace JMT.PlayerCharacter
 
         private void OnDestroy()
         {
+            HealthCompo.OnDamageEvent -= HandleDamaged;
+            InputSO.OnMoveEvent -= HandleMoveEffect;
             if (GameUIManager.Instance == null) return;
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
             GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
-            HealthCompo.OnDamageEvent -= HandleDamaged;
+        }
+
+        private void HandleMoveEffect(Vector2 movement)
+        {
+            if (movement.sqrMagnitude > 0.01f)
+            {
+                EffectCompo.PlayEffect();
+            }
+            else
+            {
+                EffectCompo.StopEffect();
+            }
         }
 
         private void HandleNightEvent(DaytimeType type)
