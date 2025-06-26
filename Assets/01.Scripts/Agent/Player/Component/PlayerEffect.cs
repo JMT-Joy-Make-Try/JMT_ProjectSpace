@@ -7,14 +7,14 @@ namespace JMT.PlayerCharacter
 {
     public class PlayerEffect : MonoBehaviour, IPlayerComponent
     {
-        [SerializeField] private SerializedDictionary<ItemType, EffectPlayer> _effects;
+        [SerializeField] private SerializedDictionary<string, EffectPlayer> _effects;
         
         public void Init(IPlayer player)
         {
             
         }
         
-        public void PlayEffect(ItemType itemType)
+        public void PlayEffect(string itemType)
         {
             if (_effects.TryGetValue(itemType, out var effectPlayer))
             {
@@ -26,7 +26,7 @@ namespace JMT.PlayerCharacter
             }
         }
         
-        public void StopEffect(ItemType itemType)
+        public void StopEffect(string itemType)
         {
             if (_effects.TryGetValue(itemType, out var effectPlayer))
             {

@@ -98,11 +98,21 @@ namespace JMT.PlayerCharacter
             var item = TileManager.Instance.CurrentTile.TileInteraction.GetItemType();
             if (isHold)
             {
-                PlayerEffectCompo?.PlayEffect(item);
+                if (PlayerToolCompo.IsEquippedTool(PlayerToolType.Vacuum))
+                {
+                    PlayerEffectCompo?.PlayEffect("PlayerDust");
+                    return;
+                }
+                if (PlayerToolCompo.IsEquippedTool(PlayerToolType.FuelDropper))
+                {
+                    PlayerEffectCompo?.PlayEffect("PlayerFuel");
+                    return;
+                }
+                PlayerEffectCompo?.PlayEffect(item.ToString());
             }
             else
             {
-                PlayerEffectCompo?.StopEffect(item);
+                PlayerEffectCompo?.StopEffect(item.ToString());
             }
             
         }
