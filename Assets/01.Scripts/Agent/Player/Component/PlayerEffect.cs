@@ -9,6 +9,8 @@ namespace JMT.PlayerCharacter
     {
         [SerializeField] private SerializedDictionary<string, EffectPlayer> _effects;
         
+        private EffectPlayer _currentEffectPlayer;
+        
         public void Init(IPlayer player)
         {
             
@@ -19,6 +21,7 @@ namespace JMT.PlayerCharacter
             if (_effects.TryGetValue(itemType, out var effectPlayer))
             {
                 effectPlayer.PlayEffect();
+                _currentEffectPlayer = effectPlayer;
             }
             else
             {
@@ -36,6 +39,11 @@ namespace JMT.PlayerCharacter
             {
                 Debug.LogWarning($"Effect for item type {itemType} not found.");
             }
+        }
+
+        public void StopEffect()
+        {
+            _currentEffectPlayer?.StopEffect();
         }
     }
 }
