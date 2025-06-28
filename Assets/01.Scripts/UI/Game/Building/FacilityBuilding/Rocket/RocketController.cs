@@ -7,6 +7,12 @@ namespace JMT.UISystem.Rocket
     {
         [SerializeField] private RocketView view;
 
+        public event Action<bool> OnPanelEvent
+        {
+            add => view.OnPanelEvent += value;
+            remove => view.OnPanelEvent -= value;
+        }
+
         private void Awake()
         {
             view.OnUpgradeEvent += HandleUpgradeEvent;
