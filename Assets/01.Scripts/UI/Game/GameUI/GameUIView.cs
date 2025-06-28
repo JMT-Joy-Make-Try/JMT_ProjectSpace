@@ -18,7 +18,6 @@ namespace JMT
         private void Awake()
         {
             toolCells = toolContent.GetComponentsInChildren<CellUI>().ToList();
-            Debug.Log(toolCells.Count);
         }
 
         public void SetTools(List<ToolSO> tools)
@@ -49,8 +48,11 @@ namespace JMT
 
         public bool ChangeSelect(int value)
         {
-            toolCells[currentToolIndex].SetSelect(false);
-            currentToolIndex = value;
+            if(currentToolIndex != value)
+            {
+                toolCells[currentToolIndex].SetSelect(false);
+                currentToolIndex = value;
+            }
             return toolCells[value].ChangeSelect();
         }
     }

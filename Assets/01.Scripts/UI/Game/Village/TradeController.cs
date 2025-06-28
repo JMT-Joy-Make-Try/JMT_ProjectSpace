@@ -30,7 +30,8 @@ namespace JMT.UISystem.Village
         public void OpenPanel(ITradeable trade)
         {
             tradeable = trade;
-            view.SetVillagePanel(trade);
+            view.SetTradePanel(trade);
+            Debug.Log("Trade : " + trade);
             view.OpenUI();
         }
 
