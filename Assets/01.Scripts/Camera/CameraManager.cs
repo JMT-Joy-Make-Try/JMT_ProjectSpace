@@ -16,12 +16,21 @@ namespace JMT.CameraSystem
         
         
         [Header("Extension")]
-        [field: SerializeField] public CameraShaker CameraShakerCompo { get; private set; }
-        [field: SerializeField] public CameraChanger CameraChangerCompo { get; private set; }
-        [field: SerializeField] public CameraTransform CameraTransformCompo { get; private set; }
+        [SerializeField] private CameraShaker _cameraShakerCompo;
+        [SerializeField] private CameraChanger _cameraChangerCompo;
+        [SerializeField] private CameraTransform _cameraTransformCompo;
         [SerializeField] private CameraEventSO _cameraEventSO;
+
+        [Header("Property")]
+        [SerializeField, Tooltip("Zoom Out을 얼마나 할 지 결정합니다.\n중요: 숫자가 커야 멀리 보임")] private float _zoomOutValue = 16f;
+        [SerializeField] private float _zoomOutDuration = 5f;
+        [SerializeField, Tooltip("Zoom In을 얼마나 할 지 결정합니다.\n중요: 숫자가 작아야 가까이 보임. (기본: 14)")] private float _zoomInValue = 14f;
+        [SerializeField] private float _zoomInDuration = 1f;
         
         public CinemachineCamera MainCamera => _mainCamera;
+        public CameraShaker CameraShakerCompo => _cameraShakerCompo;
+        public CameraChanger CameraChangerCompo => _cameraChangerCompo;
+        public CameraTransform CameraTransformCompo => _cameraTransformCompo;
 
         protected override void Awake()
         {
@@ -31,11 +40,11 @@ namespace JMT.CameraSystem
                 Debug.LogError("Main Camera is not assigned in CameraManager.");
                 return;
             }
-            CameraShakerCompo = GetComponent<CameraShaker>();
-            CameraChangerCompo = GetComponent<CameraChanger>();
-            CameraTransformCompo = GetComponent<CameraTransform>();
+            _cameraShakerCompo = GetComponent<CameraShaker>();
+            _cameraChangerCompo = GetComponent<CameraChanger>();
+            _cameraTransformCompo = GetComponent<CameraTransform>();
 
-            CameraTransformCompo?.Init(_mainCamera);
+            _cameraTransformCompo?.Init(_mainCamera);
         }
 
         private void Start()
@@ -55,12 +64,11 @@ namespace JMT.CameraSystem
         {
             if (obj == DaytimeType.Night)
             {
-                _mainCamera.DOZoom(16f, 1f);
-                _cameraEventSO.Invoke();
+                _mainCamera.DOZoom(_zoomOutValue, _zoomOutDuration).OnComplete(() => _cameraEventSO.Invoke());
             }
             else if (obj == DaytimeType.Day)
             {
-                _mainCamera.DOZoom(14f, 1f);
+                _mainCamera.DOZoom(_zoomInValue, _zoomInDuration);
             }
         }
     }
