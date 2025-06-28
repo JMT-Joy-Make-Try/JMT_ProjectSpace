@@ -1,12 +1,9 @@
 using JMT.Building;
 using JMT.Building.Component;
-using JMT.Planets.Tile;
-using System;
-using UnityEngine;
 
 namespace JMT.QuestSystem
 {
-    public class BuildBaseQuest : QuestBase
+    public class BuildSpaceshipQuest : QuestBase
     {
         private void Start()
         {
@@ -22,7 +19,7 @@ namespace JMT.QuestSystem
 
         private void HandleBuildEvent()
         {
-            if (Tiles[0].CurrentBuilding is BuildingBase)
+            if(Tiles[0].CurrentBuilding is RocketLauncherBuilding)
                 Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().PVC.OnGaugeFull += HandleRunQuest;
         }
 
