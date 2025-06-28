@@ -19,7 +19,7 @@ namespace JMT.UISystem
 
     public class PanelUI : MonoBehaviour, IOpenablePanel
     {
-        protected event Action OnCloseEvent;
+        public event Action<bool> OnPanelEvent;
 
         [SerializeField] protected CanvasGroup panelGroup;
         [SerializeField] private bool isInteractable = true;
@@ -37,14 +37,16 @@ namespace JMT.UISystem
                 Time.timeScale = 0;
 
             panelGroup.blocksRaycasts = true;
-            if (!isInteractable) return;
-            panelGroup.interactable = true;
+            OnPanelEvent?.Invoke(true);
+
+            if (isInteractable)
+                panelGroup.interactable = true;
         }
 
         public virtual void CloseUI()
         {
             IsOpen = false;
-            panelGroup.DOFade(0f, 0.3f).SetUpdate(true).OnComplete(() => OnCloseEvent?.Invoke());
+            panelGroup.DOFade(0f, 0.3f).SetUpdate(true).OnComplete(() => OnPanelEvent?.Invoke(false));
             if(isTimeStop)
                 Time.timeScale = GameUIManager.Instance.SpeedCompo.TimeScale;
 
