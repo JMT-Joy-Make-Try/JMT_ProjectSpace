@@ -94,11 +94,20 @@ namespace JMT.UISystem.Interact
         {
             InteractType type = model.InteractType;
 
-            if (!type.Equals(InteractType.Item))
+            if (type.Equals(InteractType.Station))
             {
-                TileManager.Instance.GetInteraction()?.Interaction();
+                if (!AgentManager.Instance.Player.InventoryCompo.IsPlayerHoldingItem())
+                {
+                    TileManager.Instance.GetInteraction()?.Interaction();
+                }
                 OnClickEvent?.Invoke();
             }
+            else if (!type.Equals(InteractType.Item))
+            {
+                OnClickEvent?.Invoke();
+                TileManager.Instance.GetInteraction()?.Interaction();
+            }
+            
         }
 
 
@@ -109,14 +118,14 @@ namespace JMT.UISystem.Interact
             var currentInteract = TileManager.Instance.GetInteraction();
             var interactTime = AgentManager.Instance.Player.StatCompo.GetInteractTime(currentInteract.GetItemType());
             holdCoroutine = StartCoroutine(HoldCoroutine(interactTime));
-            AgentManager.Instance.Player.AnimatorCompo.SetLayer(0, 1);
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(PlayerCharacter.PlayerAnimationLayer.BaseLayer, 1);
         }
         
         public void OnFieldHoldStart()
         {
             GameUIManager.Instance.PlayerControlActive(false);
             GameUIManager.Instance.PopupCompo.SetActiveFixPopup(true, "밭 가는 중...");
-            AgentManager.Instance.Player.AnimatorCompo.SetLayer(3, 1);
+            AgentManager.Instance.Player.AnimatorCompo.SetLayer(PlayerCharacter.PlayerAnimationLayer.FieldLayer, 1);
             holdCoroutine = StartCoroutine(HoldCoroutine(5));
         }
 

@@ -54,7 +54,7 @@ namespace JMT
             {
                 _isHold = isHold;
                 OnGaugeHold?.Invoke(isHold);
-                AgentManager.Instance.Player.AnimatorCompo.SetLayer(2, 1);
+                AgentManager.Instance.Player.AnimatorCompo.SetLayer(PlayerCharacter.PlayerAnimationLayer.BuildLayer, 1);
             }
         }
         
