@@ -27,6 +27,13 @@ namespace JMT.Core.Manager
         private List<float> _defaultFuelAmount = new List<float>();
 
 
+        public void AddBuildingDataSO(BuildingDataSO buildingData)
+        {
+            if (buildingData == null) return;
+            if (buildingDatas.Contains(buildingData)) return;
+            buildingDatas.Add(buildingData);
+        }
+        
         public void AddBuilding(BuildingBase building)
         {
             if (building == null) return;

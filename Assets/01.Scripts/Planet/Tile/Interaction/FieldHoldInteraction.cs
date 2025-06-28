@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using JMT.UISystem;
+using System;
 
 namespace JMT.Planets.Tile
 {
@@ -8,9 +9,15 @@ namespace JMT.Planets.Tile
         private void Start()
         {
             GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleHoldEvent;
+            GameUIManager.Instance.InteractCompo.OnHoldCancelEvent += HandleHoldCancelEvent;
             GameUIManager.Instance.InteractCompo.OnFieldHoldStart();
         }
-        
+
+        private void HandleHoldCancelEvent()
+        {
+            planetTile.ChangeInteraction<NoneInteraction>();
+        }
+
         private void OnDestroy()
         {
             GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleHoldEvent;

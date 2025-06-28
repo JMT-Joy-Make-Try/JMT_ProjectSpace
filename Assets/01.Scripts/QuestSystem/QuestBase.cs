@@ -77,7 +77,20 @@ public class QuestBase : MonoBehaviour, IQuestTarget
         }
     }
 
-    public bool IsComplete => Tiles.All(t => !t.QuestPing.IsEnable);
+    public bool IsComplete => Tiles.All(t =>
+    {
+        if (t == null)
+        {
+            Debug.LogWarning("Tile is null.");
+            return false;
+        }
+        if (t.QuestPing == null)
+        {
+            Debug.LogWarning($"QuestPing is null for tile: {t.name}");
+            return false;
+        }
+        return !t.QuestPing.IsEnable;
+    });
 
     public virtual void RunQuest(int num)
     {
