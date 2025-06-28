@@ -117,8 +117,9 @@ namespace JMT
 
         public void SetVisualActive(bool isActive)
         {
+            if (isActive)
+                _aniamtor.SetTrigger("Trigger");
             pvcObject.SetActive(isActive);
-            _aniamtor.SetTrigger("Trigger");
         }
     }
 }

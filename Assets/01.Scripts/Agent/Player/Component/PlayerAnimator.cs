@@ -75,6 +75,7 @@ namespace JMT.PlayerCharacter
 
         private void HandleHoldEvent(bool isHold)
         {
+            if (Player.TileFindingCompo.IsTileIsHold()) return;
             if (isHold) ChangeState(PlayerState.Interact);
             else ChangeState(PlayerState.Idle);
         }
