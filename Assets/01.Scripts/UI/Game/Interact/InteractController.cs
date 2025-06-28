@@ -11,6 +11,7 @@ namespace JMT.UISystem.Interact
     public class InteractController : MonoBehaviour
     {
         public event Action<bool> OnHoldEvent;
+        public event Action OnHoldCancelEvent;
         public event Action OnAnimationEndEvent;
         public event Action OnClickEvent;
         public event Action OnTraderInteractEvent;
@@ -139,6 +140,8 @@ namespace JMT.UISystem.Interact
                 holdCoroutine = null;
                 if (_isHoldEnd)
                     OnHoldEvent?.Invoke(false);
+                else
+                    OnHoldCancelEvent?.Invoke();
                 
                 OnAnimationEndEvent?.Invoke();
             }
