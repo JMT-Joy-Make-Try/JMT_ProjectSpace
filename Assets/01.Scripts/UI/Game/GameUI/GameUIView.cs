@@ -9,10 +9,11 @@ namespace JMT
 {
     public class GameUIView : PanelUI
     {
-        public event Action<ToolSO> OnSelectToolEvent;
+        public event Action<ToolSO, bool> OnSelectToolEvent;
         [SerializeField] private Transform toolContent;
         private List<CellUI> toolCells = new();
         private List<Action> handlers = new();
+        private int currentToolIndex;
 
         private void Awake()
         {
@@ -27,7 +28,7 @@ namespace JMT
                 if (i < tools.Count)
                 {
                     int value = i;
-                    handlers.Add(() => OnSelectToolEvent?.Invoke(tools[value]));
+                    handlers.Add(() => OnSelectToolEvent?.Invoke(tools[value], ChangeSelect(value)));
                     toolCells[i].SetCell(tools[i]);
                     toolCells[i].OnClickCellEvent += handlers[i];
                 }
@@ -43,6 +44,16 @@ namespace JMT
                 toolCells[i].ResetCell();
             }
             handlers.Clear();
+        }
+
+        public bool ChangeSelect(int value)
+        {
+            if(currentToolIndex != value)
+            {
+                toolCells[currentToolIndex].SetSelect(false);
+                currentToolIndex = value;
+            }
+            return toolCells[value].ChangeSelect();
         }
     }
 }

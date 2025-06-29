@@ -35,7 +35,7 @@ namespace JMT.UISystem.Village
             exitButton.onClick.RemoveListener(HandleCloseButton);
         }
 
-        public void SetVillagePanel(ITradeable trade)
+        public void SetTradePanel(ITradeable trade)
         {
             titleText.text = trade.TitleText;
             descText.text = trade.Description;

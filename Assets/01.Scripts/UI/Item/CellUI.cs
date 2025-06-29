@@ -14,6 +14,8 @@ namespace JMT.UISystem
         [SerializeField] private Image select;
         [SerializeField] private Button cellButton;
 
+        public bool IsSelect { get; private set; }
+
         private void Awake()
         {
             cellButton?.onClick.AddListener(HandleCellButton);
@@ -48,8 +50,16 @@ namespace JMT.UISystem
             if (countText != null) countText.text = "";
         }
 
+        public bool ChangeSelect()
+        {
+            IsSelect = !IsSelect;
+            SetSelect(IsSelect);
+            return IsSelect;
+        }
+
         public void SetSelect(bool isActive)
         {
+            IsSelect = isActive;
             if (select != null)
                 select.enabled = isActive;
         }
