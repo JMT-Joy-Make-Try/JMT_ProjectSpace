@@ -104,6 +104,7 @@ namespace JMT.PlayerCharacter
                     if (item == ItemType.Dust)
                     {
                         PlayerEffectCompo?.PlayEffect("PlayerDust");
+                        SoundPlayer.PlaySound("Dust_PlayerCollecting", SoundType.SFX);
                         return;
                     }
                 }
@@ -112,6 +113,7 @@ namespace JMT.PlayerCharacter
                     if (item == ItemType.LiquidFuel)
                     {
                         PlayerEffectCompo?.PlayEffect("PlayerFuel");
+                        SoundPlayer.PlaySound("Liquid_Fuel", SoundType.SFX);
                         return;
                     }
                 }
