@@ -61,13 +61,14 @@ namespace JMT.PlayerCharacter
                 Debug.LogWarning("Inventory is full or item type mismatch.");
                 return;
             }
-            
+
 
             // 플레이어가 아이템을 듬
             OnInventoryEvent?.Invoke(item, PlayerInventoryData.count);
             _itemObject.gameObject.SetActive(true);
             _itemObject.SetItem(item);
             _player.AnimatorCompo.SetBool(PlayerState.Caring, true);
+            _player.SoundPlayer.PlaySound("ItemEquip", Sound.SoundType.SFX);
         }
         
         public ItemSO RemoveItem(ItemSO item = null, int count = 1, bool isItemCountZeroNull = true)
