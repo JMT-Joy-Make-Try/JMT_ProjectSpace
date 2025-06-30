@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 8991454719396380601}
   - component: {fileID: 7720513328288527167}
   - component: {fileID: 3186668521968741546}
-  - component: {fileID: 6420963992393457452}
   - component: {fileID: 6692764664446596554}
   - component: {fileID: 2484297894885704281}
   - component: {fileID: 3715352861268633696}
@@ -159,23 +158,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &6420963992393457452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740821677761319336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d6351140e014f1b910d67daf96014bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <AttackRange>k__BackingField: 2
-  <AttackDamage>k__BackingField: 50
-  <WhatIsAttackable>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!114 &6692764664446596554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,12 +330,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _effects:
     _serializedList:
-    - Key: 0
+    - Key: Dust
       Value: {fileID: 7535038654044959373}
-    - Key: 2
+    - Key: LiquidFuel
       Value: {fileID: 8522614383713367410}
-    - Key: 1
+    - Key: Plant
       Value: {fileID: 94276629207269967}
+    - Key: PlayerDust
+      Value: {fileID: 5159203839796754078}
+    - Key: PlayerFuel
+      Value: {fileID: 1104823654249236452}
 --- !u!1 &935260336808849073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,7 +1403,7 @@ Transform:
   m_GameObject: {fileID: 6588697237569907534}
   serializedVersion: 2
   m_LocalRotation: {x: 0.23981677, y: 0.36956608, z: -0.09933536, w: 0.8922115}
-  m_LocalPosition: {x: -4.0412908, y: 7.129033, z: -0.3374192}
+  m_LocalPosition: {x: -6.4516134, y: 7.129033, z: -6.4516134}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1458,7 +1444,7 @@ Camera:
   far clip plane: 10000
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3505,7 +3491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8267a69b82a07ea4581218c325835717, type: 3}
       propertyPath: m_Name
-      value: player_anim_all-motions
+      value: Visual
       objectReference: {fileID: 0}
     - target: {fileID: 2441117767401295097, guid: 8267a69b82a07ea4581218c325835717, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
