@@ -25,7 +25,7 @@ namespace JMT.Planets.Tile
         public override void Interaction()
         {
             base.Interaction();
-            GameUIManager.Instance.VillageCompo.OpenPanel(villageSO);
+            GameUIManager.Instance.TradeCompo.OpenPanel(villageSO);
             /*ItemSO item = _villageBuilding.NeedItems.First().Key;
             GameUIManager.Instance.InventoryCompo.RemoveItem(item, 1);
             _villageBuilding.GiveItem(item, 1);*/

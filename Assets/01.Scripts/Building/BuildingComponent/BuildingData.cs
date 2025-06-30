@@ -20,7 +20,15 @@ namespace JMT.Building.Component
         public void Init(BuildingBase building)
         {
             Building = building;
-            Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged += OnBuildingLevelChanged;
+            //Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged += OnBuildingLevelChanged;
+        }
+
+        private void OnDestroy()
+        {
+            if (Building != null)
+            {
+                //Building.GetBuildingComponent<BuildingLevel>().OnLevelChanged -= OnBuildingLevelChanged;
+            }
         }
 
         private void OnBuildingLevelChanged(int obj)
@@ -54,9 +62,9 @@ namespace JMT.Building.Component
         public void SetBuildingData(BuildingDataSO data, PVCBuilding pvc)
         {
             SetBuildingData(data);
-            Building.SetPVCBuilding(pvc);
-            Building.PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
-            Building.Building();
+            Building.GetBuildingComponent<BuildingBuilder>().SetPVCBuilding(pvc);
+            var pcvBuilding = Building.GetBuildingComponent<BuildingBuilder>().PVC;
+            Building.GetBuildingComponent<BuildingBuilder>().PVC.SetBuildTime(data.buildingLevel[0].BuildTime);
         }
     }
 }

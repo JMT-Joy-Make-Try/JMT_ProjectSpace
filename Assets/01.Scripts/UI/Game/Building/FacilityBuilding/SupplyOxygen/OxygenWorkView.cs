@@ -44,11 +44,6 @@ namespace JMT.UISystem.SupplyOxygen
             OnCreateItemEvent?.Invoke(currentItem);
         }
 
-        public void SetCreateItemButton()
-        {
-
-        }
-
         public void SetSelectItemPanel(CreateItemSO item)
         {
             beforePanel.DOFade(0, 0.3f);

@@ -58,7 +58,12 @@ namespace JMT.Planets.Field
 
         private void ChangePlantObject()
         {
+            
             _currentPlantObject.SetActive(false);
+            if (_plantObjects[0].activeSelf == false) 
+            {
+                _plantObjects[0].SetActive(true);
+            }
             _currentPlantObject = _plantObjects[_growthStage];
             if (_currentPlantObject != null)
             {

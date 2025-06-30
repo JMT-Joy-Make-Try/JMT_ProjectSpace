@@ -66,7 +66,7 @@ namespace JMT.Core.Tool
                     component = gameObject.GetComponentInChildren<T>();
                     if (component == null)
                     {
-                        Debug.LogError($"There is no {typeof(T).Name} component in {gameObject.name}");
+                        Debug.LogWarning($"There is no {typeof(T).Name} component in {gameObject.name}");
                         return default;
                     }
                 }

@@ -15,6 +15,11 @@ namespace JMT.UISystem.GameSpeed
             view.ChangeSpeedText(model.SpeedType);
         }
 
+        private void OnDestroy()
+        {
+            view.OnSpeedButtonEvent -= HandleSpeedButton;
+        }
+
         private void HandleSpeedButton()
         {
             model.ChangeSpeed();

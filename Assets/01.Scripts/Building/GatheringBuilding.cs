@@ -17,15 +17,49 @@ namespace JMT.Building
     public class GatheringBuilding : BuildingBase
     {
         public event Action OnAddItemEvent;
+        
         [field: SerializeField] public ItemSO ProductionItem { get; private set; }
         [SerializeField] private float _productionTime;
         [SerializeField] private int _maxProductionAmount;
+        
         private int _currentProductionAmount;
         private float _productGauge;
+        private bool _isAnimating;
         
         private IEnumerator _workCoroutine;
+        private BuildingWorker _worker;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _worker = GetBuildingComponent<BuildingWorker>();
+        }
         
-        private bool _isAnimating;
+        protected override void AddEvents()
+        {
+            base.AddEvents();
+            _worker.OnWorkingEvent += HandleWork;
+        }
+        
+        protected override void RemoveEvents()
+        {
+            base.RemoveEvents();
+            _worker.OnWorkingEvent -= HandleWork;
+        }
+
+        private void HandleWork(bool isWorking)
+        {
+            if (isWorking)
+            {
+                Work();
+                GetBuildingComponent<BuildingBuilder>().AutoSoundPlayer.PlaySound();
+            }
+            else
+            {
+                StopWork();
+                GetBuildingComponent<BuildingBuilder>().AutoSoundPlayer.StopSound();
+            }
+        }
 
         public void InventoryAdd()
         {
@@ -51,7 +85,7 @@ namespace JMT.Building
                 {
                     PoolingManager.Instance.Push(item);
                 }).SetEase(Ease.OutBounce);
-                item.SetItemType(ProductionItem);
+                item.SetItem(ProductionItem);
                 
                 yield return new WaitForSeconds(0.2f);
             }
@@ -61,16 +95,14 @@ namespace JMT.Building
             _isAnimating = false;
         }
 
-        public override void Work()
+        public void Work()
         {
-            base.Work();
             _workCoroutine = WorkCoroutine();
             StartCoroutine(_workCoroutine);
         }
         
-        public override void StopWork()
+        public void StopWork()
         {
-            base.StopWork();
             if (_workCoroutine != null)
             {
                 StopCoroutine(_workCoroutine);
@@ -81,7 +113,7 @@ namespace JMT.Building
         private IEnumerator WorkCoroutine()
         {
             var ws = new WaitForSeconds(_productionTime);
-            while (_isWorking)
+            while (_worker.IsWorking)
             {
                 if (_currentProductionAmount >= _maxProductionAmount)
                 {
@@ -106,7 +138,7 @@ namespace JMT.Building
 
         private void Update()
         {
-            if (_isWorking)
+            if (_worker.IsWorking)
             {
                 _productGauge += Time.deltaTime / _productionTime;
                 if (_productGauge >= 1f)

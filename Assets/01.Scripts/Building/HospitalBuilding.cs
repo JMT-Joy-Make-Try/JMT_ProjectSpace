@@ -13,16 +13,18 @@ namespace JMT.Building
         [SerializeField] private int _maxPatientCount = 5;
 
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             BuildingManager.Instance.HospitalBuildings.Add(this);
             GetBuildingComponent<HospitalNPC>().OnPatientAdded += Heal;
         }
         
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             BuildingManager.Instance.HospitalBuildings.Remove(this);
             GetBuildingComponent<HospitalNPC>().OnPatientAdded -= Heal;
+            base.OnDestroy();
         }
 
         private void Heal(HospitalNPCData data)

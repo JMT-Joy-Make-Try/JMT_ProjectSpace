@@ -1,8 +1,7 @@
-using AYellowpaper.SerializedCollections;
-using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core.Manager;
-using JMT.Item;
+using JMT.NightSummary;
+using JMT.Planet.Tile;
 using JMT.Planets.Tile;
 using JMT.Sound;
 using JMT.UISystem;
@@ -16,71 +15,76 @@ namespace JMT.Building
 {
     public abstract class BuildingBase : MonoBehaviour
     {
+        [SerializeField] private bool _isOnceBuild = false;
+        [SerializeField] private BuildingDataSO buildingDataSO;
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         
         private Dictionary<Type, IBuildingComponent> _componentLookup = new Dictionary<Type, IBuildingComponent>();
-        
-        [field: SerializeField] public SoundPlayer SoundPlayer { get; private set; }
         #endregion
-        
-        public bool IsBuilding { get; private set; }
-        public Action OnCompleteEvent;
-        
-        [SerializeField] private float _fuelAmount;
-        
-        [Header("Destroy Building")]
-        [SerializeField] private SerializedDictionary<ItemSO, int> _destroyBuildingItems = new SerializedDictionary<ItemSO, int>();
-        
-        public float FuelAmount
-        {
-            get => _fuelAmount;
-            set => _fuelAmount = value;
-        }
-        
-        protected bool _isWorking;
-        private PVCBuilding _pvc;
-        
-        public PVCBuilding PVC => _pvc;
 
-        protected bool IsBuildingComplete = false;
+        [SerializeField] private Collider _collider;
         
         protected virtual void Awake()
         {
             InitBuildingComponents();
+        }
+
+        protected virtual void Start()
+        {
+            SetColliderEnable(false);
             BuildingManager.Instance.AddBuilding(this);
-            
-            OnCompleteEvent += HandleCompleteEvent;
-            GetBuildingComponent<BuildingHealth>().OnBuildingBroken += HandleBroken;
+            AddEvents();
+            var buildingLevel = GetBuildingComponent<BuildingLevel>();
+            if (buildingDataSO != null)
+                NightSummaryManager.Instance?.BuildingModule.AddBuilding(buildingDataSO.BuildingType, buildingLevel.CurLevel, 1);
         }
 
-        private void HandleBroken()
+        public void SetColliderEnable(bool isEnable)
         {
-            
-        }
-
-        private IEnumerator FuelRoutine()
-        {
-            while (true)
+            if (_collider == null)
             {
-                if (GameUIManager.Instance.ResourceCompo.CurrentFuelValue <= 0)
-                {
-                    StopWork();
-                    var npcList = GetBuildingComponent<BuildingNPC>();
-                    npcList.RemoveAllNpc();
-                    yield break;
-                }
-                GameUIManager.Instance.ResourceCompo.AddFuel(-_fuelAmount);
-                yield return new WaitForSeconds(1f);
+                return;
             }
+            _collider.enabled = isEnable;
         }
-
-        private void OnDestroy()
+        
+        protected virtual void OnDestroy()
         {
-            OnCompleteEvent -= HandleCompleteEvent;
-            GetBuildingComponent<BuildingHealth>().OnBuildingBroken -= HandleBroken;
+            RemoveEvents();
         }
 
+        protected virtual void AddEvents()
+        {
+            GetBuildingComponent<BuildingFuel>().OnFuelEmptyEvent += HandleFuelEmpty;
+            GetBuildingComponent<BuildingWorker>().OnWorkingEvent += HandleWorkingEvent;
+            GetBuildingComponent<BuildingBuilder>().OnGaugeFullEvent += HandleGaugeFull;
+            GetBuildingComponent<BuildingBuilder>().OnBuildingEvent += HandleBuildingEnd;
+        }
+
+        
+
+        protected virtual void RemoveEvents()
+        {
+            GetBuildingComponent<BuildingFuel>().OnFuelEmptyEvent -= HandleFuelEmpty;
+            GetBuildingComponent<BuildingWorker>().OnWorkingEvent -= HandleWorkingEvent;
+            GetBuildingComponent<BuildingBuilder>().OnGaugeFullEvent -= HandleGaugeFull;
+            GetBuildingComponent<BuildingBuilder>().OnBuildingEvent -= HandleBuildingEnd;
+        }
+
+        private void HandleBuildingEnd()
+        {
+            var interaction = GetPlanetTile().ChangeInteraction<ProgressInteraction>();
+            interaction.Interaction();
+            if (_isOnceBuild)
+                BuildingManager.Instance.GetDictionary().Remove(buildingDataSO);
+            SetColliderEnable(true);
+        }
+
+        private void HandleWorkingEvent(bool isWorking)
+        {
+            GetBuildingComponent<BuildingAnimator>().SetAnimation(isWorking);
+        }
 
         protected virtual void InitBuildingComponents()
         {
@@ -92,73 +96,25 @@ namespace JMT.Building
             }
         }
 
-        protected virtual void HandleCompleteEvent()
+        private void HandleFuelEmpty()
         {
-            var visual = GetBuildingComponent<BuildingVisual>();
-            visual.BuildingTransparent(1f);
-            _pvc.PlayAnimation();
-            visual.SetFloatProperty("_Alpha", 1f);
-            StartCoroutine(FuelRoutine());
-            SoundPlayer.StopSound("Building_Sound");
-            SoundPlayer.PlaySound("Building_Complete");
-            IsBuildingComplete = true;
-        }
-
-        public void Building()
-        {
-            var visual = GetBuildingComponent<BuildingVisual>();
-            visual.SetMaterial(visual.VisualMat);
-
-            var buildingData = GetBuildingComponent<BuildingData>().Data;
-            StartCoroutine(BuildingRoutine(buildingData.buildingLevel[0].BuildTime.GetSecond()));
-            SoundPlayer.PlaySound("Building_Sound");
-        }
-
-        private IEnumerator BuildingRoutine(int time)
-        {
-            GetBuildingComponent<BuildingVisual>().BuildingTransparent(0.3f);
-            yield return new WaitForSeconds(time);
-            IsBuilding = true;
-        }
-
-        public virtual void Work()
-        {
-            if (_isWorking)
-            {
-                return;
-            }
-
-            _isWorking = true;
-            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
+            GetBuildingComponent<BuildingWorker>().StopWork();
+            var npcList = GetBuildingComponent<BuildingNPC>();
+            npcList.RemoveAllNpc();
         }
         
-        public virtual void StopWork()
-        {
-            if (!_isWorking)
-            {
-                return;
-            }
-
-            _isWorking = false;
-            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
-        }
-        
-        public void SetWorking(bool isWorking)
-        {
-            _isWorking = isWorking;
-            GetBuildingComponent<BuildingAnimator>().SetAnimation(_isWorking);
-        }
-        
-        protected PlanetTile GetPlanetTile()
+        public PlanetTile GetPlanetTile()
         {
             return transform.parent.parent.GetComponent<PlanetTile>();
         }
-        
-        public void SetPVCBuilding(PVCBuilding pvc)
+
+        private void HandleGaugeFull()
         {
-            _pvc = pvc;
+            Debug.Log(gameObject.name);
+            GameUIManager.Instance.InteractCompo.StopInfinityHold();
+            GetBuildingComponent<BuildingBuilder>().BuildBuilding();
         }
-        
+
         public T GetBuildingComponent<T>() where T : IBuildingComponent
         {
             if (_componentLookup.TryGetValue(typeof(T), out var component))
@@ -177,33 +133,6 @@ namespace JMT.Building
             Debug.LogError($"Component of type {typeof(T)} not found in {gameObject.name}");
             return default;
         }
-
-        public void SetLayer(string layerName)
-        {
-            int layer = LayerMask.NameToLayer(layerName);
-            if (layer == -1)
-            {
-                Debug.LogError($"Layer '{layerName}' not found.");
-                return;
-            }
-
-            foreach (Transform child in transform)
-            {
-                child.gameObject.layer = layer;
-            }
-        }
-
-        public void DestroyBuilding()
-        {
-            GetPlanetTile().RemoveInteraction();
-            GetPlanetTile().AddInteraction<ItemInteraction>();
-            foreach (var items in _destroyBuildingItems)
-            {
-                GetPlanetTile().GetInteraction<ItemInteraction>().SetItem(items.Key, items.Value);
-            }
-            
-            // 대충 잔해로 바꿀 예정
-            Destroy(gameObject);
-        }
+        
     }
 }

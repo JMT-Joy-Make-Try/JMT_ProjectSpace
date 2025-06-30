@@ -9,16 +9,16 @@ namespace JMT.PlayerCharacter
         public override void Equip()
         {
             base.Equip();
-            if (_player.FogDetect.IsPlayerInFog)
-                _player.HealthCompo.SetOxygenMultiplier(2);
-            else
-                _player.HealthCompo.SetOxygenMultiplier(1);
+            // if (_player.FogDetect.IsPlayerInFog)
+            //     _player.HealthCompo.SetOxygenMultiplier(2);
+            // else
+            //     _player.HealthCompo.SetOxygenMultiplier(1);
         }
 
         public override void UnEquip()
         {
             base.UnEquip();
-            _player.HealthCompo.SetOxygenMultiplier(1);
+            //_player.HealthCompo.SetOxygenMultiplier(1);
         }
     }
 }

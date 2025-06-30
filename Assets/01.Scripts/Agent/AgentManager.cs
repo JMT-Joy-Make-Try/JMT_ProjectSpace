@@ -1,17 +1,15 @@
-using JMT.Agent.NPC;
+using JMT.Core.Tool.PoolManager.Core;
+using System.Collections.Generic;
+using JMT.Core.Tool.PoolManager;
 using JMT.Building.Component;
 using JMT.Core.Manager;
-using JMT.Core.Tool;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
 using JMT.Planets.Tile;
+using JMT.Agent.NPC;
 using JMT.UISystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using JMT.NightSummary;
+using System;
 
 namespace JMT.Agent
 {
@@ -19,6 +17,29 @@ namespace JMT.Agent
     {
         [field: SerializeField] public List<NPCAgent> UnemployedAgents { get; private set; } = new();
         [field: SerializeField] public PlayerCharacter.Player Player { get; private set; }
+        [SerializeField] private Trader.Trader _traderPrefab;
+
+        public Trader.Trader Trader { get; private set; }
+        private void Start()
+        {
+            Debug.Log(_traderPrefab);
+            Debug.Log(Trader);
+            Trader = Instantiate(_traderPrefab, transform);
+            Trader.gameObject.SetActive(false);
+        }
+        
+        public void SpawnTrader(PlanetTile tile, Quaternion rotation)
+        {
+            if (Trader == null)
+            {
+                Debug.LogWarning("Trader prefab is not assigned.");
+                return;
+            }
+            Trader.transform.SetParent(null);
+            Trader.transform.SetPositionAndRotation(tile.transform.position + new Vector3(0, 5, 0), rotation);
+            Trader.gameObject.SetActive(true);
+            tile.SetTrader(Trader);
+        }
 
         public NPCAgent AddNpc()
         {
@@ -95,6 +116,7 @@ namespace JMT.Agent
             }
             UnemployedAgents.Add(agent);
             GameUIManager.Instance.ResourceCompo.AddNpc(1);
+            NightSummaryManager.Instance.NPCCollectModule.CollectNPC(agent.StatCompo);
         }
 
         public void UnregisterAgent(NPCAgent agent)

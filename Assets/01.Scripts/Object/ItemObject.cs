@@ -1,15 +1,9 @@
-using AYellowpaper.SerializedCollections;
-using DG.Tweening;
+using JMT.Core.Tool.PoolManager.Core;
+using JMT.Core.Tool.PoolManager;
+using UnityEngine;
 using JMT.Agent;
 using JMT.Core;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
-using JMT.Planets.Tile;
-using JMT.Planets.Tile.Items;
-using JMT.UISystem;
-using System;
-using UnityEngine;
 
 namespace JMT.Object
 {
@@ -31,7 +25,7 @@ namespace JMT.Object
             _meshRenderer.material = Instantiate(_meshRenderer.material);
         }
 
-        public void SetItemType(ItemSO itemType)
+        public void SetItem(ItemSO itemType)
         {
             _itemSO = itemType;
             _itemSpriteRenderer.sprite = itemType.ItemData.Icon;
@@ -59,8 +53,16 @@ namespace JMT.Object
                 Debug.LogWarning("Inventory is full. Cannot collect item: " + _itemSO);;
                 return;
             }
+            if (_itemSO.GetType() == typeof(StructItemSO))
+            {
+                var structItem = _itemSO as StructItemSO;
+                if (structItem != null)
+                {
+                    structItem.OnEquip();
+                }
+                return;
+            }
             AgentManager.Instance.Player.InventoryCompo.AddItem(_itemSO);
-            Debug.Log("Collect Item: " + _itemSO);
             PoolingManager.Instance.Push(this);
         }
     }

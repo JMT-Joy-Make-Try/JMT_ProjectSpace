@@ -1,4 +1,5 @@
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Planets.Tile;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace JMT.UISystem.Station
         public void OpenPanel()
         {
             view.OpenUI();
-            GameUIManager.Instance.GameUICompo.CloseUI();
+            GameUIManager.Instance.GameUICompo.ClosePanel();
             GameUIManager.Instance.PlayerControlActive(false);
             ChangePanel(storage);
         }
@@ -42,7 +43,7 @@ namespace JMT.UISystem.Station
         private void ClosePanel()
         {
             ChangePanel(null);
-            GameUIManager.Instance.GameUICompo.OpenUI();
+            GameUIManager.Instance.GameUICompo.OpenPanel();
             GameUIManager.Instance.PlayerControlActive(true);
             view.CloseUI();
         }
@@ -59,7 +60,7 @@ namespace JMT.UISystem.Station
 
         private void HandleUpgradeButton()
         {
-            TileManager.Instance.GetInteraction().GetComponentInChildren<BaseBuilding>().FixStation();
+            TileManager.Instance.GetInteraction().GetComponentInChildren<BaseBuilding>().GetBuildingComponent<BuildingLevel>().Upgrade();
             Debug.Log("그냥 레벨업할게요.");
             ClosePanel();
         }

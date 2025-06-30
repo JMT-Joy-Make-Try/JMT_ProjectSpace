@@ -7,14 +7,17 @@ namespace JMT.QuestSystem
     {
         private void Start()
         {
-            tiles[0].OnBuild += HandleBuildEvent;
+            Tiles[0].OnBuild += HandleBuildEvent;
         }
 
         private void OnDestroy()
         {
-            tiles[0].OnBuild -= HandleBuildEvent;
-            if (tiles[0].CurrentBuilding != null) 
-            tiles[0].CurrentBuilding.OnCompleteEvent -= HandleRunQuest;
+            Tiles[0].OnBuild -= HandleBuildEvent;
+            if (Tiles[0].CurrentBuilding != null)
+            {
+                var builder = Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>();
+                builder.OnCompleteEvent -= HandleRunQuest;
+            }
         }
 
         private void HandleRunQuest()
@@ -24,12 +27,12 @@ namespace JMT.QuestSystem
 
         private void HandleBuildEvent()
         {
-            tiles[0].CurrentBuilding.OnCompleteEvent += HandleRunQuest;
+            Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().OnCompleteEvent += HandleRunQuest;
         }
 
         public override void Enable()
         {
-            tiles[0].QuestPing.SelectPingLocation(false);
+            Tiles[0].QuestPing.SelectPingLocation(false);
             base.Enable();
         }
     }

@@ -2,6 +2,7 @@ using JMT.Core;
 using JMT.Core.Tool;
 using JMT.Item;
 using JMT.Object;
+using JMT.UISystem;
 using System;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace JMT.PlayerCharacter
 {
     public class PlayerInventory : MonoBehaviour, IPlayerComponent
     {
-        public event Action<int, int> OnInventoryEvent;
+        public event Action<ItemSO, int> OnInventoryEvent;
 
         public PlayerInventoryData PlayerInventoryData => _playerInventoryData;
 
@@ -17,19 +18,30 @@ namespace JMT.PlayerCharacter
         [SerializeField] private PlayerInventoryData _playerInventoryData;
         [SerializeField] private LayerMask _whatIsBuilding;
         [SerializeField] private ItemObject _itemObject;
+        [SerializeField] private float _itemAddDelay = 1f;
         private Player _player;
         
         private Collider[] _colliders = new Collider[10];
+        private bool _isItemAddActive = false;
+        private float _currentItemAddTime = 0f;
 
         public void Init(IPlayer player)
         {
             _itemObject.IsCollectable = false;
             _itemObject.gameObject.SetActive(false);
             _player = player as Player;
+            GameUIManager.Instance.InteractCompo.OnClickEvent += SendItem;
         }
-        
+
+        private void OnDestroy()
+        {
+            if (GameUIManager.Instance == null) return;
+            GameUIManager.Instance.InteractCompo.OnClickEvent -= SendItem;
+        }
+
         public void AddItem(ItemSO item, int count = 1)
         {
+            _isItemAddActive = false;
             // 현재 들고있는 아이템이 없을 때
             if (_playerInventoryData.item == null)
             {
@@ -49,15 +61,16 @@ namespace JMT.PlayerCharacter
                 Debug.LogWarning("Inventory is full or item type mismatch.");
                 return;
             }
+            
 
             // 플레이어가 아이템을 듬
-            OnInventoryEvent?.Invoke(PlayerInventoryData.count, MaxInventorySize);
+            OnInventoryEvent?.Invoke(item, PlayerInventoryData.count);
             _itemObject.gameObject.SetActive(true);
-            _itemObject.SetItemType(item);
-            _player.AnimatorCompo.SetBool(PlayerState.Carring, true);
+            _itemObject.SetItem(item);
+            _player.AnimatorCompo.SetBool(PlayerState.Caring, true);
         }
         
-        public ItemSO RemoveItem(ItemSO item = null, int count = 1)
+        public ItemSO RemoveItem(ItemSO item = null, int count = 1, bool isItemCountZeroNull = true)
         {
             // 매개변수로 받아온 아이템이 없으면 현재 들고있는 아이템으로 설정
             if (item == null) item = _playerInventoryData.item;
@@ -71,12 +84,15 @@ namespace JMT.PlayerCharacter
                 if (_playerInventoryData.count <= 0)
                 {
                     // 들고있는 아이템 없애기
-                    _playerInventoryData.item = null;
+                    if (isItemCountZeroNull)
+                    {
+                        _playerInventoryData.item = null;
+                    }
                     _playerInventoryData.count = 0;
 
                     // 플레이어가 아이템을 내려놓음
                     _itemObject.gameObject.SetActive(false);
-                    _player.AnimatorCompo.SetBool(PlayerState.Carring, false);
+                    _player.AnimatorCompo.SetBool(PlayerState.Caring, false);
                 }
             }
             else
@@ -86,33 +102,81 @@ namespace JMT.PlayerCharacter
             }
 
             // 이거는 뺀거 뭔지 알려고 넘겨주는거임
-            OnInventoryEvent?.Invoke(PlayerInventoryData.count, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, PlayerInventoryData.count);
             return _playerInventoryData.item;
+        }
+        
+        public void ResetItem()
+        {
+            _playerInventoryData.item = null;
+            _playerInventoryData.count = 0;
+            _itemObject.gameObject.SetActive(false);
+            _player.AnimatorCompo.SetBool(PlayerState.Caring, false);
+            OnInventoryEvent?.Invoke(null, PlayerInventoryData.count);
         }
         
         public bool IsMaxInventorySizeReached()
         {
             return _playerInventoryData.count >= MaxInventorySize;
         }
-
-        private void Update()
+        
+        public bool IsPlayerHoldingItem()
         {
-            int cnt = Physics.OverlapSphereNonAlloc(transform.position, 5f, _colliders, _whatIsBuilding);
-            
-            for (int i = 0; i < cnt; i++)
+            return _playerInventoryData.item != null && _playerInventoryData.count > 0;
+        }
+
+        public void SendItem()
+        {
+            if (_player.TileFindingCompo.RayHit.collider != null)
             {
-                var building = _colliders[i].FindComponent<IItemReceivable>();
-                if (building != null)
+                var building = _player.TileFindingCompo.RayHit.collider.FindComponent<IItemReceivable>();
+                if (building != null && _playerInventoryData.item != null && _playerInventoryData.count > 0)
                 {
-                    if (_playerInventoryData.item != null && _playerInventoryData.count > 0)
+                    if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
                     {
-                        if (building.ReceiveItem(_playerInventoryData.item, _playerInventoryData.count))
-                        {
-                            RemoveItem(_playerInventoryData.item, _playerInventoryData.count);
-                        }
+                        RemoveItem(count: _playerInventoryData.count);
                     }
                 }
             }
+        }
+        
+        public void SetMaxInventorySize(int size)
+        {
+            if (size < 0)
+            {
+                Debug.LogWarning("Max inventory size cannot be negative.");
+                return;
+            }
+            MaxInventorySize = size;
+            _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
+        }
+        public void AddMaxInventorySize(int size)
+        {
+            if (size < 0)
+            {
+                Debug.LogWarning("Size to add cannot be negative.");
+                return;
+            }
+            MaxInventorySize += size;
+            _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
+        }
+
+        public void RemoveMaxInventorySize(int size)
+        {
+            if (size < 0)
+            {
+                Debug.LogWarning("Size to subtract cannot be negative.");
+                return;
+            }
+            MaxInventorySize -= size;
+            if (MaxInventorySize < 0)
+            {
+                MaxInventorySize = 0;
+            }
+            _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
+            OnInventoryEvent?.Invoke(null, _playerInventoryData.count);
         }
     }
 

@@ -1,10 +1,13 @@
+using JMT.Agent;
 using System.Collections.Generic;
 using JMT.Planets.Tile;
 using JMT.Building;
+using JMT.Building.Component;
 using JMT.Planets;
 using System;
+using UnityEngine;
 
-namespace JMT
+namespace JMT.Planet.Tile
 {
     public class ProgressInteraction : TileInteraction
     {
@@ -13,21 +16,30 @@ namespace JMT
             { typeof(BaseBuilding), typeof(StationInteraction) },
             { typeof(LaboratoryBuilding), typeof(LaboratoryInteraction) },
             { typeof(OxygenBuilding), typeof(SupplyOxygenInteraction) },
-            { typeof(HospitalBuilding), typeof(HospitalInteraction) }
+            { typeof(HospitalBuilding), typeof(HospitalInteraction) },
+            { typeof(RocketLauncherBuilding), typeof(RocketLauncherInteraction) }
         };
+        
         public override void Interaction()
         {
+            base.Interaction();
+            Debug.Log("ProgressInteraction Interaction called");
             BuildingBase building = GetComponentInChildren<BuildingBase>();
-
-            if (!building.IsBuilding) return;
-            building.OnCompleteEvent?.Invoke();
+            var builder = building.GetBuildingComponent<BuildingBuilder>();
+            if (!builder.IsBuilding) return;
+            builder.CompleteEventInvoker();
             
-            var tile = TileManager.Instance.CurrentTile;
+            var tile = planetTile;
 
             tile.RemoveInteraction();
             var buildingType = building.GetType();
             if (_interactionLookup.TryGetValue(buildingType, out var interactionType))
             {
+                if (interactionType == typeof(RocketLauncherInteraction))
+                {
+                    RocketLauncherInteraction(tile);
+                    return;
+                }
                 var method = typeof(PlanetTile).GetMethod("AddInteraction", Type.EmptyTypes);
                 var generic = method.MakeGenericMethod(interactionType);
                 generic.Invoke(tile, null);
@@ -35,6 +47,19 @@ namespace JMT
             }
 
             tile.AddInteraction<BuildingInteraction>();
+        }
+        
+        private void RocketLauncherInteraction(PlanetTile tile)
+        {
+            Debug.Log(tile is null);
+            var tiles = TileManager.Instance.Get2By2TilesInAnyDirection(tile);
+            Debug.Log(tiles.Count);
+            foreach (var t in tiles)
+            {
+                t.RemoveInteraction();
+                Debug.Log($"Adding interaction RocketLauncherInteraction to tile at position {t.Position}");
+                t.AddInteraction<RocketLauncherInteraction>();
+            }
         }
     }
 }

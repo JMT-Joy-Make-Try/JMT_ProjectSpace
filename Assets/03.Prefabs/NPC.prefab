@@ -7002,6 +7002,7 @@ GameObject:
   - component: {fileID: 5312617829722433091}
   - component: {fileID: 2257528561566081894}
   - component: {fileID: 5775183926257423185}
+  - component: {fileID: 8209827934258115142}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Untagged
@@ -7055,6 +7056,7 @@ MonoBehaviour:
   <WorkData>k__BackingField: {fileID: 1167230757263764177}
   <WorkCompo>k__BackingField: {fileID: 7414430557519137666}
   <StatCompo>k__BackingField: {fileID: 0}
+  <BuildingFinderCompo>k__BackingField: {fileID: 0}
   <AgentType>k__BackingField: 0
 --- !u!114 &2805633489195981530
 MonoBehaviour:
@@ -7229,6 +7231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 733ecbd9bbe9c544b96d767ef3a94f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <StatSO>k__BackingField: {fileID: 11400000, guid: cbcfb39e1b5bcc84e8fbee9dddd72c9d, type: 2}
   MoveSpeed: 2
   WorkSpeed: 2
 --- !u!195 &2257528561566081894
@@ -7276,6 +7279,18 @@ CapsuleCollider:
   m_Height: 9.735687
   m_Direction: 1
   m_Center: {x: 0.113198854, y: 4.1227603, z: 0.59248966}
+--- !u!114 &8209827934258115142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208675050051364842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83f799e0c721f64caf36f2b9a418d9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1607172668893142597
 PrefabInstance:
   m_ObjectHideFlags: 0

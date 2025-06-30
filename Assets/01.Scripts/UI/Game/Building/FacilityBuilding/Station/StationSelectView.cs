@@ -17,6 +17,9 @@ namespace JMT.UISystem.Station
         [SerializeField] private TextMeshProUGUI itemNameText, itemDescText;
         [SerializeField] private ItemCountUI itemCountUI;
         [SerializeField] private Button useButton, outButton, equipButton;
+        
+        // 일단 public으로 하고 장서윤이 바꿔주겠지
+        public ItemCountUI ItemCountUI => itemCountUI;
 
         public void SetSelectPanel(KeyValuePair<ItemSO, int> item, int maxValue)
         {
@@ -31,6 +34,7 @@ namespace JMT.UISystem.Station
 
         private void ButtonSettings(KeyValuePair<ItemSO, int> item)
         {
+            ResetListeners();
             equipButton.gameObject.SetActive(item.Key is ToolSO);
             useButton.gameObject.SetActive(item.Key.IsUsable);
             outButton.gameObject.SetActive(item.Key.IsTakeable);
@@ -48,6 +52,13 @@ namespace JMT.UISystem.Station
                 useButton.onClick.AddListener(HandleUseButton);
             if (item.Key.IsTakeable)
                 outButton.onClick.AddListener(HandleOutButton);
+        }
+
+        private void ResetListeners()
+        {
+            useButton.onClick.RemoveAllListeners();
+            outButton.onClick.RemoveAllListeners();
+            equipButton.onClick.RemoveAllListeners();
         }
 
         private void HandleUseButton()

@@ -7,6 +7,7 @@ namespace JMT.Agent
 {
     public class NPCStat : MonoBehaviour, INPCComponent
     {
+        [field: SerializeField] public NPCStatSO StatSO { get; private set; }
         public NPCAgent Agent { get; private set; }
 
         public NPCOxygen OxygenCompo { get; private set; }

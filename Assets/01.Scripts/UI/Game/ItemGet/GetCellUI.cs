@@ -14,7 +14,7 @@ namespace JMT.UISystem
         {
             icon = transform.Find("Icon").GetComponent<Image>();
             valueText = transform.Find("ValueTxt").GetComponent<TextMeshProUGUI>();
-            OnCloseEvent += HandleCloseEvent;
+            OnPanelEvent += HandleCloseEvent;
         }
 
         public void SetData(ItemSO item, int count)
@@ -29,7 +29,7 @@ namespace JMT.UISystem
         }
 
 
-        private void HandleCloseEvent()
+        private void HandleCloseEvent(bool isOpen)
         {
             Destroy(gameObject);
         }

@@ -11,30 +11,48 @@ namespace JMT.Building
 {
     public class OxygenBuilding : ItemBuilding
     {
-        private BuildingData _data;
-        private PlayerCharacter.Player _player;
-        
-
+        [SerializeField] private int _purificationContainerAmount = 4;
+        [SerializeField] private int _oxygenAmount = 50;
         [SerializeField] private float interactionDistance = 2.5f;
         [SerializeField] private Transform _visualTransform;
-        [SerializeField] private int _oxygenAmount = 50;
-        [SerializeField] private int _purificationContainerAmount = 4;
+        
+        private BuildingData _data;
+        private PlayerCharacter.Player _player;
+        private BuildingBuilder _buildingBuilder;
+        
         private float _interactionDistanceSqr;
         private bool _isPlayerGetOxygen = false;
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
+            _buildingBuilder = GetBuildingComponent<BuildingBuilder>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
             BuildingManager.Instance.OxygenBuildings.Add(this);
             _data = GetBuildingComponent<BuildingData>();
             _player = AgentManager.Instance.Player;
 
             _interactionDistanceSqr = interactionDistance * interactionDistance;
-
+        }
+        
+        protected override void AddEvents()
+        {
+            base.AddEvents();
+            _buildingBuilder.OnCompleteEvent += HandleCompleteEvent;
+        }
+        
+        protected override void RemoveEvents()
+        {
+            base.RemoveEvents();
+            _buildingBuilder.OnCompleteEvent -= HandleCompleteEvent;
         }
 
-        protected override void HandleCompleteEvent()
+        private void HandleCompleteEvent()
         {
-            base.HandleCompleteEvent();
             StartCoroutine(WorkCoroutine());
             Debug.Log("OxygenBuilding Start");
         }

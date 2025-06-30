@@ -57,7 +57,7 @@ namespace JMT.UISystem.Interact
 
         public void OpenUI()
         {
-            GameUIManager.Instance.GameUICompo.CloseUI();
+            GameUIManager.Instance.GameUICompo.ClosePanel();
             GameUIManager.Instance.PlayerControlActive(false);
             view.OpenUI();
 
@@ -71,7 +71,7 @@ namespace JMT.UISystem.Interact
 
             infoView.CloseUI();
             view.CloseUI();
-            GameUIManager.Instance.GameUICompo.OpenUI();
+            GameUIManager.Instance.GameUICompo.OpenPanel();
             GameUIManager.Instance.PlayerControlActive(true);
 
             model.SetIsBuild(false);

@@ -1,33 +1,43 @@
-using System;
-using System.Collections;
+using JMT.Planets.Tile;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace JMT
+namespace JMT.UISystem
 {
     public class PVCUI : MonoBehaviour
     {
-        [SerializeField] private GameObject fill, complete;
+        [SerializeField] private GameObject fill;
+        [SerializeField] private List<ItemValueUI> needItemValue;
 
         private void Awake()
         {
-            ActiveUI(true, false);
+            ActiveFillUI(false);
         }
 
-        public void SetTime(int time)
+        public void ActiveFillUI(bool isFillActive)
+            => fill.SetActive(isFillActive);
+
+        public void ActiveItemUI(bool isItemActive)
         {
-            StartCoroutine(TimeRoutine(time));
+            foreach (var item in needItemValue)
+            {
+                if (isItemActive) item.OpenUI();
+                else item.CloseUI();
+            }
         }
 
-        private IEnumerator TimeRoutine(int time)
+        public void SetNeedItemUI(List<PreBuildItemData> items)
         {
-            yield return new WaitForSeconds(time);
-            ActiveUI(false, true);
-        }
-
-        public void ActiveUI(bool isFillActive, bool isCompleteActive)
-        {
-            fill.SetActive(isFillActive);
-            complete.SetActive(isCompleteActive);
+            for(int i = 0; i  < needItemValue.Count; i++)
+            {
+                if (i < items.Count)
+                {
+                    needItemValue[i].OpenUI();
+                    needItemValue[i].SetItemCount(items[i].Item, items[i].CurItemCount, items[i].MaxItemCount);
+                }
+                else
+                    needItemValue[i].CloseUI();
+            }
         }
     }
 }

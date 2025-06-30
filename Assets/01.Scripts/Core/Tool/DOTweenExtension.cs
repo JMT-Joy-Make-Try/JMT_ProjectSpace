@@ -67,5 +67,14 @@ namespace JMT.Core.Tool
                 target = value;
             }).SetEase(ease);
         }
+
+        public static void DOFollowOffset(this CinemachineFollow target, Vector3 endValue, float duration,
+            Ease ease = Ease.Unset)
+        {
+            DOVirtual.Vector3(target.FollowOffset, endValue, duration, value =>
+            {
+                target.FollowOffset = value;
+            }).SetEase(ease);
+        }
     }
 }

@@ -33,8 +33,9 @@ namespace JMT.Building
             _visibilityTracker.OnInvisibleCallback += HandleVisibility;
         }
         
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             _visibilityTracker.OnInvisibleCallback -= HandleVisibility;
         }
 
@@ -47,8 +48,9 @@ namespace JMT.Building
             }
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _spawnPos = BuildingManager.Instance.BaseBuilding.transform.position;
         }
         

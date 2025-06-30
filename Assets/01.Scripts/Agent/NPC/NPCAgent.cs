@@ -1,5 +1,7 @@
 using EditorAttributes;
 using JMT.Agent.State;
+using JMT.Building.Component;
+using JMT.DayTime;
 using JMT.UISystem;
 using System;
 using UnityEditor;
@@ -12,8 +14,9 @@ namespace JMT.Agent.NPC
         [field: SerializeField] public NPCWorkData WorkData { get; private set; }
         [field: SerializeField] public NPCWork WorkCompo { get; private set; }
         [field: SerializeField] public NPCStat StatCompo { get; private set; }
+        [field: SerializeField] public NPCBuildingFinder BuildingFinderCompo { get; private set; }
         
-        [field:SerializeField] public AgentType AgentType { get; private set; }
+        [field: SerializeField] public AgentType AgentType { get; private set; }
         private NPCStatUI npcStatUI;
         
         public event Action<AgentType> OnTypeChanged;
@@ -34,6 +37,7 @@ namespace JMT.Agent.NPC
         {
             StatCompo = GetComponent<NPCStat>();
             npcStatUI = GetComponent<NPCStatUI>();
+            BuildingFinderCompo = GetComponent<NPCBuildingFinder>();
             StatCompo?.Initialize(this);
             base.Awake();
             
@@ -43,17 +47,18 @@ namespace JMT.Agent.NPC
 
         private void Start()
         {
-            
             WorkData?.Initialize(this);
             WorkCompo?.Initialize(this);
             ClothCompo?.Initialize(this);
+            BuildingFinderCompo?.Initialize(this);
             
             StatCompo?.AddListener<Action>(NPCStatEventType.OnDeath, HandleDeath);
             StatCompo?.AddListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
             StatCompo?.AddListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
+            GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleNightEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleDayEvent;
             
-            StateMachineCompo.InitAllState(this);
             StateMachineCompo.ChangeState(NPCState.Idle);
         }
         
@@ -64,18 +69,42 @@ namespace JMT.Agent.NPC
             StatCompo?.RemoveListener<Action>(NPCStatEventType.OnOxygenLowEvent, HandleOxygenLow);
             StatCompo?.RemoveListener<Action<bool>>(NPCStatEventType.OnHealthWarningEvent, npcStatUI.SetHealthStat);
             StatCompo?.RemoveListener<Action<bool>>(NPCStatEventType.OnOxygenWarningEvent, npcStatUI.SetOxygenStat);
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleNightEvent;
+                GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleDayEvent;
+            }
+        }
+
+        private void HandleDayEvent(DaytimeType type)
+        {
+            // if (type == DaytimeType.Day &&
+            // GameUIManager.Instance.TimeCompo)
+            // {
+                
+            // }
+        }
+
+        private void HandleNightEvent(int m, int s)
+        {
+            if (m == 0 && s == 10)
+            {
+                WorkCompo.CurrentWorkingBuilding?.GetBuildingComponent<BuildingWorker>().StopWork();
+                StateMachineCompo.ChangeState(NPCState.Night);
+                ClothCompo.ChangeCloth(AgentType.Base);
+            }
         }
 
         private void HandleOxygenLow()
         {
-            WorkCompo.CurrentWorkingBuilding?.StopWork();
+            WorkCompo.CurrentWorkingBuilding?.GetBuildingComponent<BuildingWorker>().StopWork();
             StateMachineCompo.ChangeState(NPCState.Dead);
         }
 
         private void HandleDeath()
         {
             Debug.Log("Dead");
-            WorkCompo.CurrentWorkingBuilding?.StopWork();
+            WorkCompo.CurrentWorkingBuilding?.GetBuildingComponent<BuildingWorker>().StopWork();
             StateMachineCompo.ChangeState(NPCState.Dead, true);
         }
         

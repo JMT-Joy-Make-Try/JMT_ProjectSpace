@@ -23,7 +23,7 @@ namespace JMT.Agent.State
             npcAgent.MovementCompo.Stop(true);
             npcAgent.transform.rotation = Quaternion.Euler(0, 0, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            npcAgent.WorkCompo.CurrentWorkingBuilding.Work();
+            npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingWorker>().Work();
             
             int index = Random.Range(0, animationData.Length);
             //ChangeAnimations(animationData[index]);
@@ -39,7 +39,7 @@ namespace JMT.Agent.State
 
         public override void UpdateState()
         {
-            npcAgent.transform.position = npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
+            npcAgent.transform.localPosition = npcAgent.WorkCompo.CurrentWorkingBuilding.GetBuildingComponent<BuildingNPC>().WorkPosition.position;
             base.UpdateState();
             npcAgent.transform.rotation = Quaternion.Euler(0, 180, 0);
             npcAgent.transform.localRotation = Quaternion.Euler(0, 180, 0);

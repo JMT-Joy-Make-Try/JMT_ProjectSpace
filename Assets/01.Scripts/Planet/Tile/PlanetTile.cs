@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using JMT.UISystem.Interact;
 using JMT.QuestSystem;
+using JMT.Agent.Trader;
 
 namespace JMT.Planets.Tile
 {
@@ -14,6 +15,7 @@ namespace JMT.Planets.Tile
         [Tooltip("건물이 건설되기 시작했을 때 일어나는 액션입니다.")]
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
+        public event Action OnPrebuild;
 
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         [field: SerializeField] public TileType TileType { get; set; }
@@ -27,12 +29,19 @@ namespace JMT.Planets.Tile
 
         [SerializeField]private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
-        public GameObject TileInteraction;
+        public TileInteraction TileInteraction;
         public Transform Pivot { get; private set; }
 
         private bool canInteraction = true;
         
         private TileList _tileList;
+        private Vector2Int _position;
+        public Vector2Int Position => _position;
+        
+        private bool _isGroup = false;
+        private PlanetTileGroup _tileGroup;
+        private Trader _trader;
+        public Trader Trader => _trader;
 
         private void Awake()
         {
@@ -43,7 +52,19 @@ namespace JMT.Planets.Tile
             Renderer.material = Instantiate(Renderer.material);
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
-            TileInteraction = transform.GetComponentInChildren<TileInteraction>().gameObject;
+            TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+
+            if (TileInteraction == null)
+            {
+                TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+            }
+        }
+
+        private void Start()
+        {
+            Vector3 position = transform.position;
+            _position = new Vector2Int((int)position.x, (int)position.z);
+            TileManager.Instance.RegisterTile((int)position.x, (int)position.z, this);
         }
 
         public bool CanBuild()
@@ -55,20 +76,20 @@ namespace JMT.Planets.Tile
         {
             var preBuild = ChangeInteraction<PreBuildInteraction>();
             preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
-            gameObject.layer = LayerMask.NameToLayer("Reciveable");
+            OnPrebuild?.Invoke();
         }
 
         public void Build(BuildingDataSO building, PVCBuilding pvc)
         {
             gameObject.layer = LayerMask.NameToLayer("Ground");
-            OnBuild?.Invoke();
-            PVCBuilding pvcBuilding = Instantiate(pvc, TileInteraction.transform);
+            pvc.SetVisualActive(true);
+            
             if (_currentBuilding == null)
                 _currentBuilding = Instantiate(building.Prefab, TileInteraction.transform);
-            _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvcBuilding);
+            _currentBuilding.GetBuildingComponent<BuildingData>().SetBuildingData(building, pvc);
 
-
-            ChangeInteraction<ProgressInteraction>();
+            OnBuild?.Invoke();
+            ChangeInteraction<HoldingInteraction>();
         }
 
         public void DestroyBuilding()
@@ -79,17 +100,40 @@ namespace JMT.Planets.Tile
                 _currentBuilding = null;
             }
         }
+        
+        
 
         public T AddInteraction<T>() where T : TileInteraction
         {
-            T instance = TileInteraction.AddComponent<T>();
-            OnChangeInteraction?.Invoke(instance);
+            if (_isGroup)
+            {
+                _tileGroup.AddInteraction<T>();
+                return _tileGroup.GetInteraction<T>();
+            }
+            TileInteraction = TileInteraction.AddComponent<T>();
+            OnChangeInteraction?.Invoke(TileInteraction);
+            string interactionName = TileInteraction.GetType().Name.Replace("Interaction", "");
 
-            return instance;
+            if (Enum.TryParse<InteractType>(interactionName, out var interactType))
+            {
+                TileInteraction.SetType(interactType);
+            }
+            else
+            {
+                Debug.LogError($"Interaction type {interactionName} is not defined in InteractType enum.");
+                TileInteraction.SetType(InteractType.None);
+            }
+
+            return TileInteraction as T;
         }
 
         public void RemoveInteraction()
         {
+            if (_isGroup)
+            {
+                _tileGroup.RemoveInteraction();
+                return;
+            }
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
@@ -101,7 +145,7 @@ namespace JMT.Planets.Tile
         
         public bool TryGetInteraction<T>(out T interaction) where T : TileInteraction
         {
-            interaction = TileInteraction.GetComponent<T>();
+            interaction = TileInteraction as T;
             if (interaction != null)
             {
                 canInteraction = true;
@@ -114,6 +158,11 @@ namespace JMT.Planets.Tile
 
         public T GetInteraction<T>() where T : TileInteraction
         {
+            if (IsTraderOnTile())
+            {
+                _trader.Interact();
+                return null;
+            }
             canInteraction = true;
             var interaction = TileInteraction.GetComponent<T>();
 
@@ -141,10 +190,6 @@ namespace JMT.Planets.Tile
         public void EdgeEnable(bool enable)
         {
             Renderer.material.SetFloat("_IsEdgeOn", enable ? 1 : 0);
-            // if (Fog.IsFogActive)
-            // {
-            //     _tileList.LineRenderer.enabled = enable;
-            // }
         }
 
         public void TestBuild(BuildingDataSO building)
@@ -156,6 +201,16 @@ namespace JMT.Planets.Tile
         public void SetColor(Color color)
         {
             Renderer.material.SetColor(BaseColor, color);
+        }
+
+        public void SetTrader(Trader trader)
+        {
+            _trader = trader;
+        }
+
+        public bool IsTraderOnTile()
+        {
+            return _trader != null;
         }
     }
 }

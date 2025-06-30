@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JMT
+namespace JMT.UISystem
 {
     public class ItemCountUI : MonoBehaviour
     {
@@ -45,6 +45,7 @@ namespace JMT
         public void ItemCountText(int value = 1)
         {
             countText.text = value.ToString();
+            Count = value;
         }
     }
 }

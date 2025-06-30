@@ -1,24 +1,21 @@
-using JMT.Agent;
-using JMT.Core.Tool;
 using JMT.UISystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace JMT.QuestSystem
 {
     public class QuestManager : MonoSingleton<QuestManager>
     {
+        public Action<string> OnQuestCountEvent;
         public event Action<QuestSO> OnQuestStartEvent;
         public event Action OnQuestEndEvent;
 
-        [SerializeField] private List<ChapterSO> chapterSO = new();
+        [SerializeField] private List<QuestSO> questList = new();
 
         private int currentQuestIndex = 0;
-        private int currentChapterIndex = 0;
         private List<QuestBase> currentQuestTargets = new();
         private bool _isDelayRunning = false;
 
@@ -32,7 +29,7 @@ namespace JMT.QuestSystem
         }
         private void Start()
         {
-            StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
+            StartQuest(questList[currentQuestIndex]);
         }
 
         public void CompleteQuest(QuestSO questData)
@@ -94,23 +91,18 @@ namespace JMT.QuestSystem
             _isDelayRunning = true;
             _isStaringQuest = false;
             
-            if (currentChapterIndex >= chapterSO.Count)
+            if (currentQuestIndex >= questList.Count)
             {
                 _isAllQuestCompleted = true;
                 Debug.Log("All quests completed!");
             }
 
             currentQuestIndex++;
-            if (currentQuestIndex >= chapterSO[currentChapterIndex].quests.Count)
-            {
-                currentQuestIndex = 0;
-                currentChapterIndex++;
-            }
 
-            if (currentChapterIndex < chapterSO.Count && currentQuestIndex < chapterSO[currentChapterIndex].quests.Count )
+            if ( currentQuestIndex < questList.Count )
             {
-                yield return new WaitForSeconds(1f);
-                StartQuest(chapterSO[currentChapterIndex].quests[currentQuestIndex]);
+                yield return new WaitForSeconds(1.5f);
+                StartQuest(questList[currentQuestIndex]);
             }
             
 

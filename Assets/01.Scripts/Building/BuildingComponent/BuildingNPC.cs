@@ -41,7 +41,7 @@ namespace JMT.Building.Component
             OnChangeNpcEvent?.Invoke();
             if (_currentNpc.Count == 0)
             {
-                Building.StopWork();
+                Building.GetBuildingComponent<BuildingWorker>().StopWork();
             }
         }
 
@@ -54,7 +54,7 @@ namespace JMT.Building.Component
 
             _currentNpc.Clear();
             OnChangeNpcEvent?.Invoke();
-            Building.StopWork();
+            Building.GetBuildingComponent<BuildingWorker>().StopWork();
         }
     }
 }

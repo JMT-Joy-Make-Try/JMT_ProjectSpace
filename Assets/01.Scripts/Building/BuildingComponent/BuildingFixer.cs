@@ -33,8 +33,8 @@ namespace JMT.Building.Component
             Debug.Log($"Broken Building: {gameObject.name}");
             // 건물 파괴됨
             Building.GetBuildingComponent<BuildingNPC>().RemoveAllNpc();
-            Building.StopWork();
-            Building.SetLayer("BrokenBuilding");
+            Building.GetBuildingComponent<BuildingWorker>().StopWork();
+            Building.GetBuildingComponent<BuildingVisual>().SetLayer("BrokenBuilding");
             
             // 수리 UI 띄우기
         }
