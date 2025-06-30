@@ -128,7 +128,6 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     private void QuestCountEvent()
     {
-        Debug.Log($"{CompleteCount}/{QuestPing.Count}");
         QuestManager.Instance.OnQuestCountEvent?.Invoke($"{CompleteCount}/{QuestPing.Count}");
     }
 }
