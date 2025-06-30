@@ -34,12 +34,9 @@ namespace JMT.Planets.Tile
 
         private bool canInteraction = true;
         
-        private TileList _tileList;
         private Vector2Int _position;
         public Vector2Int Position => _position;
         
-        private bool _isGroup = false;
-        private PlanetTileGroup _tileGroup;
         private Trader _trader;
         public Trader Trader => _trader;
 
@@ -48,7 +45,6 @@ namespace JMT.Planets.Tile
             Pivot = transform.Find("Pivot");
             Renderer = GetComponent<MeshRenderer>();
             Filter = GetComponent<MeshFilter>();
-            _tileList = GetComponentInParent<TileList>();
             Renderer.material = Instantiate(Renderer.material);
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
@@ -105,11 +101,6 @@ namespace JMT.Planets.Tile
 
         public T AddInteraction<T>() where T : TileInteraction
         {
-            if (_isGroup)
-            {
-                _tileGroup.AddInteraction<T>();
-                return _tileGroup.GetInteraction<T>();
-            }
             TileInteraction = TileInteraction.AddComponent<T>();
             OnChangeInteraction?.Invoke(TileInteraction);
             string interactionName = TileInteraction.GetType().Name.Replace("Interaction", "");
@@ -129,11 +120,6 @@ namespace JMT.Planets.Tile
 
         public void RemoveInteraction()
         {
-            if (_isGroup)
-            {
-                _tileGroup.RemoveInteraction();
-                return;
-            }
             Destroy(TileInteraction.GetComponent<TileInteraction>());
         }
         
