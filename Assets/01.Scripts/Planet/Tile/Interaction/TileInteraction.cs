@@ -1,3 +1,4 @@
+using JMT.Building;
 using JMT.Item;
 using JMT.Planets.Tile.Items;
 using JMT.UISystem.Interact;
@@ -39,15 +40,24 @@ namespace JMT.Planets.Tile
         {
             return Instantiate(obj, parent);
         }
-        
+
         public T AddComponent<T>() where T : Component
         {
             return gameObject.AddComponent<T>();
         }
-        
+
         public bool IsItemType(ItemType itemType)
         {
             return this.itemType != null && this.itemType.ItemType == itemType;
+        }
+        
+        public T GetBuilding<T>() where T : BuildingBase
+        {
+            if (planetTile.CurrentBuilding is T building)
+            {
+                return building;
+            }
+            return null;
         }
     }
 }
