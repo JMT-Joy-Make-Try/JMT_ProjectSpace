@@ -13,13 +13,13 @@ namespace JMT.PlayerCharacter
         public override void Equip()
         {
             base.Equip();
-            _player.StatCompo.AddStatModifier(ItemType.Stone, _stoneModifier);
+            _player.StatCompo.AddStatModifier(ItemType.DurestoneOre, _stoneModifier);
         }
 
         public override void UnEquip()
         {
             base.UnEquip();
-            _player.StatCompo.RemoveStatModifier(ItemType.Stone, _stoneModifier);
+            _player.StatCompo.RemoveStatModifier(ItemType.DurestoneOre, _stoneModifier);
         }
     }
 }

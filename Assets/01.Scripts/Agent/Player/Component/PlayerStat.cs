@@ -1,4 +1,4 @@
-﻿using AYellowpaper.SerializedCollections;
+using AYellowpaper.SerializedCollections;
 using JMT.Agent;
 using JMT.Core.Tool;
 using JMT.Planets.Tile.Items;
@@ -52,14 +52,6 @@ namespace JMT.PlayerCharacter
             {
                 Debug.LogWarning($"ItemType {itemType} not found in PlayerStatData.");
                 return 0f; // or throw an exception based on your design choice
-            }
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                AddStatModifier(ItemType.Dust, new StatModifier(StatModifierType.Addition, 1f));
             }
         }
     }

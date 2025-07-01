@@ -15,6 +15,7 @@ namespace JMT.Planets.Tile
             for (int i = 0; i < itemCount; i++)
             {
                 var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
+                Debug.Log(transform.position);
                 item.transform.position = transform.position + Vector3.up * 5f;
                 item.IsCollectable = true;
                 item.SetItem(itemType);
