@@ -26,9 +26,12 @@ namespace JMT.Planets.Tile.Items
         StaleOxygen, // 탁한 산소
         OxygenCylinder, // 소형 산소통
         DurestoneOre, // 듀어스톤 원석
+        DurestoneBar, // 듀어스톤 주괴
         LeakyFilter, // 헐거운 필터
         CoarseWeave, // 질긴 천
         HighGradeFuel, // 고급 연료
+        OxygenTreeSeed, // 산소나무 씨앗
+        None,
     }
     
 }
