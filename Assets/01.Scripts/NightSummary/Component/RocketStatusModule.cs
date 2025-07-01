@@ -15,6 +15,11 @@ namespace JMT.NightSummary.Component
         
         public event Action<string> OnRocketCompletionPercentChanged;
 
+        public RocketStatusModule()
+        {
+            Reset();
+        }
+
         public void Reset()
         {
             _rocketCompletionPercent = 0;
