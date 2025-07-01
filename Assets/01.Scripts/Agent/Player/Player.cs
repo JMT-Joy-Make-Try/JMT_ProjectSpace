@@ -101,7 +101,7 @@ namespace JMT.PlayerCharacter
             {
                 if (PlayerToolCompo.IsEquippedTool(PlayerToolType.Vacuum))
                 {
-                    if (item == ItemType.Dust)
+                    if (item == ItemType.StoneDebris)
                     {
                         PlayerEffectCompo?.PlayEffect("PlayerDust");
                         SoundPlayer.PlaySound("Dust_PlayerCollecting", SoundType.SFX);

@@ -17,16 +17,18 @@ namespace JMT.Planets.Tile.Items
 
     public enum ItemType
     {
-        Dust, // 먼지 뭉치
-        Plant, // 유기물
+        StoneDebris, // 돌조각
+        Plant, // 식물 잔해
         LiquidFuel, // 액체 연료
-        DustBlock, // 먼지 블럭
+        StoneBrick, // 석재 벽돌
         Cloth, // 천
         RefinedFuel, // 정제 연료
-        OxygenTank, // 
-        PurificationContainer, // 정화통
-        Stone, // 돌
-        None,
+        StaleOxygen, // 탁한 산소
+        OxygenCylinder, // 소형 산소통
+        DurestoneOre, // 듀어스톤 원석
+        LeakyFilter, // 헐거운 필터
+        CoarseWeave, // 질긴 천
+        HighGradeFuel, // 고급 연료
     }
     
 }
