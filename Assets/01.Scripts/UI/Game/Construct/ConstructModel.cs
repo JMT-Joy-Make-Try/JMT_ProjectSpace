@@ -13,8 +13,6 @@ namespace JMT.UISystem.Interact
 
         public void SetIsBuild(bool isTrue) => isBuild = isTrue;
 
-        private PVCBuilding pvcObject;
-
         public List<BuildingDataSO> SelectCategory(BuildingCategory? category = null)
         {
             List<BuildingDataSO> list = BuildingManager.Instance.GetDictionary();
@@ -26,7 +24,7 @@ namespace JMT.UISystem.Interact
 
         public bool Build(PlanetTile tile)
         {
-            if (TileManager.Instance.CurrentTile.GetInteraction<NoneInteraction>().IsRocketTile)
+            if (TileManager.Instance.CurrentTile.IsRocketTile)
             {
                 if (BuildingManager.Instance.CurrentBuilding == null)
                 {

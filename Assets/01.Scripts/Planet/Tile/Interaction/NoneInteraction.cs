@@ -8,8 +8,7 @@ namespace JMT.Planets.Tile
 {
     public class NoneInteraction : TileInteraction
     {
-        [field: SerializeField] public PlanetTile BaseTile { get; private set; }
-        [field: SerializeField] public bool IsRocketTile { get; private set; } = false;
+        
         public override void Interaction()
         {
             if (!IsPlayerHaveTool())
