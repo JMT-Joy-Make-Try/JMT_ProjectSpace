@@ -1,4 +1,4 @@
-﻿using JMT.Agent;
+using JMT.Agent;
 using JMT.Building.Component;
 using JMT.Core;
 using JMT.Core.Manager;
@@ -103,7 +103,7 @@ namespace JMT.Building
 
                 int timeSec = createItem.CreateTime.GetSecond();
                 //var purificationItem = _data.CurrentItems.Find(x => x.Item1 == ItemType.PurificationContainer);
-                var purificationItem = _data.CurrentItems.FirstOrDefault(x => x.Item1 == ItemType.PurificationContainer);
+                var purificationItem = _data.CurrentItems.FirstOrDefault(x => x.Item1 == ItemType.StaleOxygen);
                 if (purificationItem?.Item2 >= _purificationContainerAmount)
                 {
                     yield return ws;
@@ -118,7 +118,7 @@ namespace JMT.Building
 
         public bool GetOxygen()
         {
-            var index = _data.CurrentItems.FindIndex(i => i.Item1 == ItemType.PurificationContainer);
+            var index = _data.CurrentItems.FindIndex(i => i.Item1 == ItemType.StaleOxygen);
             if (index < 0) return false;
 
             var item = _data.CurrentItems[index];

@@ -47,13 +47,14 @@ namespace JMT
 
         private void HandleHoldEvent(bool isHold)
         {
+            if (AgentManager.Instance.Player.TileFindingCompo.IsTileIsHold()) return;
             var curTile = TileManager.Instance.CurrentTile;
             var myTile = GetComponentInParent<PlanetTile>();
             if (curTile == myTile)
             {
                 _isHold = isHold;
                 OnGaugeHold?.Invoke(isHold);
-                AgentManager.Instance.Player.AnimatorCompo.SetLayer(2, 1);
+                AgentManager.Instance.Player.AnimatorCompo.SetLayer(PlayerCharacter.PlayerAnimationLayer.BuildLayer, 1);
             }
         }
         
@@ -116,8 +117,9 @@ namespace JMT
 
         public void SetVisualActive(bool isActive)
         {
+            if (isActive)
+                _aniamtor.SetTrigger("Trigger");
             pvcObject.SetActive(isActive);
-            _aniamtor.SetTrigger("Trigger");
         }
     }
 }

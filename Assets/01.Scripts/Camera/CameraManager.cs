@@ -13,18 +13,24 @@ namespace JMT.CameraSystem
     {
         [Header("Camera")]
         [SerializeField] private CinemachineCamera _mainCamera;
-        [Space]
+        
         
         [Header("Extension")]
-        [SerializeField] private CinemachineImpulseSource _mainImpulseSource;
-        private CinemachineFollow _cinemachineFollow;
-        
-        private Vector3 _defaultCameraPosition;
-        private Vector3 _defaultCameraRotation;
-        private Vector3 _defaultFollowOffset;
-        
+        [SerializeField] private CameraShaker _cameraShakerCompo;
+        [SerializeField] private CameraChanger _cameraChangerCompo;
+        [SerializeField] private CameraTransform _cameraTransformCompo;
+        [SerializeField] private CameraEventSO _cameraEventSO;
+
+        [Header("Property")]
+        [SerializeField, Tooltip("Zoom Out을 얼마나 할 지 결정합니다.\n중요: 숫자가 커야 멀리 보임")] private float _zoomOutValue = 16f;
+        [SerializeField] private float _zoomOutDuration = 5f;
+        [SerializeField, Tooltip("Zoom In을 얼마나 할 지 결정합니다.\n중요: 숫자가 작아야 가까이 보임. (기본: 14)")] private float _zoomInValue = 14f;
+        [SerializeField] private float _zoomInDuration = 1f;
         
         public CinemachineCamera MainCamera => _mainCamera;
+        public CameraShaker CameraShakerCompo => _cameraShakerCompo;
+        public CameraChanger CameraChangerCompo => _cameraChangerCompo;
+        public CameraTransform CameraTransformCompo => _cameraTransformCompo;
 
         protected override void Awake()
         {
@@ -34,10 +40,11 @@ namespace JMT.CameraSystem
                 Debug.LogError("Main Camera is not assigned in CameraManager.");
                 return;
             }
-            
-            _defaultCameraRotation = _mainCamera.transform.rotation.eulerAngles;
-            _cinemachineFollow = _mainCamera.GetComponent<CinemachineFollow>();
-            _defaultFollowOffset = _cinemachineFollow.FollowOffset;
+            _cameraShakerCompo = GetComponent<CameraShaker>();
+            _cameraChangerCompo = GetComponent<CameraChanger>();
+            _cameraTransformCompo = GetComponent<CameraTransform>();
+
+            _cameraTransformCompo?.Init(_mainCamera);
         }
 
         private void Start()
@@ -47,7 +54,7 @@ namespace JMT.CameraSystem
 
         private void OnDestroy()
         {
-            if (GameUIManager.Instance != null)
+            if (GameUIManager.HasInstance)
             {
                 GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
             }
@@ -55,78 +62,15 @@ namespace JMT.CameraSystem
 
         private void HandleNightEvent(DaytimeType obj)
         {
-            Sequence sequence = DOTween.Sequence();
+            Debug.Log("아아아아");
             if (obj == DaytimeType.Night)
             {
-                sequence.Append(_mainCamera.DOZoom(12f, 1f));
-                sequence.AppendCallback(() => RotationCamera(new Vector3(-7.5f, 45, 0), 1f));
-                sequence.AppendCallback(() => SetFollowOffset(26.9f, 1f));
+                _mainCamera.DOZoom(_zoomOutValue, _zoomOutDuration).OnComplete(() => _cameraEventSO.Invoke());
             }
             else if (obj == DaytimeType.Day)
             {
-                sequence.Append(_mainCamera.DOZoom(14f, 1f));
-                sequence.AppendCallback(() => RotationCamera(new Vector3(-7.5f, 45, 0), 1f));
-                sequence.AppendCallback(() => SetFollowOffset(12.6f, 1f));
+                _mainCamera.DOZoom(_zoomInValue, _zoomInDuration);
             }
-            
-            sequence.Play();
-        }
-
-        public void ShakeCamera(float strength)
-        {
-            if (_mainImpulseSource != null)
-            {
-                _mainImpulseSource.GenerateImpulse(strength);
-            }
-        }
-        
-        public void ShakeCamera(float strength, float duration)
-        {
-            StartCoroutine(ImpulseCoroutine(strength, duration));
-        }
-
-        private IEnumerator ImpulseCoroutine(float strength, float duration)
-        {
-            float elapsedTime = 0;
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                _mainImpulseSource.GenerateImpulse(strength);
-                yield return null;
-            }
-        }
-        
-        public void RotationCamera(Vector3 rotation, float duration, Ease ease = Ease.Unset)
-        {
-            if (_mainCamera == null) return;
-
-            _mainCamera.transform.DORotate(rotation, duration)
-                .SetEase(ease);
-        }
-
-        private void SetFollowOffset(float y, float duration, Ease ease = Ease.Unset)
-        {
-            if (_cinemachineFollow == null) return;
-            //_cinemachineFollow.FollowOffset = new Vector3(_cinemachineFollow.FollowOffset.x, y, _cinemachineFollow.FollowOffset.z);
-            _cinemachineFollow.DOFollowOffset(
-                new Vector3(_cinemachineFollow.FollowOffset.x, y, _cinemachineFollow.FollowOffset.z),
-                duration, ease);
-        }
-        
-        private void SetCameraYPosition(float y, float duration, Ease ease = Ease.Unset)
-        {
-            if (_mainCamera == null) return;
-
-            _mainCamera.transform.DOMoveY(y, duration)
-                .SetEase(ease);
-        }
-        
-        public void ResetCamera()
-        {
-            if (_mainCamera == null) return;
-
-            _mainCamera.transform.rotation = Quaternion.Euler(_defaultCameraRotation);
-            _cinemachineFollow.FollowOffset = _defaultFollowOffset;
         }
     }
 }

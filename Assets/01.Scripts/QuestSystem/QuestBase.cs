@@ -20,18 +20,82 @@ public class QuestBase : MonoBehaviour, IQuestTarget
     public QuestSO QuestData => questData;
     public List<PlanetTile> Tiles => tileDialogues.Select(t => t.Tile).ToList();
     public List<string> Ranges => tileDialogues.Select(t => t.DialogueRange).ToList();
-    public List<QuestPing> QuestPing => Tiles.Select(t => t.QuestPing).ToList();
+    public List<QuestPing> QuestPing
+    {
+        get
+        {
+            if (Tiles == null || Tiles.Count == 0)
+            {
+                Debug.LogWarning("Tiles list is empty or null.");
+                return new List<QuestPing>();
+            }
+            
+            return Tiles.Select(t =>
+            {
+                if (t == null)
+                {
+                    Debug.LogWarning("Tile is null.");
+                    return null;
+                }
+                if (t.QuestPing == null)
+                {
+                    Debug.LogWarning($"QuestPing is null for tile: {t.name}");
+                    return null;
+                }
+                return t.QuestPing;
+            }).ToList();
+        }
+    }
+
     public QuestState QuestState { get; private set; }
 
     public bool IsActive { get; private set; }
     public bool CanRunQuest => QuestState == QuestState.InProgress && IsActive;
-    public int CompleteCount => Tiles.Count(t => !t.QuestPing.IsEnable);
-    public bool IsComplete => Tiles.All(t => !t.QuestPing.IsEnable);
+    public int CompleteCount
+    {
+        get
+        {
+            if (Tiles == null || Tiles.Count == 0)
+            {
+                Debug.LogWarning("Tiles list is empty or null.");
+                return 0;
+            }
+            return Tiles.Count(t =>
+            {
+                if (t == null)
+                {
+                    Debug.LogWarning("Tile is null.");
+                    return false;
+                }
+                if (t.QuestPing == null)
+                {
+                    Debug.LogWarning($"QuestPing is null for tile: {t.name}");
+                    return false;
+                }
+                return !t.QuestPing.IsEnable;
+            });
+        }
+    }
+
+    public bool IsComplete => Tiles.All(t =>
+    {
+        if (t == null)
+        {
+            Debug.LogWarning("Tile is null.");
+            return false;
+        }
+        if (t.QuestPing == null)
+        {
+            Debug.LogWarning($"QuestPing is null for tile: {t.name}");
+            return false;
+        }
+        return !t.QuestPing.IsEnable;
+    });
 
     public virtual void RunQuest(int num)
     {
         if (QuestState != QuestState.InProgress) return;
-        QuestPing[num].DisablePing();
+        QuestPing[num]?.DisablePing();
         QuestCountEvent();
         DialogueManager.Instance.StartDialogue(Ranges[num]);
 
@@ -77,7 +141,6 @@ public class QuestBase : MonoBehaviour, IQuestTarget
 
     private void QuestCountEvent()
     {
-        Debug.Log($"{CompleteCount}/{QuestPing.Count}");
         QuestManager.Instance.OnQuestCountEvent?.Invoke($"{CompleteCount}/{QuestPing.Count}");
     }
 }

@@ -103,7 +103,7 @@ namespace JMT.Core.Tool.PoolingSystem.Editors
             // 마지막으로 그린 사각형 정보를 알아옴
             Rect lastRect = GUILayoutUtility.GetLastRect();
 
-            if (Event.current.type == EventType.MouseDown
+            if (Event.current.type == UnityEngine.EventType.MouseDown
                 && lastRect.Contains(Event.current.mousePosition))
             {
                 inspectorScroll = Vector2.zero;

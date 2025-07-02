@@ -1,10 +1,12 @@
 using JMT.Building.Component;
+using JMT.Building.Data;
 using JMT.NightSummary;
 
 namespace JMT.Building
 {
     public class RocketLauncherBuilding : BuildingBase
     {
+        public RocketLauncherDataSO RocketLauncherDataSO => buildingDataSO as RocketLauncherDataSO;
         protected override void AddEvents()
         {
             base.AddEvents();

@@ -21,9 +21,6 @@ namespace JMT.PlayerCharacter
         [SerializeField] private float _itemAddDelay = 1f;
         private Player _player;
         
-        private Collider[] _colliders = new Collider[10];
-        private bool _isItemAddActive = false;
-        private float _currentItemAddTime = 0f;
 
         public void Init(IPlayer player)
         {
@@ -39,9 +36,8 @@ namespace JMT.PlayerCharacter
             GameUIManager.Instance.InteractCompo.OnClickEvent -= SendItem;
         }
 
-        public void AddItem(ItemSO item, int count = 1)
+        public bool AddItem(ItemSO item, int count = 1)
         {
-            _isItemAddActive = false;
             // 현재 들고있는 아이템이 없을 때
             if (_playerInventoryData.item == null)
             {
@@ -50,7 +46,7 @@ namespace JMT.PlayerCharacter
                 _playerInventoryData.count = count;
             }
             // 현재 들고있는 아이템이 있을 때는 같은 종류만 걸러 count를 증가시킨다
-            else if (_playerInventoryData.item == item)
+            else if (_playerInventoryData.item == item && _playerInventoryData.count < MaxInventorySize)
             {
                 _playerInventoryData.count += count;
                 _playerInventoryData.count = Mathf.Clamp(_playerInventoryData.count, 0, MaxInventorySize);
@@ -59,15 +55,17 @@ namespace JMT.PlayerCharacter
             else
             {
                 Debug.LogWarning("Inventory is full or item type mismatch.");
-                return;
+                return false;
             }
-            
+
 
             // 플레이어가 아이템을 듬
             OnInventoryEvent?.Invoke(item, PlayerInventoryData.count);
             _itemObject.gameObject.SetActive(true);
             _itemObject.SetItem(item);
             _player.AnimatorCompo.SetBool(PlayerState.Caring, true);
+            _player.SoundPlayer.PlaySound("ItemEquip", Sound.SoundType.SFX);
+            return true;
         }
         
         public ItemSO RemoveItem(ItemSO item = null, int count = 1, bool isItemCountZeroNull = true)

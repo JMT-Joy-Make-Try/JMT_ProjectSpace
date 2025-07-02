@@ -8,6 +8,7 @@ namespace JMT.Planets.Tile
 {
     public class NoneInteraction : TileInteraction
     {
+        
         public override void Interaction()
         {
             if (!IsPlayerHaveTool())

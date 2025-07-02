@@ -36,8 +36,16 @@ namespace JMT.UISystem.Interact
         private void HandleInfo(BuildingDataSO data)
         {
             BuildingManager.Instance.CurrentBuilding = data;
+            var noneInteraction = TileManager.Instance.CurrentTile;
+            if (noneInteraction.IsRocketTile)
+            {
+                noneInteraction.BaseTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
+            }
+            else
+            {
+                TileManager.Instance.CurrentTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
+            }
             infoView.SetInfo(data);
-            TileManager.Instance.CurrentTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
         }
 
         private void HandleChangeCategory(BuildingCategory category)
@@ -49,7 +57,16 @@ namespace JMT.UISystem.Interact
 
         private void HandleBuildButton()
         {
-            if (model.Build(TileManager.Instance.CurrentTile, pvcObject))
+            var noneInteraction = TileManager.Instance.CurrentTile;
+            if (noneInteraction.IsRocketTile)
+            {
+                if (model.Build(noneInteraction.BaseTile))
+                {
+                    CloseUI();
+                }
+                return;
+            }
+            if (model.Build(TileManager.Instance.CurrentTile))
             {
                 CloseUI();
             }

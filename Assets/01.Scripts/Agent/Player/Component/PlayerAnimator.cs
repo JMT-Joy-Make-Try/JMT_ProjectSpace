@@ -25,17 +25,17 @@ namespace JMT.PlayerCharacter
         {
             stateHash = new Dictionary<PlayerState, int>();
         }
-        
+
         public void Init(IPlayer player)
         {
             Player = player as Player;
             AnimCompo = Player?.VisualTrm.GetComponent<Animator>();
             EndTrigger = Player?.VisualTrm.GetComponent<AnimationEndTrigger>();
             ToolAnimCompo = Player?.PlayerToolCompo.CurrentCloth;
-            
+
             Player.PlayerToolCompo.OnClothChange += HandleToolAnimChange;
-            
-            
+
+
 
             InitState();
         }
@@ -47,7 +47,7 @@ namespace JMT.PlayerCharacter
             GameUIManager.Instance.InteractCompo.OnAnimationEndEvent += HandleAnimation;
         }
 
-        
+
 
         private void OnDestroy()
         {
@@ -62,7 +62,7 @@ namespace JMT.PlayerCharacter
 
         private void InitState()
         {
-            foreach (var state in Enum.GetValues(typeof(PlayerState))) 
+            foreach (var state in Enum.GetValues(typeof(PlayerState)))
             {
                 stateHash.Add((PlayerState)state, Animator.StringToHash(state.ToString()));
             }
@@ -75,16 +75,17 @@ namespace JMT.PlayerCharacter
 
         private void HandleHoldEvent(bool isHold)
         {
+            if (Player.TileFindingCompo.IsTileIsHold()) return;
             if (isHold) ChangeState(PlayerState.Interact);
             else ChangeState(PlayerState.Idle);
         }
-        
+
         private void HandleAnimation()
         {
             ChangeState(PlayerState.Idle);
         }
 
-        private void ChangeState(PlayerState state) 
+        public void ChangeState(PlayerState state)
         {
             AnimCompo.SetBool(stateHash[curState], false);
             ToolAnimCompo?.SetBool(stateHash[curState], false);
@@ -105,28 +106,20 @@ namespace JMT.PlayerCharacter
                 Debug.LogWarning($"State {curState} not found in stateHash.");
             }
         }
-        
-        public void SetLayer(int layerNumber, float weight)
+
+        public void SetLayer(PlayerAnimationLayer layer, float weight)
         {
             AnimCompo.SetLayerWeight(_currentLayer, 0);
-            _currentLayer = layerNumber;
+            _currentLayer = (int)layer;
             AnimCompo.SetLayerWeight(_currentLayer, weight);
         }
-        
+
         private void HandleToolAnimChange(Animator toolAnim)
         {
             ToolAnimCompo = toolAnim;
             if (ToolAnimCompo != null)
             {
                 ToolAnimCompo.SetBool(stateHash[curState], true);
-            }
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ChangeState(PlayerState.Sleep);
             }
         }
     }
@@ -136,9 +129,23 @@ namespace JMT.PlayerCharacter
         Idle,
         Walk,
         Interact,
+        OutBase,
+        Dead,
+        Tool,
         Caring,
         Sleep,
-        Hit,
-        Dead,
+        Build,
+        ReturnBase
+    }
+
+    public enum PlayerAnimationLayer
+    {
+        BaseLayer = 0,
+        CarringLayer = 1,
+        BuildLayer = 2,
+        FieldLayer = 3,
+        VacuumLayer = 4,
+        ScannerLayer = 5,
+        FuelLayer = 6,
     }
 }

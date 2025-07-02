@@ -16,7 +16,7 @@ namespace JMT.Building
     public abstract class BuildingBase : MonoBehaviour
     {
         [SerializeField] private bool _isOnceBuild = false;
-        [SerializeField] private BuildingDataSO buildingDataSO;
+        [SerializeField] protected BuildingDataSO buildingDataSO;
         #region Building Component
         public List<IBuildingComponent> components = new List<IBuildingComponent>();
         

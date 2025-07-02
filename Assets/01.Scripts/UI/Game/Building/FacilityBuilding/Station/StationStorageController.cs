@@ -72,7 +72,7 @@ namespace JMT.UISystem.Station
             var itemSO = currentItem.Key;
             if (itemSO?.IsUsable == false) return;
 
-            if (itemSO.ItemType is ItemType.OxygenTank or ItemType.PurificationContainer)
+            if (itemSO.ItemType is ItemType.StaleOxygen or ItemType.OxygenCylinder)
             {
                 // 산소 공급(값은 바꿔줘야함)
                 AgentManager.Instance.Player.HealthCompo.AddOxygen(10);

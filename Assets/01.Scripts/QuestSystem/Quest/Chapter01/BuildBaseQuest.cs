@@ -1,3 +1,4 @@
+using JMT.Building;
 using JMT.Building.Component;
 using JMT.Planets.Tile;
 using System;
@@ -21,7 +22,8 @@ namespace JMT.QuestSystem
 
         private void HandleBuildEvent()
         {
-            Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().PVC.OnGaugeFull += HandleRunQuest;
+            if (Tiles[0].CurrentBuilding is BuildingBase)
+                Tiles[0].CurrentBuilding.GetBuildingComponent<BuildingBuilder>().PVC.OnGaugeFull += HandleRunQuest;
         }
 
         private void HandleRunQuest()

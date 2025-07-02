@@ -12,20 +12,27 @@ namespace JMT.Core.Manager
     {
         [SerializeField] private List<BuildingDataSO> buildingDatas;
         [SerializeField] private BaseBuilding _baseBuilding;
-        
+
         [field: SerializeField] public List<HospitalBuilding> HospitalBuildings { get; private set; } = new List<HospitalBuilding>();
         [field: SerializeField] public List<OxygenBuilding> OxygenBuildings { get; private set; } = new List<OxygenBuilding>();
         [field: SerializeField] public List<LodgingBuilding> LodgingBuildings { get; private set; } = new List<LodgingBuilding>();
-        
-        
-        public BuildingDataSO CurrentBuilding; 
+
+
+        public BuildingDataSO CurrentBuilding;
         public BaseBuilding BaseBuilding => _baseBuilding;
         public List<BuildingBase> Buildings => _buildings;
         public List<BuildingDataSO> GetDictionary() => buildingDatas;
-        
+
         private List<BuildingBase> _buildings = new List<BuildingBase>();
         private List<float> _defaultFuelAmount = new List<float>();
 
+
+        public void AddBuildingDataSO(BuildingDataSO buildingData)
+        {
+            if (buildingData == null) return;
+            if (buildingDatas.Contains(buildingData)) return;
+            buildingDatas.Add(buildingData);
+        }
 
         public void AddBuilding(BuildingBase building)
         {
@@ -33,7 +40,7 @@ namespace JMT.Core.Manager
             _buildings.Add(building);
             _defaultFuelAmount.Add(building.GetBuildingComponent<BuildingFuel>().FuelAmount);
         }
-        
+
         public void RemoveBuilding(BuildingBase building)
         {
             if (building == null) return;
@@ -49,13 +56,19 @@ namespace JMT.Core.Manager
                 fuel.FuelAmount = fuel.FuelAmount.GetPercentageValue(percent);
             }
         }
-        
+
         public void ResetFuel()
         {
             for (int i = 0; i < _buildings.Count; i++)
             {
                 _buildings[i].GetBuildingComponent<BuildingFuel>().FuelAmount = _defaultFuelAmount[i];
             }
+        }
+
+        public bool IsCurrentBuildingType(BuildingType buildingType)
+        {
+            if (CurrentBuilding == null) return false;
+            return CurrentBuilding.BuildingType == buildingType;
         }
     }
 }

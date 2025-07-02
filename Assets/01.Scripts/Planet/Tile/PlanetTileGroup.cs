@@ -1,52 +1,41 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-
 namespace JMT.Planets.Tile
 {
     public class PlanetTileGroup : MonoBehaviour
     {
-        public List<PlanetTile> Tiles { get; private set; } = new(4);
-        private TileInteraction _tileInteraction;
+        public List<PlanetTile> Tiles => _tiles;
+        public TileInteraction Interaction => _interaction;
 
-        public T ChangeInteraction<T>() where T : TileInteraction
+        [SerializeField] private List<PlanetTile> _tiles = new List<PlanetTile>();
+        private TileInteraction _interaction;
+
+        public void SetInteraction(TileInteraction interaction)
         {
-            if (Tiles.Count == 0) return null;
-            RemoveInteraction();
-            AddInteraction<T>();
-            return _tileInteraction as T;
+            _interaction = interaction;
         }
-        
-        public T AddInteraction<T>() where T : TileInteraction
-        {
-            if (Tiles.Count == 0) return null;
 
-            _tileInteraction = Tiles[0].AddInteraction<T>();
-
-            foreach (var tile in Tiles)
-            {
-                tile.TileInteraction = _tileInteraction;
-            }
-            return _tileInteraction as T;
-        }
-        
-        public void RemoveInteraction()
-        {
-            if (_tileInteraction == null) return;
-
-            foreach (var tile in Tiles)
-            {
-                tile.RemoveInteraction();
-            }
-            _tileInteraction = null;
-        }
-        
         public T GetInteraction<T>() where T : TileInteraction
         {
-            if (_tileInteraction is T interaction)
+            if (_interaction == null)
             {
-                return interaction;
+                Debug.LogError("Interaction is not set for this tile group.");
+                return null;
             }
-            return null;
+            return _interaction as T;
+        }
+
+        public void ChangeInteraction<T>() where T : TileInteraction
+        {
+            foreach (var tile in _tiles)
+            {
+                if (tile.TileInteraction != null)
+                {
+                    tile.RemoveInteraction();
+                }
+                tile.AddInteraction<T>();
+            }
         }
     }
 }

@@ -7,6 +7,12 @@ using UnityEngine;
 using JMT.Sound;
 using JMT.Agent;
 using JMT.Core;
+using JMT.DayTime;
+using JMT.Effect;
+using JMT.Planets.Tile;
+using JMT.Planets.Tile.Items;
+using JMT.UISystem.Interact;
+using System;
 
 namespace JMT.PlayerCharacter
 {
@@ -25,6 +31,8 @@ namespace JMT.PlayerCharacter
         public Transform VisualTrm { get; private set; }
         public SoundPlayer SoundPlayer { get; private set; }
         public PlayerStat StatCompo { get; private set; }
+        public EffectPlayer EffectCompo { get; private set; }
+        public PlayerEffect PlayerEffectCompo { get; private set; }
         
         public PlayerInputSO InputSO => inputSO;
         public LayerMask GroundLayer => groundLayer;
@@ -47,6 +55,8 @@ namespace JMT.PlayerCharacter
             MovementCompo = GetComponent<PlayerMovement>();
             TileFindingCompo = GetComponent<PlayerTileFinding>();
             StatCompo = GetComponent<PlayerStat>();
+            EffectCompo = GetComponent<EffectPlayer>();
+            PlayerEffectCompo = GetComponent<PlayerEffect>();
             
             
             FogDetect = GetComponent<FogDetect>();
@@ -54,6 +64,9 @@ namespace JMT.PlayerCharacter
             
 
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent += HandleChangeTimeEvent;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent += HandleNightEvent;
+            GameUIManager.Instance.InteractCompo.OnHoldEvent += HandleItem;
+            InputSO.OnMoveEvent += HandleMoveEffect;
             HealthCompo.OnDamageEvent += HandleDamaged;
         }
 
@@ -67,14 +80,76 @@ namespace JMT.PlayerCharacter
             FogDetect.Init(this);
             TileFindingCompo.Init(this);
             StatCompo.Init(this);
+            PlayerEffectCompo?.Init(this);
         }
 
         private void OnDestroy()
         {
+            HealthCompo.OnDamageEvent -= HandleDamaged;
+            InputSO.OnMoveEvent -= HandleMoveEffect;
             if (GameUIManager.Instance == null) return;
             if (GameUIManager.Instance.TimeCompo == null) return;
             GameUIManager.Instance.TimeCompo.OnChangeTimeEvent -= HandleChangeTimeEvent;
-            HealthCompo.OnDamageEvent -= HandleDamaged;
+            GameUIManager.Instance.TimeCompo.OnChangeDaytimeEvent -= HandleNightEvent;
+            GameUIManager.Instance.InteractCompo.OnHoldEvent -= HandleItem;
+        }
+
+        private void HandleItem(bool isHold)
+        {
+            var item = TileManager.Instance.CurrentTile.TileInteraction.GetItemType();
+            if (isHold)
+            {
+                if (PlayerToolCompo.IsEquippedTool(PlayerToolType.Vacuum))
+                {
+                    if (item == ItemType.StoneDebris)
+                    {
+                        PlayerEffectCompo?.PlayEffect("PlayerDust");
+                        SoundPlayer.PlaySound("Dust_PlayerCollecting", SoundType.SFX);
+                        return;
+                    }
+                }
+                if (PlayerToolCompo.IsEquippedTool(PlayerToolType.FuelDropper))
+                {
+                    if (item == ItemType.LiquidFuel)
+                    {
+                        PlayerEffectCompo?.PlayEffect("PlayerFuel");
+                        SoundPlayer.PlaySound("Liquid_Fuel", SoundType.SFX);
+                        return;
+                    }
+                }
+                PlayerEffectCompo?.PlayEffect(item.ToString());
+            }
+            else
+            {
+                PlayerEffectCompo?.StopEffect();
+            }
+            
+        }
+
+        private void HandleMoveEffect(Vector2 movement)
+        {
+            if (movement.sqrMagnitude > 0.01f)
+            {
+                EffectCompo.PlayEffect();
+            }
+            else
+            {
+                EffectCompo.StopEffect();
+            }
+        }
+
+        private void HandleNightEvent(DaytimeType type)
+        {
+            if (type == DaytimeType.Night)
+            {
+                GameUIManager.Instance.PlayerControlActive(false);
+                AnimatorCompo.ChangeState(PlayerState.Sleep);
+            }
+            else if (type == DaytimeType.Day)
+            {
+                GameUIManager.Instance.PlayerControlActive(true);
+                AnimatorCompo.ChangeState(PlayerState.Idle);
+            }
         }
 
         private void HandleDamaged(int cur, int max)

@@ -25,9 +25,12 @@ namespace JMT.UISystem
             toolCompo.OnAddToolEvent -= SetTools;
         }
 
-        private void HandleSelectToolEvent(ToolSO tool)
+        private void HandleSelectToolEvent(ToolSO tool, bool isEnabled)
         {
-            toolCompo.SetCloth(tool.ToolType);
+            if (isEnabled)
+                toolCompo.SetCloth(tool.ToolType);
+            else
+                toolCompo.UnEquipTool(tool.ToolType);
         }
 
         public void OpenPanel()

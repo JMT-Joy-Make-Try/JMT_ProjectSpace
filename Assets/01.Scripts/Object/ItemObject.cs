@@ -1,15 +1,9 @@
-using AYellowpaper.SerializedCollections;
-using DG.Tweening;
+using JMT.Core.Tool.PoolManager.Core;
+using JMT.Core.Tool.PoolManager;
+using UnityEngine;
 using JMT.Agent;
 using JMT.Core;
-using JMT.Core.Tool.PoolManager;
-using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
-using JMT.Planets.Tile;
-using JMT.Planets.Tile.Items;
-using JMT.UISystem;
-using System;
-using UnityEngine;
 
 namespace JMT.Object
 {
@@ -57,6 +51,15 @@ namespace JMT.Object
             if (inventory.IsMaxInventorySizeReached())
             {
                 Debug.LogWarning("Inventory is full. Cannot collect item: " + _itemSO);;
+                return;
+            }
+            if (_itemSO.GetType() == typeof(StructItemSO))
+            {
+                var structItem = _itemSO as StructItemSO;
+                if (structItem != null)
+                {
+                    structItem.OnEquip();
+                }
                 return;
             }
             AgentManager.Instance.Player.InventoryCompo.AddItem(_itemSO);

@@ -1,4 +1,4 @@
-﻿using JMT.Building;
+using JMT.Building;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,15 @@ namespace JMT.NightSummary.Component
         {
             return _buildingDataList;
         }
-        
+
+        public int GeBuildingsCount()
+        {
+            int result = 0;
+            for (int i = 0; i < _buildingDataList.Count; i++)
+                result += _buildingDataList[i].Count;
+            return result;
+        }
+
         public string GetBuildingSummary(BuildingModuleData data)
         {
             return $"{data.BuildingType} Lv.{data.Level} X{data.Count}";

@@ -47,6 +47,18 @@ namespace JMT.PlayerCharacter
             if (tool == null) return false;
             return tool.ToolType == toolType;
         }
+
+        public void UnEquipTool(PlayerToolType toolType)
+        {
+            if (CurPlayerToolSO == null || CurPlayerToolSO.ToolType != toolType)
+            {
+                Debug.LogWarning($"No tool equipped of type: {toolType}");
+                return;
+            }
+            CurPlayerToolSO.UnEquip();
+            CurPlayerToolSO = null;
+            SetCloth(PlayerToolType.None);
+        }
     }
     
     public enum PlayerToolType
