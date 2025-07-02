@@ -43,6 +43,14 @@ namespace JMT.UISystem
             if (countText != null) countText.text = count;
         }
 
+        public void SetCell(Sprite sprite = null, string name = null, string count = null)
+        {
+            if(sprite != null)
+                if (icon != null) icon.sprite = sprite;
+            if (nameText != null) nameText.text = name;
+            if (countText != null) countText.text = count;
+        }
+
         public void ResetCell()
         {
             if (icon != null) icon.sprite = null;

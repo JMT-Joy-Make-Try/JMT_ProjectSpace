@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -12,8 +14,12 @@ namespace JMT.UISystem.Interact
 
         [SerializeField] private Sprite[] interactSprite;
         [SerializeField] private Button interactButton;
+        [SerializeField] private Button extraInteractButton;
+        [SerializeField] private Image interactLine;
         [SerializeField] private EventTrigger interactTrigger;
         [SerializeField] private Image interactionIcon;
+
+        private Tween lineTween;
 
         private void Awake()
         {
@@ -23,11 +29,20 @@ namespace JMT.UISystem.Interact
         private void OnDestroy()
         {
             interactButton.onClick.RemoveListener(HandleInteractButton);
+            extraInteractButton.onClick.RemoveAllListeners();
         }
 
         private void HandleInteractButton()
         {
             OnInteractEvent?.Invoke();
+        }
+
+        public void SetExtraButton(bool isTrue, UnityAction action = null)
+        {
+            extraInteractButton.onClick.RemoveAllListeners();
+            extraInteractButton.gameObject.SetActive(isTrue);
+            if (action != null)
+            extraInteractButton.onClick.AddListener(action);
         }
 
         public void ChangeInteract(InteractType type)
@@ -54,6 +69,16 @@ namespace JMT.UISystem.Interact
         private void RemoveEventTrigger(EventTriggerType type)
         {
             interactTrigger.triggers.RemoveAll(entry => entry.eventID == type);
+        }
+
+        public void StartInteractLine()
+        {
+            lineTween = interactLine.rectTransform.DOLocalRotate(new(0, 0, 360), 10f, RotateMode.FastBeyond360).SetLoops(-1);
+        }
+
+        public void StopInteractLine()
+        {
+            lineTween?.Kill();
         }
     }
 }

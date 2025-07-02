@@ -26,6 +26,7 @@ namespace JMT.UISystem
         [SerializeField] private QuestController questCompo;
         [SerializeField] private PingPointerController pointerCompo;
         [SerializeField] private TradeController villageCompo;
+        [SerializeField] private FadeUI fadeCompo;
         public TimeController TimeCompo => timeCompo;
         public GameSpeedController SpeedCompo => speedCompo;
         public ResourceController ResourceCompo => resourceCompo;
@@ -37,6 +38,7 @@ namespace JMT.UISystem
         public QuestController QuestCompo => questCompo;
         public PingPointerController PointerCompo => pointerCompo;
         public TradeController TradeCompo => villageCompo;
+        public FadeUI FadeCompo => fadeCompo;
 
         public void PlayerControlActive(bool isActive)
         {

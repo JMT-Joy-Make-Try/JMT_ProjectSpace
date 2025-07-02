@@ -33,6 +33,8 @@ namespace JMT.UISystem.DayTime
         {
             daytimeType = type;
             OnChangeDaytimeEvent?.Invoke(daytimeType);
+            if(type == DaytimeType.Day)
+                isNight = false;
         }
 
         public bool ChangeTime(DayTimeSO timeSO)

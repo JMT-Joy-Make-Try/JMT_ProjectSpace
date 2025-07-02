@@ -1,4 +1,4 @@
-﻿using JMT.Planets.Tile.Items;
+using JMT.Planets.Tile.Items;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +11,8 @@ namespace JMT.NightSummary.Component
     public class CollectItemModule : IResetable
     {
         [SerializeField] private List<CollectItemData> _collectItemDataList = new();
+
+        
         
         public void AddItem(ItemType item, int count)
         {
@@ -28,6 +30,14 @@ namespace JMT.NightSummary.Component
         public List<CollectItemData> GetCollectedItems()
         {
             return _collectItemDataList;
+        }
+
+        public int GetCollectedItemsCount()
+        {
+            int result = 0;
+            for(int i = 0; i <  _collectItemDataList.Count; i++)
+                result += _collectItemDataList[i].Count;
+            return result;
         }
         
         public string GetItemSummary(CollectItemData data)

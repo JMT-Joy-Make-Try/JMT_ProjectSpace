@@ -29,6 +29,7 @@ namespace JMT.UISystem.DayTime
         private readonly TimeModel model = new();
         private Coroutine timeCoroutine;
 
+        public int DayCount => model.DayCount;
 
         private void Start()
         {

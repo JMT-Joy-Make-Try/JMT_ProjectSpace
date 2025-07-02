@@ -22,8 +22,6 @@ namespace JMT.Agent
         public Trader.Trader Trader { get; private set; }
         private void Start()
         {
-            Debug.Log(_traderPrefab);
-            Debug.Log(Trader);
             Trader = Instantiate(_traderPrefab, transform);
             Trader.gameObject.SetActive(false);
         }

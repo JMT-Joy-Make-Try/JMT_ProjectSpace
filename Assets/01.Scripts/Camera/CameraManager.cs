@@ -62,6 +62,7 @@ namespace JMT.CameraSystem
 
         private void HandleNightEvent(DaytimeType obj)
         {
+            Debug.Log("아아아아");
             if (obj == DaytimeType.Night)
             {
                 _mainCamera.DOZoom(_zoomOutValue, _zoomOutDuration).OnComplete(() => _cameraEventSO.Invoke());
