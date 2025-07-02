@@ -49,7 +49,16 @@ namespace JMT.UISystem.Interact
 
         private void HandleBuildButton()
         {
-            if (model.Build(TileManager.Instance.CurrentTile, pvcObject))
+            var noneInteraction = TileManager.Instance.CurrentTile.GetInteraction<NoneInteraction>();
+            if (noneInteraction.IsRocketTile)
+            {
+                if (model.Build(noneInteraction.BaseTile))
+                {
+                    CloseUI();
+                }
+                return;
+            }
+            if (model.Build(TileManager.Instance.CurrentTile))
             {
                 CloseUI();
             }
