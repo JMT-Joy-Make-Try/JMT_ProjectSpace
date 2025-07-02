@@ -94,7 +94,7 @@ namespace JMT.Planets.Tile
         }
 
         
-        public void SetRequiredItems(Dictionary<ItemSO, int> requiredItems)
+        public void SetRequiredItems(Dictionary<ItemSO, int> requiredItems, bool isRocket)
         {
             _requiredItems = new SerializedDictionary<ItemSO, int>(requiredItems);
             _isCompleteReceive = false;
@@ -107,6 +107,11 @@ namespace JMT.Planets.Tile
             }
             
             pvc = Instantiate(BuildingManager.Instance.CurrentBuilding.PVCPrefab, transform);
+            if (isRocket)
+            {
+                pvc.transform.localPosition += new Vector3(-0.5f, -0.5f, 0.5f);
+                pvc.transform.localScale *= 2f;
+            }
             OnChangedDataEvent += pvc.PVCUI.SetNeedItemUI;
             pvc.SetVisualActive(false);
             

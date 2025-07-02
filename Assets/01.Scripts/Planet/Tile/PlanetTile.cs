@@ -12,6 +12,8 @@ namespace JMT.Planets.Tile
 {
     public class PlanetTile : MonoBehaviour
     {
+        [field: SerializeField] public PlanetTile BaseTile { get; private set; }
+        [field: SerializeField] public bool IsRocketTile { get; private set; } = false;
         [Tooltip("건물이 건설되기 시작했을 때 일어나는 액션입니다.")]
         public event Action OnBuild;
         public event Action<TileInteraction> OnChangeInteraction;
@@ -71,7 +73,7 @@ namespace JMT.Planets.Tile
         public void EnterPreBuildRequirementState()
         {
             var preBuild = ChangeInteraction<PreBuildInteraction>();
-            preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems);
+            preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems, IsRocketTile);
             OnPrebuild?.Invoke();
         }
 

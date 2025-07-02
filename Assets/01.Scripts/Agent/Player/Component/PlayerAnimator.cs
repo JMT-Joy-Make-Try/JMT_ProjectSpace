@@ -129,10 +129,13 @@ namespace JMT.PlayerCharacter
         Idle,
         Walk,
         Interact,
+        OutBase,
+        Dead,
+        Tool,
         Caring,
         Sleep,
-        Hit,
-        Dead,
+        Build,
+        ReturnBase
     }
 
     public enum PlayerAnimationLayer
