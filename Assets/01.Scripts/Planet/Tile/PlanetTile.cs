@@ -31,7 +31,31 @@ namespace JMT.Planets.Tile
 
         [SerializeField]private BuildingBase _currentBuilding;
         public BuildingBase CurrentBuilding => _currentBuilding;
-        public TileInteraction TileInteraction;
+
+        private TileInteraction _tileInteraction;
+        public TileInteraction TileInteraction
+        {
+            get
+            {
+                if (TileGroup != null && TileGroup.Interaction != null)
+                {
+                    return TileGroup.Interaction;
+                }
+                if (_tileInteraction == null)
+                {
+                    _tileInteraction = GetComponentInChildren<TileInteraction>();
+                    if (_tileInteraction == null)
+                    {
+                        Debug.LogError("TileInteraction component not found in children.");
+                    }
+                }
+                return _tileInteraction;
+            }
+            private set
+            {
+                _tileInteraction = value;
+            }
+        }
         public Transform Pivot { get; private set; }
 
         private bool canInteraction = true;
@@ -42,6 +66,8 @@ namespace JMT.Planets.Tile
         private Trader _trader;
         public Trader Trader => _trader;
 
+        public PlanetTileGroup TileGroup { get; private set; }
+
         private void Awake()
         {
             Pivot = transform.Find("Pivot");
@@ -51,6 +77,10 @@ namespace JMT.Planets.Tile
             int randomIndex = UnityEngine.Random.Range(0, _textures.Count);
             Renderer.material.SetTexture("_MainTex", _textures[randomIndex]);
             TileInteraction = transform.GetComponentInChildren<TileInteraction>();
+            if (TileGroup == null)
+            {
+                TileGroup = GetComponentInParent<PlanetTileGroup>();
+            }
 
             if (TileInteraction == null)
             {
@@ -73,6 +103,10 @@ namespace JMT.Planets.Tile
         public void EnterPreBuildRequirementState()
         {
             var preBuild = ChangeInteraction<PreBuildInteraction>();
+            if (TileGroup != null)
+            {
+                TileGroup.SetInteraction(preBuild);
+            }
             preBuild.SetRequiredItems(BuildingManager.Instance.CurrentBuilding.buildingLevel[0].NeedItems, IsRocketTile);
             OnPrebuild?.Invoke();
         }
@@ -127,6 +161,11 @@ namespace JMT.Planets.Tile
         
         public T ChangeInteraction<T>() where T : TileInteraction
         {
+            if (TileGroup != null && TileGroup.Interaction != null)
+            {
+                TileGroup.ChangeInteraction<T>();
+                return TileGroup.GetInteraction<T>();
+            }
             RemoveInteraction();
             return AddInteraction<T>();
         }
@@ -146,6 +185,10 @@ namespace JMT.Planets.Tile
 
         public T GetInteraction<T>() where T : TileInteraction
         {
+            if (TileGroup != null && TileGroup.Interaction != null)
+            {
+                return TileGroup.GetInteraction<T>();
+            }
             if (IsTraderOnTile())
             {
                 _trader.Interact();
