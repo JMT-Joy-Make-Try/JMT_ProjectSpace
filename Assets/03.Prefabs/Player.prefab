@@ -265,42 +265,52 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 1
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 2
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 3
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 4
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 5
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 6
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 7
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 8
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
     - Key: 9
       Value:
+        <Type>k__BackingField: 0
         DefaultValue: 1
         Modifiers: []
 --- !u!114 &6087271493879704218
@@ -1440,7 +1450,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: -10
   far clip plane: 10000
   field of view: 60.000004
   orthographic: 1
@@ -3692,10 +3702,10 @@ PrefabInstance:
       addedObject: {fileID: 7117930488735184143}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8267a69b82a07ea4581218c325835717, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1552346240535955741}
+      addedObject: {fileID: 492428437113793301}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8267a69b82a07ea4581218c325835717, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 492428437113793301}
+      addedObject: {fileID: 7540692981941582749}
   m_SourcePrefab: {fileID: 100100000, guid: 8267a69b82a07ea4581218c325835717, type: 3}
 --- !u!1 &6950098194995030307 stripped
 GameObject:
@@ -3724,18 +3734,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1552346240535955741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6950098194995030307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8e84dbcc1414321b041a52139610d0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &492428437113793301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3752,6 +3750,19 @@ MonoBehaviour:
   soundKey: Player_Walk
   soundType: 1
   _isStartOnAwake: 0
+--- !u!114 &7540692981941582749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950098194995030307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b4913dc09abc1479f5cc479e2f0377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationEndEvent: {fileID: 11400000, guid: bfaed0d79ee54ce4f8d900004bd1cb10, type: 2}
 --- !u!4 &7726037107607827353 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8267a69b82a07ea4581218c325835717, type: 3}
