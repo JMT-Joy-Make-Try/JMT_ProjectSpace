@@ -20,7 +20,7 @@ namespace JMT.Agent
     [Serializable]
     public class NPCStatData : StatData<NPCStatType>
     {
-        [field: SerializeField] public NPCStatType type { get; private set; }
+        //[field: SerializeField] public new NPCStatType Type { get; private set; }
         public NPCStatData(NPCStatType type, float defaultValue) : base(type, defaultValue)
         {
         }

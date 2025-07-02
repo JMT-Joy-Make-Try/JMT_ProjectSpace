@@ -6,7 +6,7 @@ namespace JMT.Agent
 {
     public class StatData<T> : ISerializationCallbackReceiver where T : Enum
     {
-        public T Type { get; private set; }
+        [field:SerializeField] public T Type { get; private set; }
         public float DefaultValue;
         public List<StatModifier> Modifiers;
         

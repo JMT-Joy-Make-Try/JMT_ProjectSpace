@@ -7,7 +7,6 @@ using JMT.Core.Tool.PoolManager.Core;
 using JMT.Item;
 using JMT.Object;
 using JMT.Planets.Tile.Items;
-using JMT.UISystem;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -65,7 +64,12 @@ namespace JMT.Building
         {
             if (_isAnimating) return;
             if (_currentProductionAmount <= 0) return;
-            BuildingUIManager.Instance.StorageCompo.AddItem(ProductionItem, _currentProductionAmount);
+            bool isEquipSuccess = AgentManager.Instance.Player.InventoryCompo.AddItem(ProductionItem, 3);
+            if (!isEquipSuccess)
+            {
+                Debug.LogWarning("Inventory is full or item type mismatch.");
+                return;
+            }
             OnAddItemEvent?.Invoke();
 
             StartCoroutine(AnimateItem());
@@ -74,7 +78,7 @@ namespace JMT.Building
         private IEnumerator AnimateItem()
         {
             _isAnimating = true;
-            for (int i = 0; i < _currentProductionAmount; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var item = PoolingManager.Instance.Pop(PoolingType.Item) as ItemObject;
                 item.transform.position = transform.position + Vector3.up * 10f;
