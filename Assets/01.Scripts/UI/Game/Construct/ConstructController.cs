@@ -36,8 +36,17 @@ namespace JMT.UISystem.Interact
         private void HandleInfo(BuildingDataSO data)
         {
             BuildingManager.Instance.CurrentBuilding = data;
+            var noneInteraction = TileManager.Instance.CurrentTile.GetInteraction<NoneInteraction>();
+            if (noneInteraction.IsRocketTile)
+            {
+                noneInteraction.BaseTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
+                return;
+            }
+            else
+            {
+                TileManager.Instance.CurrentTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
+            }
             infoView.SetInfo(data);
-            TileManager.Instance.CurrentTile.TestBuild(BuildingManager.Instance.CurrentBuilding);
         }
 
         private void HandleChangeCategory(BuildingCategory category)
