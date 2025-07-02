@@ -49,7 +49,6 @@ namespace JMT.Agent.Trader
         {
             // 거래 성립시
             OnStartTradeEvent?.Invoke();
-            Debug.Log("jklfdsajkl;fdsajkl");
         }
     }
 }

@@ -1,9 +1,5 @@
-using DG.Tweening;
 using JMT.DayTime;
-using System;
-using System.Collections;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,10 +11,8 @@ namespace JMT.UISystem.DayTime
         [SerializeField] private Image icon, back;
 
         [Header("Daytime")]
-        [SerializeField] private Color daytextColor;
-        [SerializeField] private Color daybackColor;
-        [SerializeField] private Color nighttextColor, nightbackColor;
-        [SerializeField] private Sprite sun, moon;
+        [SerializeField] private Sprite sun;
+        [SerializeField] private Sprite moon;
 
         public void ChangeTimeText(int m, int s)
         {
@@ -36,15 +30,9 @@ namespace JMT.UISystem.DayTime
             {
                 case DaytimeType.Day:
                     icon.sprite = sun;
-                    dayText.DOColor(daytextColor, 0.3f);
-                    timeText.DOColor(daytextColor, 0.3f);
-                    back.DOColor(daybackColor, 0.3f);
                     break;
                 case DaytimeType.Night:
                     icon.sprite = moon;
-                    dayText.DOColor(nighttextColor, 0.3f);
-                    timeText.DOColor(nighttextColor, 0.3f);
-                    back.DOColor(nightbackColor, 0.3f);
                     break;
             }
         }
