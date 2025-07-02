@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using JMT.Agent;
@@ -14,7 +14,6 @@ namespace JMT.Planets.Tile
 {
     public class Fog : MonoBehaviour
     {
-        [SerializeField] private GameObject _fogLightObject;
         [field: SerializeField] public int DamageAmount { get; private set; } = 1;
         
         private VisualEffect _fogParticleSystem;
@@ -48,7 +47,6 @@ namespace JMT.Planets.Tile
                 _fogParticleSystem.SetFloat("FogCount", 0);
                 _fogParticleSystem.playRate = 10f;
             }
-            _fogLightObject.SetActive(lightActive);
             IsFogActive = active;
             _fogCollider.enabled = active;
         }
